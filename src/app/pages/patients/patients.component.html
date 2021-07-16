@@ -1,6 +1,12 @@
 <nb-card>
   <nb-card-header><h2>Patients</h2></nb-card-header>
   <nb-card-body>
-    <ng2-smart-table class="order-table" [settings]="settings" [source]="source"></ng2-smart-table>
+    <ng2-smart-table class="order-table"
+                     [settings]="settings"
+                     [source]="source"
+                     (custom)="onCustomPatients($event)">
+    </ng2-smart-table>
   </nb-card-body>
 </nb-card>
+
+<router-outlet></router-outlet>

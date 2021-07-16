@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PatientsService} from "../../@core/services/patients.service";
 import {LocalDataSource} from "ng2-smart-table";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-patients',
@@ -18,7 +19,7 @@ export class PatientsComponent implements OnInit {
       },
       email: {
         title: 'Email',
-        type: 'number'
+        type: 'string'
       }
     },
     actions: {
@@ -38,10 +39,20 @@ export class PatientsComponent implements OnInit {
     }
   }
 
-  constructor(private patientService: PatientsService) { }
+  constructor(
+    private patientService: PatientsService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getPatientData();
+  }
+
+  public onCustomPatients(event: any) {
+    switch (event.action) {
+      case 'new-treatment':
+        this.router.navigate(['new'], {relativeTo: this.activatedRoute.parent});
+    }
   }
 
   private getPatientData(): void {
