@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-8">
     <nb-card>
       <nb-card-header><h2>New Treatment</h2></nb-card-header>
       <nb-card-body>
@@ -12,15 +12,29 @@
           </div>
           <div class="form-group row">
             <label for="drug-dose" class="label col-sm-3 form-control-label">Dose</label>
-            <div class="col-sm-9">
-              <input type="password" nbInput fullWidth id="drug-dose" placeholder="Dose">
+            <div class="col-sm-3">
+              <input type="number" nbInput fullWidth id="drug-dose" placeholder="Dose">
+            </div>
+            <label for="drug-dose-unit" class="label col-sm-2 form-control-label">Units</label>
+            <div class="col-sm-4">
+              <nb-select fullWidth id="drug-dose-unit" placeholder="Select a unit">
+                <nb-option value="Capsule(s)">Capsule(s)</nb-option>
+                <nb-option value="Tablet(s)">Tablet(s)</nb-option>
+                <nb-option value="ml">ml</nb-option>
+                <nb-option value="mg">mg</nb-option>
+                <nb-option value="IU">IU</nb-option>
+                <nb-option value="Drop">Drop</nb-option>
+                <nb-option value="Tablespoon">Tablespoon</nb-option>
+                <nb-option value="Teaspoon">Teaspoon</nb-option>
+                <nb-option value="Unit(s)">Unit(s)</nb-option>
+                <nb-option value="Puff(s)">Puff(s)</nb-option>
+              </nb-select>
             </div>
           </div>
           <div class="form-group row">
             <label for="drug-frequency" class="label col-sm-3 form-control-label">Frequency</label>
             <div class="col-sm-9">
-              <nb-select fullWidth id="drug-frequency" selected="0">
-                <nb-option value="0" disabled>Select a frequency</nb-option>
+              <nb-select fullWidth id="drug-frequency" placeholder="Select a frequency">
                 <nb-option value="Immediately">Immediately</nb-option>
                 <nb-option value="Once a day">Once a day</nb-option>
                 <nb-option value="Twice a day">Twice a day</nb-option>
@@ -50,13 +64,37 @@
           <div class="form-group row">
             <label for="drug-route" class="label col-sm-3 form-control-label">Route</label>
             <div class="col-sm-9">
-              <input type="password" nbInput fullWidth id="drug-route" placeholder="Route">
+              <nb-select fullWidth id="drug-route" placeholder="Select a Route">
+                <nb-option value="Intramuscular">Intramuscular</nb-option>
+                <nb-option value="Intravenous">Intravenous</nb-option>
+                <nb-option value="Oral">Oral</nb-option>
+                <nb-option value="Per Vaginal">Per Vaginal</nb-option>
+                <nb-option value="Sub Cutaneous">Sub Cutaneous</nb-option>
+                <nb-option value="Per Rectum">Per Rectum</nb-option>
+                <nb-option value="Sub Lingual">Sub Lingual</nb-option>
+                <nb-option value="Nasogastric">Nasogastric</nb-option>
+                <nb-option value="Intradermal">Intradermal</nb-option>
+                <nb-option value="Intraperitoneal">Intraperitoneal</nb-option>
+                <nb-option value="Intrathecal">Intrathecal</nb-option>
+                <nb-option value="Intraosseous">Intraosseous</nb-option>
+                <nb-option value="Topical">Topical</nb-option>
+                <nb-option value="Nasal">Nasal</nb-option>
+                <nb-option value="Inhalation">Inhalation</nb-option>
+              </nb-select>
             </div>
           </div>
           <div class="form-group row">
             <label for="drug-duration" class="label col-sm-3 form-control-label">Duration</label>
-            <div class="col-sm-9">
-              <input type="password" nbInput fullWidth id="drug-duration" placeholder="Duration">
+            <div class="col-sm-3">
+              <input type="number" nbInput fullWidth id="drug-duration" placeholder="Duration">
+            </div>
+            <label for="drug-duration-unit" class="label col-sm-2 form-control-file">Units</label>
+            <div class="col-sm-4">
+              <nb-select fullWidth id="drug-duration-unit" placeholder="Select a unit">
+                <nb-option value="Day(s)">Day(s)</nb-option>
+                <nb-option value="Day(s)">Week(s)</nb-option>
+                <nb-option value="Day(s)">Month(s)</nb-option>
+              </nb-select>
             </div>
           </div>
           <div class="form-group row">
