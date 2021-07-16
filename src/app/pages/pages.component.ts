@@ -16,7 +16,8 @@ export class PagesComponent {
     {
       title: 'Patients',
       icon: 'people-outline',
-      link: '/pages/patients'
+      link: '/pages/patients',
+      pathMatch: 'prefix'
     }
   ]
 }

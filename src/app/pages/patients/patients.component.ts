@@ -26,6 +26,7 @@ export class PatientsComponent implements OnInit {
       add: false,
       edit: false,
       delete: false,
+      columnTitle: 'Treatments',
       custom: [
         {
           name: 'new-treatment',
@@ -52,6 +53,10 @@ export class PatientsComponent implements OnInit {
     switch (event.action) {
       case 'new-treatment':
         this.router.navigate(['new'], {relativeTo: this.activatedRoute.parent});
+        break;
+      case 'records':
+        this.router.navigate(['treatments'], {relativeTo: this.activatedRoute.parent});
+        break;
     }
   }
 

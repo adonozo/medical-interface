@@ -5,13 +5,15 @@ import {PatientsComponent} from "./patients.component";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import { NewTreatmentComponent } from './new-treatment/new-treatment.component';
 import {NbButtonModule, NbCardModule, NbInputModule, NbSelectModule} from "@nebular/theme";
+import { TreatmentsComponent } from './treatments/treatments.component';
 
 
 
 @NgModule({
   declarations: [
     PatientsComponent,
-    NewTreatmentComponent
+    NewTreatmentComponent,
+    TreatmentsComponent
   ],
   imports: [
     CommonModule,
