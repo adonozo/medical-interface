@@ -15,7 +15,8 @@ const routes: Routes = [
       },
       {
         path: 'patients',
-        component: PatientsComponent
+        loadChildren: () => import('./patients/patients.module')
+          .then(module => module.PatientsModule)
       },
       {
         path: '',
