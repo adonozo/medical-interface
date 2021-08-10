@@ -6,6 +6,7 @@ import {Ng2SmartTableModule} from "ng2-smart-table";
 import { NewTreatmentComponent } from './new-treatment/new-treatment.component';
 import {NbButtonModule, NbCardModule, NbInputModule, NbSelectModule} from "@nebular/theme";
 import { TreatmentsComponent } from './treatments/treatments.component';
+import { NewCarePlanComponent } from './new-care-plan/new-care-plan.component';
 
 
 
@@ -13,7 +14,8 @@ import { TreatmentsComponent } from './treatments/treatments.component';
   declarations: [
     PatientsComponent,
     NewTreatmentComponent,
-    TreatmentsComponent
+    TreatmentsComponent,
+    NewCarePlanComponent
   ],
   imports: [
     CommonModule,
