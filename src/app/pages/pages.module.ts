@@ -4,6 +4,7 @@ import { PagesComponent } from './pages.component';
 import {NbCardModule, NbMenuModule} from "@nebular/theme";
 import {HomeModule} from "./home/home.module";
 import {PagesRoutingModule} from "./pages-routing.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {PagesRoutingModule} from "./pages-routing.module";
     PagesRoutingModule,
     HomeModule,
     NbCardModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

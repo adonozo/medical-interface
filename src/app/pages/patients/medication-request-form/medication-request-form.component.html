@@ -3,11 +3,23 @@
     <nb-card>
       <nb-card-header *ngIf="patient"><h2>New Medication Order for {{patient.name}}</h2></nb-card-header>
       <nb-card-body>
-        <form class="form-horizontal">
+        <form [formGroup]="medicationForm" class="form-horizontal">
           <div class="form-group row">
             <label for="drug-name" class="label col-sm-3 form-control-label">Drug name</label>
             <div class="col-sm-9">
-              <input type="text" nbInput fullWidth id="drug-name" placeholder="Drug name">
+              <input id="drug-name"
+                     nbInput
+                     type="text"
+                     [formControlName]="'medication'"
+                     placeholder="Drug name"
+                     [nbAutocomplete]="auto" />
+              <nb-autocomplete #auto (selectedChange)="onDrugSelectionChange($event)" [handleDisplayFn]="getMedicationName">
+
+                <nb-option *ngFor="let medication of filteredMedications | async" [value]="medication">
+                  {{ getMedicationName(medication) }}
+                </nb-option>
+
+              </nb-autocomplete>
             </div>
           </div>
           <div class="form-group row">
