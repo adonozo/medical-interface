@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Patient} from "../../../@core/models/patient";
 import {PatientsService} from "../../../@core/services/patients.service";
 import {ActivatedRoute} from "@angular/router";
 import {flatMap, startWith} from "rxjs/internal/operators";
-import {Medication} from "fhir/r4";
+import {Medication, Quantity} from "fhir/r4";
 import {MedicationsService} from "../../../@core/services/medications.service";
 import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-medication-request',
@@ -18,6 +18,7 @@ export class MedicationRequestFormComponent implements OnInit {
 
   patient: Patient;
   medications: Medication[] = [];
+  quantities: Quantity[] = [];
   selectedMedication: Medication;
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;
@@ -29,18 +30,18 @@ export class MedicationRequestFormComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.medicationForm = formBuilder.group({
-      medication: ['', Validators.required]
+      medication: ['', Validators.required],
+      medicationId: ['', Validators.required],
+      doseQuantity: ['', Validators.required],
+      doseUnit: ['', Validators.required],
     });
     this.route.params.pipe(
       flatMap(params => patientService.getSinglePatient(params["patientId"]))
     ).subscribe(patient => this.patient = patient);
-    medicationService.getMedications().pipe(
-      flatMap(medications => {
-        this.medications = medications;
-        this.filteredMedications = of(medications);
-        return medications
-      }),
-    ).subscribe(_ => {
+
+    medicationService.getMedications().subscribe(medications => {
+      this.medications = medications;
+      this.filteredMedications = of(medications);
       this.filteredMedications = this.medicationControl.valueChanges
         .pipe(
           startWith(''),
@@ -50,10 +51,19 @@ export class MedicationRequestFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.quantities = this.medicationService.getMedicationQuantities();
   }
 
-  public get medicationControl(): AbstractControl {
-    return this.medicationForm.get('medication');
+  public get medicationControl(): FormControl {
+    return this.medicationForm.get('medication') as FormControl;
+  }
+
+  public get medicationIdControl(): FormControl {
+    return this.medicationForm.get('medicationId') as FormControl;
+  }
+
+  public get doseUnitControl(): FormControl {
+    return this.medicationForm.get('doseUnit') as FormControl;
   }
 
   public getMedicationName(medication: any): string {
@@ -66,16 +76,24 @@ export class MedicationRequestFormComponent implements OnInit {
 
   public onDrugSelectionChange(event): void {
     this.selectedMedication = event;
+    this.medicationIdControl.setValue(this.selectedMedication.id);
+  }
+
+  public getUnitName(): string {
+    const quantity = this.doseUnitControl.value;
+    if (quantity) {
+      return quantity.extension[0].valueString;
+    }
+
+    return '';
+  }
+
+  public submitForm(): void {
+    console.log(this.medicationForm.value);
   }
 
   private filterMedications(name: any): Medication[] {
-    let filter
-    if (typeof name === "string" || name instanceof String) {
-      filter = name;
-    } else {
-      filter = name.code.coding[0].display;
-    }
-
-    return this.medications.filter(medication => medication.code.coding?.find(code => code.display.toLowerCase().includes(filter.toLowerCase())));
+    let filter = this.getMedicationName(name).toLowerCase();
+    return this.medications.filter(medication => medication.code.coding?.find(code => code.display.toLowerCase().includes(filter)));
   }
 }

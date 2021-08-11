@@ -3,14 +3,14 @@
     <nb-card>
       <nb-card-header *ngIf="patient"><h2>New Medication Order for {{patient.name}}</h2></nb-card-header>
       <nb-card-body>
-        <form [formGroup]="medicationForm" class="form-horizontal">
+        <form [formGroup]="medicationForm" (ngSubmit)="submitForm()" class="form-horizontal">
           <div class="form-group row">
             <label for="drug-name" class="label col-sm-3 form-control-label">Drug name</label>
             <div class="col-sm-9">
               <input id="drug-name"
                      nbInput
                      type="text"
-                     [formControlName]="'medication'"
+                     [formControl]="medicationControl"
                      placeholder="Drug name"
                      [nbAutocomplete]="auto" />
               <nb-autocomplete #auto (selectedChange)="onDrugSelectionChange($event)" [handleDisplayFn]="getMedicationName">
@@ -29,17 +29,13 @@
             </div>
             <label for="drug-dose-unit" class="label col-sm-2 form-control-label">Units</label>
             <div class="col-sm-4">
-              <nb-select fullWidth id="drug-dose-unit" placeholder="Select a unit">
-                <nb-option value="Capsule(s)">Capsule(s)</nb-option>
-                <nb-option value="Tablet(s)">Tablet(s)</nb-option>
-                <nb-option value="ml">ml</nb-option>
-                <nb-option value="mg">mg</nb-option>
-                <nb-option value="IU">IU</nb-option>
-                <nb-option value="Drop">Drop</nb-option>
-                <nb-option value="Tablespoon">Tablespoon</nb-option>
-                <nb-option value="Teaspoon">Teaspoon</nb-option>
-                <nb-option value="Unit(s)">Unit(s)</nb-option>
-                <nb-option value="Puff(s)">Puff(s)</nb-option>
+              <nb-select fullWidth id="drug-dose-unit" placeholder="Select a unit" [formControl]="doseUnitControl">
+                <nb-select-label>
+                  {{ getUnitName() }}
+                </nb-select-label>
+                <nb-option *ngFor="let quantity of quantities" [value]="quantity">
+                  {{quantity.extension[0].valueString}}
+                </nb-option>
               </nb-select>
             </div>
           </div>

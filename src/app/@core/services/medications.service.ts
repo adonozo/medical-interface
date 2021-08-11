@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {RestApiService} from "./rest-api.service";
-import {Medication} from "fhir/r4";
+import {Medication, Quantity} from "fhir/r4";
 import {from, Observable} from "rxjs";
+import {MedicationQuantities} from "./data/medication-quantities";
 
 @Injectable({
   providedIn: 'root'
@@ -56,4 +57,6 @@ export class MedicationsService {
   public getMedications(): Observable<Medication[]> {
     return from(new Promise<Medication[]>(resolve => resolve(this.medications)));
   }
+
+  public getMedicationQuantities = (): Quantity[] => MedicationQuantities;
 }
