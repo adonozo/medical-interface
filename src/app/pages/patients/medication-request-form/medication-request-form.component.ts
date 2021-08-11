@@ -9,7 +9,7 @@ import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
-import {FrequencyFormData} from "./form-data";
+import {DailyFrequencyFormData, DurationFormData, FrequencyFormData} from "./form-data";
 
 @Component({
   selector: 'app-medication-request',
@@ -23,6 +23,11 @@ export class MedicationRequestFormComponent implements OnInit {
   quantities: Quantity[] = [];
   frequencyType = FrequencyFormData;
   frequencySelected: FrequencyFormData;
+  dailyFrequencyType = DailyFrequencyFormData;
+  dailyFrequencySelected: DailyFrequencyFormData = DailyFrequencyFormData.everyday;
+  durationType = DurationFormData;
+  durationSelected: DurationFormData;
+
   selectedMedication: Medication;
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;

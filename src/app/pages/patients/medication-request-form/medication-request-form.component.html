@@ -5,7 +5,7 @@
       <nb-card-body>
         <form [formGroup]="medicationForm" (ngSubmit)="submitForm()" class="form-horizontal">
           <div class="form-group row">
-            <label for="drug-name" class="label col-sm-3 form-control-label">Drug name</label>
+            <label for="drug-name" class="col-form-label col-sm-3 form-control-label">Drug name</label>
             <div class="col-sm-9">
               <input id="drug-name"
                      nbInput
@@ -24,11 +24,11 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="drug-dose" class="label col-sm-3 form-control-label">Dose</label>
+            <label for="drug-dose" class="col-form-label col-sm-3 form-control-label">Dose</label>
             <div class="col-sm-3">
               <input type="number" nbInput fullWidth id="drug-dose" placeholder="Dose" [formControl]="doseQuantityControl">
             </div>
-            <label for="drug-dose-unit" class="label col-sm-2 form-control-label text-right">Units</label>
+            <label for="drug-dose-unit" class="col-form-label col-sm-2 form-control-label text-right">Units</label>
             <div class="col-sm-4">
               <nb-select fullWidth id="drug-dose-unit" placeholder="Select a unit" [formControl]="doseUnitControl">
                 <nb-select-label>
@@ -42,18 +42,33 @@
           </div>
 
           <div class="form-group row">
-            <label for="drug-frequency" class="label col-sm-3 form-control-label">Frequency</label>
+            <label for="drug-frequency" class="col-form-label col-sm-3 form-control-label">Frequency</label>
             <div class="col-sm-9">
               <div class="form-group row">
                 <div class="col-12">
+                  <nb-radio-group [(value)]="dailyFrequencySelected">
+                    <nb-radio [value]="dailyFrequencyType.everyday">Every day</nb-radio>
+                    <nb-radio [value]="dailyFrequencyType.specificDays">Specific day(s)</nb-radio>
+                  </nb-radio-group>
+                </div>
+                <div class="col-12" *ngIf="dailyFrequencySelected === dailyFrequencyType.specificDays">
+                  <nb-checkbox class="form-check-inline">Monday</nb-checkbox>
+                  <nb-checkbox class="form-check-inline">Tuesday</nb-checkbox>
+                  <nb-checkbox class="form-check-inline">Wednesday</nb-checkbox>
+                  <nb-checkbox class="form-check-inline">Thursday</nb-checkbox>
+                  <nb-checkbox class="form-check-inline">Friday</nb-checkbox>
+                  <nb-checkbox class="form-check-inline">Saturday</nb-checkbox>
+                  <nb-checkbox class="form-check-inline">Sunday</nb-checkbox>
+                </div>
+                <div class="col-12 mt-3">
                   <nb-button-group (valueChange)="frequencySelected = $event[0]">
-                    <button type="button" nbButtonToggle [value]="frequencyType.timesPerDay">Times per day</button>
+                    <button type="button" nbButtonToggle pressed [value]="frequencyType.timesPerDay">Times per day</button>
                     <button type="button" nbButtonToggle [value]="frequencyType.mealTime">At a meal time</button>
                     <button type="button" nbButtonToggle [value]="frequencyType.specificTimes">At specific times</button>
                   </nb-button-group>
                 </div>
                 <ng-container [ngSwitch]="frequencySelected">
-                  <div class="col-12 my-3" *ngSwitchCase="frequencyType.timesPerDay">
+                  <div class="col-12 mt-3" *ngSwitchCase="frequencyType.timesPerDay">
                     <nb-select fullWidth id="drug-frequency" placeholder="Select a frequency">
                       <nb-option value="Once a day">Once a day</nb-option>
                       <nb-option value="Twice a day">Twice a day</nb-option>
@@ -61,7 +76,7 @@
                       <nb-option value="Four times a day">Four times a day</nb-option>
                     </nb-select>
                   </div>
-                  <div class="col-12 my-3" *ngSwitchCase="frequencyType.mealTime">
+                  <div class="col-12 mt-3" *ngSwitchCase="frequencyType.mealTime">
                     <div class="row form-group">
                       <div class="col-12 col-sm-4">
                         <nb-checkbox>Before breakfast</nb-checkbox>
@@ -92,7 +107,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 my-3" *ngSwitchCase="frequencyType.specificTimes">
+                  <div class="col-12 mt-3" *ngSwitchCase="frequencyType.specificTimes">
                     <div class="row form-group">
                       <div class="col-9 col-sm-6">
                         <input nbInput
@@ -110,22 +125,58 @@
               </div>
             </div>
           </div>
+
           <div class="form-group row">
-            <label for="drug-duration" class="label col-sm-3 form-control-label">Duration</label>
-            <div class="col-sm-3">
-              <input type="number" nbInput fullWidth id="drug-duration" placeholder="Duration">
-            </div>
-            <label for="drug-duration-unit" class="label col-sm-2 form-control-file text-right">Units</label>
-            <div class="col-sm-4">
-              <nb-select fullWidth id="drug-duration-unit" placeholder="Select a time unit">
-                <nb-option value="Day(s)">Day(s)</nb-option>
-                <nb-option value="Day(s)">Week(s)</nb-option>
-                <nb-option value="Day(s)">Month(s)</nb-option>
-              </nb-select>
+            <label for="drug-duration" class="col-form-label col-sm-3 form-control-label">Duration</label>
+            <div class="col-sm-9">
+              <div class="form-group row">
+                <div class="col-12 mb-3">
+                  <nb-button-group (valueChange)="durationSelected = $event[0]">
+                    <button type="button" nbButtonToggle pressed [value]="durationType.duration">By amount of time</button>
+                    <button type="button" nbButtonToggle [value]="durationType.period">By dates</button>
+                    <button type="button" nbButtonToggle [value]="durationType.untilNext">Until next appointment</button>
+                  </nb-button-group>
+                </div>
+                <ng-container [ngSwitch]="durationSelected">
+                  <div class="col-12" *ngSwitchCase="durationType.duration">
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <input type="number" nbInput fullWidth id="drug-duration" placeholder="Duration">
+                      </div>
+                      <label for="drug-duration-unit" class="col-form-label col-4 col-sm-2 form-control-file text-right">Units</label>
+                      <div class="col-8 col-sm-6">
+                        <nb-select fullWidth id="drug-duration-unit" placeholder="Select a time unit">
+                          <nb-option value="Day(s)">Day(s)</nb-option>
+                          <nb-option value="Day(s)">Week(s)</nb-option>
+                          <nb-option value="Day(s)">Month(s)</nb-option>
+                        </nb-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12" *ngSwitchCase="durationType.period">
+                    <div class="form-group row">
+                      <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-right">Date range</label>
+                      <div class="col-sm-9">
+                        <input id="drug-duration-range" nbInput fullWidth placeholder="Select a date range" [nbDatepicker]="rangePicker">
+                        <nb-rangepicker #rangePicker></nb-rangepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12" *ngSwitchCase="durationType.untilNext">
+                    <div class="form-group row">
+                      <label for="drug-duration-start-date" class="col-form-label col-sm-3 form-control-file text-right">Start date</label>
+                      <div class="col-sm-9">
+                        <input id="drug-duration-start-date" nbInput fullWidth placeholder="Select the start date" [nbDatepicker]="datepicker">
+                        <nb-datepicker #datepicker></nb-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
             </div>
           </div>
           <div class="form-group row">
-            <label for="drug-instructions" class="label col-sm-3 form-control-label">Instructions</label>
+            <label for="drug-instructions" class="col-form-label col-sm-3 form-control-label">Instructions</label>
             <div class="col-sm-9">
               <textarea nbInput fullWidth id="drug-instructions" [formControl]="instructionsControl"></textarea>
             </div>

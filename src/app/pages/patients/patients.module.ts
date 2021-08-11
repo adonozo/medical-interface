@@ -8,8 +8,8 @@ import {
   NbAutocompleteModule,
   NbButtonGroupModule,
   NbButtonModule,
-  NbCardModule, NbCheckboxModule, NbIconModule,
-  NbInputModule,
+  NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule,
+  NbInputModule, NbRadioModule,
   NbSelectModule, NbTimepickerModule
 } from "@nebular/theme";
 import { TreatmentsComponent } from './treatments/treatments.component';
@@ -38,7 +38,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     NbButtonGroupModule,
     NbCheckboxModule,
     NbTimepickerModule,
-    NbIconModule
+    NbIconModule,
+    NbRadioModule,
+    NbDatepickerModule
   ]
 })
 export class PatientsModule { }
