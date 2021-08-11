@@ -4,7 +4,14 @@ import {PatientsRoutingModule} from "./patients-routing.module";
 import {PatientsComponent} from "./patients.component";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import { NewTreatmentComponent } from './new-treatment/new-treatment.component';
-import {NbAutocompleteModule, NbButtonModule, NbCardModule, NbInputModule, NbSelectModule} from "@nebular/theme";
+import {
+  NbAutocompleteModule,
+  NbButtonGroupModule,
+  NbButtonModule,
+  NbCardModule, NbCheckboxModule, NbIconModule,
+  NbInputModule,
+  NbSelectModule, NbTimepickerModule
+} from "@nebular/theme";
 import { TreatmentsComponent } from './treatments/treatments.component';
 import { NewCarePlanComponent } from './new-care-plan/new-care-plan.component';
 import { MedicationRequestFormComponent } from './medication-request-form/medication-request-form.component';
@@ -27,7 +34,11 @@ import {ReactiveFormsModule} from "@angular/forms";
     NbButtonModule,
     NbSelectModule,
     NbAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NbButtonGroupModule,
+    NbCheckboxModule,
+    NbTimepickerModule,
+    NbIconModule
   ]
 })
 export class PatientsModule { }

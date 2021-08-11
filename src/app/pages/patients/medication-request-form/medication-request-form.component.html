@@ -9,6 +9,7 @@
             <div class="col-sm-9">
               <input id="drug-name"
                      nbInput
+                     fullWidth
                      type="text"
                      [formControl]="medicationControl"
                      placeholder="Drug name"
@@ -25,9 +26,9 @@
           <div class="form-group row">
             <label for="drug-dose" class="label col-sm-3 form-control-label">Dose</label>
             <div class="col-sm-3">
-              <input type="number" nbInput fullWidth id="drug-dose" placeholder="Dose">
+              <input type="number" nbInput fullWidth id="drug-dose" placeholder="Dose" [formControl]="doseQuantityControl">
             </div>
-            <label for="drug-dose-unit" class="label col-sm-2 form-control-label">Units</label>
+            <label for="drug-dose-unit" class="label col-sm-2 form-control-label text-right">Units</label>
             <div class="col-sm-4">
               <nb-select fullWidth id="drug-dose-unit" placeholder="Select a unit" [formControl]="doseUnitControl">
                 <nb-select-label>
@@ -39,56 +40,74 @@
               </nb-select>
             </div>
           </div>
+
           <div class="form-group row">
             <label for="drug-frequency" class="label col-sm-3 form-control-label">Frequency</label>
             <div class="col-sm-9">
-              <nb-select fullWidth id="drug-frequency" placeholder="Select a frequency">
-                <nb-option value="Immediately">Immediately</nb-option>
-                <nb-option value="Once a day">Once a day</nb-option>
-                <nb-option value="Twice a day">Twice a day</nb-option>
-                <nb-option value="Thrice a day">Thrice a day</nb-option>
-                <nb-option value="Four times a day">Four times a day</nb-option>
-                <nb-option value="Every Hour">Every Hour</nb-option>
-                <nb-option value="Every 2 hours">Every 2 hours</nb-option>
-                <nb-option value="Every 3 hours">Every 3 hours</nb-option>
-                <nb-option value="Every 4 hours">Every 4 hours</nb-option>
-                <nb-option value="Every 6 hours">Every 6 hours</nb-option>
-                <nb-option value="Every 8 hours">Every 8 hours</nb-option>
-                <nb-option value="Every 12 hours">Every 12 hours</nb-option>
-                <nb-option value="On alternate days">On alternate days</nb-option>
-                <nb-option value="Once a week">Once a week</nb-option>
-                <nb-option value="Twice a week">Twice a week</nb-option>
-                <nb-option value="Thrice a week">Thrice a week</nb-option>
-                <nb-option value="Every 2 weeks">Every 2 weeks</nb-option>
-                <nb-option value="Every 3 weeks">Every 3 weeks</nb-option>
-                <nb-option value="Once a month">Once a month</nb-option>
-                <nb-option value="Five times a day">Five times a day</nb-option>
-                <nb-option value="Four days a week">Four days a week</nb-option>
-                <nb-option value="Five days a week">Five days a week</nb-option>
-                <nb-option value="Six days a week">Six days a week</nb-option>
-              </nb-select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="drug-route" class="label col-sm-3 form-control-label">Route</label>
-            <div class="col-sm-9">
-              <nb-select fullWidth id="drug-route" placeholder="Select a Route">
-                <nb-option value="Intramuscular">Intramuscular</nb-option>
-                <nb-option value="Intravenous">Intravenous</nb-option>
-                <nb-option value="Oral">Oral</nb-option>
-                <nb-option value="Per Vaginal">Per Vaginal</nb-option>
-                <nb-option value="Sub Cutaneous">Sub Cutaneous</nb-option>
-                <nb-option value="Per Rectum">Per Rectum</nb-option>
-                <nb-option value="Sub Lingual">Sub Lingual</nb-option>
-                <nb-option value="Nasogastric">Nasogastric</nb-option>
-                <nb-option value="Intradermal">Intradermal</nb-option>
-                <nb-option value="Intraperitoneal">Intraperitoneal</nb-option>
-                <nb-option value="Intrathecal">Intrathecal</nb-option>
-                <nb-option value="Intraosseous">Intraosseous</nb-option>
-                <nb-option value="Topical">Topical</nb-option>
-                <nb-option value="Nasal">Nasal</nb-option>
-                <nb-option value="Inhalation">Inhalation</nb-option>
-              </nb-select>
+              <div class="form-group row">
+                <div class="col-12">
+                  <nb-button-group (valueChange)="frequencySelected = $event[0]">
+                    <button type="button" nbButtonToggle [value]="frequencyType.timesPerDay">Times per day</button>
+                    <button type="button" nbButtonToggle [value]="frequencyType.mealTime">At a meal time</button>
+                    <button type="button" nbButtonToggle [value]="frequencyType.specificTimes">At specific times</button>
+                  </nb-button-group>
+                </div>
+                <ng-container [ngSwitch]="frequencySelected">
+                  <div class="col-12 my-3" *ngSwitchCase="frequencyType.timesPerDay">
+                    <nb-select fullWidth id="drug-frequency" placeholder="Select a frequency">
+                      <nb-option value="Once a day">Once a day</nb-option>
+                      <nb-option value="Twice a day">Twice a day</nb-option>
+                      <nb-option value="Thrice a day">Thrice a day</nb-option>
+                      <nb-option value="Four times a day">Four times a day</nb-option>
+                    </nb-select>
+                  </div>
+                  <div class="col-12 my-3" *ngSwitchCase="frequencyType.mealTime">
+                    <div class="row form-group">
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>Before breakfast</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>At breakfast</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>After breakfast</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>Before lunch</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>At lunch</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>After lunch</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>Before dinner</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>At dinner</nb-checkbox>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <nb-checkbox>After dinner</nb-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 my-3" *ngSwitchCase="frequencyType.specificTimes">
+                    <div class="row form-group">
+                      <div class="col-9 col-sm-6">
+                        <input nbInput
+                               fullWidth
+                               type="text"
+                               [nbTimepicker]="timepicker"/>
+                        <nb-timepicker #timepicker></nb-timepicker>
+                      </div>
+                      <div class="col-3 col-sm-6">
+                        <button nbButton status="basic"><nb-icon icon="plus"></nb-icon></button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
             </div>
           </div>
           <div class="form-group row">
@@ -96,9 +115,9 @@
             <div class="col-sm-3">
               <input type="number" nbInput fullWidth id="drug-duration" placeholder="Duration">
             </div>
-            <label for="drug-duration-unit" class="label col-sm-2 form-control-file">Units</label>
+            <label for="drug-duration-unit" class="label col-sm-2 form-control-file text-right">Units</label>
             <div class="col-sm-4">
-              <nb-select fullWidth id="drug-duration-unit" placeholder="Select a unit">
+              <nb-select fullWidth id="drug-duration-unit" placeholder="Select a time unit">
                 <nb-option value="Day(s)">Day(s)</nb-option>
                 <nb-option value="Day(s)">Week(s)</nb-option>
                 <nb-option value="Day(s)">Month(s)</nb-option>
@@ -108,14 +127,14 @@
           <div class="form-group row">
             <label for="drug-instructions" class="label col-sm-3 form-control-label">Instructions</label>
             <div class="col-sm-9">
-              <textarea nbInput fullWidth id="drug-instructions"></textarea>
+              <textarea nbInput fullWidth id="drug-instructions" [formControl]="instructionsControl"></textarea>
             </div>
           </div>
-          <div class="form-group row">
-            <div class="col-6 col-sm-3">
-              <button nbButton status="basic">Cancel</button>
+          <div class="mt-4 form-group row">
+            <div class="col-6 col-sm-8 text-right">
+              <button nbButton status="basic" (click)="goBack()">Cancel</button>
             </div>
-            <div class="col-6 offset-sm-1 col-sm-8">
+            <div class="col-6 offset-sm-1 col-sm-3 text-right">
               <button type="submit" nbButton status="warning">Save</button>
             </div>
           </div>

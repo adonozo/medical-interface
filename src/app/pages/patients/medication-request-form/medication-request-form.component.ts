@@ -8,6 +8,8 @@ import {MedicationsService} from "../../../@core/services/medications.service";
 import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Location} from "@angular/common";
+import {FrequencyFormData} from "./form-data";
 
 @Component({
   selector: 'app-medication-request',
@@ -19,6 +21,8 @@ export class MedicationRequestFormComponent implements OnInit {
   patient: Patient;
   medications: Medication[] = [];
   quantities: Quantity[] = [];
+  frequencyType = FrequencyFormData;
+  frequencySelected: FrequencyFormData;
   selectedMedication: Medication;
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;
@@ -27,13 +31,15 @@ export class MedicationRequestFormComponent implements OnInit {
     private patientService: PatientsService,
     private route: ActivatedRoute,
     private medicationService: MedicationsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private location: Location
   ) {
     this.medicationForm = formBuilder.group({
       medication: ['', Validators.required],
       medicationId: ['', Validators.required],
-      doseQuantity: ['', Validators.required],
+      doseQuantity: ['', [Validators.required, Validators.min(0)]],
       doseUnit: ['', Validators.required],
+      instructions: [''],
     });
     this.route.params.pipe(
       flatMap(params => patientService.getSinglePatient(params["patientId"]))
@@ -62,8 +68,16 @@ export class MedicationRequestFormComponent implements OnInit {
     return this.medicationForm.get('medicationId') as FormControl;
   }
 
+  public get doseQuantityControl(): FormControl {
+    return this.medicationForm.get('doseQuantity') as FormControl;
+  }
+
   public get doseUnitControl(): FormControl {
     return this.medicationForm.get('doseUnit') as FormControl;
+  }
+
+  public get instructionsControl(): FormControl {
+    return this.medicationForm.get('instructions') as FormControl;
   }
 
   public getMedicationName(medication: any): string {
@@ -86,6 +100,10 @@ export class MedicationRequestFormComponent implements OnInit {
     }
 
     return '';
+  }
+
+  public goBack(): void {
+    this.location.back();
   }
 
   public submitForm(): void {
