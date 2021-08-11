@@ -52,7 +52,7 @@ export class PatientsComponent implements OnInit {
   public onCustomPatients(event: any) {
     switch (event.action) {
       case 'new-treatment':
-        this.router.navigate(['new'], {relativeTo: this.activatedRoute.parent});
+        this.router.navigate(['1234/new-medication-request'], {relativeTo: this.activatedRoute.parent});
         break;
       case 'records':
         this.router.navigate(['treatments'], {relativeTo: this.activatedRoute.parent});
