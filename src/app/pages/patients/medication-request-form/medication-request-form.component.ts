@@ -7,7 +7,7 @@ import {Medication, Quantity} from "fhir/r4";
 import {MedicationsService} from "../../../@core/services/medications.service";
 import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
 import {DailyFrequencyFormData, DayOfWeek, DurationFormData, FrequencyFormData, TimeOfDay} from "./form-data";
 
@@ -48,7 +48,13 @@ export class MedicationRequestFormComponent implements OnInit {
       doseUnit: ['', Validators.required],
       dayOfWeek: formBuilder.group({}),
       when: formBuilder.group({}),
+      timeOfDay: formBuilder.array([formBuilder.control('')]),
+      frequency: [1],
       instructions: [''],
+      durationQuantity: [],
+      durationUnit: [],
+      periodRange: [],
+      periodStart: []
     });
     this.setDayOfWeekControl();
     this.setTimeOfDayControl();
@@ -87,12 +93,36 @@ export class MedicationRequestFormComponent implements OnInit {
     return this.medicationForm.get('doseUnit') as FormControl;
   }
 
-  public get dayOfWeekControl(): FormGroup {
+  public get dayOfWeekGroup(): FormGroup {
     return this.medicationForm.get('dayOfWeek') as FormGroup;
   }
 
-  public get whenControl(): FormGroup {
+  public get whenGroup(): FormGroup {
     return this.medicationForm.get('when') as FormGroup;
+  }
+
+  public get timeOfDayFormArray(): FormArray {
+    return this.medicationForm.get('timeOfDay') as FormArray;
+  }
+
+  public get frequencyControl(): FormControl {
+    return this.medicationForm.get('frequency') as FormControl;
+  }
+
+  public get durationQuantityControl(): FormControl {
+    return this.medicationForm.get('durationQuantity') as FormControl;
+  }
+
+  public get durationUnitControl(): FormControl {
+    return this.medicationForm.get('durationUnit') as FormControl;
+  }
+
+  public get periodRangeControl(): FormControl {
+    return this.medicationForm.get('periodRange') as FormControl;
+  }
+
+  public get periodStartControl(): FormControl {
+    return this.medicationForm.get('periodStart') as FormControl;
   }
 
   public get instructionsControl(): FormControl {
@@ -135,13 +165,13 @@ export class MedicationRequestFormComponent implements OnInit {
   }
 
   private setDayOfWeekControl(): void {
-    this.dayOfWeekArray.forEach(day => this.dayOfWeekControl
+    this.dayOfWeekArray.forEach(day => this.dayOfWeekGroup
       .addControl(day.value, this.formBuilder.control(day.selected))
     );
   }
 
   private setTimeOfDayControl(): void {
-    this.timesOfDayArray.forEach(time => this.whenControl
+    this.timesOfDayArray.forEach(time => this.whenGroup
       .addControl(time.value, this.formBuilder.control(time.selected)))
   }
 }
