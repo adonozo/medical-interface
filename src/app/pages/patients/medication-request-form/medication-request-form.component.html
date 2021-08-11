@@ -83,14 +83,16 @@
                     <div class="row form-group">
                       <ng-container *ngFor="let control of timeOfDayFormArray.controls; let index = index">
                         <div class="col-9 col-sm-6">
-                          <input nbInput
-                                 fullWidth
-                                 type="text"
+                          <input nbInput fullWidth type="text"
+                                 [formControl]="control"
                                  [nbTimepicker]="timepicker"/>
                           <nb-timepicker #timepicker></nb-timepicker>
                         </div>
-                        <div class="col-3 col-sm-6" *ngIf="index === timeOfDayFormArray.length - 1">
-                          <button nbButton status="basic">
+                        <div class="col-3 col-sm-6">
+                          <button class="mr-3" nbButton outline status="danger" (click)="removeTimeForm(index)" *ngIf="index !== 0 || timeOfDayFormArray.length > 1">
+                            <nb-icon icon="minus"></nb-icon>
+                          </button>
+                          <button nbButton outline status="info" (click)="addTimeForm()" *ngIf="index === timeOfDayFormArray.length - 1">
                             <nb-icon icon="plus"></nb-icon>
                           </button>
                         </div>
@@ -169,7 +171,7 @@
               <button nbButton status="basic" (click)="goBack()">Cancel</button>
             </div>
             <div class="col-6 offset-sm-1 col-sm-3 text-right">
-              <button type="submit" nbButton status="warning">Save</button>
+              <button type="submit" nbButton status="success">Save</button>
             </div>
           </div>
         </form>

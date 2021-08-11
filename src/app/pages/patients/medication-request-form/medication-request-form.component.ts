@@ -52,7 +52,7 @@ export class MedicationRequestFormComponent implements OnInit {
       frequency: [1],
       instructions: [''],
       durationQuantity: [],
-      durationUnit: [],
+      durationUnit: ['d'],
       periodRange: [],
       periodStart: []
     });
@@ -150,6 +150,12 @@ export class MedicationRequestFormComponent implements OnInit {
 
     return '';
   }
+
+  public addTimeForm = (): void =>
+    this.timeOfDayFormArray.push(this.formBuilder.control(''))
+
+  public removeTimeForm = (index: number): void =>
+    this.timeOfDayFormArray.removeAt(index)
 
   public goBack(): void {
     this.location.back();
