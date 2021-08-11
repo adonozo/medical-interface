@@ -9,7 +9,7 @@ import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
-import {DailyFrequencyFormData, DurationFormData, FrequencyFormData} from "./form-data";
+import {DailyFrequencyFormData, DayOfWeek, DurationFormData, FrequencyFormData, TimeOfDay} from "./form-data";
 
 @Component({
   selector: 'app-medication-request',
@@ -27,6 +27,8 @@ export class MedicationRequestFormComponent implements OnInit {
   dailyFrequencySelected: DailyFrequencyFormData = DailyFrequencyFormData.everyday;
   durationType = DurationFormData;
   durationSelected: DurationFormData;
+  dayOfWeekArray = DayOfWeek;
+  timesOfDayArray = TimeOfDay;
 
   selectedMedication: Medication;
   filteredMedications: Observable<Medication[]>;
@@ -44,8 +46,12 @@ export class MedicationRequestFormComponent implements OnInit {
       medicationId: ['', Validators.required],
       doseQuantity: ['', [Validators.required, Validators.min(0)]],
       doseUnit: ['', Validators.required],
+      dayOfWeek: formBuilder.group({}),
+      when: formBuilder.group({}),
       instructions: [''],
     });
+    this.setDayOfWeekControl();
+    this.setTimeOfDayControl();
     this.route.params.pipe(
       flatMap(params => patientService.getSinglePatient(params["patientId"]))
     ).subscribe(patient => this.patient = patient);
@@ -79,6 +85,14 @@ export class MedicationRequestFormComponent implements OnInit {
 
   public get doseUnitControl(): FormControl {
     return this.medicationForm.get('doseUnit') as FormControl;
+  }
+
+  public get dayOfWeekControl(): FormGroup {
+    return this.medicationForm.get('dayOfWeek') as FormGroup;
+  }
+
+  public get whenControl(): FormGroup {
+    return this.medicationForm.get('when') as FormGroup;
   }
 
   public get instructionsControl(): FormControl {
@@ -118,5 +132,16 @@ export class MedicationRequestFormComponent implements OnInit {
   private filterMedications(name: any): Medication[] {
     let filter = this.getMedicationName(name).toLowerCase();
     return this.medications.filter(medication => medication.code.coding?.find(code => code.display.toLowerCase().includes(filter)));
+  }
+
+  private setDayOfWeekControl(): void {
+    this.dayOfWeekArray.forEach(day => this.dayOfWeekControl
+      .addControl(day.value, this.formBuilder.control(day.selected))
+    );
+  }
+
+  private setTimeOfDayControl(): void {
+    this.timesOfDayArray.forEach(time => this.whenControl
+      .addControl(time.value, this.formBuilder.control(time.selected)))
   }
 }

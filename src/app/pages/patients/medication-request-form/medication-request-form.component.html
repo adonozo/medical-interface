@@ -15,11 +15,9 @@
                      placeholder="Drug name"
                      [nbAutocomplete]="auto" />
               <nb-autocomplete #auto (selectedChange)="onDrugSelectionChange($event)" [handleDisplayFn]="getMedicationName">
-
                 <nb-option *ngFor="let medication of filteredMedications | async" [value]="medication">
                   {{ getMedicationName(medication) }}
                 </nb-option>
-
               </nb-autocomplete>
             </div>
           </div>
@@ -52,13 +50,11 @@
                   </nb-radio-group>
                 </div>
                 <div class="col-12" *ngIf="dailyFrequencySelected === dailyFrequencyType.specificDays">
-                  <nb-checkbox class="form-check-inline">Monday</nb-checkbox>
-                  <nb-checkbox class="form-check-inline">Tuesday</nb-checkbox>
-                  <nb-checkbox class="form-check-inline">Wednesday</nb-checkbox>
-                  <nb-checkbox class="form-check-inline">Thursday</nb-checkbox>
-                  <nb-checkbox class="form-check-inline">Friday</nb-checkbox>
-                  <nb-checkbox class="form-check-inline">Saturday</nb-checkbox>
-                  <nb-checkbox class="form-check-inline">Sunday</nb-checkbox>
+                  <ng-container [formGroup]="dayOfWeekControl">
+                    <ng-container *ngFor="let day of dayOfWeekArray">
+                      <nb-checkbox class="form-check-inline" [formControlName]="day.value">{{ day.name }}</nb-checkbox>
+                    </ng-container>
+                  </ng-container>
                 </div>
                 <div class="col-12 mt-3">
                   <nb-button-group (valueChange)="frequencySelected = $event[0]">
@@ -77,33 +73,9 @@
                     </nb-select>
                   </div>
                   <div class="col-12 mt-3" *ngSwitchCase="frequencyType.mealTime">
-                    <div class="row form-group">
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>Before breakfast</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>At breakfast</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>After breakfast</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>Before lunch</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>At lunch</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>After lunch</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>Before dinner</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>At dinner</nb-checkbox>
-                      </div>
-                      <div class="col-12 col-sm-4">
-                        <nb-checkbox>After dinner</nb-checkbox>
+                    <div class="row form-group" [formGroup]="whenControl">
+                      <div class="col-12 col-sm-4" *ngFor="let time of timesOfDayArray">
+                        <nb-checkbox [formControlName]="time.value">{{ time.name }}</nb-checkbox>
                       </div>
                     </div>
                   </div>
