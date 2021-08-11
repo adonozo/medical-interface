@@ -3,7 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {PatientsComponent} from "./patients.component";
 import {NewTreatmentComponent} from "./new-treatment/new-treatment.component";
 import {TreatmentsComponent} from "./treatments/treatments.component";
-import {MedicationRequestComponent} from "./medication-request/medication-request.component";
+import {MedicationRequestFormComponent} from "./medication-request-form/medication-request-form.component";
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: ':patientId/new-medication-request',
-        component: MedicationRequestComponent
+        component: MedicationRequestFormComponent
       },
     ]
   }

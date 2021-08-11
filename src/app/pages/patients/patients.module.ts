@@ -7,15 +7,15 @@ import { NewTreatmentComponent } from './new-treatment/new-treatment.component';
 import {NbButtonModule, NbCardModule, NbInputModule, NbSelectModule} from "@nebular/theme";
 import { TreatmentsComponent } from './treatments/treatments.component';
 import { NewCarePlanComponent } from './new-care-plan/new-care-plan.component';
-
-
+import { MedicationRequestFormComponent } from './medication-request-form/medication-request-form.component';
 
 @NgModule({
   declarations: [
     PatientsComponent,
     NewTreatmentComponent,
     TreatmentsComponent,
-    NewCarePlanComponent
+    NewCarePlanComponent,
+    MedicationRequestFormComponent
   ],
   imports: [
     CommonModule,
