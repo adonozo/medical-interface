@@ -3,13 +3,14 @@ import {Patient} from "../../../@core/models/patient";
 import {PatientsService} from "../../../@core/services/patients.service";
 import {ActivatedRoute} from "@angular/router";
 import {flatMap, startWith} from "rxjs/internal/operators";
-import {Medication, Quantity} from "fhir/r4";
+import {Dosage, Medication, Quantity} from "fhir/r4";
 import {MedicationsService} from "../../../@core/services/medications.service";
 import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
 import {DailyFrequencyFormData, DayOfWeek, DurationFormData, FrequencyFormData, TimeOfDay} from "./form-data";
+import {MedicationRequestsService} from "../../../@core/services/medication-requests.service";
 
 @Component({
   selector: 'app-medication-request',
@@ -30,14 +31,14 @@ export class MedicationRequestFormComponent implements OnInit {
   dayOfWeekArray = DayOfWeek;
   timesOfDayArray = TimeOfDay;
 
-  selectedMedication: Medication;
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;
 
   constructor(
     private patientService: PatientsService,
-    private route: ActivatedRoute,
     private medicationService: MedicationsService,
+    private medicationRequestService: MedicationRequestsService,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private location: Location
   ) {
@@ -137,10 +138,8 @@ export class MedicationRequestFormComponent implements OnInit {
     return medication.code.coding[0].display;
   }
 
-  public onDrugSelectionChange(event): void {
-    this.selectedMedication = event;
-    this.medicationIdControl.setValue(this.selectedMedication.id);
-  }
+  public onDrugSelectionChange = (event): void =>
+    this.medicationIdControl.setValue(event.id);
 
   public getUnitName(): string {
     const quantity = this.doseUnitControl.value;
@@ -162,7 +161,24 @@ export class MedicationRequestFormComponent implements OnInit {
   }
 
   public submitForm(): void {
-    console.log(this.medicationForm.value);
+    const request = this.medicationRequestService.getEmptyMedicationRequest();
+    const medication = this.medicationControl.value;
+    request.contained = [medication];
+    request.medicationReference = {
+      id: medication.id,
+      display: this.getMedicationName(medication)
+    }
+    request.subject = {
+      id: this.patient.id,
+      display: this.patient.name
+    }
+    request.requester = {
+      id: '60fb0a79c055e8c0d3f853d0',
+      display: 'Dr. Steven'
+    }
+    request.note = [{text: this.instructionsControl.value}]
+    request.dosageInstruction = [this.getDoseInstruction()];
+    console.log(request);
   }
 
   private filterMedications(name: any): Medication[] {
@@ -179,5 +195,58 @@ export class MedicationRequestFormComponent implements OnInit {
   private setTimeOfDayControl(): void {
     this.timesOfDayArray.forEach(time => this.whenGroup
       .addControl(time.value, this.formBuilder.control(time.selected)))
+  }
+
+  private getDoseInstruction(): Dosage {
+    const selectedFilter = (object: any): any =>
+      Object.entries(object).filter(([_, isSelected]) => isSelected).map(([key]) => key);
+    const dosage: Dosage = {};
+    dosage.timing = {
+      repeat: {
+        dayOfWeek: this.dailyFrequencySelected === DailyFrequencyFormData.specificDays ? selectedFilter(this.dayOfWeekGroup.value) : [],
+        when: this.frequencySelected === FrequencyFormData.mealTime ? selectedFilter(this.whenGroup.value) : [],
+        period: 1,
+        periodUnit: 'd',
+        frequency: this.frequencySelected === FrequencyFormData.timesPerDay ? this.frequencyControl.value : 1
+      }
+    }
+    switch (this.durationSelected) {
+      case DurationFormData.duration:
+        dosage.timing.repeat.boundsPeriod = {
+          start: this.periodRangeControl.value.start.toISOString(),
+          end: this.periodRangeControl.value.end.toISOString(),
+        }
+        break;
+      case DurationFormData.period:
+        dosage.timing.repeat.boundsDuration = this.getBoundsDuration();
+        break;
+      case DurationFormData.untilNext:
+        dosage.timing.repeat.boundsPeriod = {
+          start: this.periodStartControl.value.toISOString(),
+          end: MedicationRequestFormComponent.getSixMonthsFromDate(this.periodStartControl.value).toISOString(),
+        }
+        break;
+    }
+
+    return dosage
+  }
+
+  private getBoundsDuration(): {value: number, unit: string } {
+    let value = this.durationQuantityControl.value;
+    let unit = this.durationUnitControl.value;
+    if (unit === 'wk') {
+      value *= 7;
+      unit = 'd';
+    } else if (unit === 'mo') {
+      value *= 30;
+      unit = 'd';
+    }
+
+    return {value, unit};
+  }
+
+  private static getSixMonthsFromDate(date: Date): Date {
+    date.setMonth(date.getMonth() + 6)
+    return date;
   }
 }

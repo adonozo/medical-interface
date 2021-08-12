@@ -7,14 +7,11 @@
           <div class="form-group row">
             <label for="drug-name" class="col-form-label col-sm-3 form-control-label">Drug name</label>
             <div class="col-sm-9">
-              <input id="drug-name"
-                     nbInput
-                     fullWidth
-                     type="text"
+              <input id="drug-name" nbInput fullWidth type="text" placeholder="Drug name"
                      [formControl]="medicationControl"
-                     placeholder="Drug name"
-                     [nbAutocomplete]="auto" />
-              <nb-autocomplete #auto (selectedChange)="onDrugSelectionChange($event)" [handleDisplayFn]="getMedicationName">
+                     [nbAutocomplete]="auto"/>
+              <nb-autocomplete #auto (selectedChange)="onDrugSelectionChange($event)"
+                               [handleDisplayFn]="getMedicationName">
                 <nb-option *ngFor="let medication of filteredMedications | async" [value]="medication">
                   {{ getMedicationName(medication) }}
                 </nb-option>
