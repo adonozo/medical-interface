@@ -63,45 +63,45 @@
 
           <div class="form-group row div-striped">
             <label class="col-form-label col-sm-12 mb-3">When to measure</label>
-            <div class="col-md-2 offset-md-2 py-2">
+            <div class="col-md-3 offset-md-3 py-2">
               <span><b>Breakfast</b></span>
             </div>
-            <div class="col-md-2 py-2">
+            <div class="col-md-3 py-2">
               <span><b>Lunch</b></span>
             </div>
-            <div class="col-md-2 py-2">
+            <div class="col-md-3 py-2">
               <span><b>Dinner</b></span>
-            </div>
-            <div class="col-md-4 py-2">
-              <span>Comments</span>
             </div>
 
             <ng-container [formGroup]="timingGroup">
               <ng-container *ngFor="let day of daysOfWeek; let index = index">
-                <div class="col-md-2" [class.contrast]="index % 2 === 1">
+                <div class="col-md-3 py-3" [class.contrast]="index % 2 === 1">
                   <b>{{ day.name }}</b>
                 </div>
                 <ng-container [formGroupName]="day.value">
-                  <div class="col-md-2" [class.contrast]="index % 2 === 1">
+                  <div class="col-md-3" [class.contrast]="index % 2 === 1">
                     <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[0].value">Before</nb-checkbox>
                     <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[1].value">After</nb-checkbox>
                   </div>
-                  <div class="col-md-2" [class.contrast]="index % 2 === 1">
+                  <div class="col-md-3" [class.contrast]="index % 2 === 1">
                     <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[2].value">Before</nb-checkbox>
                     <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[3].value">After</nb-checkbox>
                   </div>
-                  <div class="col-md-2" [class.contrast]="index % 2 === 1">
+                  <div class="col-md-3" [class.contrast]="index % 2 === 1">
                     <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[4].value">Before</nb-checkbox>
                     <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[5].value">After</nb-checkbox>
-                  </div>
-                  <div class="col-md-4 py-1" [class.contrast]="index % 2 === 1">
-                    <textarea nbInput fullWidth formControlName="instructions"></textarea>
                   </div>
                 </ng-container>
               </ng-container>
             </ng-container>
           </div>
 
+          <div class="form-group row">
+            <label for="drug-instructions" class="col-form-label col-sm-3 form-control-label">Instructions</label>
+            <div class="col-sm-9">
+              <textarea nbInput fullWidth id="drug-instructions" [formControl]="instructionsControl"></textarea>
+            </div>
+          </div>
           <div class="mt-4 form-group row">
             <div class="col-6 col-sm-8 text-right">
               <button type="button" nbButton status="basic" (click)="goBack()">Cancel</button>

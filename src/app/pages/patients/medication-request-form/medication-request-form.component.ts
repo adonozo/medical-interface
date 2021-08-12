@@ -207,7 +207,7 @@ export class MedicationRequestFormComponent implements OnInit {
   }
 
   private getDoseInstruction(): Dosage {
-    const selectedFilter = (object: any): any =>
+    const selectedFilter = (object: any): any[] =>
       Object.entries(object).filter(([_, isSelected]) => isSelected).map(([key]) => key);
     const dosage: Dosage = {};
     dosage.timing = {
@@ -220,13 +220,13 @@ export class MedicationRequestFormComponent implements OnInit {
       }
     }
     switch (this.durationSelected) {
-      case DurationFormData.duration:
+      case DurationFormData.period:
         dosage.timing.repeat.boundsPeriod = {
           start: this.periodRangeControl.value.start.toISOString(),
           end: this.periodRangeControl.value.end.toISOString(),
         }
         break;
-      case DurationFormData.period:
+      case DurationFormData.duration:
         dosage.timing.repeat.boundsDuration = this.getBoundsDuration();
         break;
       case DurationFormData.untilNext:
@@ -243,12 +243,15 @@ export class MedicationRequestFormComponent implements OnInit {
   private getBoundsDuration(): {value: number, unit: string } {
     let value = this.durationQuantityControl.value;
     let unit = this.durationUnitControl.value;
-    if (unit === 'wk') {
-      value *= 7;
-      unit = 'd';
-    } else if (unit === 'mo') {
-      value *= 30;
-      unit = 'd';
+    switch (unit) {
+      case 'wk':
+        value *= 7;
+        unit = 'd';
+        break;
+      case 'mo':
+        value *= 30;
+        unit = 'd';
+        break;
     }
 
     return {value, unit};

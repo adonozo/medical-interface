@@ -7,6 +7,8 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Location} from "@angular/common";
 import {DurationFormData, FormStatus} from "../../../@core/services/data/form-data";
 import {DaysOfWeek, TimesOfDay} from "./form-data";
+import {ServiceRequestsService} from "../../../@core/services/service-requests.service";
+import {ServiceRequest, Timing} from "fhir/r4";
 
 @Component({
   selector: 'app-service-request-form',
@@ -26,6 +28,7 @@ export class ServiceRequestFormComponent implements OnInit {
 
   constructor(
     private patientService: PatientsService,
+    private serviceRequestService: ServiceRequestsService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private location: Location
@@ -39,7 +42,8 @@ export class ServiceRequestFormComponent implements OnInit {
       durationUnit: ['d'],
       periodRange: [],
       periodStart: [],
-      timing: formBuilder.group({})
+      timing: formBuilder.group({}),
+      instructions: [''],
     });
 
     this.setTimingForm();
@@ -68,12 +72,25 @@ export class ServiceRequestFormComponent implements OnInit {
     return this.serviceForm.get('timing') as FormGroup;
   }
 
+  public get instructionsControl(): FormControl {
+    return this.serviceForm.get('instructions') as FormControl;
+  }
+
   public goBack(): void {
     this.location.back();
   }
 
   public submitForm(): void {
-    console.log(this.serviceForm.value);
+    const baseTiming = this.makeBaseTiming();
+    const requests = this.getTimingsArray(baseTiming)
+      .map(timing => this.makeServiceRequest(timing));
+    this.formStatus = FormStatus.loading;
+    this.serviceRequestService.createServiceRequests(requests)
+      .subscribe(_ => this.formStatus = FormStatus.success,
+        error => {
+          console.log(error);
+          this.formStatus = FormStatus.error
+        });
   }
 
   private setTimingForm = (): void =>
@@ -81,9 +98,124 @@ export class ServiceRequestFormComponent implements OnInit {
       const dayFormGroup = this.formBuilder.group({});
       this.timingGroup.addControl(day.value, dayFormGroup);
       this.addTimesOfDayControls(dayFormGroup)
-      dayFormGroup.addControl('instructions', this.formBuilder.control(''));
     });
 
   private addTimesOfDayControls = (formGroup: FormGroup): void =>
     this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
+
+  private makeBaseTiming(): Timing {
+    const timing : Timing = { repeat: {} };
+    switch (this.durationSelected) {
+      case DurationFormData.period:
+        timing.repeat.boundsPeriod = {
+          start: this.periodRangeControl.value.start.toISOString(),
+          end: this.periodRangeControl.value.end.toISOString(),
+        }
+        break;
+      case DurationFormData.duration:
+        timing.repeat.boundsDuration = this.getBoundsDuration();
+        break;
+      case DurationFormData.untilNext:
+        timing.repeat.boundsPeriod = {
+          start: this.periodStartControl.value.toISOString(),
+          end: ServiceRequestFormComponent.getSixMonthsFromDate(this.periodStartControl.value).toISOString(),
+        }
+        break;
+    }
+
+    return timing;
+  }
+
+  private makeServiceRequest(timing: Timing): ServiceRequest {
+    const request = this.serviceRequestService.getEmptyServiceRequest();
+    request.subject = {
+      id: this.patient.id,
+      display: `${this.patient.firstName} + ${this.patient.lastName}`
+    }
+    request.requester = {
+      id: '60fb0a79c055e8c0d3f853d0',
+      display: 'Dr. Steven'
+    }
+    request.occurrenceTiming = timing;
+    request.patientInstruction = this.instructionsControl.value;
+    return request;
+  }
+
+  private selectedFilter = (object: any): any[] =>
+    Object.entries(object).filter(([_, isSelected]) => isSelected).map(([key]) => key);
+
+  private getTimingsArray(baseTiming: Timing): Timing[] {
+    const timingsArray = [];
+    const daysMap: Map<string, any[]> = new Map();
+    const timesMap: Map<string, any[]> = new Map();
+    let daysCount = 0;
+    let timesCount = 0;
+    this.timesOfDay.forEach(time => timesMap.set(time.value, []));
+    const timingFormValues = this.timingGroup.value;
+    this.daysOfWeek.forEach(day => {
+      const dayValues = timingFormValues[day.value];
+      const dayValuesArray = this.selectedFilter(dayValues);
+      daysCount += dayValuesArray.length > 0 ? 1 : 0;
+      daysMap.set(day.value, dayValuesArray)
+      this.timesOfDay.forEach(time => {
+        if (dayValues[time.value]) {
+          timesMap.get(time.value).push(day.value);
+        }
+      });
+    });
+    timesMap.forEach(value => {
+      if(value.length > 0) {
+        timesCount++;
+      }
+    })
+
+    // Create the lowest number of requests
+    if (daysCount <= timesCount) {
+      daysMap.forEach((value, key) => {
+        if (value.length == 0) {
+          return;
+        }
+
+        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
+        timingCopy.repeat.dayOfWeek = [key as any];
+        timingCopy.repeat.when = value;
+        timingsArray.push(timingCopy);
+      })
+    } else {
+      timesMap.forEach((value, key) => {
+        if (value.length == 0) {
+          return;
+        }
+
+        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
+        timingCopy.repeat.when = [key as any];
+        timingCopy.repeat.dayOfWeek = value;
+        timingsArray.push(timingCopy);
+      })
+    }
+
+    return timingsArray;
+  }
+
+  private getBoundsDuration(): {value: number, unit: string } {
+    let value = this.durationQuantityControl.value;
+    let unit = this.durationUnitControl.value;
+    switch (unit) {
+      case 'wk':
+        value *= 7;
+        unit = 'd';
+        break;
+      case 'mo':
+        value *= 30;
+        unit = 'd';
+        break;
+    }
+
+    return {value, unit};
+  }
+
+  private static getSixMonthsFromDate(date: Date): Date {
+    date.setMonth(date.getMonth() + 6)
+    return date;
+  }
 }
