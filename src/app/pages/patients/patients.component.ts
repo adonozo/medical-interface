@@ -55,7 +55,7 @@ export class PatientsComponent implements OnInit {
         this.router.navigate([event.data.id + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
         break;
       case 'records':
-        this.router.navigate(['treatments'], {relativeTo: this.activatedRoute.parent});
+        this.router.navigate([event.data.id + '/treatments'], {relativeTo: this.activatedRoute.parent});
         break;
     }
   }

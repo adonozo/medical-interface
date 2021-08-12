@@ -104,7 +104,12 @@ export class ServiceRequestFormComponent implements OnInit {
     this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
 
   private makeBaseTiming(): Timing {
-    const timing : Timing = { repeat: {} };
+    const timing : Timing = { repeat: {
+        period: 1,
+        periodUnit: 'd',
+        frequency: 1
+      }
+    };
     switch (this.durationSelected) {
       case DurationFormData.period:
         timing.repeat.boundsPeriod = {
