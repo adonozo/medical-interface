@@ -6,6 +6,7 @@ import {ActivatedRoute} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {Location} from "@angular/common";
 import {DurationFormData, FormStatus} from "../../../@core/services/data/form-data";
+import {DaysOfWeek, TimesOfDay} from "./form-data";
 
 @Component({
   selector: 'app-service-request-form',
@@ -20,6 +21,8 @@ export class ServiceRequestFormComponent implements OnInit {
   formStatusType = FormStatus;
   durationType = DurationFormData;
   durationSelected: DurationFormData;
+  daysOfWeek = DaysOfWeek;
+  timesOfDay = TimesOfDay;
 
   constructor(
     private patientService: PatientsService,
@@ -30,13 +33,16 @@ export class ServiceRequestFormComponent implements OnInit {
     this.route.params.pipe(
       flatMap(params => patientService.getSinglePatient(params["patientId"]))
     ).subscribe(patient => this.patient = patient);
+
     this.serviceForm = formBuilder.group({
-      instructions: [''],
       durationQuantity: [],
       durationUnit: ['d'],
       periodRange: [],
-      periodStart: []
+      periodStart: [],
+      timing: formBuilder.group({})
     });
+
+    this.setTimingForm();
   }
 
   ngOnInit(): void {
@@ -58,8 +64,8 @@ export class ServiceRequestFormComponent implements OnInit {
     return this.serviceForm.get('periodStart') as FormControl;
   }
 
-  public get instructionsControl(): FormControl {
-    return this.serviceForm.get('instructions') as FormControl;
+  public get timingGroup(): FormGroup {
+    return this.serviceForm.get('timing') as FormGroup;
   }
 
   public goBack(): void {
@@ -69,4 +75,15 @@ export class ServiceRequestFormComponent implements OnInit {
   public submitForm(): void {
     console.log(this.serviceForm.value);
   }
+
+  private setTimingForm = (): void =>
+    this.daysOfWeek.forEach(day => {
+      const dayFormGroup = this.formBuilder.group({});
+      this.timingGroup.addControl(day.value, dayFormGroup);
+      this.addTimesOfDayControls(dayFormGroup)
+      dayFormGroup.addControl('instructions', this.formBuilder.control(''));
+    });
+
+  private addTimesOfDayControls = (formGroup: FormGroup): void =>
+    this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
 }
