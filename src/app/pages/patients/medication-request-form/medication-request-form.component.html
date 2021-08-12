@@ -168,7 +168,18 @@
               <button nbButton status="basic" (click)="goBack()">Cancel</button>
             </div>
             <div class="col-6 offset-sm-1 col-sm-3 text-right">
-              <button type="submit" nbButton status="success">Save</button>
+              <button type="submit" nbButton status="success"
+                      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">Save
+              </button>
+            </div>
+            <div class="col-12 col-sm-9 mt-3" *ngIf="formStatus === formStatusType.success">
+              <nb-alert outline="success">The record has been saved</nb-alert>
+            </div>
+            <div class="col-sm-3 mt-3" *ngIf="formStatus === formStatusType.success">
+              <button nbButton status="primary" (click)="goBack()">Return</button>
+            </div>
+            <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.error">
+              <nb-alert outline="danger">There was a problem saving the record</nb-alert>
             </div>
           </div>
         </form>

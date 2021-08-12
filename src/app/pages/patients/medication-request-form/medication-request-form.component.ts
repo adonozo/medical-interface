@@ -11,6 +11,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angul
 import {Location} from "@angular/common";
 import {DailyFrequencyFormData, DayOfWeek, DurationFormData, FrequencyFormData, TimeOfDay} from "./form-data";
 import {MedicationRequestsService} from "../../../@core/services/medication-requests.service";
+import {FormStatus} from "../../../@core/services/data/form-data";
 
 @Component({
   selector: 'app-medication-request',
@@ -31,6 +32,8 @@ export class MedicationRequestFormComponent implements OnInit {
   dayOfWeekArray = DayOfWeek;
   timesOfDayArray = TimeOfDay;
 
+  formStatus: FormStatus = FormStatus.default;
+  formStatusType = FormStatus;
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;
 
@@ -178,7 +181,13 @@ export class MedicationRequestFormComponent implements OnInit {
     }
     request.note = [{text: this.instructionsControl.value}]
     request.dosageInstruction = [this.getDoseInstruction()];
-    console.log(request);
+    this.formStatus = FormStatus.loading;
+    this.medicationRequestService.createMedicationRequest(request)
+      .subscribe(_ => this.formStatus = FormStatus.success,
+        error => {
+          console.log(error);
+          this.formStatus = FormStatus.error
+        });
   }
 
   private filterMedications(name: any): Medication[] {
