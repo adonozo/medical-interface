@@ -1,5 +1,7 @@
 export interface Patient {
   id: string;
-  name: string;
+  alexaUserId: string,
   email: string;
+  firstName: string,
+  lastName: string,
 }

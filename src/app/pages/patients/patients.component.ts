@@ -50,10 +50,9 @@ export class PatientsComponent implements OnInit {
   }
 
   public onCustomPatients(event: any) {
-    console.log(event);
     switch (event.action) {
       case 'new-treatment':
-        this.router.navigate(['1234/new-medication-request'], {relativeTo: this.activatedRoute.parent});
+        this.router.navigate([event.data.id + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
         break;
       case 'records':
         this.router.navigate(['treatments'], {relativeTo: this.activatedRoute.parent});
@@ -64,8 +63,11 @@ export class PatientsComponent implements OnInit {
   private getPatientData(): void {
     this.patientService.getPatientList()
       .subscribe(patients =>
-      {
-        this.source = new LocalDataSource(patients);
-      })
+        this.source = new LocalDataSource(patients.map(patient => {
+          const data: any = patient;
+          data.name = `${patient.firstName} ${patient.lastName}`;
+          return data;
+        }))
+      )
   }
 }
