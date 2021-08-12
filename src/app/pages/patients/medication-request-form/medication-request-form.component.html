@@ -7,7 +7,7 @@
           <div class="form-group row">
             <label for="drug-name" class="col-form-label col-sm-3 form-control-label">Drug name</label>
             <div class="col-sm-9">
-              <input id="drug-name" nbInput fullWidth type="text" placeholder="Drug name"
+              <input id="drug-name" nbInput fullWidth type="text" placeholder="Drug name" autocomplete="off"
                      [formControl]="medicationControl"
                      [nbAutocomplete]="auto"/>
               <nb-autocomplete #auto (selectedChange)="onDrugSelectionChange($event)"
@@ -136,7 +136,7 @@
                       <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-right">Date
                         range</label>
                       <div class="col-sm-9">
-                        <input id="drug-duration-range" nbInput fullWidth placeholder="Select a date range"
+                        <input id="drug-duration-range" nbInput fullWidth placeholder="Select a date range" autocomplete="off"
                                [nbDatepicker]="rangePicker" [formControl]="periodRangeControl">
                         <nb-rangepicker #rangePicker></nb-rangepicker>
                       </div>
@@ -147,7 +147,7 @@
                       <label for="drug-duration-start-date"
                              class="col-form-label col-sm-3 form-control-file text-right">Start date</label>
                       <div class="col-sm-9">
-                        <input id="drug-duration-start-date" nbInput fullWidth placeholder="Select the start date"
+                        <input id="drug-duration-start-date" nbInput fullWidth placeholder="Select the start date" autocomplete="off"
                                [nbDatepicker]="datepicker" [formControl]="periodStartControl">
                         <nb-datepicker #datepicker></nb-datepicker>
                       </div>

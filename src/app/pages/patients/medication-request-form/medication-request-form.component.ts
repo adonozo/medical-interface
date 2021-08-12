@@ -236,6 +236,14 @@ export class MedicationRequestFormComponent implements OnInit {
         }
         break;
     }
+    dosage.doseAndRate = [
+      {
+        doseQuantity: {
+          ...this.doseUnitControl.value,
+          value: this.doseQuantityControl.value
+        }
+      }
+    ];
 
     return dosage
   }
