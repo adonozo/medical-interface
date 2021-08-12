@@ -17,6 +17,7 @@ import { TreatmentsComponent } from './treatments/treatments.component';
 import { NewCarePlanComponent } from './new-care-plan/new-care-plan.component';
 import { MedicationRequestFormComponent } from './medication-request-form/medication-request-form.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { ServiceRequestFormComponent } from './service-request-form/service-request-form.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     NewTreatmentComponent,
     TreatmentsComponent,
     NewCarePlanComponent,
-    MedicationRequestFormComponent
+    MedicationRequestFormComponent,
+    ServiceRequestFormComponent
   ],
     imports: [
         CommonModule,
