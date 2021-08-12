@@ -1,1 +1,175 @@
-<p>service-request-form works!</p>
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-card-header *ngIf="patient"><h2>New Glucose Self-monitor Order for {{patient.firstName + ' ' + patient.lastName}}</h2></nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="serviceForm" (ngSubmit)="submitForm()" class="form-horizontal">
+          <div class="form-group row">
+            <label for="drug-duration" class="col-form-label col-sm-3 form-control-label">Duration</label>
+            <div class="col-sm-9">
+              <div class="form-group row">
+                <div class="col-12 mb-3">
+                  <nb-button-group (valueChange)="durationSelected = $event[0]">
+                    <button type="button" nbButtonToggle pressed [value]="durationType.duration">By amount of time</button>
+                    <button type="button" nbButtonToggle [value]="durationType.period">By dates</button>
+                    <button type="button" nbButtonToggle [value]="durationType.untilNext">Until next appointment</button>
+                  </nb-button-group>
+                </div>
+                <ng-container [ngSwitch]="durationSelected">
+                  <div class="col-12" *ngSwitchCase="durationType.duration">
+                    <div class="form-group row">
+                      <div class="col-sm-4">
+                        <input type="number" nbInput fullWidth id="drug-duration" placeholder="Duration"
+                               [formControl]="durationQuantityControl">
+                      </div>
+                      <label for="drug-duration-unit"
+                             class="col-form-label col-4 col-sm-2 form-control-file text-right">Units</label>
+                      <div class="col-8 col-sm-6">
+                        <nb-select fullWidth id="drug-duration-unit" placeholder="Select a time unit"
+                                   [formControl]="durationUnitControl">
+                          <nb-option value="d">Day(s)</nb-option>
+                          <nb-option value="wk">Week(s)</nb-option>
+                          <nb-option value="mo">Month(s)</nb-option>
+                        </nb-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12" *ngSwitchCase="durationType.period">
+                    <div class="form-group row">
+                      <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-right">Date
+                        range</label>
+                      <div class="col-sm-9">
+                        <input id="drug-duration-range" nbInput fullWidth placeholder="Select a date range"
+                               [nbDatepicker]="rangePicker" [formControl]="periodRangeControl">
+                        <nb-rangepicker #rangePicker></nb-rangepicker>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12" *ngSwitchCase="durationType.untilNext">
+                    <div class="form-group row">
+                      <label for="drug-duration-start-date"
+                             class="col-form-label col-sm-3 form-control-file text-right">Start date</label>
+                      <div class="col-sm-9">
+                        <input id="drug-duration-start-date" nbInput fullWidth placeholder="Select the start date"
+                               [nbDatepicker]="datepicker" [formControl]="periodStartControl">
+                        <nb-datepicker #datepicker></nb-datepicker>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-3 offset-md-1">
+              <div class="form-group row">
+                <div class="col-12">
+                  Breakfast
+                </div>
+                <div class="col-6">
+                  Before
+                </div>
+                <div class="col-6">
+                  After
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <div class="col-12">
+                  Lunch
+                </div>
+                <div class="col-6">
+                  Before
+                </div>
+                <div class="col-6">
+                  After
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <div class="col-12">
+                  Dinner
+                </div>
+                <div class="col-6">
+                  Before
+                </div>
+                <div class="col-6">
+                  After
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              Comments
+            </div>
+
+            <div class="col-md-1">
+              Monday
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <div class="col-6">
+                  check
+                </div>
+                <div class="col-6">
+                  check
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <div class="col-6">
+                  check
+                </div>
+                <div class="col-6">
+                  check
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <div class="col-6">
+                  check
+                </div>
+                <div class="col-6">
+                  check
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <textarea></textarea>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="drug-instructions" class="col-form-label col-sm-3 form-control-label">Instructions</label>
+            <div class="col-sm-9">
+              <textarea nbInput fullWidth id="drug-instructions" [formControl]="instructionsControl"></textarea>
+            </div>
+          </div>
+          <div class="mt-4 form-group row">
+            <div class="col-6 col-sm-8 text-right">
+              <button type="button" nbButton status="basic" (click)="goBack()">Cancel</button>
+            </div>
+            <div class="col-6 offset-sm-1 col-sm-3 text-right">
+              <button type="submit" nbButton status="success"
+                      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">Save
+              </button>
+            </div>
+            <div class="col-12 col-sm-9 mt-3" *ngIf="formStatus === formStatusType.success">
+              <nb-alert outline="success">The record has been saved</nb-alert>
+            </div>
+            <div class="col-sm-3 mt-3" *ngIf="formStatus === formStatusType.success">
+              <button type="button" nbButton status="primary" (click)="goBack()">Return</button>
+            </div>
+            <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.error">
+              <nb-alert outline="danger">There was a problem saving the record</nb-alert>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

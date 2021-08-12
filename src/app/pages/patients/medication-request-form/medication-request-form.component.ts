@@ -9,9 +9,9 @@ import {Observable, of} from "rxjs";
 import {map} from "rxjs/operators";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Location} from "@angular/common";
-import {DailyFrequencyFormData, DayOfWeek, DurationFormData, FrequencyFormData, TimeOfDay} from "./form-data";
+import {DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay} from "./form-data";
 import {MedicationRequestsService} from "../../../@core/services/medication-requests.service";
-import {FormStatus} from "../../../@core/services/data/form-data";
+import {DurationFormData, FormStatus} from "../../../@core/services/data/form-data";
 
 @Component({
   selector: 'app-medication-request',

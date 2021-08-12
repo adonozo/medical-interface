@@ -9,12 +9,6 @@ export enum DailyFrequencyFormData {
   specificDays = 1,
 }
 
-export enum DurationFormData {
-  duration = 0,
-  period = 1,
-  untilNext = 2
-}
-
 export const DayOfWeek = [
   {
     name: 'Monday',
