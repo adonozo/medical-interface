@@ -37,22 +37,7 @@ export class TreatmentsComponent implements OnInit {
         type: 'string'
       }
     },
-    actions: {
-      add: false,
-      edit: false,
-      delete: false,
-      columnTitle: 'Actions',
-      custom: [
-        {
-          name: 'treatment-details',
-          title: '<i class="nb-plus-circled inline-block width: 50px"></i>'
-        },
-        {
-          name: 'records',
-          title: '<i class="nb-list inline-block width: 50px"></i>',
-        }
-      ]
-    }
+    actions: false
   }
 
   constructor(

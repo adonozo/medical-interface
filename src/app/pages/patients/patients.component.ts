@@ -26,15 +26,15 @@ export class PatientsComponent implements OnInit {
       add: false,
       edit: false,
       delete: false,
-      columnTitle: 'Treatments',
+      columnTitle: 'Actions',
       custom: [
         {
-          name: 'new-treatment',
-          title: '<i class="nb-plus-circled inline-block width: 50px"></i>'
+          name: 'records',
+          title: '<i class="action-icon fa fa-list-ul inline-block"></i>',
         },
         {
-          name: 'records',
-          title: '<i class="nb-list inline-block width: 50px"></i>',
+          name: 'glucose-levels',
+          title: '<i class="action-icon far fa-chart-bar inline-block"></i>'
         }
       ]
     }
@@ -51,8 +51,8 @@ export class PatientsComponent implements OnInit {
 
   public onCustomPatients(event: any) {
     switch (event.action) {
-      case 'new-treatment':
-        this.router.navigate([event.data.id + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
+      case 'glucose-levels':
+        this.router.navigate([event.data.id + '/glucose-levels'], {relativeTo: this.activatedRoute.parent});
         break;
       case 'records':
         this.router.navigate([event.data.id + '/treatments'], {relativeTo: this.activatedRoute.parent});

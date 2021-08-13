@@ -5,6 +5,7 @@ import {NewTreatmentComponent} from "./new-treatment/new-treatment.component";
 import {TreatmentsComponent} from "./treatments/treatments.component";
 import {MedicationRequestFormComponent} from "./medication-request-form/medication-request-form.component";
 import {ServiceRequestFormComponent} from "./service-request-form/service-request-form.component";
+import {GlucoseLevelsComponent} from "./glucose-levels/glucose-levels.component";
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: ':patientId/new-service-request',
         component: ServiceRequestFormComponent
+      },
+      {
+        path: ':patientId/glucose-levels',
+        component: GlucoseLevelsComponent
       },
     ]
   }

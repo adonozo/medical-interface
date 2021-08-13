@@ -18,6 +18,7 @@ import { NewCarePlanComponent } from './new-care-plan/new-care-plan.component';
 import { MedicationRequestFormComponent } from './medication-request-form/medication-request-form.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { ServiceRequestFormComponent } from './service-request-form/service-request-form.component';
+import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ServiceRequestFormComponent } from './service-request-form/service-requ
     TreatmentsComponent,
     NewCarePlanComponent,
     MedicationRequestFormComponent,
-    ServiceRequestFormComponent
+    ServiceRequestFormComponent,
+    GlucoseLevelsComponent
   ],
     imports: [
         CommonModule,
