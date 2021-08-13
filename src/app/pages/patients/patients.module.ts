@@ -19,6 +19,7 @@ import { MedicationRequestFormComponent } from './medication-request-form/medica
 import {ReactiveFormsModule} from "@angular/forms";
 import { ServiceRequestFormComponent } from './service-request-form/service-request-form.component';
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
+import {NgxEchartsModule} from "ngx-echarts";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.componen
         CommonModule,
         PatientsRoutingModule,
         Ng2SmartTableModule,
+        NgxEchartsModule,
         NbCardModule,
         NbInputModule,
         NbButtonModule,

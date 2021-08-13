@@ -8,6 +8,7 @@ import {flatMap} from "rxjs/internal/operators";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {PatientsService} from "../../../@core/services/patients.service";
+import {timingToString} from "../../../@core/services/utils/utils";
 
 @Component({
   selector: 'app-treatments',
@@ -136,7 +137,7 @@ export class TreatmentsComponent implements OnInit {
     }
 
     if (timing.repeat.when) {
-      time = timing.repeat.when.map(item => this.timingToString(item)).join(', ');
+      time = timing.repeat.when.map(item => timingToString(item)).join(', ');
     } else if (timing.repeat.timeOfDay) {
       time = timing.repeat.timeOfDay.join(', ');
     } else if (timing.repeat.frequency > 0) {
@@ -156,37 +157,6 @@ export class TreatmentsComponent implements OnInit {
         return 'month(s)';
       default:
         return unit;
-    }
-  }
-
-  private timingToString = (timing: string): string => {
-    switch (timing) {
-      case 'ACM':
-        return 'before breakfast';
-      case 'CM':
-        return 'at breakfast';
-      case 'PCM':
-        return 'after breakfast';
-      case 'ACD':
-        return 'before lunch';
-      case 'CD':
-        return 'at lunch';
-      case 'PCD':
-        return 'after lunch';
-      case 'ACV':
-        return 'before dinner';
-      case 'CV':
-        return 'at dinner';
-      case 'PCV':
-        return 'after dinner';
-      case 'AC':
-        return 'before meal';
-      case 'C':
-        return 'with meal';
-      case 'PC':
-        return 'after meal';
-      default:
-        return timing;
     }
   }
 

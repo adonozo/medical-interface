@@ -2,4 +2,25 @@
   <div class="col-12" *ngIf="patient">
     <h2>Glucose levels history for {{ patient.firstName + ' ' + patient.lastName }}</h2>
   </div>
+
+  <div class="col-lg-6 mt-5">
+    <nb-card>
+      <nb-card-header>Glucose per date</nb-card-header>
+      <nb-card-body>
+        <div echarts [options]="options" class="echart"></div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+  <div class="col-lg-6 mt-5">
+    <nb-card>
+      <nb-card-header>Records</nb-card-header>
+      <nb-card-body>
+        <ng2-smart-table class="order-table"
+                         [settings]="settings"
+                         [source]="source">
+        </ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+  </div>
 </div>

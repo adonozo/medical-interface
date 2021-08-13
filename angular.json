@@ -37,7 +37,9 @@
               "src/app/@theme/style/style.scss"
             ],
             "scripts": [
-              "node_modules/pace-js/pace.min.js"
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts/dist/extension/bmap.min.js"
             ],
             "allowedCommonJsDependencies": [
               "angular2-chartjs",
