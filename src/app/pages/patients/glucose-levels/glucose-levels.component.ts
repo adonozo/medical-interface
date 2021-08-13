@@ -64,7 +64,6 @@ export class GlucoseLevelsComponent implements OnInit {
   private getObservations(): void {
     this.observationsService.getObservations(this.patient.id)
       .subscribe(observations => {
-        console.log(observations);
         this.source = new LocalDataSource(observations.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
