@@ -1,3 +1,20 @@
-<h1>Diabetes Manager</h1>
-<br/>
-<p><i>This is the homepage after log in.</i></p>
+<div class="row">
+  <div class="col-12 mb-5 pb-5">
+    <span class="display-4">Diabetes Manager</span>
+  </div>
+  <br/>
+  <div class="col-5 my-5">
+    <nb-card (click)="navigate()">
+      <div class="icon-container">
+        <div class="icon status-primary">
+          <nb-icon [ngClass]="'icon'" [icon]="'people-outline'" pack="eva"></nb-icon>
+        </div>
+      </div>
+
+      <div class="details">
+        <div class="title h5">Patients</div>
+        <div class="status paragraph-2"></div>
+      </div>
+    </nb-card>
+  </div>
+</div>

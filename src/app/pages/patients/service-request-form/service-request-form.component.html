@@ -114,11 +114,22 @@
             <div class="col-12 col-sm-9 mt-3" *ngIf="formStatus === formStatusType.success">
               <nb-alert outline="success">The record has been saved</nb-alert>
             </div>
-            <div class="col-sm-3 mt-3" *ngIf="formStatus === formStatusType.success">
-              <button type="button" nbButton status="primary" (click)="goBack()">Return</button>
+            <div class="col-12 mt-3 text-center" *ngIf="formStatus === formStatusType.error">
+              <nb-alert accent="danger">
+                <span>There was a problem saving the record</span>
+              </nb-alert>
             </div>
-            <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.error">
-              <nb-alert outline="danger">There was a problem saving the record</nb-alert>
+            <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.success">
+              <nb-alert accent="success">
+                <div class="row">
+                  <div class="col-7">
+                    <span>The record has been saved</span>
+                  </div>
+                  <div class="col-5 text-right">
+                    <button type="button" nbButton status="success" (click)="goBack()">Return</button>
+                  </div>
+                </div>
+              </nb-alert>
             </div>
           </div>
         </form>

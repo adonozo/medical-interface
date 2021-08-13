@@ -1,5 +1,10 @@
 <nb-card>
-  <nb-card-header><h2>Patients</h2></nb-card-header>
+  <nb-card-header>
+    <h2>
+      <nb-icon [ngClass]="'icon'" [icon]="'people-outline'" pack="eva"></nb-icon>
+      Patients
+    </h2>
+  </nb-card-header>
   <nb-card-body>
     <ng2-smart-table class="order-table"
                      [settings]="settings"

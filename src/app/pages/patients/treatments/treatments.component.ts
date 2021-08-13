@@ -5,7 +5,7 @@ import {map} from "rxjs/operators";
 import {Patient} from "../../../@core/models/patient";
 import {FhirResource, MedicationRequest, ServiceRequest, Timing} from "fhir/r4";
 import {flatMap} from "rxjs/internal/operators";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {PatientsService} from "../../../@core/services/patients.service";
 
@@ -59,6 +59,8 @@ export class TreatmentsComponent implements OnInit {
     private patientService: PatientsService,
     private treatmentService: TreatmentsService,
     private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private location: Location
   ) {
     this.route.params.pipe(
@@ -74,6 +76,17 @@ export class TreatmentsComponent implements OnInit {
 
   public goBack(): void {
     this.location.back();
+  }
+
+  public navigate(page: string): void {
+    switch (page) {
+      case 'medication':
+        this.router.navigate([this.patient.id + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
+        break;
+      case 'service':
+        this.router.navigate([this.patient.id + '/new-service-request'], {relativeTo: this.activatedRoute.parent});
+        return;
+    }
   }
 
   private getAllCarePlans(): void {
