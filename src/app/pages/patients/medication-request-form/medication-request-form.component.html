@@ -174,9 +174,6 @@
                       [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">Save
               </button>
             </div>
-            <div class="col-12 col-sm-9 mt-3" *ngIf="formStatus === formStatusType.success">
-              <nb-alert outline="success">The record has been saved</nb-alert>
-            </div>
             <div class="col-12 mt-3 text-center" *ngIf="formStatus === formStatusType.error">
               <nb-alert accent="danger">
                 <span>There was a problem saving the record</span>
