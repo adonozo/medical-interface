@@ -137,6 +137,7 @@ export class GlucoseLevelsComponent implements OnInit {
             },
           },
           axisLabel: {
+            formatter: '{value} mmol/l',
             textStyle: {
               color: echarts.textColor,
             },
