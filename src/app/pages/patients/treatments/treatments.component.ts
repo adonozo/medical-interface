@@ -75,6 +75,18 @@ export class TreatmentsComponent implements OnInit {
     }
   }
 
+  public viewOrder(event: any): void {
+    const resource: FhirResource = event.data.resource;
+    switch (resource.resourceType) {
+      case "MedicationRequest":
+        this.router.navigate([this.patient.id + '/medication-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
+        break;
+      case "ServiceRequest":
+        this.router.navigate([this.patient.id + '/service-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
+        break;
+    }
+  }
+
   private getAllCarePlans(): void {
     this.treatmentService.getTreatmentsFor(this.patient.id)
       .pipe(

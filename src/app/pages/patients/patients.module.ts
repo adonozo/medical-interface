@@ -20,6 +20,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { ServiceRequestFormComponent } from './service-request-form/service-request-form.component';
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
 import {NgxEchartsModule} from "ngx-echarts";
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {NgxEchartsModule} from "ngx-echarts";
     NewCarePlanComponent,
     MedicationRequestFormComponent,
     ServiceRequestFormComponent,
-    GlucoseLevelsComponent
+    GlucoseLevelsComponent,
+    OrderDetailsComponent
   ],
     imports: [
         CommonModule,

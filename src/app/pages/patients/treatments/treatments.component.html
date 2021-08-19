@@ -2,6 +2,7 @@
   <nb-card-header *ngIf="patient"><h2>Orders for {{patient.firstName + ' ' + patient.lastName}}</h2></nb-card-header>
   <nb-card-body>
     <ng2-smart-table class="order-table"
+                     (userRowSelect)="viewOrder($event)"
                      [settings]="settings"
                      [source]="source">
     </ng2-smart-table>

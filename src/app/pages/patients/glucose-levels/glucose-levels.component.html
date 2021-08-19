@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-12" *ngIf="patient">
-    <h2>Glucose levels history for {{ patient.firstName + ' ' + patient.lastName }}</h2>
+    <h2>Blood glucose levels history for {{ patient.firstName + ' ' + patient.lastName }}</h2>
   </div>
 
   <div class="col-lg-6 mt-5">
     <nb-card>
-      <nb-card-header>Glucose level chart</nb-card-header>
+      <nb-card-header>Blood glucose level chart</nb-card-header>
       <nb-card-body>
         <div echarts [options]="options" class="echart"></div>
       </nb-card-body>

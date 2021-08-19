@@ -6,6 +6,7 @@ import {TreatmentsComponent} from "./treatments/treatments.component";
 import {MedicationRequestFormComponent} from "./medication-request-form/medication-request-form.component";
 import {ServiceRequestFormComponent} from "./service-request-form/service-request-form.component";
 import {GlucoseLevelsComponent} from "./glucose-levels/glucose-levels.component";
+import {OrderDetailsComponent} from "./order-details/order-details.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path: ':patientId/glucose-levels',
         component: GlucoseLevelsComponent
+      },
+      {
+        // order-type: medication-order or service-order
+        path: ':patientId/:order-type/:orderId',
+        component: OrderDetailsComponent
       },
     ]
   }

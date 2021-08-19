@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class RestApiService {
-  private baseUrl = 'http://localhost:5000/';
+  private baseUrl = 'http://35.178.23.233:5000/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',

@@ -28,7 +28,8 @@ export class GlucoseLevelsComponent implements OnInit {
       },
       date: {
         title: 'Date',
-        type: 'string'
+        type: 'string',
+        sortDirection: 'desc'
       },
       time: {
         title: 'Time',
