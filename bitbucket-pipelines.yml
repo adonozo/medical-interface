@@ -16,7 +16,7 @@ pipelines:
           caches:
             - node
           script:
-            - npm run build:production
+            - npm run build:prod
           artifacts:
             - dist/**
 
@@ -35,6 +35,6 @@ pipelines:
           caches:
             - node
           script:
-            - npm run build:production
+            - npm run build:prod
           artifacts:
             - dist/**
