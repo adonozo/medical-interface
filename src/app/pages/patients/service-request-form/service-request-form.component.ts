@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import {Patient} from "../../../@core/models/patient";
-import {flatMap} from "rxjs/internal/operators";
-import {PatientsService} from "../../../@core/services/patients.service";
-import {ActivatedRoute} from "@angular/router";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Location} from "@angular/common";
-import {DurationFormData, FormStatus} from "../../../@core/services/data/form-data";
-import {DaysOfWeek, TimesOfDay} from "./form-data";
-import {ServiceRequestsService} from "../../../@core/services/service-requests.service";
-import {ServiceRequest, Timing} from "fhir/r4";
+import { Component } from '@angular/core';
+import { Patient } from "../../../@core/models/patient";
+import { flatMap } from "rxjs/internal/operators";
+import { PatientsService } from "../../../@core/services/patients.service";
+import { ActivatedRoute } from "@angular/router";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { Location } from "@angular/common";
+import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
+import { DaysOfWeek, TimesOfDay } from "./form-data";
+import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
+import { ServiceRequest, Timing } from "fhir/r4";
 
 @Component({
   selector: 'app-service-request-form',
   templateUrl: './service-request-form.component.html',
   styleUrls: ['./service-request-form.component.scss']
 })
-export class ServiceRequestFormComponent implements OnInit {
+export class ServiceRequestFormComponent {
 
   patient: Patient;
   serviceForm: FormGroup;
@@ -47,9 +47,6 @@ export class ServiceRequestFormComponent implements OnInit {
     });
 
     this.setTimingForm();
-  }
-
-  ngOnInit(): void {
   }
 
   public get durationQuantityControl(): FormControl {
@@ -104,7 +101,8 @@ export class ServiceRequestFormComponent implements OnInit {
     this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
 
   private makeBaseTiming(): Timing {
-    const timing : Timing = { repeat: {
+    const timing: Timing = {
+      repeat: {
         period: 1,
         periodUnit: 'd',
         frequency: 1
@@ -169,11 +167,12 @@ export class ServiceRequestFormComponent implements OnInit {
       });
     });
     timesMap.forEach(value => {
-      if(value.length > 0) {
+      if (value.length > 0) {
         timesCount++;
       }
     })
 
+    const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
     // Create the lowest number of requests
     if (daysCount <= timesCount) {
       daysMap.forEach((value, key) => {
@@ -181,7 +180,6 @@ export class ServiceRequestFormComponent implements OnInit {
           return;
         }
 
-        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
         timingCopy.repeat.dayOfWeek = [key as any];
         timingCopy.repeat.when = value;
         timingsArray.push(timingCopy);
@@ -192,7 +190,6 @@ export class ServiceRequestFormComponent implements OnInit {
           return;
         }
 
-        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
         timingCopy.repeat.when = [key as any];
         timingCopy.repeat.dayOfWeek = value;
         timingsArray.push(timingCopy);
@@ -202,7 +199,7 @@ export class ServiceRequestFormComponent implements OnInit {
     return timingsArray;
   }
 
-  private getBoundsDuration(): {value: number, unit: string } {
+  private getBoundsDuration(): { value: number, unit: string } {
     let value = this.durationQuantityControl.value;
     let unit = this.durationUnitControl.value;
     switch (unit) {

@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import {Location} from "@angular/common";
-import {ActivatedRoute} from "@angular/router";
-import {MedicationRequest, ServiceRequest, TimingRepeat} from "fhir/r4";
-import {flatMap} from "rxjs/internal/operators";
-import {MedicationRequestsService} from "../../../@core/services/medication-requests.service";
-import {ServiceRequestsService} from "../../../@core/services/service-requests.service";
-import {timingToString} from "../../../@core/services/utils/utils";
+import { Component } from '@angular/core';
+import { Location } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
+import { MedicationRequest, ServiceRequest, TimingRepeat } from "fhir/r4";
+import { flatMap } from "rxjs/internal/operators";
+import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
+import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
+import { timingToString } from "../../../@core/services/utils/utils";
 
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss']
 })
-export class OrderDetailsComponent implements OnInit {
+export class OrderDetailsComponent {
   type: string;
-  config: {type: string, id: string};
+  config: { type: string, id: string };
   medicationOrder: MedicationRequest;
   serviceRequest: ServiceRequest;
 
@@ -32,7 +32,8 @@ export class OrderDetailsComponent implements OnInit {
           return this.medicationRequestService.getSingleMedicationRequest(this.config.id);
         } else {
           this.type = 'Self-monitoring blood glucose order';
-        } return this.serviceRequestService.getSingleServiceRequest(this.config.id);
+        }
+        return this.serviceRequestService.getSingleServiceRequest(this.config.id);
       })
     ).subscribe(resource => {
       if (this.config.type === 'medication-order') {
@@ -41,9 +42,6 @@ export class OrderDetailsComponent implements OnInit {
         this.serviceRequest = resource as ServiceRequest;
       }
     });
-  }
-
-  ngOnInit(): void {
   }
 
   public goBack(): void {

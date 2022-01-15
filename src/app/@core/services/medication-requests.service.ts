@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {MedicationRequest} from "fhir/r4";
-import {RestApiService} from "./rest-api.service";
-import {Observable} from "rxjs";
+import { MedicationRequest } from "fhir/r4";
+import { RestApiService } from "./rest-api.service";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,8 @@ import {Observable} from "rxjs";
 export class MedicationRequestsService {
   private readonly path = 'medicationRequests/'
 
-  constructor(private apiService: RestApiService) { }
+  constructor(private apiService: RestApiService) {
+  }
 
   public getEmptyMedicationRequest(): MedicationRequest {
     return {

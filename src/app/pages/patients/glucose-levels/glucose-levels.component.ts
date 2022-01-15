@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import {PatientsService} from "../../../@core/services/patients.service";
-import {ActivatedRoute} from "@angular/router";
-import {Location} from "@angular/common";
-import {flatMap} from "rxjs/internal/operators";
-import {Patient} from "../../../@core/models/patient";
-import {ObservationsService} from "../../../@core/services/observations.service";
-import {NbThemeService} from "@nebular/theme";
-import {LocalDataSource} from "ng2-smart-table";
-import {timingToString} from "../../../@core/services/utils/utils";
-import {Observation} from "fhir/r4";
+import { Component } from '@angular/core';
+import { PatientsService } from "../../../@core/services/patients.service";
+import { ActivatedRoute } from "@angular/router";
+import { Location } from "@angular/common";
+import { flatMap } from "rxjs/internal/operators";
+import { Patient } from "../../../@core/models/patient";
+import { ObservationsService } from "../../../@core/services/observations.service";
+import { NbThemeService } from "@nebular/theme";
+import { LocalDataSource } from "ng2-smart-table";
+import { timingToString } from "../../../@core/services/utils/utils";
+import { Observation } from "fhir/r4";
 
 @Component({
   selector: 'app-glucose-levels',
   templateUrl: './glucose-levels.component.html',
   styleUrls: ['./glucose-levels.component.scss']
 })
-export class GlucoseLevelsComponent implements OnInit {
+export class GlucoseLevelsComponent {
 
   patient: Patient;
   options: any = {};
@@ -55,9 +55,6 @@ export class GlucoseLevelsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
-
   public goBack(): void {
     this.location.back();
   }
@@ -83,7 +80,7 @@ export class GlucoseLevelsComponent implements OnInit {
       });
   }
 
-  private getObservationDataForChart = (observation: Observation): {value: number, date: string} => {
+  private getObservationDataForChart = (observation: Observation): { value: number, date: string } => {
     return {
       value: observation.valueQuantity.value,
       date: new Date(observation.issued).toLocaleDateString('en-gb')

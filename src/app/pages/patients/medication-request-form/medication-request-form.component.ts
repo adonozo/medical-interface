@@ -1,17 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {Patient} from "../../../@core/models/patient";
-import {PatientsService} from "../../../@core/services/patients.service";
-import {ActivatedRoute} from "@angular/router";
-import {flatMap, startWith} from "rxjs/internal/operators";
-import {Dosage, Medication, Quantity} from "fhir/r4";
-import {MedicationsService} from "../../../@core/services/medications.service";
-import {Observable, of} from "rxjs";
-import {map} from "rxjs/operators";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Location} from "@angular/common";
-import {DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay} from "./form-data";
-import {MedicationRequestsService} from "../../../@core/services/medication-requests.service";
-import {DurationFormData, FormStatus} from "../../../@core/services/data/form-data";
+import { Component, OnInit } from '@angular/core';
+import { Patient } from "../../../@core/models/patient";
+import { PatientsService } from "../../../@core/services/patients.service";
+import { ActivatedRoute } from "@angular/router";
+import { flatMap, startWith } from "rxjs/internal/operators";
+import { Dosage, Medication, Quantity } from "fhir/r4";
+import { MedicationsService } from "../../../@core/services/medications.service";
+import { Observable, of } from "rxjs";
+import { map } from "rxjs/operators";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { Location } from "@angular/common";
+import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from "./form-data";
+import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
+import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
 
 @Component({
   selector: 'app-medication-request',
@@ -248,7 +248,7 @@ export class MedicationRequestFormComponent implements OnInit {
     return dosage
   }
 
-  private getBoundsDuration(): {value: number, unit: string } {
+  private getBoundsDuration(): { value: number, unit: string } {
     let value = this.durationQuantityControl.value;
     let unit = this.durationUnitControl.value;
     switch (unit) {

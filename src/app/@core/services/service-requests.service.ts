@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {ServiceRequest} from "fhir/r4";
-import {forkJoin, Observable} from "rxjs";
-import {RestApiService} from "./rest-api.service";
-import {map} from "rxjs/operators";
+import { ServiceRequest } from "fhir/r4";
+import { forkJoin, Observable } from "rxjs";
+import { RestApiService } from "./rest-api.service";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,8 @@ export class ServiceRequestsService {
 
   constructor(
     private restApiService: RestApiService
-  ) { }
+  ) {
+  }
 
   public getEmptyServiceRequest(): ServiceRequest {
     return {
@@ -38,7 +39,7 @@ export class ServiceRequestsService {
       .pipe(map(requests => requests.map(request => request.id)));
   }
 
-  public getSingleServiceRequest(id:string): Observable<ServiceRequest> {
+  public getSingleServiceRequest(id: string): Observable<ServiceRequest> {
     return this.restApiService.get<ServiceRequest>(this.path + id);
   }
 }

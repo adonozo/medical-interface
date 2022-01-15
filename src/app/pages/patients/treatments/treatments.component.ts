@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import {TreatmentsService} from "../../../@core/services/treatments.service";
-import {LocalDataSource} from "ng2-smart-table";
-import {map} from "rxjs/operators";
-import {Patient} from "../../../@core/models/patient";
-import {FhirResource, MedicationRequest, ServiceRequest, Timing} from "fhir/r4";
-import {flatMap} from "rxjs/internal/operators";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Location} from "@angular/common";
-import {PatientsService} from "../../../@core/services/patients.service";
-import {timingToString} from "../../../@core/services/utils/utils";
+import { Component } from '@angular/core';
+import { TreatmentsService } from "../../../@core/services/treatments.service";
+import { LocalDataSource } from "ng2-smart-table";
+import { map } from "rxjs/operators";
+import { Patient } from "../../../@core/models/patient";
+import { FhirResource, MedicationRequest, ServiceRequest, Timing } from "fhir/r4";
+import { flatMap } from "rxjs/internal/operators";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
+import { PatientsService } from "../../../@core/services/patients.service";
+import { timingToString } from "../../../@core/services/utils/utils";
 
 @Component({
   selector: 'app-treatments',
   templateUrl: './treatments.component.html',
   styleUrls: ['./treatments.component.scss']
 })
-export class TreatmentsComponent implements OnInit {
+export class TreatmentsComponent {
   source: LocalDataSource;
   patient: Patient;
 
@@ -57,32 +57,29 @@ export class TreatmentsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
-
   public goBack(): void {
     this.location.back();
   }
 
-  public navigate(page: string): void {
+  public async navigate(page: string): Promise<void> {
     switch (page) {
       case 'medication':
-        this.router.navigate([this.patient.id + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([this.patient.id + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
         break;
       case 'service':
-        this.router.navigate([this.patient.id + '/new-service-request'], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([this.patient.id + '/new-service-request'], {relativeTo: this.activatedRoute.parent});
         return;
     }
   }
 
-  public viewOrder(event: any): void {
+  public async viewOrder(event: any): Promise<void> {
     const resource: FhirResource = event.data.resource;
     switch (resource.resourceType) {
       case "MedicationRequest":
-        this.router.navigate([this.patient.id + '/medication-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([this.patient.id + '/medication-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
         break;
       case "ServiceRequest":
-        this.router.navigate([this.patient.id + '/service-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([this.patient.id + '/service-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
         break;
     }
   }
@@ -136,7 +133,7 @@ export class TreatmentsComponent implements OnInit {
     }
   }
 
-  private getPeriodAndTimeFromTiming(timing: Timing): {period: string, time: string } {
+  private getPeriodAndTimeFromTiming(timing: Timing): { period: string, time: string } {
     let period = '';
     let time = '';
 

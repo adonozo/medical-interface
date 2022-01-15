@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NbMenuItem} from "@nebular/theme";
+import { NbMenuItem } from "@nebular/theme";
 
 @Component({
   selector: 'app-pages',
@@ -7,7 +7,7 @@ import {NbMenuItem} from "@nebular/theme";
   styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent {
-  public menu: NbMenuItem[] =[
+  public menu: NbMenuItem[] = [
     {
       title: 'Home',
       icon: 'home-outline',

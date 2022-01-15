@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import {ThemeModule} from "../@theme/theme.module";
+import { ThemeModule } from "../@theme/theme.module";
 import { PagesComponent } from './pages.component';
-import {NbCardModule, NbMenuModule} from "@nebular/theme";
-import {HomeModule} from "./home/home.module";
-import {PagesRoutingModule} from "./pages-routing.module";
-import {ReactiveFormsModule} from "@angular/forms";
+import { NbCardModule, NbMenuModule } from "@nebular/theme";
+import { HomeModule } from "./home/home.module";
+import { PagesRoutingModule } from "./pages-routing.module";
+import { ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -20,4 +20,5 @@ import {ReactiveFormsModule} from "@angular/forms";
     ReactiveFormsModule
   ]
 })
-export class PagesModule { }
+export class PagesModule {
+}

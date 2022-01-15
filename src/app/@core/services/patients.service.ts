@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {RestApiService} from "./rest-api.service";
-import {Observable} from "rxjs";
-import {Patient} from "../models/patient";
+import { RestApiService } from "./rest-api.service";
+import { Observable } from "rxjs";
+import { Patient } from "../models/patient";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,8 @@ import {Patient} from "../models/patient";
 export class PatientsService {
   private readonly path = 'patients/';
 
-  constructor(private restService: RestApiService) { }
+  constructor(private restService: RestApiService) {
+  }
 
   getPatientList(): Observable<Patient[]> {
     return this.restService.get(this.path);

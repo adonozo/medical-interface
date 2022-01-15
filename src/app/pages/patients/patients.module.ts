@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {PatientsRoutingModule} from "./patients-routing.module";
 import {PatientsComponent} from "./patients.component";
 import {Ng2SmartTableModule} from "ng2-smart-table";
-import { NewTreatmentComponent } from './new-treatment/new-treatment.component';
 import {
     NbAlertModule,
     NbAutocompleteModule,
@@ -14,7 +13,6 @@ import {
     NbSelectModule, NbTimepickerModule
 } from "@nebular/theme";
 import { TreatmentsComponent } from './treatments/treatments.component';
-import { NewCarePlanComponent } from './new-care-plan/new-care-plan.component';
 import { MedicationRequestFormComponent } from './medication-request-form/medication-request-form.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { ServiceRequestFormComponent } from './service-request-form/service-request-form.component';
@@ -25,9 +23,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 @NgModule({
   declarations: [
     PatientsComponent,
-    NewTreatmentComponent,
     TreatmentsComponent,
-    NewCarePlanComponent,
     MedicationRequestFormComponent,
     ServiceRequestFormComponent,
     GlucoseLevelsComponent,
