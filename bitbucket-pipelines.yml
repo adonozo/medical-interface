@@ -1,0 +1,40 @@
+image: node:14
+
+pipelines:
+  branches:
+    dev:
+      - step:
+          name: 'Install'
+          caches:
+            - node
+          script:
+            - npm install
+          artifacts:
+            - node_modules/**
+      - step:
+          name: 'Build'
+          caches:
+            - node
+          script:
+            - npm run build:prod
+          artifacts:
+            - dist/**
+
+  pull-requests:
+    '**':
+      - step:
+          name: 'Install'
+          caches:
+            - node
+          script:
+            - npm install
+          artifacts:
+            - node_modules/**
+      - step:
+          name: 'Build'
+          caches:
+            - node
+          script:
+            - npm run build:prod
+          artifacts:
+            - dist/**
