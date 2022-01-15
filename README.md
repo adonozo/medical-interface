@@ -1,9 +1,4 @@
 # A voice assistant for type 2 diabetes mellitus treatments
-Author: Alvaro Rene Donozo Fernandez
-
-Student ID: 200775173
-
-Supervisor: Dr. Eliane Bodanese
 
 ---
 
