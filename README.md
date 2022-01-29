@@ -17,7 +17,7 @@ A build of the project is located in the `build` folder
 
 Node.js with NPM must be installed in the system. The project was developed using Node.js v14.17.3 and NPM 6.14.13. More information about system requirements can be found in [Angular CLI](https://github.com/angular/angular-cli).
 
-The REST API service must be running and have a valid HTTP address. With this address at hand, change the `baseUrl` variable in the `RestApiService` class:
+The REST API service must be running and have a valid HTTP address. Add the REST API URL as an env variable in `environment.ts` and `environment.prod.ts`.
 
 ```
 ./src/app/@core/services/rest-api-service.ts
