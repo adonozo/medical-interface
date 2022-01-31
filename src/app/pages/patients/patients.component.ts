@@ -30,11 +30,11 @@ export class PatientsComponent implements OnInit {
       custom: [
         {
           name: 'records',
-          title: '<i class="action-icon fa fa-list-ul inline-block"></i>',
+          title: '<div class="badge d-table"><i class="fa-xxs fa fa-list-alt"></i> <span class="label text-dark ml-1">Records</span></div>',
         },
         {
           name: 'glucose-levels',
-          title: '<i class="action-icon far fa-chart-bar inline-block"></i>'
+          title: '<div class="badge d-table"><i class="fa-xxs far fa-chart-bar"></i> <span class="label text-dark ml-1">Glucose</span></div>'
         }
       ]
     }
@@ -49,13 +49,13 @@ export class PatientsComponent implements OnInit {
     this.getPatientData();
   }
 
-  public onCustomPatients(event: any) {
+  public async onCustomPatients(event: any): Promise<void> {
     switch (event.action) {
       case 'glucose-levels':
-        this.router.navigate([event.data.id + '/glucose-levels'], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([event.data.id + '/glucose-levels'], {relativeTo: this.activatedRoute.parent});
         break;
       case 'records':
-        this.router.navigate([event.data.id + '/treatments'], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([event.data.id + '/treatments'], {relativeTo: this.activatedRoute.parent});
         break;
     }
   }
