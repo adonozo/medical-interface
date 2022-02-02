@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {PatientsService} from "../../@core/services/patients.service";
-import {LocalDataSource} from "ng2-smart-table";
-import {ActivatedRoute, Router} from "@angular/router";
+import { PatientsService } from "../../@core/services/patients.service";
+import { LocalDataSource } from "ng2-smart-table";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-patients',
@@ -29,8 +29,8 @@ export class PatientsComponent implements OnInit {
       columnTitle: 'Actions',
       custom: [
         {
-          name: 'records',
-          title: '<div class="badge d-table"><i class="fa-xxs fa fa-list-alt"></i> <span class="label text-dark ml-1">Records</span></div>',
+          name: 'orders',
+          title: '<div class="badge d-table"><i class="fa-xxs fa fa-list-alt"></i> <span class="label text-dark ml-1">Orders</span></div>',
         },
         {
           name: 'glucose-levels',
@@ -43,7 +43,8 @@ export class PatientsComponent implements OnInit {
   constructor(
     private patientService: PatientsService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.getPatientData();
@@ -54,7 +55,7 @@ export class PatientsComponent implements OnInit {
       case 'glucose-levels':
         await this.router.navigate([event.data.id + '/glucose-levels'], {relativeTo: this.activatedRoute.parent});
         break;
-      case 'records':
+      case 'orders':
         await this.router.navigate([event.data.id + '/treatments'], {relativeTo: this.activatedRoute.parent});
         break;
     }
