@@ -1,0 +1,15 @@
+export const ServiceRequestFormLocale = {
+  monday: $localize`Monday`,
+  tuesday: $localize`Tuesday`,
+  wednesday: $localize`Wednesday`,
+  thursday: $localize`Thursday`,
+  friday: $localize`Friday`,
+  saturday: $localize`Saturday`,
+  sunday: $localize`Sunday`,
+  beforeBreakfast: $localize`Before breakfast`,
+  afterBreakfast: $localize`After breakfast`,
+  beforeLunch: $localize`Before lunch`,
+  afterLunch: $localize`After lunch`,
+  beforeDinner: $localize`Before dinner`,
+  afterDinner: $localize`After dinner`,
+}
