@@ -12,7 +12,10 @@
       "sourceRoot": "src",
       "prefix": "app",
       "i18n": {
-        "sourceLocale": "en-US"
+        "sourceLocale": "en-US",
+        "locales": {
+          "es": "src/locale/messages.es.xlf"
+        }
       },
       "architect": {
         "build": {
@@ -56,7 +59,8 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -87,6 +91,9 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "es": {
+              "localize": ["es"]
             }
           },
           "defaultConfiguration": "production"
@@ -99,6 +106,9 @@
             },
             "development": {
               "browserTarget": "doctor-interface:build:development"
+            },
+            "es": {
+              "browserTarget": "doctor-interface:build:es"
             }
           },
           "defaultConfiguration": "development"

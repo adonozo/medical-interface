@@ -5,10 +5,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:es": "ng serve --configuration=es",
     "build": "ng build",
     "build:prod": "npm run build -- --configuration production --aot",
+    "build:prod:es": "npm run build -- --configuration production,es --aot",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "localize:es": "ng extract-i18n --output-path src/locale --out-file messages.es.xlf"
   },
   "private": true,
   "dependencies": {
