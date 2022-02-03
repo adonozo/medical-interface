@@ -173,7 +173,7 @@ export class MedicationRequestFormComponent implements OnInit {
     }
     request.subject = {
       id: this.patient.id,
-      display: `${this.patient.firstName} + ${this.patient.lastName}`
+      display: `${this.patient.firstName} ${this.patient.lastName}`
     }
     request.requester = {
       id: '60fb0a79c055e8c0d3f853d0',
