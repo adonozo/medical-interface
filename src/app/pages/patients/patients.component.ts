@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PatientsService } from "../../@core/services/patients.service";
 import { LocalDataSource } from "ng2-smart-table";
 import { ActivatedRoute, Router } from "@angular/router";
+import { PatientsLocale } from "./patients.locale";
 
 @Component({
   selector: 'app-patients',
@@ -14,11 +15,11 @@ export class PatientsComponent implements OnInit {
   settings = {
     columns: {
       name: {
-        title: 'Name',
+        title: PatientsLocale.nameColumn,
         type: 'string'
       },
       email: {
-        title: 'Email',
+        title: PatientsLocale.emailColumn,
         type: 'string'
       }
     },
@@ -26,15 +27,15 @@ export class PatientsComponent implements OnInit {
       add: false,
       edit: false,
       delete: false,
-      columnTitle: 'Actions',
+      columnTitle: PatientsLocale.actionsColumn,
       custom: [
         {
           name: 'orders',
-          title: '<div class="badge d-table"><i class="fa-xxs fa fa-list-alt"></i> <span class="label text-dark ml-1">Orders</span></div>',
+          title: `<div class="badge d-table"><i class="fa-xxs fa fa-list-alt"></i> <span class="label text-dark ml-1">${PatientsLocale.ordersAction}</span></div>`,
         },
         {
           name: 'glucose-levels',
-          title: '<div class="badge d-table"><i class="fa-xxs far fa-chart-bar"></i> <span class="label text-dark ml-1">Glucose</span></div>'
+          title: `<div class="badge d-table"><i class="fa-xxs far fa-chart-bar"></i> <span class="label text-dark ml-1">${PatientsLocale.glucoseAction}</span></div>`
         }
       ]
     }

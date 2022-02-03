@@ -1,0 +1,1164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="2109070869617694581" datatype="html">
+        <source>before breakfast</source>
+        <target>antes de desayunar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="446864757096205415" datatype="html">
+        <source>at breakfast</source>
+        <target>al desayunar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7262221678407178665" datatype="html">
+        <source>after breakfast</source>
+        <target>después de desayunar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="296386120129451256" datatype="html">
+        <source>before lunch</source>
+        <target>antes de almorzar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6789328246350136033" datatype="html">
+        <source>at lunch</source>
+        <target>al almorzar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7329209520782017629" datatype="html">
+        <source>after lunch</source>
+        <target>después de almorzar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="553510234542807748" datatype="html">
+        <source>before dinner</source>
+        <target>antes de cenar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2335190203755854013" datatype="html">
+        <source>at dinner</source>
+        <target>al cenar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1345211869001087557" datatype="html">
+        <source>after dinner</source>
+        <target>después de cenar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9194478573114934519" datatype="html">
+        <source>before meal</source>
+        <target>antes de una comida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8167519523640663794" datatype="html">
+        <source>with meal</source>
+        <target>con una comida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7824504015465627831" datatype="html">
+        <source>after meal</source>
+        <target>después de una comida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2b51eeec9b22e36c6873c2021d0fb52e97700777" datatype="html">
+        <source>Diabetes Assistant</source>
+        <target>Asistente de Diabetes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@theme/layouts/one-column/one-column.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/home/home.component.html</context>
+          <context context-type="linenumber">3,7</context>
+        </context-group>
+        <note priority="1" from="description">Site title</note>
+      </trans-unit>
+      <trans-unit id="0fb6c83d8d98eba7f617f19684a8fe729c4e94c7" datatype="html">
+        <source>Patients</source>
+        <target>Pacientes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/home/home.component.html</context>
+          <context context-type="linenumber">15,17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patients.component.html</context>
+          <context context-type="linenumber">5,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2821179408673282599" datatype="html">
+        <source>Home</source>
+        <target>Inicio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/pages.locale.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">Left-side menu item</note>
+      </trans-unit>
+      <trans-unit id="2904579647410573959" datatype="html">
+        <source>Patients</source>
+        <target>Pacientes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/pages.locale.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Left-side menu item</note>
+      </trans-unit>
+      <trans-unit id="d74e666f4141f379d9be1531b259bf4b96aa1e2b" datatype="html">
+        <source>Blood glucose levels history for</source>
+        <target>Historial de glucosa de</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d283014a241fdd94a552ca47609c24f02a18cdb2" datatype="html">
+        <source>Blood glucose level chart</source>
+        <target>Estadísticas del nivel de glucosa</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4d1d4f8c3875d65fd8c775d6ee617c1b2f41f6df" datatype="html">
+        <source>Return</source>
+        <target>Atrás</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">204,207</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.component.html</context>
+          <context context-type="linenumber">15,18</context>
+        </context-group>
+        <note priority="1" from="description">Return button</note>
+      </trans-unit>
+      <trans-unit id="b87aaa303e283d0bac21236e7fa9ac17e2f9f2c5" datatype="html">
+        <source>Records</source>
+        <target>Registros</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3733215288982610673" datatype="html">
+        <source>Level</source>
+        <target>Nivel</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3973931101896534797" datatype="html">
+        <source>Date</source>
+        <target>Fecha</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8497528947328199741" datatype="html">
+        <source>Time</source>
+        <target>Momento</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Time of the day e.g, breakfast</note>
+      </trans-unit>
+      <trans-unit id="143326298978718947" datatype="html">
+        <source>en-gb</source>
+        <target>es-es</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8703165523174344876" datatype="html">
+        <source>Blood Glucose mmol/l</source>
+        <target>Glucosa en sangre mmol/l</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7931a5345fe96cf95744c0dce914b9e9dac00ab2" datatype="html">
+        <source>New Medication Order for</source>
+        <target>Nueva orden de medicación para</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">6,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d4bc19246a959be56e9c906267b0ca3a44711bb4" datatype="html">
+        <source>Drug name</source>
+        <target>Medicamento</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">12,14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9f97c56c11b4e8ed470eab953da71f2817465e09" datatype="html">
+        <source>Dose</source>
+        <target>Dosis</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="be537f4ddb09e1a2856314f2cbe84063ab6b4170" datatype="html">
+        <source>Units</source>
+        <target>Unidades</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">133,135</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="54b4620fbc064e400d036116bc52af9ae8842496" datatype="html">
+        <source>Select a unit</source>
+        <target>Seleccione una unidad</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">34,36</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder</note>
+      </trans-unit>
+      <trans-unit id="a507c06d9cbc346d9bb3c644c960230e1e0ebdc1" datatype="html">
+        <source>Frequency</source>
+        <target>Frecuencia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">47,49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="654db62baa103fe8001943d1d7ea68c3f40a442c" datatype="html">
+        <source>Every day</source>
+        <target>Cada día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="145adac661675f7c493f7a65c6b2eff2e5a75e96" datatype="html">
+        <source>Specific day(s)</source>
+        <target>Días específicos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">53,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cee55e01647235eec8149e80c35e9206c1ab89c3" datatype="html">
+        <source>Times per day</source>
+        <target>Veces al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e1bb35dabaf1e76164778d464fa45d2dbd2d84f0" datatype="html">
+        <source>At a meal time</source>
+        <target>Con una comida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">66,67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bae62df06353ae621831d165a89a4046be3a0f1f" datatype="html">
+        <source>At specific times</source>
+        <target>A específicas horas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">67,69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="340859b26ed2b51733daa635fced1b91f3813857" datatype="html">
+        <source>Select a frequency</source>
+        <target>Seleccione una frecuencia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">73,74</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder</note>
+      </trans-unit>
+      <trans-unit id="7ea9b5fee73360c5a205b4e2a6a4ee342b4571b1" datatype="html">
+        <source>Once a day</source>
+        <target>Una vez al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">74,75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ccb2e1508d93482aad4536b41e94088d22436aa0" datatype="html">
+        <source>Twice a day</source>
+        <target>Dos veces al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">75,76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="649ab63918a84d0cd0bbd61079975f4879b3318c" datatype="html">
+        <source>Thrice a day</source>
+        <target>Tres veces al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">76,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cf224db30936d86a1a658a91f717e69a91b2111a" datatype="html">
+        <source>Four times a day</source>
+        <target>Cuatro veces al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">77,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a02ea1d4e7424ca989929da5e598f379940fdbf2" datatype="html">
+        <source>Duration</source>
+        <target>Duración</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">115,117</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">129,131</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="107a7a4dde5b917c4308cd538c8843301c494051" datatype="html">
+        <source>By amount of time</source>
+        <target>Por cierto tiempo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">120,121</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="afdd8daa29de461f945a7eb6e89082c2f8e1433a" datatype="html">
+        <source>By dates</source>
+        <target>Por fechas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">121,122</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fea641e056a6d7f4e42639a4e9fcfcdcc9c4a45d" datatype="html">
+        <source>Until next appointment</source>
+        <target>Hasta la siguiente cita</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">122,124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8db6ee1c41198661b7346364276510b7a5255cf4" datatype="html">
+        <source>Select a time unit</source>
+        <target>Seleccione una unidad de tiempo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">135,137</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder</note>
+      </trans-unit>
+      <trans-unit id="6a4a2e0f73188c38fa9907d7e3981269d29faaa4" datatype="html">
+        <source>Day(s)</source>
+        <target>Días(s)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">137,138</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="292326ccd0d49a7c3315d50d86cb299a083ca9ba" datatype="html">
+        <source>Week(s)</source>
+        <target>Semana(s)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">138,139</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5365eb5f39bb9ce922958eb7a4130b5edd15fcef" datatype="html">
+        <source>Month(s)</source>
+        <target>Mese(s)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">139,141</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="43854a3c52bff6241ed2e910c611e257843aedcc" datatype="html">
+        <source>Date range</source>
+        <target>Rango de fechas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">146,148</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b135da37bb3a8bf157ee4c84879ce4c3f94d593e" datatype="html">
+        <source>Select a date range</source>
+        <target>Seleccione un rango de fechas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">148,150</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder</note>
+      </trans-unit>
+      <trans-unit id="d20bcc5e7d864eaa6a410f7d8636ba471287704e" datatype="html">
+        <source>Next appointment date</source>
+        <target>Fecha de la siguiente cita</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">159,161</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0b526f4fdac2f768b5bd3bca973bbdfed61e5381" datatype="html">
+        <source>Select a date</source>
+        <target>Seleccione una fecha</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">161,163</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <note priority="1" from="description">Placeholder</note>
+      </trans-unit>
+      <trans-unit id="1aaf2d41f65f8213f47f17db7fca35f4cea8e2bf" datatype="html">
+        <source>Instructions</source>
+        <target>Instrucciones</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">174,176</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+        <source>Cancel</source>
+        <target>Cancelar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">183,186</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52c9a103b812f258bcddc3d90a6e3f46871d25fe" datatype="html">
+        <source>Save</source>
+        <target>Guardar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">189,192</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ded238e0c7b175ccb60ac8941d5e3a22d4df29fa" datatype="html">
+        <source>There was a problem saving the record</source>
+        <target>Hubo un problema al guardar el registro</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">194,197</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1245007c4ec974415810fc41827d68bec181d75a" datatype="html">
+        <source>The record has been saved</source>
+        <target>El registro se ha guardado</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
+          <context context-type="linenumber">201,203</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">133</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8739442281958563044" datatype="html">
+        <source>Monday</source>
+        <target>Lunes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9176037901730521018" datatype="html">
+        <source>Tuesday</source>
+        <target>Martes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8798932904948432529" datatype="html">
+        <source>Wednesday</source>
+        <target>Miércoles</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1433683192825895947" datatype="html">
+        <source>Thursday</source>
+        <target>Jueves</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3730139500618908668" datatype="html">
+        <source>Friday</source>
+        <target>Viernes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1830554030016307335" datatype="html">
+        <source>Saturday</source>
+        <target>Sábado</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6950140976689343775" datatype="html">
+        <source>Sunday</source>
+        <target>Domingo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5788714814996604602" datatype="html">
+        <source>Before breakfast</source>
+        <target>Antes del desayuno</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7609493157465852278" datatype="html">
+        <source>At breakfast</source>
+        <target>En el desayuno</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1377378548478015503" datatype="html">
+        <source>After breakfast</source>
+        <target>Después del desayuno</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6333659795055047427" datatype="html">
+        <source>Before lunch</source>
+        <target>Antes del almuerzo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2638159094302107378" datatype="html">
+        <source>At lunch</source>
+        <target>En el almuerzo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8425348532660180357" datatype="html">
+        <source>After lunch</source>
+        <target>Después del almuerzo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7534204856183389392" datatype="html">
+        <source>Before dinner</source>
+        <target>Antes de la cena</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4269966675537310518" datatype="html">
+        <source>At dinner</source>
+        <target>En de la cena</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4608531989571783472" datatype="html">
+        <source>After dinner</source>
+        <target>Después de la cena</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.locale.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6c8548f8e7b44cee37457a12041b785ae1e6a5ee" datatype="html">
+        <source>Order details</source>
+        <target>Detalles de la orden</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d6172c5c5f38e7eb6df41fb1c4237f149167a6e7" datatype="html">
+        <source>Patient:</source>
+        <target>Paciente:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="49ad56b2541adef68bfddd9cd7fab0e3e5c0b596" datatype="html">
+        <source>Created on:</source>
+        <target>Creado el:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a050bc4332d7d1982af99c603fc37a70235bb75f" datatype="html">
+        <source>Requester:</source>
+        <target>Ordenado por:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0d7f143bdf134cf8a34c7ca43ea3b6afc64644c7" datatype="html">
+        <source>Status:</source>
+        <target>Estado:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b456810286e711f52937d0f84fb5b79a46776467" datatype="html">
+        <source>Medication:</source>
+        <target>Medicación:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c4859f0f963157b786f762c9b28cb1146da21b38" datatype="html">
+        <source>Dosage:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bae3b1ec26b98d3b9b0ab708420f62a063554bdb" datatype="html">
+        <source>Instruction:</source>
+        <target>Instrucción</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b4c2a77febd9a1a44a4b1cdb03bdfbfa24d40d75" datatype="html">
+        <source>Occurrence:</source>
+        <target>Ocurrencia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7340412796134236884" datatype="html">
+        <source>Medication order</source>
+        <target>Orden de medicación</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6779997686781230983" datatype="html">
+        <source>Self-monitoring blood glucose order</source>
+        <target>Orden de auto-medición de glucosa en sangre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7410432243549869948" datatype="html">
+        <source>Duration</source>
+        <target>Duración</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6122030973291308530" datatype="html">
+        <source>Frequency</source>
+        <target>Frecuencia</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7249958730550833644" datatype="html">
+        <source>Days of week</source>
+        <target>Días de la semana</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8717071590337369303" datatype="html">
+        <source>Times of day</source>
+        <target>Momentos del día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3198123723060667787" datatype="html">
+        <source>When</source>
+        <target>Cuándo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6575195871133210332" datatype="html">
+        <source>Orders</source>
+        <target>Órdenes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patients.locale.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8507685853096888934" datatype="html">
+        <source>Glucose</source>
+        <target>Glucosa</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patients.locale.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3193976279273491157" datatype="html">
+        <source>Actions</source>
+        <target>Acciones</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patients.locale.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8953033926734869941" datatype="html">
+        <source>Name</source>
+        <target>Nombre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patients.locale.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4768749765465246664" datatype="html">
+        <source>Email</source>
+        <target>Correo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patients.locale.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1524aa4b4a644d9109ec992d3670861d99b9440c" datatype="html">
+        <source>New self-monitor blood glucose order for</source>
+        <target>Nueva orden de auto-medición de glucosa en sangre para</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0d32acc7018c29075d9eae28260f9c6ab273893e" datatype="html">
+        <source>When to measure</source>
+        <target>Cuando medir</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a07b9dfd284a336b3ad8a582ad6eae878be594fb" datatype="html">
+        <source>Breakfast</source>
+        <target>Desayuno</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c586621e6d63685606c9183ee510490613c64b9b" datatype="html">
+        <source>Lunch</source>
+        <target>Almuerzo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="066b0936fe71f2f8b48fc8394b7894ec5c13b143" datatype="html">
+        <source>Dinner</source>
+        <target>Cena</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8785188e6c678b842fcb93b7392faf86db7ec676" datatype="html">
+        <source>Before</source>
+        <target>Antes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="be2add3a3d9e4e2556b8f9048a15a9c0f00bf1ad" datatype="html">
+        <source>After</source>
+        <target>Después</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/service-request-form/service-request-form.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="664f536c6e57f25120641ded5823d98d67a48086" datatype="html">
+        <source>Orders for</source>
+        <target>Órdenes para</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c814cc788ee218eac3e625c940e889ead4ca80a5" datatype="html">
+        <source>Medication Order</source>
+        <target>Orden de medicación</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.component.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="27e0af750f071352eaee6e43332ec4db147a5e8c" datatype="html">
+        <source>Blood Glucose Order</source>
+        <target>Orden de glucosa en sangre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.component.html</context>
+          <context context-type="linenumber">24,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8650499415827640724" datatype="html">
+        <source>Type</source>
+        <target>Tipo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1507949699959470925" datatype="html">
+        <source>Period</source>
+        <target>Periodo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5421076199587087589" datatype="html">
+        <source>Times</source>
+        <target>Momentos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5028777105388019087" datatype="html">
+        <source>Details</source>
+        <target>Detalles</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6736316337746668766" datatype="html">
+        <source>Medication Order</source>
+        <target>Orden de medicación</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1838005268943996937" datatype="html">
+        <source>Blood glucose self-monitor order</source>
+        <target>Orden de auto-medición de glucosa en sangre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5788760032459048870" datatype="html">
+        <source>day(s)</source>
+        <target>día(s)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3493996218877646704" datatype="html">
+        <source>week(s)</source>
+        <target>semana(s)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5518104070923296274" datatype="html">
+        <source>month(s)</source>
+        <target>mese(s)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8086502715102695707" datatype="html">
+        <source>once a day</source>
+        <target>una vez al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4824652413126291122" datatype="html">
+        <source>twice a day</source>
+        <target>dos veces al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6502409284283450114" datatype="html">
+        <source>thrice a day</source>
+        <target>tres veces al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4631122578353525565" datatype="html">
+        <source>four times a day</source>
+        <target>cuatro veces al día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

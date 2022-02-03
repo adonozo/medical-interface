@@ -1,29 +1,29 @@
 export const timingToString = (timing: string): string => {
   switch (timing) {
     case 'ACM':
-      return 'before breakfast';
+      return $localize`before breakfast`;
     case 'CM':
-      return 'at breakfast';
+      return $localize`at breakfast`;
     case 'PCM':
-      return 'after breakfast';
+      return $localize`after breakfast`;
     case 'ACD':
-      return 'before lunch';
+      return $localize`before lunch`;
     case 'CD':
-      return 'at lunch';
+      return $localize`at lunch`;
     case 'PCD':
-      return 'after lunch';
+      return $localize`after lunch`;
     case 'ACV':
-      return 'before dinner';
+      return $localize`before dinner`;
     case 'CV':
-      return 'at dinner';
+      return $localize`at dinner`;
     case 'PCV':
-      return 'after dinner';
+      return $localize`after dinner`;
     case 'AC':
-      return 'before meal';
+      return $localize`before meal`;
     case 'C':
-      return 'with meal';
+      return $localize`with meal`;
     case 'PC':
-      return 'after meal';
+      return $localize`after meal`;
     default:
       return timing;
   }
