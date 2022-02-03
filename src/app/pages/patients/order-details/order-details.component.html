@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <h2>Order details</h2>
+    <h2 i18n>Order details</h2>
   </div>
 
   <div class="col-lg-6 mt-5">
@@ -9,37 +9,37 @@
       <nb-card-body class="verdana">
         <div class="row" *ngIf="medicationOrder">
           <div class="col-3">
-            <b>Patient:</b>
+            <b i18n>Patient:</b>
           </div>
           <div class="col-9 mt-2">
             {{medicationOrder.subject.display}}
           </div>
           <div class="col-3 mt-2">
-            <b>Created on:</b>
+            <b i18n>Created on:</b>
           </div>
           <div class="col-9 mt-2">
             {{medicationOrder.authoredOn}}
           </div>
           <div class="col-3 mt-2">
-            <b>Requester:</b>
+            <b i18n>Requester:</b>
           </div>
           <div class="col-9 mt-2">
             {{medicationOrder.requester.display}}
           </div>
           <div class="col-3 mt-2">
-            <b>Status:</b>
+            <b i18n>Status:</b>
           </div>
           <div class="col-9 mt-2">
             {{medicationOrder.status}}
           </div>
           <div class="col-3 mt-2">
-            <b>Medication:</b>
+            <b i18n>Medication:</b>
           </div>
           <div class="col-9 mt-2">
             {{medicationOrder.medicationReference.display}}
           </div>
           <div class="col-3 mt-2">
-            <b>Dosage:</b>
+            <b i18n>Dosage:</b>
           </div>
           <div class="col-9 mt-2">
             <div *ngFor="let timing of medicationOrder.dosageInstruction">
@@ -49,25 +49,25 @@
         </div>
         <div class="row" *ngIf="serviceRequest">
           <div class="col-3 mt-2">
-            <b>Patient:</b>
+            <b i18n>Patient:</b>
           </div>
           <div class="col-9 mt-2">
             {{serviceRequest.subject.display}}
           </div>
           <div class="col-3 mt-2">
-            <b>Status:</b>
+            <b i18n>Status:</b>
           </div>
           <div class="col-9 mt-2">
             {{serviceRequest.status}}
           </div>
           <div class="col-3 mt-2">
-            <b>Instruction:</b>
+            <b i18n>Instruction:</b>
           </div>
           <div class="col-9 mt-2">
             {{serviceRequest.code.coding[0].display}} - {{serviceRequest.patientInstruction}}
           </div>
           <div class="col-3 mt-2">
-            <b>Occurrence:</b>
+            <b i18n>Occurrence:</b>
           </div>
           <div class="col-9 mt-2">
             {{getTimingText(serviceRequest.occurrenceTiming.repeat)}}
@@ -75,7 +75,7 @@
         </div>
       </nb-card-body>
       <nb-card-footer>
-          <button type="button" nbButton status="success" (click)="goBack()">Return</button>
+          <button type="button" nbButton status="success" (click)="goBack()" i18n="Return button">Return</button>
       </nb-card-footer>
     </nb-card>
   </div>

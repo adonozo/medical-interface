@@ -6,6 +6,7 @@ import { flatMap } from "rxjs/internal/operators";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { timingToString } from "../../../@core/services/utils/utils";
+import { OrderDetailsLocale } from "./order-details.locale";
 
 @Component({
   selector: 'app-order-details',
@@ -28,10 +29,10 @@ export class OrderDetailsComponent {
       flatMap(params => {
         this.config = {type: params['order-type'], id: params['orderId']};
         if (this.config.type === 'medication-order') {
-          this.type = 'Medication order';
+          this.type = OrderDetailsLocale.medicationOrder;
           return this.medicationRequestService.getSingleMedicationRequest(this.config.id);
         } else {
-          this.type = 'Self-monitoring blood glucose order';
+          this.type = OrderDetailsLocale.bloodGlucoseOrder;
         }
         return this.serviceRequestService.getSingleServiceRequest(this.config.id);
       })
@@ -51,8 +52,8 @@ export class OrderDetailsComponent {
   public getTimingText(occurrence: TimingRepeat): string {
     let duration = '';
     if (occurrence.boundsPeriod) {
-      const start = new Date(occurrence.boundsPeriod.start).toLocaleDateString('en-gb');
-      const end = new Date(occurrence.boundsPeriod.end).toLocaleDateString('en-gb');
+      const start = new Date(occurrence.boundsPeriod.start).toLocaleDateString(OrderDetailsLocale.timeLocale);
+      const end = new Date(occurrence.boundsPeriod.end).toLocaleDateString(OrderDetailsLocale.timeLocale);
       duration = `${start} - ${end}`;
     } else if (occurrence.boundsDuration) {
       duration = `${occurrence.boundsDuration.value} ${occurrence.boundsDuration.unit}`;
@@ -64,10 +65,10 @@ export class OrderDetailsComponent {
       occurrence.when.map(item => timingToString(item)).join(', ') : '-';
     const days = occurrence.dayOfWeek && Array.isArray(occurrence.dayOfWeek) ?
       occurrence.dayOfWeek.join(', ') : '-';
-    return `Duration: ${duration}
-            Frequency: ${occurrence.frequency}
-            Days of week: ${days}
-            Times of day: ${timesOfDay}
-            When: ${when}`;
+    return `${OrderDetailsLocale.duration}: ${duration}
+            ${OrderDetailsLocale.frequency}: ${occurrence.frequency}
+            ${OrderDetailsLocale.daysOfWeek}: ${days}
+            ${OrderDetailsLocale.timeOfDay}: ${timesOfDay}
+            ${OrderDetailsLocale.when}: ${when}`;
   }
 }
