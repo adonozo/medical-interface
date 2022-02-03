@@ -14,11 +14,11 @@ export class PatientsComponent implements OnInit {
   settings = {
     columns: {
       name: {
-        title: 'Name',
+        title: $localize`Name`,
         type: 'string'
       },
       email: {
-        title: 'Email',
+        title: $localize`Email`,
         type: 'string'
       }
     },
@@ -26,7 +26,7 @@ export class PatientsComponent implements OnInit {
       add: false,
       edit: false,
       delete: false,
-      columnTitle: 'Actions',
+      columnTitle: $localize`Actions`,
       custom: [
         {
           name: 'orders',
