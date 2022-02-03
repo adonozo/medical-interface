@@ -1,4 +1,4 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   NbActionsModule, NbButtonModule, NbContextMenuModule, NbIconModule,
@@ -8,10 +8,10 @@ import {
   NbSidebarModule, NbThemeModule,
   NbUserModule
 } from "@nebular/theme";
-import {NbSecurityModule} from "@nebular/security";
-import {NbEvaIconsModule} from "@nebular/eva-icons";
-import {OneColumnComponent} from "./layouts/one-column/one-column.component";
-import {DEFAULT_THEME} from "./style/default";
+import { NbSecurityModule } from "@nebular/security";
+import { NbEvaIconsModule } from "@nebular/eva-icons";
+import { OneColumnComponent } from "./layouts/one-column/one-column.component";
+import { DEFAULT_THEME } from "./style/default";
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -49,7 +49,7 @@ export class ThemeModule {
           {
             name: 'default',
           },
-          [ DEFAULT_THEME ],
+          [DEFAULT_THEME],
         ).providers,
       ]
     }

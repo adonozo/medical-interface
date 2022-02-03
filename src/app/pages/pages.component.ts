@@ -9,12 +9,12 @@ import { NbMenuItem } from "@nebular/theme";
 export class PagesComponent {
   public menu: NbMenuItem[] = [
     {
-      title: 'Home',
+      title: $localize`:Left-side menu item:Home`,
       icon: 'home-outline',
       link: '/pages/home'
     },
     {
-      title: 'Patients',
+      title: $localize`:Left-side menu item:Patients`,
       icon: 'people-outline',
       link: '/pages/patients',
       pathMatch: 'prefix'
