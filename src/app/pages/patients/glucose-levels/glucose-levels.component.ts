@@ -9,6 +9,7 @@ import { NbThemeService } from "@nebular/theme";
 import { LocalDataSource } from "ng2-smart-table";
 import { timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
+import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 
 @Component({
   selector: 'app-glucose-levels',
@@ -23,16 +24,16 @@ export class GlucoseLevelsComponent {
   settings = {
     columns: {
       level: {
-        title: 'Level',
+        title: GlucoseLevelsLocale.columnLevel,
         type: 'string'
       },
       date: {
-        title: 'Date',
+        title: GlucoseLevelsLocale.columnDate,
         type: 'string',
         sortDirection: 'desc'
       },
       time: {
-        title: 'Time',
+        title: GlucoseLevelsLocale.columnTime,
         type: 'string'
       },
     },
@@ -65,7 +66,7 @@ export class GlucoseLevelsComponent {
         this.source = new LocalDataSource(observations.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
-          const date = new Date(observation.issued).toLocaleString('en-gb');
+          const date = new Date(observation.issued).toLocaleString(GlucoseLevelsLocale.localeTime);
           data.level = `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
           data.date = date.substring(0, date.length - 3);
           data.time = time === 'EXACT' ? '-' : time;
@@ -83,7 +84,7 @@ export class GlucoseLevelsComponent {
   private getObservationDataForChart = (observation: Observation): { value: number, date: string } => {
     return {
       value: observation.valueQuantity.value,
-      date: new Date(observation.issued).toLocaleDateString('en-gb')
+      date: new Date(observation.issued).toLocaleDateString(GlucoseLevelsLocale.localeTime)
     }
   };
 
@@ -97,7 +98,7 @@ export class GlucoseLevelsComponent {
       },
       legend: {
         left: 'left',
-        data: ['Blood Glucose mmol/l'],
+        data: [GlucoseLevelsLocale.tableLegend],
         textStyle: {
           color: echarts.textColor,
         },
@@ -150,7 +151,7 @@ export class GlucoseLevelsComponent {
       },
       series: [
         {
-          name: 'Blood Glucose mmol/l',
+          name: GlucoseLevelsLocale.tableLegend,
           type: 'line',
           data: values,
         },
