@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { timingToString } from "../../../@core/services/utils/utils";
+import { TreatmentsLocale } from "./treatments.locale";
 
 @Component({
   selector: 'app-treatments',
@@ -22,19 +23,19 @@ export class TreatmentsComponent {
   settings = {
     columns: {
       type: {
-        title: 'Type',
+        title: TreatmentsLocale.columnType,
         type: 'string'
       },
       period: {
-        title: 'Period',
+        title: TreatmentsLocale.columnPeriod,
         type: 'string'
       },
       time: {
-        title: 'Time',
+        title: TreatmentsLocale.columnTime,
         type: 'string'
       },
       details: {
-        title: 'Details',
+        title: TreatmentsLocale.columnDetails,
         type: 'string'
       }
     },
@@ -117,7 +118,7 @@ export class TreatmentsComponent {
     const timings = resource.dosageInstruction.map(dose => this.getPeriodAndTimeFromTiming(dose.timing));
     return {
       resource,
-      type: 'Medication Order',
+      type: TreatmentsLocale.medicationOrder,
       period: timings.map(item => item.period).join('\n'),
       time: timings.map(item => item.time).join('\n'),
       details: `${resource.medicationReference.display} - ${dosage}`
@@ -128,7 +129,7 @@ export class TreatmentsComponent {
     return {
       resource,
       ...this.getPeriodAndTimeFromTiming(resource.occurrenceTiming),
-      type: 'Blood glucose self-monitor order',
+      type: TreatmentsLocale.bloodGlucose,
       details: resource.patientInstruction,
     }
   }
@@ -159,11 +160,11 @@ export class TreatmentsComponent {
   private dayUnitFromCode = (unit: string): string => {
     switch (unit) {
       case 'd':
-        return 'day(s)';
+        return TreatmentsLocale.days;
       case 'wk':
-        return 'week(s)';
+        return TreatmentsLocale.week;
       case 'mo':
-        return 'month(s)';
+        return TreatmentsLocale.month;
       default:
         return unit;
     }
@@ -172,13 +173,13 @@ export class TreatmentsComponent {
   private frequencyToString = (frequency: number): string => {
     switch (frequency) {
       case 1:
-        return 'once a day';
+        return TreatmentsLocale.onceADay;
       case 2:
-        return 'twice a day';
+        return TreatmentsLocale.twiceADay;
       case 3:
-        return 'thrice a day';
+        return TreatmentsLocale.thriceADay;
       case 4:
-        return 'four times a day';
+        return TreatmentsLocale.fourTimesADay;
       default:
         return '';
     }
