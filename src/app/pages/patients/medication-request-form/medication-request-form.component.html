@@ -156,9 +156,9 @@
                   <div class="col-12" *ngSwitchCase="durationType.untilNext">
                     <div class="form-group row">
                       <label for="drug-duration-start-date"
-                             class="col-form-label col-sm-3 form-control-file text-right" i18n>Start date</label>
+                             class="col-form-label col-sm-3 form-control-file text-right" i18n>Next appointment date</label>
                       <div class="col-sm-9">
-                        <input id="drug-duration-start-date" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Select the start date"
+                        <input id="drug-duration-start-date" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Select a date"
                                autocomplete="off"
                                [nbDatepicker]="datepicker"
                                [formControl]="periodStartControl">

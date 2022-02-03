@@ -12,4 +12,5 @@ export const TreatmentsLocale = {
   twiceADay: $localize`twice a day`,
   thriceADay: $localize`thrice a day`,
   fourTimesADay: $localize`four times a day`,
+  localeTime: $localize`en-gb`
 }

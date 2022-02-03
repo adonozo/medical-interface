@@ -2,6 +2,102 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="2109070869617694581" datatype="html">
+        <source>before breakfast</source>
+        <target>antes de desayunar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="446864757096205415" datatype="html">
+        <source>at breakfast</source>
+        <target>al desayunar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7262221678407178665" datatype="html">
+        <source>after breakfast</source>
+        <target>después de desayunar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="296386120129451256" datatype="html">
+        <source>before lunch</source>
+        <target>antes de almorzar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6789328246350136033" datatype="html">
+        <source>at lunch</source>
+        <target>al almorzar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7329209520782017629" datatype="html">
+        <source>after lunch</source>
+        <target>después de almorzar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="553510234542807748" datatype="html">
+        <source>before dinner</source>
+        <target>antes de cenar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2335190203755854013" datatype="html">
+        <source>at dinner</source>
+        <target>al cenar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1345211869001087557" datatype="html">
+        <source>after dinner</source>
+        <target>después de cenar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9194478573114934519" datatype="html">
+        <source>before meal</source>
+        <target>antes de una comida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8167519523640663794" datatype="html">
+        <source>with meal</source>
+        <target>con una comida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7824504015465627831" datatype="html">
+        <source>after meal</source>
+        <target>después de una comida</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/@core/services/utils/utils.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2b51eeec9b22e36c6873c2021d0fb52e97700777" datatype="html">
         <source>Diabetes Assistant</source>
         <target>Asistente de Diabetes</target>
@@ -133,6 +229,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/order-details/order-details.locale.ts</context>
           <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/treatments/treatments.locale.ts</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8703165523174344876" datatype="html">
@@ -408,7 +508,7 @@
       </trans-unit>
       <trans-unit id="b135da37bb3a8bf157ee4c84879ce4c3f94d593e" datatype="html">
         <source>Select a date range</source>
-        <target>Seleccione</target>
+        <target>Seleccione un rango de fechas</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
           <context context-type="linenumber">148,150</context>
@@ -419,9 +519,9 @@
         </context-group>
         <note priority="1" from="description">Placeholder</note>
       </trans-unit>
-      <trans-unit id="77bbe324b08f6636fb50f673cea05313b86fb692" datatype="html">
-        <source>Start date</source>
-        <target>Fecha de inicio</target>
+      <trans-unit id="d20bcc5e7d864eaa6a410f7d8636ba471287704e" datatype="html">
+        <source>Next appointment date</source>
+        <target>Fecha de la siguiente cita</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
           <context context-type="linenumber">159,161</context>
@@ -431,9 +531,9 @@
           <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="31c9b1eacb3fa715b0ec54aa5f86f2ab4497c3b6" datatype="html">
-        <source>Select the start date</source>
-        <target>Seleccione la fecha de inicio</target>
+      <trans-unit id="0b526f4fdac2f768b5bd3bca973bbdfed61e5381" datatype="html">
+        <source>Select a date</source>
+        <target>Seleccione una fecha</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.component.html</context>
           <context context-type="linenumber">161,163</context>
@@ -602,7 +702,7 @@
       </trans-unit>
       <trans-unit id="7609493157465852278" datatype="html">
         <source>At breakfast</source>
-        <target>Durante el desayuno</target>
+        <target>En el desayuno</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
           <context context-type="linenumber">10</context>
@@ -634,7 +734,7 @@
       </trans-unit>
       <trans-unit id="2638159094302107378" datatype="html">
         <source>At lunch</source>
-        <target>Durante el almuerzo</target>
+        <target>En el almuerzo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
           <context context-type="linenumber">13</context>
@@ -666,7 +766,7 @@
       </trans-unit>
       <trans-unit id="4269966675537310518" datatype="html">
         <source>At dinner</source>
-        <target>Durante de la cena</target>
+        <target>En de la cena</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/medication-request-form/medication-request-form.locale.ts</context>
           <context context-type="linenumber">16</context>

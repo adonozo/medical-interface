@@ -141,8 +141,8 @@ export class TreatmentsComponent {
     if (timing.repeat.boundsDuration) {
       period = `${timing.repeat.boundsDuration.value} ${this.dayUnitFromCode(timing.repeat.boundsDuration.unit)}`
     } else if (timing.repeat.boundsPeriod) {
-      const start = new Date(timing.repeat.boundsPeriod.start).toLocaleDateString('en-gb');
-      const end = new Date(timing.repeat.boundsPeriod.end).toLocaleDateString('en-gb');
+      const start = new Date(timing.repeat.boundsPeriod.start).toLocaleDateString(TreatmentsLocale.localeTime);
+      const end = new Date(timing.repeat.boundsPeriod.end).toLocaleDateString(TreatmentsLocale.localeTime);
       period = `${start} - ${end}`
     }
 
