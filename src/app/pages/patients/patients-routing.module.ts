@@ -6,11 +6,16 @@ import { MedicationRequestFormComponent } from "./medication-request-form/medica
 import { ServiceRequestFormComponent } from "./service-request-form/service-request-form.component";
 import { GlucoseLevelsComponent } from "./glucose-levels/glucose-levels.component";
 import { OrderDetailsComponent } from "./order-details/order-details.component";
+import { PatientViewComponent } from "./patient-view/patient-view.component";
 
 const routes: Routes = [
   {
     path: '',
     component: PatientsComponent,
+  },
+  {
+    path: ':patientId/view',
+    component: PatientViewComponent
   },
   {
     path: ':patientId/treatments',

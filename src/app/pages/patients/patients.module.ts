@@ -19,6 +19,7 @@ import { ServiceRequestFormComponent } from './service-request-form/service-requ
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
 import { NgxEchartsModule } from "ngx-echarts";
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { PatientViewComponent } from './patient-view/patient-view.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     MedicationRequestFormComponent,
     ServiceRequestFormComponent,
     GlucoseLevelsComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    PatientViewComponent
   ],
   imports: [
     CommonModule,
