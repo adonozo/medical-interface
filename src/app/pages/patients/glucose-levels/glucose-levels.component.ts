@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { Location } from "@angular/common";
-import { flatMap } from "rxjs/internal/operators";
-import { Patient } from "../../../@core/models/patient";
 import { ObservationsService } from "../../../@core/services/observations.service";
 import { NbThemeService } from "@nebular/theme";
 import { LocalDataSource } from "ng2-smart-table";
@@ -18,8 +15,8 @@ import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 })
 export class GlucoseLevelsComponent {
 
-  patient: Patient;
   options: any = {};
+  patientId: string;
 
   settings = {
     columns: {
@@ -45,23 +42,16 @@ export class GlucoseLevelsComponent {
     private patientService: PatientsService,
     private observationsService: ObservationsService,
     private theme: NbThemeService,
-    private route: ActivatedRoute,
-    private location: Location
+    private route: ActivatedRoute
   ) {
-    this.route.params.pipe(
-      flatMap(params => patientService.getSinglePatient(params["patientId"]))
-    ).subscribe(patient => {
-      this.patient = patient;
+    this.route.params.subscribe(params => {
+      this.patientId = params["patientId"];
       this.getObservations()
     });
   }
 
-  public goBack(): void {
-    this.location.back();
-  }
-
   private getObservations(): void {
-    this.observationsService.getObservations(this.patient.id)
+    this.observationsService.getObservations(this.patientId)
       .subscribe(observations => {
         this.source = new LocalDataSource(observations.map(observation => {
           const data: any = observation;
