@@ -1,1 +1,15 @@
-<p>patient-view works!</p>
+<div class="row" *ngIf="patient">
+  <div class="col-12">
+    <h2><i class="fa fa-notes-medical mr-1"></i>
+      <ng-container i18n>Health Records for</ng-container>
+      {{patient.firstName}} {{patient.lastName}}</h2>
+  </div>
+
+  <div class="col-12 my-5">
+    <app-treatments></app-treatments>
+  </div>
+
+  <div class="col-12 my-5">
+    <app-glucose-levels></app-glucose-levels>
+  </div>
+</div>
