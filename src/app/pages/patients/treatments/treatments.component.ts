@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { TreatmentsService } from "../../../@core/services/treatments.service";
 import { LocalDataSource } from "ng2-smart-table";
 import { map } from "rxjs/operators";
 import { FhirResource, MedicationRequest, ServiceRequest, Timing } from "fhir/r4";
 import { ActivatedRoute, Router } from "@angular/router";
-import { PatientsService } from "../../../@core/services/patients.service";
 import { timingToString } from "../../../@core/services/utils/utils";
 import { TreatmentsLocale } from "./treatments.locale";
 
@@ -13,11 +12,12 @@ import { TreatmentsLocale } from "./treatments.locale";
   templateUrl: './treatments.component.html',
   styleUrls: ['./treatments.component.scss']
 })
-export class TreatmentsComponent {
+export class TreatmentsComponent implements AfterViewInit {
   source: LocalDataSource;
   patientId: string;
 
   settings = {
+    selectedRowIndex: -1,
     columns: {
       type: {
         title: TreatmentsLocale.columnType,
@@ -40,27 +40,18 @@ export class TreatmentsComponent {
   }
 
   constructor(
-    private patientService: PatientsService,
     private treatmentService: TreatmentsService,
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
+  }
+
+  ngAfterViewInit(): void {
     this.route.params.subscribe(params => {
       this.patientId = params["patientId"];
       this.getAllCarePlans();
     });
-  }
-
-  public async navigate(page: string): Promise<void> {
-    switch (page) {
-      case 'medication':
-        await this.router.navigate([this.patientId + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
-        break;
-      case 'service':
-        await this.router.navigate([this.patientId + '/new-service-request'], {relativeTo: this.activatedRoute.parent});
-        return;
-    }
   }
 
   public async viewOrder(event: any): Promise<void> {
