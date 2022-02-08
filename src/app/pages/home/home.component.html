@@ -4,16 +4,15 @@
   </div>
   <br/>
   <div class="col-5 my-5">
-    <nb-card (click)="navigate()">
+    <nb-card (click)="navigate()" class="cursor-pointer">
       <div class="icon-container">
         <div class="icon status-primary">
-          <nb-icon [ngClass]="'icon'" [icon]="'people-outline'" pack="eva"></nb-icon>
+          <nb-icon class="icon" icon="people-outline" pack="eva"></nb-icon>
         </div>
       </div>
 
       <div class="details">
         <div class="title h5" i18n>Patients</div>
-        <div class="status paragraph-2"></div>
       </div>
     </nb-card>
   </div>
