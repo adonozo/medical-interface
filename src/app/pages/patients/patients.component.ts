@@ -13,6 +13,7 @@ export class PatientsComponent implements OnInit {
   source: LocalDataSource;
 
   settings = {
+    selectedRowIndex: -1,
     columns: {
       name: {
         title: PatientsLocale.nameColumn,
@@ -54,6 +55,11 @@ export class PatientsComponent implements OnInit {
         break;
     }
   }
+
+  public async onRowSelected(event: any): Promise<void> {
+    await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
+  }
+
 
   private getPatientsData(): void {
     this.patientService.getPatientsList()
