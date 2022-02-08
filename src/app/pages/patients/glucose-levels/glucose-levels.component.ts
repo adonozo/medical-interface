@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { ObservationsService } from "../../../@core/services/observations.service";
 import { NbThemeService } from "@nebular/theme";
@@ -19,6 +18,7 @@ export class GlucoseLevelsComponent {
   patientId: string;
 
   settings = {
+    selectedRowIndex: -1,
     columns: {
       level: {
         title: GlucoseLevelsLocale.columnLevel,
@@ -39,7 +39,6 @@ export class GlucoseLevelsComponent {
   source: LocalDataSource;
 
   constructor(
-    private patientService: PatientsService,
     private observationsService: ObservationsService,
     private theme: NbThemeService,
     private route: ActivatedRoute
