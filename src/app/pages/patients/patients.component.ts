@@ -13,6 +13,7 @@ export class PatientsComponent implements OnInit {
   source: LocalDataSource;
 
   settings = {
+    selectedRowIndex: -1,
     columns: {
       name: {
         title: PatientsLocale.nameColumn,
@@ -30,12 +31,8 @@ export class PatientsComponent implements OnInit {
       columnTitle: PatientsLocale.actionsColumn,
       custom: [
         {
-          name: 'orders',
-          title: `<div class="badge d-table"><i class="fa-xxs fa fa-list-alt"></i> <span class="label text-dark ml-1">${PatientsLocale.ordersAction}</span></div>`,
-        },
-        {
-          name: 'glucose-levels',
-          title: `<div class="badge d-table"><i class="fa-xxs far fa-chart-bar"></i> <span class="label text-dark ml-1">${PatientsLocale.glucoseAction}</span></div>`
+          name: 'view',
+          title: `<div class="badge d-table"><i class="fa-xxs fa fa-eye"></i> <span class="label text-dark ml-1">${PatientsLocale.viewAction}</span></div>`,
         }
       ]
     }
@@ -48,22 +45,24 @@ export class PatientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getPatientData();
+    this.getPatientsData();
   }
 
   public async onCustomPatients(event: any): Promise<void> {
     switch (event.action) {
-      case 'glucose-levels':
-        await this.router.navigate([event.data.id + '/glucose-levels'], {relativeTo: this.activatedRoute.parent});
-        break;
-      case 'orders':
-        await this.router.navigate([event.data.id + '/treatments'], {relativeTo: this.activatedRoute.parent});
+      case 'view':
+        await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
         break;
     }
   }
 
-  private getPatientData(): void {
-    this.patientService.getPatientList()
+  public async onRowSelected(event: any): Promise<void> {
+    await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
+  }
+
+
+  private getPatientsData(): void {
+    this.patientService.getPatientsList()
       .subscribe(patients =>
         this.source = new LocalDataSource(patients.map(patient => {
           const data: any = patient;

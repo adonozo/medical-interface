@@ -1,6 +1,5 @@
 export const PatientsLocale = {
-  ordersAction: $localize`Orders`,
-  glucoseAction: $localize`Glucose`,
+  viewAction: $localize`View`,
   actionsColumn: $localize`Actions`,
   nameColumn: $localize`Name`,
   emailColumn: $localize`Email`

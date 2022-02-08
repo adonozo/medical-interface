@@ -1,42 +1,20 @@
 <div class="row">
-  <div class="col-12" *ngIf="patient">
-    <h2><ng-container i18n>Blood glucose levels history for</ng-container> {{ patient.firstName + ' ' + patient.lastName }}</h2>
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>
+        <h4 i18n>Blood glucose levels history</h4>
+      </nb-card-header>
+      <div echarts [options]="options" class="echart"></div>
+    </nb-card>
   </div>
 
-  <div class="col-lg-6 mt-5">
+  <div class="col-lg-6">
     <nb-card>
-      <nb-card-header i18n>Blood glucose level chart</nb-card-header>
-      <nb-card-body>
-        <div echarts [options]="options" class="echart"></div>
-      </nb-card-body>
+      <nb-card-header i18n>Blood Glucose records</nb-card-header>
+      <ng2-smart-table class="order-table"
+                       [settings]="settings"
+                       [source]="source">
+      </ng2-smart-table>
     </nb-card>
-
-    <div class="d-none d-lg-block">
-      <nb-card>
-        <nb-card-body>
-          <button type="button" nbButton status="basic" (click)="goBack()" class="btn-light" i18n="Return button">Return</button>
-        </nb-card-body>
-      </nb-card>
-    </div>
-  </div>
-
-  <div class="col-lg-6 mt-5">
-    <nb-card>
-      <nb-card-header i18n>Records</nb-card-header>
-      <nb-card-body>
-        <ng2-smart-table class="order-table"
-                         [settings]="settings"
-                         [source]="source">
-        </ng2-smart-table>
-      </nb-card-body>
-    </nb-card>
-
-    <div class="d-lg-none">
-      <nb-card>
-        <nb-card-body>
-          <button type="button" nbButton status="basic" (click)="goBack()" class="btn-light" i18n="Return button">Return</button>
-        </nb-card-body>
-      </nb-card>
-    </div>
   </div>
 </div>

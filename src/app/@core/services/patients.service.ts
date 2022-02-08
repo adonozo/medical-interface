@@ -12,7 +12,7 @@ export class PatientsService {
   constructor(private restService: RestApiService) {
   }
 
-  getPatientList(): Observable<Patient[]> {
+  getPatientsList(): Observable<Patient[]> {
     return this.restService.get(this.path);
   }
 

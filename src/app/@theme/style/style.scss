@@ -52,6 +52,15 @@
       }
     }
   }
+
+  table {
+    tbody {
+      tr:hover {
+        background-color: #f4f6f9!important;
+      }
+    }
+  }
+
   .action-icon {
     font-size: 1.60rem!important;
   }
@@ -59,4 +68,8 @@
 
 .fa-xxs {
   font-size: 0.55em;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

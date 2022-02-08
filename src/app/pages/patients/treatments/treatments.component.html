@@ -1,29 +1,10 @@
 <nb-card>
-  <nb-card-header *ngIf="patient">
-    <h2><ng-container i18n>Orders for</ng-container> {{patient.firstName + ' ' + patient.lastName}}</h2>
+  <nb-card-header>
+    <h4 i18n>Records</h4>
   </nb-card-header>
-  <nb-card-body>
-    <ng2-smart-table class="order-table"
-                     (userRowSelect)="viewOrder($event)"
-                     [settings]="settings"
-                     [source]="source">
-    </ng2-smart-table>
-  </nb-card-body>
-  <nb-card-footer *ngIf="patient">
-    <div class="row">
-      <div class="col-2">
-        <button type="button" nbButton status="basic" (click)="goBack()" i18n="Return button">Return</button>
-      </div>
-      <div class="col-10 text-right">
-        <button class="mr-3" type="button" nbButton status="primary" (click)="navigate('medication')">
-          <nb-icon icon="plus"></nb-icon>
-          <ng-container i18n>Medication Order</ng-container>
-        </button>
-        <button type="button" nbButton status="success" (click)="navigate('service')">
-          <nb-icon icon="plus"></nb-icon>
-          <ng-container i18n>Blood Glucose Order</ng-container>
-        </button>
-      </div>
-    </div>
-  </nb-card-footer>
+  <ng2-smart-table class="order-table"
+                   (userRowSelect)="viewOrder($event)"
+                   [settings]="settings"
+                   [source]="source">
+  </ng2-smart-table>
 </nb-card>
