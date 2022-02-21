@@ -5,8 +5,9 @@
       {{patient.firstName}} {{patient.lastName}}</h2>
   </div>
 
-  <div class="col-12 col-md-4">
-    <nb-card class="cursor-pointer" (click)="navigate('medication')">
+  <div class="col-12 col-sm-6 col-md-4">
+    <nb-card>
+    <div class="cursor-pointer action" (click)="navigate('medication')">
       <div class="icon-container">
         <div class="icon status-warning">
           <i class="icon fa fa-prescription-bottle-alt"></i>
@@ -16,11 +17,13 @@
       <div class="details">
         <div class="title h6" i18n>New Medication Request</div>
       </div>
+    </div>
     </nb-card>
   </div>
 
-  <div class="col-12 col-md-4 cursor-pointer">
-    <nb-card class="cursor-pointer" (click)="navigate('service')">
+  <div class="col-12 col-sm-6 col-md-4 cursor-pointer">
+    <nb-card>
+    <div class="cursor-pointer action" (click)="navigate('service')">
       <div class="icon-container">
         <div class="icon status-info">
           <i class="icon fa fa-vial"></i>
@@ -28,8 +31,9 @@
       </div>
 
       <div class="details">
-        <div class="title h6" i18n>New Blood Glucose Measurement Order</div>
+        <div class="m-0 h6" i18n>New Blood Glucose Measurement Order</div>
       </div>
+    </div>
     </nb-card>
   </div>
 
