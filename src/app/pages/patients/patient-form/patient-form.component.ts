@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Location } from "@angular/common";
 
 @Component({
   selector: 'app-patient-form',
   templateUrl: './patient-form.component.html',
   styleUrls: ['./patient-form.component.scss']
 })
-export class PatientFormComponent implements OnInit {
+export class PatientFormComponent {
 
-  constructor() { }
+  constructor(
+    private location: Location
+  ) { }
 
-  ngOnInit(): void {
+  public goBack(): void {
+    this.location.back();
   }
-
 }

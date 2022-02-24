@@ -1,1 +1,64 @@
-<p>patient-form works!</p>
+<div class="row">
+  <div class="col-12 col-xl-9">
+    <nb-card>
+      <nb-card-header>
+        <h2 i18n>New patient</h2>
+      </nb-card-header>
+      <nb-card-body>
+        <form class="form-horizontal">
+          <div class="form-group row">
+            <label for="first-name" class="col-form-label col-sm-3 form-control-label" i18n>First name</label>
+            <div class="col-sm-9">
+              <input id="first-name" nbInput fullWidth type="text" i18n-placeholder="Placeholder" placeholder="First name"
+                     autocomplete="off"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="last-name" class="col-form-label col-sm-3 form-control-label" i18n>Last name</label>
+            <div class="col-sm-9">
+              <input id="last-name" nbInput fullWidth type="text" i18n-placeholder="Placeholder" placeholder="Last name"
+                     autocomplete="off"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-form-label col-sm-3 form-control-label" i18n>Gender</label>
+            <div class="col-sm-9">
+              <nb-radio-group>
+                <nb-radio i18n>Male</nb-radio>
+                <nb-radio i18n>Female</nb-radio>
+              </nb-radio-group>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="email" class="col-form-label col-sm-3 form-control-label" i18n>Email</label>
+            <div class="col-sm-9">
+              <input id="email" nbInput fullWidth type="text" i18n-placeholder="Placeholder" placeholder="Email"
+                     autocomplete="off"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="birthdate" class="col-form-label col-sm-3 form-control-label" i18n>Birth date</label>
+            <div class="col-sm-9">
+              <input id="birthdate" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Select a date"
+                     autocomplete="off"
+                     [nbDatepicker]="datepicker"/>
+              <nb-datepicker #datepicker></nb-datepicker>
+            </div>
+          </div>
+          <div class="mt-4 form-group row">
+            <div class="col-6 col-sm-8 text-right">
+              <button type="button" nbButton status="basic" (click)="goBack()">
+                <ng-container i18n>Cancel</ng-container>
+              </button>
+            </div>
+            <div class="col-6 offset-sm-1 col-sm-3 text-right">
+              <button type="submit" nbButton status="success">
+                <ng-container i18n>Save</ng-container>
+              </button>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
