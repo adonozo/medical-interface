@@ -3,6 +3,9 @@ import { Location } from "@angular/common";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { FormComponent } from "../../../@core/components/FormComponent";
 import { Patient } from "../../../@core/models/patient";
+import { PatientsService } from "../../../@core/services/patients.service";
+import { FormStatus } from "../../../@core/services/data/form-data";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-patient-form',
@@ -15,8 +18,11 @@ export class PatientFormComponent extends FormComponent {
   readonly defaultDate: Date = new Date('2000-01-01');
 
   constructor(
+    private patientsService: PatientsService ,
     private location: Location,
     private formBuilder: FormBuilder,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     super();
     this.patientForm = formBuilder.group({
@@ -84,6 +90,16 @@ export class PatientFormComponent extends FormComponent {
       })
     };
 
-    console.log(patient);
+    this.formStatus = FormStatus.loading;
+    this.patientsService.createPatient(patient)
+      .subscribe(
+        async patient => {
+          await this.router.navigate([patient.id + '/view'], {relativeTo: this.activatedRoute.parent});
+        },
+        error => {
+          this.formStatus = FormStatus.error;
+          console.log(error);
+        }
+      )
   }
 }

@@ -19,4 +19,8 @@ export class PatientsService {
   getSinglePatient(id: string): Observable<Patient> {
     return this.restService.get(this.path + id);
   }
+
+  createPatient(patient: Patient): Observable<Patient> {
+    return this.restService.post(this.path, patient);
+  }
 }
