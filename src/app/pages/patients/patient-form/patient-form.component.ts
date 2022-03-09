@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from "@angular/common";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { FormComponent } from "../../../@core/components/FormComponent";
+import { FormComponent } from "../../../@core/components/form.component";
 import { Patient } from "../../../@core/models/patient";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { FormStatus } from "../../../@core/services/data/form-data";
