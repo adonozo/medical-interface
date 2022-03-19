@@ -1,14 +1,60 @@
 <div class="row" *ngIf="patient">
-  <div class="col-10 mb-2">
-    <h2><i class="fa fa-notes-medical mr-2"></i>
-      <ng-container i18n>Health Records for</ng-container>
-      {{patient.firstName}} {{patient.lastName}}</h2>
-  </div>
-  <div class="col-2">
-    <button type="button" nbButton status="success" (click)="navigate('edit')">
-      <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
-      <span i18n>Edit</span>
-    </button>
+  <div class="col-12">
+    <nb-card>
+      <nb-card-header>
+        <h2>
+          <i class="fa fa-notes-medical mr-2"></i>
+          <ng-container i18n>Health Records for</ng-container>
+          {{patient.firstName}} {{patient.lastName}}
+        </h2>
+      </nb-card-header>
+      <nb-card-body>
+        <div class="row">
+          <div class="col-12 col-sm-2 mt-3">
+            <span i18n><b>Name</b></span>
+          </div>
+          <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-3">
+            {{patient.firstName}} {{patient.lastName}}
+          </div>
+          <div class="col-12 col-sm-2 mt-3">
+            <span i18n><b>Email</b></span>
+          </div>
+          <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-3">
+            {{patient.email}}
+          </div>
+          <div class="col-12 col-sm-2 mt-3">
+            <span i18n><b>Birthdate</b></span>
+          </div>
+          <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-3">
+            {{patient.birthDate | date}}
+          </div>
+          <div class="col-12 col-sm-2 mt-3">
+            <span i18n><b>Gender</b></span>
+          </div>
+          <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-3">
+            {{patient.gender | titlecase}}
+          </div>
+          <div class="col-12 col-sm-2 mt-3">
+            <span i18n><b>Contact</b></span>
+          </div>
+          <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-3">
+            <ng-container *ngFor="let contact of patient.phoneContacts">
+              {{contact.number}} - {{contact.use | titlecase}} <br />
+            </ng-container>
+          </div>
+        </div>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="row">
+          <div class="col-12 text-right">
+            <button type="button" nbButton status="success" (click)="navigate('edit')">
+              <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+              <span i18n>Edit</span>
+            </button>
+          </div>
+        </div>
+      </nb-card-footer>
+    </nb-card>
   </div>
 
   <div class="col-12 col-sm-6 col-md-4">
