@@ -2,7 +2,12 @@
   <div class="col-12 col-xl-9">
     <nb-card>
       <nb-card-header>
-        <h2 i18n>New patient</h2>
+        <ng-container *ngIf="isEditForm; else newTitle">
+          <h2 i18n>Edit patient</h2>
+        </ng-container>
+        <ng-template #newTitle>
+          <h2 i18n>New patient</h2>
+        </ng-template>
       </nb-card-header>
       <nb-card-body *ngIf="patientForm">
         <form [formGroup]="patientForm" (ngSubmit)="submitForm()" class="form-horizontal">

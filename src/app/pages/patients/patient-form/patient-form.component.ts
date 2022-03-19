@@ -17,7 +17,7 @@ import { flatMap } from "rxjs/internal/operators";
 export class PatientFormComponent extends FormComponent {
 
   patientForm: FormGroup;
-  private isEditForm: boolean;
+  isEditForm: boolean;
   private patientId: string = '';
 
   constructor(
