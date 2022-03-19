@@ -17,17 +17,19 @@
 <div class="row mt-2">
   <div class="col-12 col-sm-6 col-md-4">
     <nb-card>
-      <div class="cursor-pointer action" (click)="openPatientForm()">
-        <div class="icon-container">
-          <div class="icon status-success">
-            <nb-icon class="icon" [icon]="'person-add-outline'" pack="eva"></nb-icon>
+      <a routerLink="new-patient" class="text-decoration-none">
+        <div class="cursor-pointer action">
+          <div class="icon-container">
+            <div class="icon status-success">
+              <nb-icon class="icon" icon="person-add-outline" pack="eva"></nb-icon>
+            </div>
+          </div>
+
+          <div class="details">
+            <span class="title h6" i18n>New Patient</span>
           </div>
         </div>
-
-        <div class="details">
-          <div class="title h6" i18n>New Patient</div>
-        </div>
-      </div>
+      </a>
     </nb-card>
   </div>
 </div>

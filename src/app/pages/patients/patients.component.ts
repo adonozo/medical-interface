@@ -60,10 +60,6 @@ export class PatientsComponent implements OnInit {
     await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
   }
 
-  public async openPatientForm(): Promise<void> {
-    await this.router.navigate(['new-patient'], {relativeTo: this.activatedRoute.parent});
-  }
-
   private getPatientsData(): void {
     this.patientService.getPatientsList()
       .subscribe(patients =>
