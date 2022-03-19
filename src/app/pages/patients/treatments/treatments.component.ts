@@ -1,7 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { TreatmentsService } from "../../../@core/services/treatments.service";
 import { LocalDataSource } from "ng2-smart-table";
-import { map } from "rxjs/operators";
 import { FhirResource, MedicationRequest, ServiceRequest, Timing } from "fhir/r4";
 import { ActivatedRoute, Router } from "@angular/router";
 import { timingToString } from "../../../@core/services/utils/utils";
@@ -68,9 +67,6 @@ export class TreatmentsComponent implements AfterViewInit {
 
   private getAllCarePlans(): void {
     this.treatmentService.getTreatmentsFor(this.patientId)
-      .pipe(
-        map(bundle => bundle.entry.map(entry => entry.resource))
-      )
       .subscribe(resources => {
         this.source = new LocalDataSource(resources.map(resource => this.addDataToResource(resource)))
       })

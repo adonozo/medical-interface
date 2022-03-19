@@ -34,6 +34,9 @@ export class PatientViewComponent {
       case 'service':
         await this.router.navigate([this.patientId + '/new-service-request'], {relativeTo: this.activatedRoute.parent});
         return;
+      case 'edit':
+        await this.router.navigate([this.patientId + '/edit'], {relativeTo: this.activatedRoute.parent});
+        return
     }
   }
 }

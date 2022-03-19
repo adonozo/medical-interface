@@ -7,6 +7,7 @@ import { ServiceRequestFormComponent } from "./service-request-form/service-requ
 import { GlucoseLevelsComponent } from "./glucose-levels/glucose-levels.component";
 import { OrderDetailsComponent } from "./order-details/order-details.component";
 import { PatientViewComponent } from "./patient-view/patient-view.component";
+import { PatientFormComponent } from "./patient-form/patient-form.component";
 
 const routes: Routes = [
   {
@@ -14,8 +15,16 @@ const routes: Routes = [
     component: PatientsComponent,
   },
   {
+    path: 'new-patient',
+    component: PatientFormComponent
+  },
+  {
     path: ':patientId/view',
     component: PatientViewComponent
+  },
+  {
+    path: ':patientId/edit',
+    component: PatientFormComponent
   },
   {
     path: ':patientId/treatments',

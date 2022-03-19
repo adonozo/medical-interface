@@ -13,6 +13,7 @@
             <div class="col-sm-9">
               <input id="drug-name" nbInput fullWidth type="text" i18n-placeholder="Placeholder" placeholder="Drug name"
                      autocomplete="off"
+                     [status]="getControlStatus(medicationControl)"
                      [formControl]="medicationControl"
                      [nbAutocomplete]="auto"/>
               <nb-autocomplete #auto (selectedChange)="onDrugSelectionChange($event)"
@@ -21,17 +22,25 @@
                   {{ getMedicationName(medication) }}
                 </nb-option>
               </nb-autocomplete>
+              <ng-container *ngIf="isControlInvalid(medicationControl)">
+                <span class="text-danger" i18n>Medication is required</span>
+              </ng-container>
             </div>
           </div>
           <div class="form-group row">
             <label for="drug-dose" class="col-form-label col-sm-3 form-control-label" i18n>Dose</label>
             <div class="col-sm-3">
               <input type="number" nbInput fullWidth id="drug-dose" i18n-placeholder="Placeholder" placeholder="Dose"
+                     [status]="getControlStatus(doseQuantityControl)"
                      [formControl]="doseQuantityControl">
+              <ng-container *ngIf="isControlInvalid(doseQuantityControl)">
+                <span class="text-danger" i18n>Dose is required</span>
+              </ng-container>
             </div>
             <label for="drug-dose-unit" class="col-form-label col-sm-2 form-control-label text-right" i18n>Units</label>
             <div class="col-sm-4">
               <nb-select fullWidth id="drug-dose-unit" i18n-placeholder="Placeholder" placeholder="Select a unit"
+                         [status]="getControlStatus(doseUnitControl)"
                          [formControl]="doseUnitControl">
                 <nb-select-label>
                   {{ getUnitName() }}
@@ -40,6 +49,9 @@
                   {{quantity.extension[0].valueString}}
                 </nb-option>
               </nb-select>
+              <ng-container *ngIf="isControlInvalid(doseUnitControl)">
+                <span class="text-danger" i18n>Unit is required</span>
+              </ng-container>
             </div>
           </div>
 
@@ -176,6 +188,11 @@
               <textarea nbInput fullWidth id="drug-instructions" [formControl]="instructionsControl"></textarea>
             </div>
           </div>
+          <div class="row" *ngIf="medicationForm.invalid && medicationForm.touched">
+            <div class="col-12 col-sm-9 offset-sm-3">
+              <span class="text-danger" i18n>Please fill out all fields</span>
+            </div>
+          </div>
           <div class="mt-4 form-group row">
             <div class="col-6 col-sm-8 text-right">
               <button type="button" nbButton status="basic" (click)="goBack()"
@@ -185,7 +202,7 @@
             </div>
             <div class="col-6 offset-sm-1 col-sm-3 text-right">
               <button type="submit" nbButton status="success"
-                      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
+                      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success || medicationForm.invalid">
                 <ng-container i18n>Save</ng-container>
               </button>
             </div>

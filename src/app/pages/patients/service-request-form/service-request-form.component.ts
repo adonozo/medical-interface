@@ -9,18 +9,17 @@ import { DurationFormData, FormStatus } from "../../../@core/services/data/form-
 import { DaysOfWeek, TimesOfDay } from "./form-data";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { ServiceRequest, Timing } from "fhir/r4";
+import { FormComponent } from "../../../@core/components/form.component";
 
 @Component({
   selector: 'app-service-request-form',
   templateUrl: './service-request-form.component.html',
   styleUrls: ['./service-request-form.component.scss']
 })
-export class ServiceRequestFormComponent {
+export class ServiceRequestFormComponent extends FormComponent {
 
   patient: Patient;
   serviceForm: FormGroup;
-  formStatus: FormStatus = FormStatus.default;
-  formStatusType = FormStatus;
   durationType = DurationFormData;
   durationSelected: DurationFormData;
   daysOfWeek = DaysOfWeek;
@@ -33,6 +32,7 @@ export class ServiceRequestFormComponent {
     private formBuilder: FormBuilder,
     private location: Location
   ) {
+    super();
     this.route.params.pipe(
       flatMap(params => patientService.getSinglePatient(params["patientId"]))
     ).subscribe(patient => this.patient = patient);

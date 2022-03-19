@@ -1,7 +1,7 @@
 <nb-card>
   <nb-card-header>
     <h2>
-      <nb-icon [ngClass]="'icon'" [icon]="'people-outline'" pack="eva"></nb-icon>
+      <nb-icon class="icon" [icon]="'people-outline'" pack="eva"></nb-icon>
       <ng-container i18n>Patients</ng-container>
     </h2>
   </nb-card-header>
@@ -13,4 +13,22 @@
   </ng2-smart-table>
 </nb-card>
 
-<router-outlet></router-outlet>
+<div class="row mt-2">
+  <div class="col-12 col-sm-6 col-md-4">
+    <nb-card>
+      <a routerLink="new-patient" class="text-decoration-none">
+        <div class="cursor-pointer action">
+          <div class="icon-container">
+            <div class="icon status-success">
+              <nb-icon class="icon" icon="person-add-outline" pack="eva"></nb-icon>
+            </div>
+          </div>
+
+          <div class="details">
+            <span class="title h6" i18n>New Patient</span>
+          </div>
+        </div>
+      </a>
+    </nb-card>
+  </div>
+</div>
