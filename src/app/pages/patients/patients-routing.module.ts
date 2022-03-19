@@ -23,6 +23,10 @@ const routes: Routes = [
     component: PatientViewComponent
   },
   {
+    path: ':patientId/edit',
+    component: PatientFormComponent
+  },
+  {
     path: ':patientId/treatments',
     component: TreatmentsComponent
   },

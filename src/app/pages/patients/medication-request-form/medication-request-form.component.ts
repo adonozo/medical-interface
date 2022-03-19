@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Patient } from "../../../@core/models/patient";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { flatMap, startWith } from "rxjs/internal/operators";
+import { flatMap } from "rxjs/internal/operators";
 import { Dosage, Medication, Quantity } from "fhir/r4";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { Observable, of } from "rxjs";
@@ -71,7 +71,6 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
       this.filteredMedications = of(medications);
       this.filteredMedications = this.medicationControl.valueChanges
         .pipe(
-          startWith(''),
           map(input => this.filterMedications(input))
         )
     });

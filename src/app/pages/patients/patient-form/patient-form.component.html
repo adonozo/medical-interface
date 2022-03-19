@@ -4,7 +4,7 @@
       <nb-card-header>
         <h2 i18n>New patient</h2>
       </nb-card-header>
-      <nb-card-body>
+      <nb-card-body *ngIf="patientForm">
         <form [formGroup]="patientForm" (ngSubmit)="submitForm()" class="form-horizontal">
           <div class="form-group row">
             <label for="first-name" class="col-form-label col-sm-3 form-control-label" i18n>First name</label>

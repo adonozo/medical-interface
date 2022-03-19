@@ -9,7 +9,7 @@ export interface Patient {
   phoneContacts: PatientPhoneContact[]
 }
 
-interface PatientPhoneContact {
+export interface PatientPhoneContact {
   number: string,
   use: ('home'|'work'|'temp'|'old'|'mobile')
 }

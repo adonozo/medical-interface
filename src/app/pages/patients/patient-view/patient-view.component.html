@@ -1,39 +1,45 @@
 <div class="row" *ngIf="patient">
-  <div class="col-12 mb-2">
+  <div class="col-10 mb-2">
     <h2><i class="fa fa-notes-medical mr-2"></i>
       <ng-container i18n>Health Records for</ng-container>
       {{patient.firstName}} {{patient.lastName}}</h2>
   </div>
+  <div class="col-2">
+    <button type="button" nbButton status="success" (click)="navigate('edit')">
+      <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+      <span i18n>Edit</span>
+    </button>
+  </div>
 
   <div class="col-12 col-sm-6 col-md-4">
     <nb-card>
-    <div class="cursor-pointer action" (click)="navigate('medication')">
-      <div class="icon-container">
-        <div class="icon status-warning">
-          <i class="icon fa fa-prescription-bottle-alt"></i>
+      <div class="cursor-pointer action" (click)="navigate('medication')">
+        <div class="icon-container">
+          <div class="icon status-warning">
+            <i class="icon fa fa-prescription-bottle-alt"></i>
+          </div>
+        </div>
+
+        <div class="details">
+          <span class="title h6" i18n>New Medication Request</span>
         </div>
       </div>
-
-      <div class="details">
-        <div class="title h6" i18n>New Medication Request</div>
-      </div>
-    </div>
     </nb-card>
   </div>
 
   <div class="col-12 col-sm-6 col-md-4 cursor-pointer">
     <nb-card>
-    <div class="cursor-pointer action" (click)="navigate('service')">
-      <div class="icon-container">
-        <div class="icon status-info">
-          <i class="icon fa fa-vial"></i>
+      <div class="cursor-pointer action" (click)="navigate('service')">
+        <div class="icon-container">
+          <div class="icon status-info">
+            <i class="icon fa fa-vial"></i>
+          </div>
+        </div>
+
+        <div class="details">
+          <span class="m-0 h6" i18n>New Blood Glucose Measurement Order</span>
         </div>
       </div>
-
-      <div class="details">
-        <div class="m-0 h6" i18n>New Blood Glucose Measurement Order</div>
-      </div>
-    </div>
     </nb-card>
   </div>
 
