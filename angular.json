@@ -11,6 +11,12 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "es": "src/locale/messages.es.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -53,7 +59,8 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "aot": true
           },
           "configurations": {
             "production": {
@@ -84,6 +91,9 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "es": {
+              "localize": ["es"]
             }
           },
           "defaultConfiguration": "production"
@@ -96,6 +106,9 @@
             },
             "development": {
               "browserTarget": "doctor-interface:build:development"
+            },
+            "es": {
+              "browserTarget": "doctor-interface:build:es"
             }
           },
           "defaultConfiguration": "development"
@@ -119,9 +132,21 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/typeface-exo/index.css",
+              "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+              "node_modules/ionicons/scss/ionicons.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
+              "node_modules/socicon/css/socicon.css",
+              "node_modules/nebular-icons/scss/nebular-icons.scss",
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
+              "src/app/@theme/style/style.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/pace-js/pace.min.js",
+              "node_modules/echarts/dist/echarts.min.js",
+              "node_modules/echarts/dist/extension/bmap.min.js"
+            ]
           }
         }
       }

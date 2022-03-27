@@ -21,7 +21,6 @@
       font-size: 3.75rem;
       border-radius: nb-theme(card-border-radius);
       transition: width 0.4s ease;
-      transform: translate3d(0, 0, 0);
       -webkit-transform-style: preserve-3d;
       -webkit-backface-visibility: hidden;
       color: nb-theme(text-control-color);
@@ -41,23 +40,6 @@
       }
     }
 
-    &.off {
-      color: nb-theme(text-hint-color);
-
-      .status,
-      .title,
-      .icon {
-        color: nb-theme(text-hint-color);
-      }
-
-      @each $status in nb-get-statuses() {
-        .icon.status-#{$status} {
-          box-shadow: none;
-          background-image: linear-gradient(to right, transparent, transparent);
-        }
-      }
-    }
-
     .details {
       display: flex;
       flex-direction: column;
@@ -66,14 +48,6 @@
       @include nb-ltr(padding, 0 0.5rem 0 0.75rem);
       @include nb-rtl(padding, 0 0.75rem 0 0.5rem);
       border-left: 1px solid transparent;
-    }
-
-    .title {
-      margin: 0;
-    }
-
-    .status {
-      text-transform: uppercase;
     }
   }
 }

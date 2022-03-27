@@ -1,3 +1,5 @@
+import { MedicationRequestFormLocale } from "./medication-request-form.locale";
+
 export enum FrequencyFormData {
   timesPerDay = 0,
   mealTime = 1,
@@ -11,37 +13,37 @@ export enum DailyFrequencyFormData {
 
 export const DayOfWeek = [
   {
-    name: 'Monday',
+    name: MedicationRequestFormLocale.monday,
     value: 'mon',
     selected: false
   },
   {
-    name: 'Tuesday',
+    name: MedicationRequestFormLocale.tuesday,
     value: 'tue',
     selected: false
   },
   {
-    name: 'Wednesday',
+    name: MedicationRequestFormLocale.wednesday,
     value: 'wed',
     selected: false
   },
   {
-    name: 'Thursday',
+    name: MedicationRequestFormLocale.thursday,
     value: 'thu',
     selected: false
   },
   {
-    name: 'Friday',
+    name: MedicationRequestFormLocale.friday,
     value: 'fri',
     selected: false
   },
   {
-    name: 'Saturday',
+    name: MedicationRequestFormLocale.saturday,
     value: 'sat',
     selected: false
   },
   {
-    name: 'Sunday',
+    name: MedicationRequestFormLocale.sunday,
     value: 'sun',
     selected: false
   },
@@ -49,47 +51,47 @@ export const DayOfWeek = [
 
 export const TimeOfDay = [
   {
-    name: 'Before breakfast',
+    name: MedicationRequestFormLocale.beforeBreakfast,
     value: 'ACM',
     selected: false
   },
   {
-    name: 'At breakfast',
+    name: MedicationRequestFormLocale.atBreakfast,
     value: 'CM',
     selected: false
   },
   {
-    name: 'After breakfast',
+    name: MedicationRequestFormLocale.afterBreakfast,
     value: 'PCM',
     selected: false
   },
   {
-    name: 'Before lunch',
+    name: MedicationRequestFormLocale.beforeLunch,
     value: 'ACD',
     selected: false
   },
   {
-    name: 'At lunch',
+    name: MedicationRequestFormLocale.atLunch,
     value: 'CD',
     selected: false
   },
   {
-    name: 'After lunch',
+    name: MedicationRequestFormLocale.afterLunch,
     value: 'PCD',
     selected: false
   },
   {
-    name: 'Before dinner',
+    name: MedicationRequestFormLocale.beforeDinner,
     value: 'ACV',
     selected: false
   },
   {
-    name: 'At dinner',
+    name: MedicationRequestFormLocale.atDinner,
     value: 'CV',
     selected: false
   },
   {
-    name: 'After dinner',
+    name: MedicationRequestFormLocale.afterDinner,
     value: 'PCV',
     selected: false
   },

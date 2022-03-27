@@ -14,6 +14,13 @@ export class ObservationsService {
 
   getObservations(id: string): Observable<Observation[]> {
     return this.restService.get<Bundle>(`patients/${id}/all/observations/`)
-      .pipe(map(bundle => bundle.entry.map(entry => entry.resource as Observation)));
+      .pipe(
+        map(bundle => {
+          if (!bundle.entry) {
+            return [];
+          }
+
+          return bundle.entry.map(entry => entry.resource as Observation);
+        }));
   }
 }

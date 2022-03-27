@@ -3,10 +3,10 @@
     <!--  Header component  -->
     <div class="header-container">
       <div class="logo-container">
-        <span class="sidebar-toggle">
+        <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
           <nb-icon icon="menu-2-outline"></nb-icon>
-        </span>
-        <a class="logo" href="#">Diabetes Assistant</a>
+        </a>
+        <span class="logo cursor-pointer" (click)="navigateHome()" i18n="Site title">Diabetes Assistant</span>
       </div>
     </div>
   </nb-layout-header>

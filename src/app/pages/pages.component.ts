@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NbMenuItem } from "@nebular/theme";
+import { PagesLocale } from "./pages.locale";
 
 @Component({
   selector: 'app-pages',
@@ -9,12 +10,12 @@ import { NbMenuItem } from "@nebular/theme";
 export class PagesComponent {
   public menu: NbMenuItem[] = [
     {
-      title: 'Home',
+      title: PagesLocale.home,
       icon: 'home-outline',
       link: '/pages/home'
     },
     {
-      title: 'Patients',
+      title: PagesLocale.patients,
       icon: 'people-outline',
       link: '/pages/patients',
       pathMatch: 'prefix'

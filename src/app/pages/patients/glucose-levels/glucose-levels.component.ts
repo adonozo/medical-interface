@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { Location } from "@angular/common";
-import { flatMap } from "rxjs/internal/operators";
-import { Patient } from "../../../@core/models/patient";
 import { ObservationsService } from "../../../@core/services/observations.service";
 import { NbThemeService } from "@nebular/theme";
 import { LocalDataSource } from "ng2-smart-table";
 import { timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
+import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 
 @Component({
   selector: 'app-glucose-levels',
@@ -17,22 +14,23 @@ import { Observation } from "fhir/r4";
 })
 export class GlucoseLevelsComponent {
 
-  patient: Patient;
   options: any = {};
+  patientId: string;
 
   settings = {
+    selectedRowIndex: -1,
     columns: {
       level: {
-        title: 'Level',
+        title: GlucoseLevelsLocale.columnLevel,
         type: 'string'
       },
       date: {
-        title: 'Date',
+        title: GlucoseLevelsLocale.columnDate,
         type: 'string',
         sortDirection: 'desc'
       },
       time: {
-        title: 'Time',
+        title: GlucoseLevelsLocale.columnTime,
         type: 'string'
       },
     },
@@ -41,31 +39,23 @@ export class GlucoseLevelsComponent {
   source: LocalDataSource;
 
   constructor(
-    private patientService: PatientsService,
     private observationsService: ObservationsService,
     private theme: NbThemeService,
-    private route: ActivatedRoute,
-    private location: Location
+    private route: ActivatedRoute
   ) {
-    this.route.params.pipe(
-      flatMap(params => patientService.getSinglePatient(params["patientId"]))
-    ).subscribe(patient => {
-      this.patient = patient;
+    this.route.params.subscribe(params => {
+      this.patientId = params["patientId"];
       this.getObservations()
     });
   }
 
-  public goBack(): void {
-    this.location.back();
-  }
-
   private getObservations(): void {
-    this.observationsService.getObservations(this.patient.id)
+    this.observationsService.getObservations(this.patientId)
       .subscribe(observations => {
         this.source = new LocalDataSource(observations.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
-          const date = new Date(observation.issued).toLocaleString('en-gb');
+          const date = new Date(observation.issued).toLocaleString(GlucoseLevelsLocale.localeTime);
           data.level = `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
           data.date = date.substring(0, date.length - 3);
           data.time = time === 'EXACT' ? '-' : time;
@@ -83,7 +73,7 @@ export class GlucoseLevelsComponent {
   private getObservationDataForChart = (observation: Observation): { value: number, date: string } => {
     return {
       value: observation.valueQuantity.value,
-      date: new Date(observation.issued).toLocaleDateString('en-gb')
+      date: new Date(observation.issued).toLocaleDateString(GlucoseLevelsLocale.localeTime)
     }
   };
 
@@ -97,7 +87,7 @@ export class GlucoseLevelsComponent {
       },
       legend: {
         left: 'left',
-        data: ['Blood Glucose mmol/l'],
+        data: [GlucoseLevelsLocale.tableLegend],
         textStyle: {
           color: echarts.textColor,
         },
@@ -150,7 +140,7 @@ export class GlucoseLevelsComponent {
       },
       series: [
         {
-          name: 'Blood Glucose mmol/l',
+          name: GlucoseLevelsLocale.tableLegend,
           type: 'line',
           data: values,
         },

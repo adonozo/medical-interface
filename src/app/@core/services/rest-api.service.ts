@@ -24,4 +24,12 @@ export class RestApiService {
   post<T1, T2>(resource: string, body: T1): Observable<T2> {
     return this.http.post<T2>(this.baseUrl + resource, body, this.httpOptions);
   }
+
+  put<T1, T2>(resource: string, body: T1): Observable<T2> {
+    return this.http.put<T2>(this.baseUrl + resource, body, this.httpOptions);
+  }
+
+  patch<T1, T2>(resource: string, body: T1): Observable<T2> {
+    return this.http.patch<T2>(this.baseUrl + resource, body, this.httpOptions);
+  }
 }

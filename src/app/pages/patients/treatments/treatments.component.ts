@@ -1,40 +1,37 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { TreatmentsService } from "../../../@core/services/treatments.service";
 import { LocalDataSource } from "ng2-smart-table";
-import { map } from "rxjs/operators";
-import { Patient } from "../../../@core/models/patient";
 import { FhirResource, MedicationRequest, ServiceRequest, Timing } from "fhir/r4";
-import { flatMap } from "rxjs/internal/operators";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Location } from "@angular/common";
-import { PatientsService } from "../../../@core/services/patients.service";
 import { timingToString } from "../../../@core/services/utils/utils";
+import { TreatmentsLocale } from "./treatments.locale";
 
 @Component({
   selector: 'app-treatments',
   templateUrl: './treatments.component.html',
   styleUrls: ['./treatments.component.scss']
 })
-export class TreatmentsComponent {
+export class TreatmentsComponent implements AfterViewInit {
   source: LocalDataSource;
-  patient: Patient;
+  patientId: string;
 
   settings = {
+    selectedRowIndex: -1,
     columns: {
       type: {
-        title: 'Type',
+        title: TreatmentsLocale.columnType,
         type: 'string'
       },
       period: {
-        title: 'Period',
+        title: TreatmentsLocale.columnPeriod,
         type: 'string'
       },
       time: {
-        title: 'Time',
+        title: TreatmentsLocale.columnTime,
         type: 'string'
       },
       details: {
-        title: 'Details',
+        title: TreatmentsLocale.columnDetails,
         type: 'string'
       }
     },
@@ -42,53 +39,34 @@ export class TreatmentsComponent {
   }
 
   constructor(
-    private patientService: PatientsService,
     private treatmentService: TreatmentsService,
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private location: Location
+    private router: Router
   ) {
-    this.route.params.pipe(
-      flatMap(params => patientService.getSinglePatient(params["patientId"]))
-    ).subscribe(patient => {
-      this.patient = patient;
+  }
+
+  ngAfterViewInit(): void {
+    this.route.params.subscribe(params => {
+      this.patientId = params["patientId"];
       this.getAllCarePlans();
     });
-  }
-
-  public goBack(): void {
-    this.location.back();
-  }
-
-  public async navigate(page: string): Promise<void> {
-    switch (page) {
-      case 'medication':
-        await this.router.navigate([this.patient.id + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});
-        break;
-      case 'service':
-        await this.router.navigate([this.patient.id + '/new-service-request'], {relativeTo: this.activatedRoute.parent});
-        return;
-    }
   }
 
   public async viewOrder(event: any): Promise<void> {
     const resource: FhirResource = event.data.resource;
     switch (resource.resourceType) {
       case "MedicationRequest":
-        await this.router.navigate([this.patient.id + '/medication-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([this.patientId + '/medication-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
         break;
       case "ServiceRequest":
-        await this.router.navigate([this.patient.id + '/service-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
+        await this.router.navigate([this.patientId + '/service-order/' + resource.id], {relativeTo: this.activatedRoute.parent});
         break;
     }
   }
 
   private getAllCarePlans(): void {
-    this.treatmentService.getTreatmentsFor(this.patient.id)
-      .pipe(
-        map(bundle => bundle.entry.map(entry => entry.resource))
-      )
+    this.treatmentService.getTreatmentsFor(this.patientId)
       .subscribe(resources => {
         this.source = new LocalDataSource(resources.map(resource => this.addDataToResource(resource)))
       })
@@ -117,7 +95,7 @@ export class TreatmentsComponent {
     const timings = resource.dosageInstruction.map(dose => this.getPeriodAndTimeFromTiming(dose.timing));
     return {
       resource,
-      type: 'Medication Order',
+      type: TreatmentsLocale.medicationOrder,
       period: timings.map(item => item.period).join('\n'),
       time: timings.map(item => item.time).join('\n'),
       details: `${resource.medicationReference.display} - ${dosage}`
@@ -128,7 +106,7 @@ export class TreatmentsComponent {
     return {
       resource,
       ...this.getPeriodAndTimeFromTiming(resource.occurrenceTiming),
-      type: 'Blood glucose self-monitor order',
+      type: TreatmentsLocale.bloodGlucose,
       details: resource.patientInstruction,
     }
   }
@@ -140,8 +118,8 @@ export class TreatmentsComponent {
     if (timing.repeat.boundsDuration) {
       period = `${timing.repeat.boundsDuration.value} ${this.dayUnitFromCode(timing.repeat.boundsDuration.unit)}`
     } else if (timing.repeat.boundsPeriod) {
-      const start = new Date(timing.repeat.boundsPeriod.start).toLocaleDateString('en-gb');
-      const end = new Date(timing.repeat.boundsPeriod.end).toLocaleDateString('en-gb');
+      const start = new Date(timing.repeat.boundsPeriod.start).toLocaleDateString(TreatmentsLocale.localeTime);
+      const end = new Date(timing.repeat.boundsPeriod.end).toLocaleDateString(TreatmentsLocale.localeTime);
       period = `${start} - ${end}`
     }
 
@@ -159,11 +137,11 @@ export class TreatmentsComponent {
   private dayUnitFromCode = (unit: string): string => {
     switch (unit) {
       case 'd':
-        return 'day(s)';
+        return TreatmentsLocale.days;
       case 'wk':
-        return 'week(s)';
+        return TreatmentsLocale.week;
       case 'mo':
-        return 'month(s)';
+        return TreatmentsLocale.month;
       default:
         return unit;
     }
@@ -172,13 +150,13 @@ export class TreatmentsComponent {
   private frequencyToString = (frequency: number): string => {
     switch (frequency) {
       case 1:
-        return 'once a day';
+        return TreatmentsLocale.onceADay;
       case 2:
-        return 'twice a day';
+        return TreatmentsLocale.twiceADay;
       case 3:
-        return 'thrice a day';
+        return TreatmentsLocale.thriceADay;
       case 4:
-        return 'four times a day';
+        return TreatmentsLocale.fourTimesADay;
       default:
         return '';
     }

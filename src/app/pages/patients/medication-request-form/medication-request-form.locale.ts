@@ -1,0 +1,18 @@
+export const MedicationRequestFormLocale = {
+  monday: $localize`Monday`,
+  tuesday: $localize`Tuesday`,
+  wednesday: $localize`Wednesday`,
+  thursday: $localize`Thursday`,
+  friday: $localize`Friday`,
+  saturday: $localize`Saturday`,
+  sunday: $localize`Sunday`,
+  beforeBreakfast: $localize`Before breakfast`,
+  atBreakfast: $localize`At breakfast`,
+  afterBreakfast: $localize`After breakfast`,
+  beforeLunch: $localize`Before lunch`,
+  atLunch: $localize`At lunch`,
+  afterLunch: $localize`After lunch`,
+  beforeDinner: $localize`Before dinner`,
+  atDinner: $localize`At dinner`,
+  afterDinner: $localize`After dinner`,
+}

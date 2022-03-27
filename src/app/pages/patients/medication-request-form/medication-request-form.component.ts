@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Patient } from "../../../@core/models/patient";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { flatMap, startWith } from "rxjs/internal/operators";
+import { flatMap } from "rxjs/internal/operators";
 import { Dosage, Medication, Quantity } from "fhir/r4";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { Observable, of } from "rxjs";
@@ -12,13 +12,14 @@ import { Location } from "@angular/common";
 import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from "./form-data";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
+import { FormComponent } from "../../../@core/components/form.component";
 
 @Component({
   selector: 'app-medication-request',
   templateUrl: './medication-request-form.component.html',
   styleUrls: ['./medication-request-form.component.scss']
 })
-export class MedicationRequestFormComponent implements OnInit {
+export class MedicationRequestFormComponent extends FormComponent implements OnInit {
 
   patient: Patient;
   medications: Medication[] = [];
@@ -32,8 +33,6 @@ export class MedicationRequestFormComponent implements OnInit {
   dayOfWeekArray = DayOfWeek;
   timesOfDayArray = TimeOfDay;
 
-  formStatus: FormStatus = FormStatus.default;
-  formStatusType = FormStatus;
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;
 
@@ -45,6 +44,7 @@ export class MedicationRequestFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private location: Location
   ) {
+    super();
     this.medicationForm = formBuilder.group({
       medication: ['', Validators.required],
       medicationId: ['', Validators.required],
@@ -71,7 +71,6 @@ export class MedicationRequestFormComponent implements OnInit {
       this.filteredMedications = of(medications);
       this.filteredMedications = this.medicationControl.valueChanges
         .pipe(
-          startWith(''),
           map(input => this.filterMedications(input))
         )
     });
@@ -173,7 +172,7 @@ export class MedicationRequestFormComponent implements OnInit {
     }
     request.subject = {
       id: this.patient.id,
-      display: `${this.patient.firstName} + ${this.patient.lastName}`
+      display: `${this.patient.firstName} ${this.patient.lastName}`
     }
     request.requester = {
       id: '60fb0a79c055e8c0d3f853d0',

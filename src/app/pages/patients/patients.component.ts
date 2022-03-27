@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {PatientsService} from "../../@core/services/patients.service";
-import {LocalDataSource} from "ng2-smart-table";
-import {ActivatedRoute, Router} from "@angular/router";
+import { PatientsService } from "../../@core/services/patients.service";
+import { LocalDataSource } from "ng2-smart-table";
+import { ActivatedRoute, Router } from "@angular/router";
+import { PatientsLocale } from "./patients.locale";
 
 @Component({
   selector: 'app-patients',
@@ -12,13 +13,14 @@ export class PatientsComponent implements OnInit {
   source: LocalDataSource;
 
   settings = {
+    selectedRowIndex: -1,
     columns: {
       name: {
-        title: 'Name',
+        title: PatientsLocale.nameColumn,
         type: 'string'
       },
       email: {
-        title: 'Email',
+        title: PatientsLocale.emailColumn,
         type: 'string'
       }
     },
@@ -26,15 +28,11 @@ export class PatientsComponent implements OnInit {
       add: false,
       edit: false,
       delete: false,
-      columnTitle: 'Actions',
+      columnTitle: PatientsLocale.actionsColumn,
       custom: [
         {
-          name: 'records',
-          title: '<i class="action-icon fa fa-list-ul inline-block"></i>',
-        },
-        {
-          name: 'glucose-levels',
-          title: '<i class="action-icon far fa-chart-bar inline-block"></i>'
+          name: 'view',
+          title: `<div class="badge d-table"><i class="fa-xxs fa fa-eye"></i> <span class="label text-dark ml-1">${PatientsLocale.viewAction}</span></div>`,
         }
       ]
     }
@@ -43,25 +41,27 @@ export class PatientsComponent implements OnInit {
   constructor(
     private patientService: PatientsService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    this.getPatientData();
+    private activatedRoute: ActivatedRoute) {
   }
 
-  public onCustomPatients(event: any) {
+  ngOnInit(): void {
+    this.getPatientsData();
+  }
+
+  public async onCustomPatients(event: any): Promise<void> {
     switch (event.action) {
-      case 'glucose-levels':
-        this.router.navigate([event.data.id + '/glucose-levels'], {relativeTo: this.activatedRoute.parent});
-        break;
-      case 'records':
-        this.router.navigate([event.data.id + '/treatments'], {relativeTo: this.activatedRoute.parent});
+      case 'view':
+        await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
         break;
     }
   }
 
-  private getPatientData(): void {
-    this.patientService.getPatientList()
+  public async onRowSelected(event: any): Promise<void> {
+    await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
+  }
+
+  private getPatientsData(): void {
+    this.patientService.getPatientsList()
       .subscribe(patients =>
         this.source = new LocalDataSource(patients.map(patient => {
           const data: any = patient;
