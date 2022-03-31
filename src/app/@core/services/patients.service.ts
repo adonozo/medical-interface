@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { RestApiService } from "./rest-api.service";
 import { Observable } from "rxjs";
-import { Patient } from "../models/patient";
 import { map } from "rxjs/operators";
+import { Bundle, Patient } from "fhir/r4";
+import { InternalPatient } from "../models/internalPatient";
+import { ResourceUtils } from "./utils/resourceUtils";
+import { Extensions } from "./data/constants";
 
 @Injectable({
   providedIn: 'root'
@@ -14,35 +17,46 @@ export class PatientsService {
   }
 
   getPatientsList(): Observable<Patient[]> {
-    return this.restService.get<Patient[]>(this.path)
+    return this.restService.get<Bundle>(this.path)
       .pipe(
-        map(patients => patients.map(PatientsService.mapPatientDate))
-      );
+        map(bundle => {
+          if (!bundle.entry) {
+            return [];
+          }
+
+          return bundle.entry.map(entry => entry.resource as Patient);
+        }));
   }
 
   getSinglePatient(id: string): Observable<Patient> {
+    return this.restService.get<Patient>(this.path + id);
+  }
+
+  getInternalPatient(id: string): Observable<InternalPatient> {
     return this.restService.get<Patient>(this.path + id)
       .pipe(
-        map(PatientsService.mapPatientDate)
+        map(patient => PatientsService.toInternalPatient(patient))
       );
   }
 
   createPatient(patient: Patient): Observable<Patient> {
-    return this.restService.post<Patient, Patient>(this.path, patient)
-      .pipe(
-        map(PatientsService.mapPatientDate)
-      );
+    return this.restService.post<Patient, Patient>(this.path, patient);
   }
 
-  updatePatient(patient: Patient): Observable<Patient> {
-    return this.restService.patch<Patient, Patient>(this.path + patient.id, patient)
-      .pipe(
-        map(PatientsService.mapPatientDate)
-      );
+  patchPatient(patient: InternalPatient): Observable<Patient> {
+    return this.restService.patch<InternalPatient, Patient>(this.path + patient.id, patient);
   }
 
-  private static mapPatientDate(patient: Patient): Patient {
-    patient.birthDate = new Date(patient.birthDate);
-    return patient;
+  static toInternalPatient(patient: Patient): InternalPatient {
+    return {
+      id: patient.id,
+      email: ResourceUtils.getStringExtension(patient, Extensions.EMAIL),
+      birthDate: new Date(patient.birthDate),
+      gender: ResourceUtils.getPatientGender(patient),
+      lastName: patient.name[0]?.family,
+      firstName: patient.name[0]?.given?.join(' '),
+      alexaUserId: ResourceUtils.getStringExtension(patient, Extensions.ALEXA_ID),
+      phones: ResourceUtils.getPatientContacts(patient)
+    };
   }
 }

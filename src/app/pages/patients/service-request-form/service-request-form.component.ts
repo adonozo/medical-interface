@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Patient } from "../../../@core/models/patient";
 import { flatMap } from "rxjs/internal/operators";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
@@ -8,8 +7,9 @@ import { Location } from "@angular/common";
 import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
 import { DaysOfWeek, TimesOfDay } from "./form-data";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
-import { ServiceRequest, Timing } from "fhir/r4";
+import { Patient, ServiceRequest, Timing } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
+import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 
 @Component({
   selector: 'app-service-request-form',
@@ -132,11 +132,11 @@ export class ServiceRequestFormComponent extends FormComponent {
   private makeServiceRequest(timing: Timing): ServiceRequest {
     const request = this.serviceRequestService.getEmptyServiceRequest();
     request.subject = {
-      id: this.patient.id,
-      display: `${this.patient.firstName} + ${this.patient.lastName}`
+      reference: ResourceUtils.getPatientReference(this.patient),
+      display: this.patient.name[0]?.family
     }
     request.requester = {
-      id: '60fb0a79c055e8c0d3f853d0',
+      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
       display: 'Dr. Steven'
     }
     request.occurrenceTiming = timing;
@@ -173,7 +173,7 @@ export class ServiceRequestFormComponent extends FormComponent {
     })
 
     const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
-    // Create the lowest number of requests
+    // Create the lowest value of requests
     if (daysCount <= timesCount) {
       daysMap.forEach((value, key) => {
         if (value.length == 0) {

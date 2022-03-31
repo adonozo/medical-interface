@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PatientsService } from "../../../@core/services/patients.service";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { PatientPhoneContact } from "../../../@core/models/patient";
+import { PatientPhoneContact } from "../../../@core/models/internalPatient";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 
@@ -16,10 +16,10 @@ export class PatientFormService {
   }
 
   public getPatientForm(patientId): Observable<FormGroup> {
-    return this.patientsService.getSinglePatient(patientId)
+    return this.patientsService.getInternalPatient(patientId)
       .pipe(
         map(patient => {
-          const phoneContactsForm = this.getPhoneContactsForm(patient.phoneContacts);
+          const phoneContactsForm = this.getPhoneContactsForm(patient.phones);
           return this.formBuilder.group({
             firstName: [patient.firstName, Validators.required],
             lastName: [patient.lastName, Validators.required],
@@ -46,15 +46,17 @@ export class PatientFormService {
 
   public getEmptyPhoneContactForm(): FormGroup {
     return this.formBuilder.group({
-      number: ['', Validators.required],
+      value: ['', Validators.required],
       use: ['', [Validators.required, Validators.pattern('(home|work|temp|old|mobile)')]]
     })
   }
 
-  public static getPhoneContactValues(formControl: AbstractControl): PatientPhoneContact {
+  public static getPhoneContactValues(formControl: AbstractControl, index: number): PatientPhoneContact {
     return {
-      number: formControl.get('number').value,
-      use: formControl.get('use').value
+      system: 'phone',
+      value: formControl.get('value').value,
+      use: formControl.get('use').value,
+      rank: index
     }
   }
 
@@ -67,7 +69,7 @@ export class PatientFormService {
 
     phoneContacts.forEach(contact => {
       form.push(this.formBuilder.group({
-        number: [contact.number, Validators.required],
+        value: [contact.value, Validators.required],
         use: [contact.use, [Validators.required, Validators.pattern('(home|work|temp|old|mobile)')]]
       }));
     });
