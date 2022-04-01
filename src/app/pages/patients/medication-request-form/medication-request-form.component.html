@@ -4,7 +4,8 @@
       <nb-card-header *ngIf="patient">
         <h2>
           <ng-container i18n>New Medication Order for</ng-container>
-          {{patient.firstName + ' ' + patient.lastName}}</h2>
+          {{ patientName }}
+        </h2>
       </nb-card-header>
       <nb-card-body>
         <form [formGroup]="medicationForm" (ngSubmit)="submitForm()" class="form-horizontal">

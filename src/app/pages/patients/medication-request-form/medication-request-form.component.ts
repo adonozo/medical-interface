@@ -140,6 +140,10 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
     return medication.code.coding[0].display;
   }
 
+  public get patientName(): string {
+    return ResourceUtils.getPatientName(this.patient);
+  }
+
   public onDrugSelectionChange = (event): void =>
     this.medicationIdControl.setValue(event.id);
 

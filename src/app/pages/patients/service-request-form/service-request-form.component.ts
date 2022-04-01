@@ -73,6 +73,10 @@ export class ServiceRequestFormComponent extends FormComponent {
     return this.serviceForm.get('instructions') as FormControl;
   }
 
+  public get patientName(): string {
+    return ResourceUtils.getPatientName(this.patient);
+  }
+
   public goBack(): void {
     this.location.back();
   }
@@ -172,7 +176,6 @@ export class ServiceRequestFormComponent extends FormComponent {
       }
     })
 
-    const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
     // Create the lowest value of requests
     if (daysCount <= timesCount) {
       daysMap.forEach((value, key) => {
@@ -180,6 +183,7 @@ export class ServiceRequestFormComponent extends FormComponent {
           return;
         }
 
+        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
         timingCopy.repeat.dayOfWeek = [key as any];
         timingCopy.repeat.when = value;
         timingsArray.push(timingCopy);
@@ -190,6 +194,7 @@ export class ServiceRequestFormComponent extends FormComponent {
           return;
         }
 
+        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
         timingCopy.repeat.when = [key as any];
         timingCopy.repeat.dayOfWeek = value;
         timingsArray.push(timingCopy);
