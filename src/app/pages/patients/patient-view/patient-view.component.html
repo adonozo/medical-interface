@@ -38,8 +38,8 @@
             <span i18n><b>Contact</b></span>
           </div>
           <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-3">
-            <ng-container *ngFor="let contact of patient.phoneContacts">
-              {{contact.number}} - {{contact.use | titlecase}} <br />
+            <ng-container *ngFor="let contact of patient.phones">
+              {{contact.value}} - {{contact.use | titlecase}} <br />
             </ng-container>
           </div>
         </div>

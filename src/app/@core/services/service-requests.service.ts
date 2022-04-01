@@ -35,8 +35,12 @@ export class ServiceRequestsService {
   }
 
   public createServiceRequests(requests: ServiceRequest[]): Observable<string[]> {
-    return forkJoin(requests.map(request => this.restApiService.post<ServiceRequest, ServiceRequest>(this.path, request)))
-      .pipe(map(requests => requests.map(request => request.id)));
+    return forkJoin(requests
+      .map(request => this.restApiService
+      .post<ServiceRequest, ServiceRequest>(this.path, request)))
+      .pipe(
+        map(requests => requests.map(request => request.id))
+      );
   }
 
   public getSingleServiceRequest(id: string): Observable<ServiceRequest> {

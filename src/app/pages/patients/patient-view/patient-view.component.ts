@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Patient } from "../../../@core/models/patient";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { flatMap } from "rxjs/internal/operators";
+import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
+import { InternalPatient } from "../../../@core/models/internalPatient";
 
 @Component({
   selector: 'app-patient-view',
@@ -10,8 +11,9 @@ import { flatMap } from "rxjs/internal/operators";
   styleUrls: ['./patient-view.component.scss']
 })
 export class PatientViewComponent {
-  patient: Patient;
+  patient: InternalPatient;
   patientId: string;
+  extensions: ResourceUtils = ResourceUtils;
 
   constructor(
     private patientsService: PatientsService,
@@ -21,7 +23,7 @@ export class PatientViewComponent {
     this.route.params.pipe(
       flatMap(params => {
         this.patientId = params["patientId"];
-        return patientsService.getSinglePatient(params["patientId"]);
+        return patientsService.getInternalPatient(params["patientId"]);
       })
     ).subscribe(patient => this.patient = patient);
   }
