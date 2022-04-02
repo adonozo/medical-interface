@@ -3,6 +3,8 @@ import { PatientsService } from "../../@core/services/patients.service";
 import { LocalDataSource } from "ng2-smart-table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PatientsLocale } from "./patients.locale";
+import { ResourceUtils } from "../../@core/services/utils/resourceUtils";
+import { Extensions } from "../../@core/services/data/constants";
 
 @Component({
   selector: 'app-patients',
@@ -65,7 +67,8 @@ export class PatientsComponent implements OnInit {
       .subscribe(patients =>
         this.source = new LocalDataSource(patients.map(patient => {
           const data: any = patient;
-          data.name = `${patient.firstName} ${patient.lastName}`;
+          data.name = ResourceUtils.getPatientName(patient);
+          data.email = ResourceUtils.getStringExtension(patient, Extensions.EMAIL)
           return data;
         }))
       )

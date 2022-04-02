@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Patient } from "../../../@core/models/patient";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { flatMap } from "rxjs/internal/operators";
-import { Dosage, Medication, Quantity } from "fhir/r4";
+import { Dosage, Medication, Patient, Quantity } from "fhir/r4";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -13,6 +12,7 @@ import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from 
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
 import { FormComponent } from "../../../@core/components/form.component";
+import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 
 @Component({
   selector: 'app-medication-request',
@@ -140,6 +140,10 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
     return medication.code.coding[0].display;
   }
 
+  public get patientName(): string {
+    return ResourceUtils.getPatientName(this.patient);
+  }
+
   public onDrugSelectionChange = (event): void =>
     this.medicationIdControl.setValue(event.id);
 
@@ -167,15 +171,15 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
     const medication = this.medicationControl.value;
     request.contained = [medication];
     request.medicationReference = {
-      id: medication.id,
+      id: ResourceUtils.getMedicationReference(medication),
       display: this.getMedicationName(medication)
     }
     request.subject = {
-      id: this.patient.id,
-      display: `${this.patient.firstName} ${this.patient.lastName}`
+      reference: ResourceUtils.getPatientReference(this.patient),
+      display: this.patient.name[0]?.family
     }
     request.requester = {
-      id: '60fb0a79c055e8c0d3f853d0',
+      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
       display: 'Dr. Steven'
     }
     request.note = [{text: this.instructionsControl.value}]

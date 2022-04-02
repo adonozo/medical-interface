@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { Location } from "@angular/common";
+import { formatDate, Location } from "@angular/common";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { FormComponent } from "../../../@core/components/form.component";
-import { Patient } from "../../../@core/models/patient";
+import { InternalPatient } from "../../../@core/models/internalPatient";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PatientFormService } from "./patient-form.service";
 import { flatMap } from "rxjs/internal/operators";
+import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 
 @Component({
   selector: 'app-patient-form',
@@ -78,7 +79,7 @@ export class PatientFormComponent extends FormComponent {
   }
 
   public submitForm(): void {
-    const patient: Patient = {
+    const patient: InternalPatient = {
       id: this.patientId,
       alexaUserId: '',
       firstName: this.firstNameControl.value,
@@ -86,18 +87,19 @@ export class PatientFormComponent extends FormComponent {
       email: this.emailControl.value,
       gender: this.genderControl.value,
       birthDate: this.birthDateControl.value,
-      phoneContacts: this.phonesArrayControl.controls.map(PatientFormService.getPhoneContactValues)
+      phones: this.phonesArrayControl.controls.map(PatientFormService.getPhoneContactValues)
     };
 
     this.formStatus = FormStatus.loading;
     this.savePatient(patient);
   }
 
-  private savePatient(patient: Patient): void {
-    const method = this.isEditForm ? this.patientsService.updatePatient(patient)
+  private savePatient(internalPatient: InternalPatient): void {
+    const birthDate = formatDate(internalPatient.birthDate, 'yyyy-MM-dd', 'en_US');
+    const patient = ResourceUtils.toPatient(internalPatient, birthDate);
+    const method = this.isEditForm ? this.patientsService.patchPatient(internalPatient)
       : this.patientsService.createPatient(patient);
-    method
-      .subscribe(
+    method.subscribe(
         async patient => {
           await this.router.navigate([patient.id + '/view'], {relativeTo: this.activatedRoute.parent});
         },

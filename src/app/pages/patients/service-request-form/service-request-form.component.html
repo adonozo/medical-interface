@@ -4,7 +4,7 @@
       <nb-card-header *ngIf="patient">
         <h2>
           <ng-container i18n>New self-monitor blood glucose order for</ng-container>
-          {{patient.firstName + ' ' + patient.lastName}}</h2>
+          {{ patientName }}</h2>
       </nb-card-header>
       <nb-card-body>
         <form [formGroup]="serviceForm" (ngSubmit)="submitForm()" class="form-horizontal">
