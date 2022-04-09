@@ -17,8 +17,8 @@ export class RestApiService {
   constructor(private http: HttpClient) {
   }
 
-  get<T>(resource: string): Observable<T> {
-    return this.http.get<T>(this.baseUrl + resource);
+  get<T>(resource: string, options?: {}): Observable<T> {
+    return this.http.get<T>(this.baseUrl + resource, options);
   }
 
   post<T1, T2>(resource: string, body: T1): Observable<T2> {

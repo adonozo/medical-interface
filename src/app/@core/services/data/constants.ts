@@ -8,3 +8,8 @@ export const Extensions = {
   INSULIN_FLAG: "http://diabetes-assistant.com/fhir/StructureDefinition/InsulinFlag",
   ALEXA_ID: "http://diabetes-assistant.com/fhir/StructureDefinition/AlexaId"
 }
+
+export const HttpHeaders = {
+  PAGINATION_LAST: 'Pagination-Last',
+  REMAINING_COUNT: 'Pagination-Remaining'
+}
