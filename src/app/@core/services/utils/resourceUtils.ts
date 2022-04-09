@@ -1,6 +1,7 @@
-import { ContactPoint, Medication, Patient } from "fhir/r4";
+import { Bundle, ContactPoint, Medication, Patient } from "fhir/r4";
 import { Extensions, Resource } from "../data/constants";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
+import { PaginatedResult } from "../../models/paginatedResult";
 
 export class ResourceUtils {
   static getPatientReference(patient: Patient): string {
@@ -86,5 +87,27 @@ export class ResourceUtils {
       url: url,
       valueString: value
     });
+  }
+
+  static getPaginatedResult(bundle: Bundle, remaining: number, lastCursor: string): PaginatedResult<any[]> {
+    if (!bundle.entry) {
+      return this.getEmptyPaginatedResult();
+    }
+
+    return {
+      totalResults: bundle.total,
+      lastDataCursor: lastCursor,
+      remainingCount: remaining,
+      results: bundle.entry.map(entry => entry.resource)
+    };
+  }
+
+  static getEmptyPaginatedResult(): PaginatedResult<[]> {
+    return {
+      totalResults: 0,
+      remainingCount: 0,
+      lastDataCursor: null,
+      results: []
+    }
   }
 }
