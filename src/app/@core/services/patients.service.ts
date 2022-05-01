@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { RestApiService } from "./rest-api.service";
 import { Observable } from "rxjs";
-import { map} from "rxjs/operators";
-import { Bundle, Patient } from "fhir/r4";
+import { map } from "rxjs/operators";
+import { Patient } from "fhir/r4";
 import { InternalPatient } from "../models/internalPatient";
 import { ResourceUtils } from "./utils/resourceUtils";
-import { Extensions, HttpHeaders } from "./data/constants";
+import { Extensions } from "./data/constants";
 import { PaginatedResult } from "../models/paginatedResult";
-import { HttpResponse } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -18,20 +17,8 @@ export class PatientsService {
   constructor(private restService: RestApiService) {
   }
 
-  getPatientsList(limit: number = 0, lastCursor?: string): Observable<PaginatedResult<Patient[]>> {
-    return this.restService.get<HttpResponse<Bundle>>(this.path, {
-      params: {
-        limit: limit,
-        after: lastCursor
-      },
-      observe: 'response' })
-      .pipe(
-        map(response => {
-          const paginationLast = response.headers.get(HttpHeaders.PAGINATION_LAST);
-          const remainingCount = +response.headers.get(HttpHeaders.REMAINING_COUNT);
-          return ResourceUtils.getPaginatedResult(response.body, remainingCount, paginationLast);
-        })
-      );
+  getPatientsList(limit: number = 0, lastCursor?: string): Observable<PaginatedResult<Patient>> {
+    return this.restService.getPaginated(this.path, limit, lastCursor);
   }
 
   getSinglePatient(id: string): Observable<Patient> {

@@ -89,7 +89,7 @@ export class ResourceUtils {
     });
   }
 
-  static getPaginatedResult(bundle: Bundle, remaining: number, lastCursor: string): PaginatedResult<any[]> {
+  static getPaginatedResult(bundle: Bundle, remaining: number, lastCursor: string): PaginatedResult<any> {
     if (!bundle.entry) {
       return this.getEmptyPaginatedResult();
     }

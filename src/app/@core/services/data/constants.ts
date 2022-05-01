@@ -9,7 +9,7 @@ export const Extensions = {
   ALEXA_ID: "http://diabetes-assistant.com/fhir/StructureDefinition/AlexaId"
 }
 
-export const HttpHeaders = {
+export const Headers = {
   PAGINATION_LAST: 'Pagination-Last',
   REMAINING_COUNT: 'Pagination-Remaining'
 }

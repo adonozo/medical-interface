@@ -16,7 +16,7 @@ import { Patient } from "fhir/r4";
 export class PatientsComponent implements OnInit {
   private readonly defaultLimit = 20;
   source: LocalDataSource;
-  results: PaginatedResult<Patient[]>
+  results: PaginatedResult<Patient>
 
   settings = {
     selectedRowIndex: -1,
@@ -69,7 +69,7 @@ export class PatientsComponent implements OnInit {
     await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
   }
 
-  nexPatients(): void {
+  nextPatients(): void {
     this.getPatientsData(this.defaultLimit, this.results.lastDataCursor);
   }
 

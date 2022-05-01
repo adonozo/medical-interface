@@ -15,6 +15,19 @@
                        [settings]="settings"
                        [source]="source">
       </ng2-smart-table>
+      <nb-card-footer *ngIf="results">
+        <div class="row">
+          <div class="col-6">
+            <button nbButton (click)="nextObservations()" *ngIf="results.remainingCount > 0" i18n>
+              Next
+            </button>
+          </div>
+          <div class="col-6 text-right">
+            <b><span i18n>Total: </span> {{ results.totalResults }} </b> |
+            {{ results.remainingCount }} <span i18n>Remaining</span>
+          </div>
+        </div>
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>
