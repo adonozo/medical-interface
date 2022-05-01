@@ -12,6 +12,7 @@ import { NbSecurityModule } from "@nebular/security";
 import { NbEvaIconsModule } from "@nebular/eva-icons";
 import { OneColumnComponent } from "./layouts/one-column/one-column.component";
 import { DEFAULT_THEME } from "./style/default";
+import { PaginationFooterComponent } from './components/pagination-footer/pagination-footer.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -33,12 +34,12 @@ const COMPONENTS = [
 ]
 
 @NgModule({
-  declarations: [...COMPONENTS],
+  declarations: [...COMPONENTS, PaginationFooterComponent],
   imports: [
     CommonModule,
     ...NB_MODULES
   ],
-  exports: [CommonModule, ...COMPONENTS]
+    exports: [CommonModule, ...COMPONENTS, PaginationFooterComponent]
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {

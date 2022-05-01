@@ -52,8 +52,8 @@ export class GlucoseLevelsComponent {
     });
   }
 
-  nextObservations(): void {
-    this.getObservations(this.defaultLimit, this.results.lastDataCursor);
+  nextObservations(lastCursor: string): void {
+    this.getObservations(this.defaultLimit, lastCursor);
   }
 
   private getObservations(limit: number, lastCursor?: string): void {
