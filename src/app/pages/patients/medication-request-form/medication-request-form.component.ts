@@ -82,59 +82,59 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
     this.quantities = this.medicationService.getMedicationQuantities();
   }
 
-  public get medicationControl(): FormControl {
+  get medicationControl(): FormControl {
     return this.medicationForm.get('medication') as FormControl;
   }
 
-  public get medicationIdControl(): FormControl {
+  get medicationIdControl(): FormControl {
     return this.medicationForm.get('medicationId') as FormControl;
   }
 
-  public get doseQuantityControl(): FormControl {
+  get doseQuantityControl(): FormControl {
     return this.medicationForm.get('doseQuantity') as FormControl;
   }
 
-  public get doseUnitControl(): FormControl {
+  get doseUnitControl(): FormControl {
     return this.medicationForm.get('doseUnit') as FormControl;
   }
 
-  public get dayOfWeekGroup(): FormGroup {
+  get dayOfWeekGroup(): FormGroup {
     return this.medicationForm.get('dayOfWeek') as FormGroup;
   }
 
-  public get whenGroup(): FormGroup {
+  get whenGroup(): FormGroup {
     return this.medicationForm.get('when') as FormGroup;
   }
 
-  public get timeOfDayFormArray(): FormArray {
+  get timeOfDayFormArray(): FormArray {
     return this.medicationForm.get('timeOfDay') as FormArray;
   }
 
-  public get frequencyControl(): FormControl {
+  get frequencyControl(): FormControl {
     return this.medicationForm.get('frequency') as FormControl;
   }
 
-  public get durationQuantityControl(): FormControl {
+  get durationQuantityControl(): FormControl {
     return this.medicationForm.get('durationQuantity') as FormControl;
   }
 
-  public get durationUnitControl(): FormControl {
+  get durationUnitControl(): FormControl {
     return this.medicationForm.get('durationUnit') as FormControl;
   }
 
-  public get periodRangeControl(): FormControl {
+  get periodRangeControl(): FormControl {
     return this.medicationForm.get('periodRange') as FormControl;
   }
 
-  public get periodStartControl(): FormControl {
+  get periodStartControl(): FormControl {
     return this.medicationForm.get('periodStart') as FormControl;
   }
 
-  public get instructionsControl(): FormControl {
+  get instructionsControl(): FormControl {
     return this.medicationForm.get('instructions') as FormControl;
   }
 
-  public getMedicationName(medication: any): string {
+  getMedicationName(medication: any): string {
     if (typeof medication === 'string' || medication instanceof String) {
       return medication.toString();
     }
@@ -142,14 +142,14 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
     return medication.code.coding[0].display;
   }
 
-  public get patientName(): string {
+  get patientName(): string {
     return ResourceUtils.getPatientName(this.patient);
   }
 
-  public onDrugSelectionChange = (event): void =>
+  onDrugSelectionChange = (event): void =>
     this.medicationIdControl.setValue(event.id);
 
-  public getUnitName(): string {
+  getUnitName(): string {
     const quantity = this.doseUnitControl.value;
     if (quantity) {
       return quantity.extension[0].valueString;
@@ -158,17 +158,17 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
     return '';
   }
 
-  public addTimeForm = (): void =>
+  addTimeForm = (): void =>
     this.timeOfDayFormArray.push(this.formBuilder.control(''))
 
-  public removeTimeForm = (index: number): void =>
+  removeTimeForm = (index: number): void =>
     this.timeOfDayFormArray.removeAt(index)
 
-  public goBack(): void {
+  goBack(): void {
     this.location.back();
   }
 
-  public submitForm(): void {
+  submitForm(): void {
     const request = this.medicationRequestService.getEmptyMedicationRequest();
     const medication = this.medicationControl.value;
     request.contained = [medication];

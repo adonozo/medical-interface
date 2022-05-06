@@ -49,39 +49,39 @@ export class ServiceRequestFormComponent extends FormComponent {
     this.setTimingForm();
   }
 
-  public get durationQuantityControl(): FormControl {
+  get durationQuantityControl(): FormControl {
     return this.serviceForm.get('durationQuantity') as FormControl;
   }
 
-  public get durationUnitControl(): FormControl {
+  get durationUnitControl(): FormControl {
     return this.serviceForm.get('durationUnit') as FormControl;
   }
 
-  public get periodRangeControl(): FormControl {
+  get periodRangeControl(): FormControl {
     return this.serviceForm.get('periodRange') as FormControl;
   }
 
-  public get periodStartControl(): FormControl {
+  get periodStartControl(): FormControl {
     return this.serviceForm.get('periodStart') as FormControl;
   }
 
-  public get timingGroup(): FormGroup {
+  get timingGroup(): FormGroup {
     return this.serviceForm.get('timing') as FormGroup;
   }
 
-  public get instructionsControl(): FormControl {
+  get instructionsControl(): FormControl {
     return this.serviceForm.get('instructions') as FormControl;
   }
 
-  public get patientName(): string {
+  get patientName(): string {
     return ResourceUtils.getPatientName(this.patient);
   }
 
-  public goBack(): void {
+  goBack(): void {
     this.location.back();
   }
 
-  public submitForm(): void {
+  submitForm(): void {
     const baseTiming = this.makeBaseTiming();
     const requests = this.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));

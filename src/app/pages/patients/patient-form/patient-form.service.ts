@@ -15,7 +15,7 @@ export class PatientFormService {
               private formBuilder: FormBuilder) {
   }
 
-  public getPatientForm(patientId): Observable<FormGroup> {
+  getPatientForm(patientId): Observable<FormGroup> {
     return this.patientsService.getInternalPatient(patientId)
       .pipe(
         map(patient => {
@@ -32,7 +32,7 @@ export class PatientFormService {
       )
   }
 
-  public getDefaultForm(): Observable<FormGroup> {
+  getDefaultForm(): Observable<FormGroup> {
     const form = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -44,14 +44,14 @@ export class PatientFormService {
     return of(form);
   }
 
-  public getEmptyPhoneContactForm(): FormGroup {
+  getEmptyPhoneContactForm(): FormGroup {
     return this.formBuilder.group({
       value: ['', Validators.required],
       use: ['', [Validators.required, Validators.pattern('(home|work|temp|old|mobile)')]]
     })
   }
 
-  public static getPhoneContactValues(formControl: AbstractControl, index: number): PatientPhoneContact {
+  static getPhoneContactValues(formControl: AbstractControl, index: number): PatientPhoneContact {
     return {
       system: 'phone',
       value: formControl.get('value').value,

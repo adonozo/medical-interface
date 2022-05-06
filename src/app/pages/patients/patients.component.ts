@@ -57,7 +57,7 @@ export class PatientsComponent implements OnInit {
     this.getPatientsData(this.defaultLimit);
   }
 
-  public async onCustomPatients(event: any): Promise<void> {
+  async onCustomPatients(event: any): Promise<void> {
     switch (event.action) {
       case 'view':
         await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
@@ -65,7 +65,7 @@ export class PatientsComponent implements OnInit {
     }
   }
 
-  public async onRowSelected(event: any): Promise<void> {
+  async onRowSelected(event: any): Promise<void> {
     await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
   }
 

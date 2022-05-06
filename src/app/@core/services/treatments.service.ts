@@ -12,7 +12,7 @@ export class TreatmentsService {
   constructor(private restService: RestApiService) {
   }
 
-  public getTreatmentsFor(patientId: string): Observable<FhirResource[]> {
+  getTreatmentsFor(patientId: string): Observable<FhirResource[]> {
     return this.restService.get<Bundle>(`patients/${patientId}/carePlans/`)
       .pipe(
         map(bundle  => {

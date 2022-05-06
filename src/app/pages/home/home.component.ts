@@ -11,7 +11,7 @@ export class HomeComponent {
   constructor(private router: Router) {
   }
 
-  public async navigate(): Promise<void> {
+  async navigate(): Promise<void> {
     await this.router.navigate(['/pages/patients']);
   }
 }

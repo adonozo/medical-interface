@@ -44,41 +44,41 @@ export class PatientFormComponent extends FormComponent {
     ).subscribe(form => this.patientForm = form);
   }
 
-  public get firstNameControl(): FormControl {
+  get firstNameControl(): FormControl {
     return this.patientForm.get('firstName') as FormControl;
   }
 
-  public get lastNameControl(): FormControl {
+  get lastNameControl(): FormControl {
     return this.patientForm.get('lastName') as FormControl;
   }
 
-  public get emailControl(): FormControl {
+  get emailControl(): FormControl {
     return this.patientForm.get('email') as FormControl;
   }
 
-  public get genderControl(): FormControl {
+  get genderControl(): FormControl {
     return this.patientForm.get('gender') as FormControl;
   }
 
-  public get birthDateControl(): FormControl {
+  get birthDateControl(): FormControl {
     return this.patientForm.get('birthDate') as FormControl;
   }
 
-  public get phonesArrayControl(): FormArray {
+  get phonesArrayControl(): FormArray {
     return this.patientForm.get('phoneContacts') as FormArray;
   }
 
-  public addPhoneControlGroup = () : void =>
+  addPhoneControlGroup = () : void =>
     this.phonesArrayControl.push(this.patientsFormService.getEmptyPhoneContactForm());
 
-  public removeFromPhoneArray = (index: number): void =>
+  removeFromPhoneArray = (index: number): void =>
     this.phonesArrayControl.removeAt(index);
 
-  public goBack(): void {
+  goBack(): void {
     this.location.back();
   }
 
-  public submitForm(): void {
+  submitForm(): void {
     const patient: InternalPatient = {
       id: this.patientId,
       alexaUserId: '',

@@ -14,9 +14,9 @@ export class MedicationsService {
   constructor(private restService: RestApiService) {
   }
 
-  public getMedications(limit: number = 0, lastCursor?: string, name?: string): Observable<PaginatedResult<Medication>> {
+  getMedications(limit: number = 0, lastCursor?: string, name?: string): Observable<PaginatedResult<Medication>> {
     return this.restService.getPaginated(this.path, limit, lastCursor, {name: name});
   }
 
-  public getMedicationQuantities = (): Quantity[] => MedicationQuantities;
+  getMedicationQuantities = (): Quantity[] => MedicationQuantities;
 }
