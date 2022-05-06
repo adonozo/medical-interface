@@ -53,7 +53,7 @@ export class TreatmentsComponent implements AfterViewInit {
     });
   }
 
-  public async viewOrder(event: any): Promise<void> {
+  async viewOrder(event: any): Promise<void> {
     const resource: FhirResource = event.data.resource;
     switch (resource.resourceType) {
       case "MedicationRequest":

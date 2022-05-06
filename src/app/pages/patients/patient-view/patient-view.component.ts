@@ -28,7 +28,7 @@ export class PatientViewComponent {
     ).subscribe(patient => this.patient = patient);
   }
 
-  public async navigate(page: string): Promise<void> {
+  async navigate(page: string): Promise<void> {
     switch (page) {
       case 'medication':
         await this.router.navigate([this.patientId + '/new-medication-request'], {relativeTo: this.activatedRoute.parent});

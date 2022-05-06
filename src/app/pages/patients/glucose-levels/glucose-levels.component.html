@@ -15,6 +15,13 @@
                        [settings]="settings"
                        [source]="source">
       </ng2-smart-table>
+      <nb-card-footer>
+        <app-pagination-footer [results]="results"
+                               (nextClicked)="nextObservations($event)"
+                               (backClicked)="nextObservations($event)"
+                               (firstClicked)="nextObservations()">
+        </app-pagination-footer>
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>

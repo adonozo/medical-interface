@@ -6,6 +6,7 @@ import { LocalDataSource } from "ng2-smart-table";
 import { timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
+import { PaginatedResult } from "../../../@core/models/paginatedResult";
 
 @Component({
   selector: 'app-glucose-levels',
@@ -14,8 +15,10 @@ import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 })
 export class GlucoseLevelsComponent {
 
+  private readonly defaultLimit = 20;
   options: any = {};
   patientId: string;
+  results: PaginatedResult<Observation>
 
   settings = {
     selectedRowIndex: -1,
@@ -45,14 +48,19 @@ export class GlucoseLevelsComponent {
   ) {
     this.route.params.subscribe(params => {
       this.patientId = params["patientId"];
-      this.getObservations()
+      this.getObservations(this.defaultLimit)
     });
   }
 
-  private getObservations(): void {
-    this.observationsService.getObservations(this.patientId)
-      .subscribe(observations => {
-        this.source = new LocalDataSource(observations.map(observation => {
+  nextObservations(lastCursor?: string): void {
+    this.getObservations(this.defaultLimit, lastCursor);
+  }
+
+  private getObservations(limit: number, lastCursor?: string): void {
+    this.observationsService.getObservations(this.patientId, limit, lastCursor)
+      .subscribe(paginatedObservations => {
+        this.results = paginatedObservations;
+        this.source = new LocalDataSource(paginatedObservations.results.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
           const date = new Date(observation.issued).toLocaleString(GlucoseLevelsLocale.localeTime);
@@ -64,7 +72,7 @@ export class GlucoseLevelsComponent {
         this.theme.getJsTheme().subscribe(config => {
           const colors: any = config.variables;
           const echarts: any = config.variables.echarts;
-          const data = observations.map(observation => this.getObservationDataForChart(observation))
+          const data = paginatedObservations.results.map(observation => this.getObservationDataForChart(observation))
           this.setOptions(colors, echarts, data.map(item => item.value), data.map(item => item.date))
         })
       });
