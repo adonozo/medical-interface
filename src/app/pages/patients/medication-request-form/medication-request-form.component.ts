@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { flatMap } from "rxjs/internal/operators";
+import { debounceTime, distinctUntilChanged, flatMap } from "rxjs/internal/operators";
 import { Dosage, Medication, Patient, Quantity } from "fhir/r4";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { Observable, of } from "rxjs";
@@ -20,9 +20,9 @@ import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
   styleUrls: ['./medication-request-form.component.scss']
 })
 export class MedicationRequestFormComponent extends FormComponent implements OnInit {
+  private readonly defaultLimit = 20;
 
   patient: Patient;
-  medications: Medication[] = [];
   quantities: Quantity[] = [];
   frequencyType = FrequencyFormData;
   frequencySelected: FrequencyFormData;
@@ -66,13 +66,15 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
       flatMap(params => patientService.getSinglePatient(params["patientId"]))
     ).subscribe(patient => this.patient = patient);
 
-    medicationService.getMedications().subscribe(medications => {
-      this.medications = medications;
-      this.filteredMedications = of(medications);
+    medicationService.getMedications(this.defaultLimit, '', '').subscribe(medications => {
+      this.filteredMedications = of(medications.results);
       this.filteredMedications = this.medicationControl.valueChanges
         .pipe(
-          map(input => this.filterMedications(input))
-        )
+          debounceTime(750),
+          distinctUntilChanged(),
+          flatMap(input => medicationService.getMedications(this.defaultLimit, '', input)),
+          map(paginatedResult => paginatedResult.results)
+        );
     });
   }
 
@@ -191,11 +193,6 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
           console.log(error);
           this.formStatus = FormStatus.error
         });
-  }
-
-  private filterMedications(name: any): Medication[] {
-    let filter = this.getMedicationName(name).toLowerCase();
-    return this.medications.filter(medication => medication.code.coding?.find(code => code.display.toLowerCase().includes(filter)));
   }
 
   private setDayOfWeekControl(): void {

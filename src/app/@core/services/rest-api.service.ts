@@ -26,11 +26,12 @@ export class RestApiService {
     return this.http.get<T>(this.baseUrl + resource, options);
   }
 
-  getPaginated(resource: string, limit: number = 0, lastCursor?: string): Observable<PaginatedResult<any>> {
+  getPaginated(resource: string, limit: number = 0, lastCursor?: string, params?: {}): Observable<PaginatedResult<any>> {
     return this.http.get<Bundle>(this.baseUrl + resource, {
       params: {
         limit: limit,
-        after: lastCursor
+        after: lastCursor,
+        ...params
       },
       observe: 'response' })
       .pipe(
