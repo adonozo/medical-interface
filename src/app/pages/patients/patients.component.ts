@@ -69,7 +69,7 @@ export class PatientsComponent implements OnInit {
     await this.router.navigate([event.data.id + '/view'], {relativeTo: this.activatedRoute.parent});
   }
 
-  nextPatients(lastCursor: string): void {
+  getPatients(lastCursor?: string): void {
     this.getPatientsData(this.defaultLimit, lastCursor);
   }
 

@@ -1,10 +1,16 @@
 <div class="row" *ngIf="results">
-  <div class="col-6">
-    <button nbButton (click)="nextResults()" *ngIf="results.remainingCount > 0" i18n>
-      Next
+  <div class="col-12">
+    <button nbButton outline status="info" (click)="goToFirst()" *ngIf="currentIndex > 0" i18n>
+      << First
+    </button>
+    <button nbButton outline status="info" (click)="previousResults()" *ngIf="currentIndex > 0" i18n>
+      < Previous
+    </button>
+    <button nbButton outline status="info" (click)="nextResults()" *ngIf="results.remainingCount > 0" i18n>
+      Next >
     </button>
   </div>
-  <div class="col-6 text-right">
+  <div class="col-12 text-right">
     <b><span i18n>Total: </span> {{ results.totalResults }} </b> |
     {{ results.remainingCount }} <span i18n>Remaining</span>
   </div>
