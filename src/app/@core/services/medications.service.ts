@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { RestApiService } from "./rest-api.service";
-import { Bundle, Medication, Quantity } from "fhir/r4";
+import { Medication, Quantity } from "fhir/r4";
 import { Observable } from "rxjs";
 import { MedicationQuantities } from "./data/medication-quantities";
-import { map } from "rxjs/operators";
+import { PaginatedResult } from "../models/paginatedResult";
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,9 @@ export class MedicationsService {
   constructor(private restService: RestApiService) {
   }
 
-  public getMedications(): Observable<Medication[]> {
-    return this.restService.get<Bundle>(this.path)
-      .pipe(
-        map(bundle => bundle.entry.map(entry => entry.resource as Medication))
-      );
+  getMedications(limit: number = 0, lastCursor?: string, name?: string): Observable<PaginatedResult<Medication>> {
+    return this.restService.getPaginated(this.path, limit, lastCursor, {name: name});
   }
 
-  public getMedicationQuantities = (): Quantity[] => MedicationQuantities;
+  getMedicationQuantities = (): Quantity[] => MedicationQuantities;
 }

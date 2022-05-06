@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
+import { PaginatedResult } from "../models/paginatedResult";
+import { map } from "rxjs/operators";
+import { ResourceUtils } from "./utils/resourceUtils";
+import { Bundle } from "fhir/r4";
+import { Headers } from "./data/constants";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +22,25 @@ export class RestApiService {
   constructor(private http: HttpClient) {
   }
 
-  get<T>(resource: string): Observable<T> {
-    return this.http.get<T>(this.baseUrl + resource);
+  get<T>(resource: string, options?: {}): Observable<T> {
+    return this.http.get<T>(this.baseUrl + resource, options);
+  }
+
+  getPaginated(resource: string, limit: number = 0, lastCursor?: string, params?: {}): Observable<PaginatedResult<any>> {
+    return this.http.get<Bundle>(this.baseUrl + resource, {
+      params: {
+        limit: limit,
+        after: lastCursor,
+        ...params
+      },
+      observe: 'response' })
+      .pipe(
+        map(response => {
+          const paginationLast = response.headers.get(Headers.PAGINATION_LAST);
+          const remainingCount = +response.headers.get(Headers.REMAINING_COUNT);
+          return ResourceUtils.getPaginatedResult(response.body, remainingCount, paginationLast);
+        })
+      );
   }
 
   post<T1, T2>(resource: string, body: T1): Observable<T2> {

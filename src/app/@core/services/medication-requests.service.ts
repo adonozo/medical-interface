@@ -12,7 +12,7 @@ export class MedicationRequestsService {
   constructor(private apiService: RestApiService) {
   }
 
-  public getEmptyMedicationRequest(): MedicationRequest {
+  getEmptyMedicationRequest(): MedicationRequest {
     return {
       intent: "order",
       resourceType: "MedicationRequest",
@@ -22,11 +22,11 @@ export class MedicationRequestsService {
     }
   }
 
-  public getSingleMedicationRequest(id: string): Observable<MedicationRequest> {
+  getSingleMedicationRequest(id: string): Observable<MedicationRequest> {
     return this.apiService.get<MedicationRequest>(this.path + id);
   }
 
-  public createMedicationRequest(request: MedicationRequest): Observable<MedicationRequest> {
+  createMedicationRequest(request: MedicationRequest): Observable<MedicationRequest> {
     return this.apiService.post(this.path, request);
   }
 }

@@ -11,6 +11,14 @@
                    (userRowSelect)="onRowSelected($event)"
                    (custom)="onCustomPatients($event)">
   </ng2-smart-table>
+  <nb-card-footer>
+    <app-pagination-footer
+      [results]="results"
+      (nextClicked)="getPatients($event)"
+      (backClicked)="getPatients($event)"
+      (firstClicked)="getPatients()">
+    </app-pagination-footer>
+  </nb-card-footer>
 </nb-card>
 
 <div class="row mt-2">

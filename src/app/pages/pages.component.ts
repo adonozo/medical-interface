@@ -8,7 +8,7 @@ import { PagesLocale } from "./pages.locale";
   styleUrls: ['./pages.component.scss']
 })
 export class PagesComponent {
-  public menu: NbMenuItem[] = [
+  menu: NbMenuItem[] = [
     {
       title: PagesLocale.home,
       icon: 'home-outline',

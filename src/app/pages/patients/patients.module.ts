@@ -22,6 +22,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 import { PatientViewComponent } from './patient-view/patient-view.component';
 import { PatientFormComponent } from './patient-form/patient-form.component';
 import { PatientFormService } from "./patient-form/patient-form.service";
+import { ThemeModule } from "../../@theme/theme.module";
 
 @NgModule({
   declarations: [
@@ -34,25 +35,26 @@ import { PatientFormService } from "./patient-form/patient-form.service";
     PatientViewComponent,
     PatientFormComponent
   ],
-  imports: [
-    CommonModule,
-    PatientsRoutingModule,
-    Ng2SmartTableModule,
-    NgxEchartsModule,
-    NbCardModule,
-    NbInputModule,
-    NbButtonModule,
-    NbSelectModule,
-    NbAutocompleteModule,
-    ReactiveFormsModule,
-    NbButtonGroupModule,
-    NbCheckboxModule,
-    NbTimepickerModule,
-    NbIconModule,
-    NbRadioModule,
-    NbDatepickerModule,
-    NbAlertModule
-  ],
+    imports: [
+        CommonModule,
+        PatientsRoutingModule,
+        Ng2SmartTableModule,
+        NgxEchartsModule,
+        NbCardModule,
+        NbInputModule,
+        NbButtonModule,
+        NbSelectModule,
+        NbAutocompleteModule,
+        ReactiveFormsModule,
+        NbButtonGroupModule,
+        NbCheckboxModule,
+        NbTimepickerModule,
+        NbIconModule,
+        NbRadioModule,
+        NbDatepickerModule,
+        NbAlertModule,
+        ThemeModule
+    ],
   providers: [
     PatientFormService
   ]

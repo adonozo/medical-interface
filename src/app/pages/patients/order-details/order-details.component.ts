@@ -45,11 +45,11 @@ export class OrderDetailsComponent {
     });
   }
 
-  public goBack(): void {
+  goBack(): void {
     this.location.back();
   }
 
-  public getTimingText(occurrence: TimingRepeat): string {
+  getTimingText(occurrence: TimingRepeat): string {
     let duration = '';
     if (occurrence.boundsPeriod) {
       const start = new Date(occurrence.boundsPeriod.start).toLocaleDateString(OrderDetailsLocale.timeLocale);

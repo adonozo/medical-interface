@@ -16,7 +16,7 @@ export class ServiceRequestsService {
   ) {
   }
 
-  public getEmptyServiceRequest(): ServiceRequest {
+  getEmptyServiceRequest(): ServiceRequest {
     return {
       intent: "plan",
       resourceType: "ServiceRequest",
@@ -34,7 +34,7 @@ export class ServiceRequestsService {
     };
   }
 
-  public createServiceRequests(requests: ServiceRequest[]): Observable<string[]> {
+  createServiceRequests(requests: ServiceRequest[]): Observable<string[]> {
     return forkJoin(requests
       .map(request => this.restApiService
       .post<ServiceRequest, ServiceRequest>(this.path, request)))
@@ -43,7 +43,7 @@ export class ServiceRequestsService {
       );
   }
 
-  public getSingleServiceRequest(id: string): Observable<ServiceRequest> {
+  getSingleServiceRequest(id: string): Observable<ServiceRequest> {
     return this.restApiService.get<ServiceRequest>(this.path + id);
   }
 }
