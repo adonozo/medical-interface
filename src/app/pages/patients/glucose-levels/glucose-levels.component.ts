@@ -25,19 +25,32 @@ export class GlucoseLevelsComponent {
     columns: {
       level: {
         title: GlucoseLevelsLocale.columnLevel,
-        type: 'string'
+        filter: false,
+        sort: false
       },
       date: {
         title: GlucoseLevelsLocale.columnDate,
-        type: 'string',
-        sortDirection: 'desc'
+        filter: false,
+        sort: false
       },
       time: {
         title: GlucoseLevelsLocale.columnTime,
-        type: 'string'
+        filter: false,
+        sort: false
       },
     },
-    actions: false
+    actions: {
+      add: false,
+      delete: false,
+      edit: false,
+      columnTitle: "Action",
+      custom: [
+        {
+          name: 'edit',
+          title: `<div class="badge d-table"><i class="fa-xs far fa-edit"></i> <span class="icon-text text-dark ml-1">Edit</span></div>`,
+        }
+      ]
+    }
   }
   source: LocalDataSource;
 

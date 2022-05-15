@@ -41,7 +41,7 @@ export class PatientsComponent implements OnInit {
       custom: [
         {
           name: 'view',
-          title: `<div class="badge d-table"><i class="fa-xxs fa fa-eye"></i> <span class="label text-dark ml-1">${PatientsLocale.viewAction}</span></div>`,
+          title: `<div class="badge d-table"><i class="fa-xs far fa-eye"></i> <span class="icon-text text-dark ml-1">${PatientsLocale.viewAction}</span></div>`,
         }
       ]
     }
