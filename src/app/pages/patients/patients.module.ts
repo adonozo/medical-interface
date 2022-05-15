@@ -8,7 +8,7 @@ import {
   NbAutocompleteModule,
   NbButtonGroupModule,
   NbButtonModule,
-  NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule,
+  NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule,
   NbInputModule, NbRadioModule,
   NbSelectModule, NbTimepickerModule
 } from "@nebular/theme";
@@ -37,26 +37,27 @@ import { ObservationFormComponent } from './observation-form/observation-form.co
     PatientFormComponent,
     ObservationFormComponent
   ],
-    imports: [
-        CommonModule,
-        PatientsRoutingModule,
-        Ng2SmartTableModule,
-        NgxEchartsModule,
-        NbCardModule,
-        NbInputModule,
-        NbButtonModule,
-        NbSelectModule,
-        NbAutocompleteModule,
-        ReactiveFormsModule,
-        NbButtonGroupModule,
-        NbCheckboxModule,
-        NbTimepickerModule,
-        NbIconModule,
-        NbRadioModule,
-        NbDatepickerModule,
-        NbAlertModule,
-        ThemeModule
-    ],
+  imports: [
+    CommonModule,
+    PatientsRoutingModule,
+    Ng2SmartTableModule,
+    NgxEchartsModule,
+    NbCardModule,
+    NbInputModule,
+    NbButtonModule,
+    NbSelectModule,
+    NbAutocompleteModule,
+    ReactiveFormsModule,
+    NbButtonGroupModule,
+    NbCheckboxModule,
+    NbTimepickerModule,
+    NbIconModule,
+    NbRadioModule,
+    NbDatepickerModule,
+    NbAlertModule,
+    ThemeModule,
+    NbFormFieldModule
+  ],
   providers: [
     PatientFormService
   ]

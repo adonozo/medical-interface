@@ -2,7 +2,15 @@
 
 @include nb-install-component() {
   nb-card {
-    width: 90vh;
+    width: 90vw;
     max-width: 600px;
+
+    .input-units {
+      padding-right: 4rem;
+    }
   }
+}
+
+.units-label {
+  margin-left: -2rem;
 }

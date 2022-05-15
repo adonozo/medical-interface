@@ -13,14 +13,22 @@
     </div>
   </nb-card-header>
   <nb-card-body>
-    <div>
+    <form [formGroup]="observationForm" (ngSubmit)="submitForm()">
       <div class="form-group row">
         <label for="observation-value" class="col-form-label col-sm-3 form-control-label text-sm-right"
                i18n>Value</label>
         <div class="col-sm-9">
-          <input type="number" nbInput fullWidth id="observation-value" i18n-placeholder="Placeholder"
-                 placeholder="Value"
-                 autocomplete="off">
+          <nb-form-field>
+            <input type="number" nbInput fullWidth id="observation-value" i18n-placeholder="Placeholder"
+                   class="input-units"
+                   placeholder="Value"
+                   autocomplete="off"
+                   [formControl]="valueControl">
+            <span class="units-label" nbSuffix i18n>mmo/l</span>
+          </nb-form-field>
+          <ng-container *ngIf="isControlInvalid(valueControl)">
+            <span class="text-danger" i18n>A value is required</span>
+          </ng-container>
         </div>
       </div>
       <div class="form-group row">
@@ -44,7 +52,7 @@
           </nb-select>
         </div>
       </div>
-    </div>
+    </form>
   </nb-card-body>
   <nb-card-footer>
     <div class="row">
