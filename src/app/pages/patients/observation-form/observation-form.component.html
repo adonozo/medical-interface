@@ -1,0 +1,61 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row align-items-center">
+      <div class="col-6">
+        <h4 class="mb-0" i18n>Edit record</h4>
+      </div>
+      <div class="col-6 text-right">
+        <button nbButton type="button" status="danger">
+          <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
+          <span i18n>Delete</span>
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div>
+      <div class="form-group row">
+        <label for="observation-value" class="col-form-label col-sm-3 form-control-label text-sm-right"
+               i18n>Value</label>
+        <div class="col-sm-9">
+          <input type="number" nbInput fullWidth id="observation-value" i18n-placeholder="Placeholder"
+                 placeholder="Value"
+                 autocomplete="off">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="observation-date" class="col-form-label col-sm-3 form-control-label text-sm-right" i18n>Date</label>
+        <div class="col-sm-9">
+          <input id="observation-date" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Date"
+                 autocomplete="off"
+                 [nbDatepicker]="datePicker">
+          <nb-date-timepicker #datePicker></nb-date-timepicker>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="observation-timing" class="col-form-label col-sm-3 form-control-file text-sm-right"
+               i18n>Timing</label>
+        <div class="col-sm-9">
+          <nb-select fullWidth id="observation-timing" i18n-placeholder="Placeholder"
+                     placeholder="Timing">
+            <nb-option *ngFor="let time of timesOfDay" [value]="time.value">
+              {{ time.name }}
+            </nb-option>
+          </nb-select>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-6">
+        <button type="button" nbButton status="basic" (click)="close()" i18n>Cancel</button>
+      </div>
+      <div class="col-6 text-right">
+        <button type="submit" nbButton status="success">
+          <ng-container i18n>Save</ng-container>
+        </button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

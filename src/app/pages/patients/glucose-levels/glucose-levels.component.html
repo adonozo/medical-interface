@@ -13,7 +13,8 @@
       <nb-card-header i18n>Blood Glucose records</nb-card-header>
       <ng2-smart-table class="order-table"
                        [settings]="settings"
-                       [source]="source">
+                       [source]="source"
+                       (custom)="openForm($event)">
       </ng2-smart-table>
       <nb-card-footer>
         <app-pagination-footer [results]="results"

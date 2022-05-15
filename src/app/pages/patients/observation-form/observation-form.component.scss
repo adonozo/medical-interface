@@ -1,0 +1,8 @@
+@import '../../../@theme/style/themes';
+
+@include nb-install-component() {
+  nb-card {
+    width: 90vh;
+    max-width: 600px;
+  }
+}

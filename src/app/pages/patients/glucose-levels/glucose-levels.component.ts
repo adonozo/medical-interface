@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ObservationsService } from "../../../@core/services/observations.service";
-import { NbThemeService } from "@nebular/theme";
+import { NbDialogService, NbThemeService } from "@nebular/theme";
 import { LocalDataSource } from "ng2-smart-table";
 import { timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
+import { ObservationFormComponent } from "../observation-form/observation-form.component";
 
 @Component({
   selector: 'app-glucose-levels',
@@ -57,7 +58,8 @@ export class GlucoseLevelsComponent {
   constructor(
     private observationsService: ObservationsService,
     private theme: NbThemeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialogService: NbDialogService
   ) {
     this.route.params.subscribe(params => {
       this.patientId = params["patientId"];
@@ -67,6 +69,14 @@ export class GlucoseLevelsComponent {
 
   nextObservations(lastCursor?: string): void {
     this.getObservations(this.defaultLimit, lastCursor);
+  }
+
+  openForm(event: any): void {
+    switch (event.action) {
+      case 'edit':
+        this.dialogService.open(ObservationFormComponent, { closeOnBackdropClick: false });
+        break;
+    }
   }
 
   private getObservations(limit: number, lastCursor?: string): void {
