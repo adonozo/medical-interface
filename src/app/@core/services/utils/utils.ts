@@ -28,3 +28,12 @@ export const timingToString = (timing: string): string => {
       return timing;
   }
 }
+
+export function getDateOrDefault(stringDate: string): Date {
+  try {
+    return new Date(stringDate);
+  }
+  catch (Exception) {
+    return new Date();
+  }
+}

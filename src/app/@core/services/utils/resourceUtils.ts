@@ -1,4 +1,4 @@
-import { Bundle, ContactPoint, Medication, Patient } from "fhir/r4";
+import { Bundle, ContactPoint, DomainResource, Medication, Patient } from "fhir/r4";
 import { Extensions, Resource } from "../data/constants";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
 import { PaginatedResult } from "../../models/paginatedResult";
@@ -20,9 +20,14 @@ export class ResourceUtils {
     return patient.name[0].given?.join(' ') + ' ' + patient.name[0].family
   }
 
-  static getStringExtension(patient: Patient, url: string): string {
-    const emailIndex = patient.extension?.findIndex(ext => ext.url === url)
-    return !isNaN(emailIndex) && emailIndex >= 0 ? patient.extension[emailIndex].valueString : "";
+  static getStringExtension(resource: DomainResource, url: string): string {
+    const extIndex = resource?.extension?.findIndex(ext => ext.url === url)
+    return !isNaN(extIndex) && extIndex >= 0 ? resource.extension[extIndex].valueString : "";
+  }
+
+  static getCodeExtension(resource: DomainResource, url: string): string {
+    const extIndex = resource?.extension?.findIndex(ext => ext.url === url)
+    return !isNaN(extIndex) && extIndex >= 0 ? resource.extension[extIndex].valueCode : "";
   }
 
   static getPatientGender(patient: Patient): ('male' | 'female') {
@@ -77,16 +82,12 @@ export class ResourceUtils {
     })
   }
 
-  static setStringExtension(patient: Patient, url: string, value: string): void {
-    if (!url || url.length === 0 || !value || value.length === 0) {
-      return;
-    }
+  static setStringExtension(resource: DomainResource, url: string, value: string): void {
+    this.setExtension(resource, url, value, 'string');
+  }
 
-    patient.extension ??= [];
-    patient.extension.push({
-      url: url,
-      valueString: value
-    });
+  static setCodeExtension(resource: DomainResource, url: string, value: string): void {
+    this.setExtension(resource, url, value, 'code');
   }
 
   static getPaginatedResult(bundle: Bundle, remaining: number, lastCursor: string): PaginatedResult<any> {
@@ -109,5 +110,35 @@ export class ResourceUtils {
       lastDataCursor: null,
       results: []
     }
+  }
+
+  private static setExtension(resource: DomainResource, url: string, value: string,
+                              type: ('string' | 'code')) {
+    if (!resource || !url || url.length === 0 || !value || value.length === 0) {
+      return;
+    }
+
+    let extValue;
+    switch (type) {
+      case "string":
+        extValue = {valueString: value}
+        break;
+      case "code":
+        extValue = {valueCode: value}
+        break;
+    }
+
+    resource.extension ??= [];
+    const extensionEntry = {
+      url: url,
+      ...extValue
+    }
+    const extIndex = resource.extension.findIndex(ext => ext.url === url)
+    if (!isNaN(extIndex) && extIndex >= 0) {
+      resource.extension[extIndex] = extensionEntry;
+      return;
+    }
+
+    resource.extension.push(extensionEntry);
   }
 }

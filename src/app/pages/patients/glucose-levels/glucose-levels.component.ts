@@ -63,7 +63,7 @@ export class GlucoseLevelsComponent {
   ) {
     this.route.params.subscribe(params => {
       this.patientId = params["patientId"];
-      this.getObservations(this.defaultLimit)
+      this.getObservations()
     });
   }
 
@@ -72,21 +72,35 @@ export class GlucoseLevelsComponent {
   }
 
   openForm(event: any): void {
+    const observation = {...event.data};
+    delete observation.level;
+    delete observation.date;
+    delete observation.time;
+
     switch (event.action) {
       case 'edit':
-        this.dialogService.open(ObservationFormComponent, { closeOnBackdropClick: false });
+        this.dialogService.open(ObservationFormComponent, {
+          closeOnBackdropClick: false,
+          context: {
+            observation
+          }})
+          .onClose.subscribe(saved => {
+            if (saved) {
+              this.getObservations();
+            }
+        });
         break;
     }
   }
 
-  private getObservations(limit: number, lastCursor?: string): void {
+  private getObservations(limit: number = this.defaultLimit, lastCursor?: string): void {
     this.observationsService.getObservations(this.patientId, limit, lastCursor)
       .subscribe(paginatedObservations => {
         this.results = paginatedObservations;
         this.source = new LocalDataSource(paginatedObservations.results.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
-          const date = new Date(observation.issued).toLocaleString(GlucoseLevelsLocale.localeTime);
+          const date = new Date(observation.effectiveDateTime).toLocaleString(GlucoseLevelsLocale.localeTime);
           data.level = `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
           data.date = date.substring(0, date.length - 3);
           data.time = time === 'EXACT' ? '-' : time;

@@ -36,8 +36,12 @@
         <div class="col-sm-9">
           <input id="observation-date" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Date"
                  autocomplete="off"
-                 [nbDatepicker]="datePicker">
+                 [nbDatepicker]="datePicker"
+                 [formControl]="dateControl">
           <nb-date-timepicker #datePicker></nb-date-timepicker>
+          <ng-container *ngIf="isControlInvalid(dateControl)">
+            <span class="text-danger" i18n>The date is required</span>
+          </ng-container>
         </div>
       </div>
       <div class="form-group row">
@@ -45,11 +49,16 @@
                i18n>Timing</label>
         <div class="col-sm-9">
           <nb-select fullWidth id="observation-timing" i18n-placeholder="Placeholder"
-                     placeholder="Timing">
+                     placeholder="Timing"
+                     [formControl]="timingControl">
+            <nb-option i18n [value]="undefined">Select a timing</nb-option>
             <nb-option *ngFor="let time of timesOfDay" [value]="time.value">
               {{ time.name }}
             </nb-option>
           </nb-select>
+          <ng-container *ngIf="isControlInvalid(timingControl)">
+            <span class="text-danger" i18n>A timing is required</span>
+          </ng-container>
         </div>
       </div>
     </form>
@@ -63,7 +72,7 @@
         </button>
       </div>
       <div class="col-6 text-right">
-        <button type="submit" nbButton status="success"
+        <button type="submit" nbButton status="success" (click)="submitForm()"
                 [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
           <ng-container i18n>Save</ng-container>
         </button>
