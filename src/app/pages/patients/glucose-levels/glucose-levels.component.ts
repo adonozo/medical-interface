@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ObservationsService } from "../../../@core/services/observations.service";
 import { NbDialogService, NbThemeService } from "@nebular/theme";
-import { LocalDataSource } from "ng2-smart-table";
+import { LocalDataSource, Ng2SmartTableComponent } from "ng2-smart-table";
 import { timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
@@ -14,12 +14,13 @@ import { ObservationFormComponent } from "../observation-form/observation-form.c
   templateUrl: './glucose-levels.component.html',
   styleUrls: ['./glucose-levels.component.scss']
 })
-export class GlucoseLevelsComponent {
+export class GlucoseLevelsComponent implements AfterViewInit {
 
   private readonly defaultLimit = 20;
   options: any = {};
   patientId: string;
   results: PaginatedResult<Observation>
+  @ViewChild('levelsTable') levelsTable: Ng2SmartTableComponent;
 
   settings = {
     selectedRowIndex: -1,
@@ -40,8 +41,10 @@ export class GlucoseLevelsComponent {
         sort: false
       },
     },
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+    },
     actions: {
-      add: false,
       delete: false,
       edit: false,
       columnTitle: "Action",
@@ -51,7 +54,8 @@ export class GlucoseLevelsComponent {
           title: `<div class="badge d-table"><i class="fa-xs far fa-edit"></i> <span class="icon-text text-dark ml-1">Edit</span></div>`,
         }
       ]
-    }
+    },
+    mode: 'external'
   }
   source: LocalDataSource;
 
@@ -67,30 +71,26 @@ export class GlucoseLevelsComponent {
     });
   }
 
+  ngAfterViewInit(): void {
+    this.levelsTable.create.subscribe(_ =>
+      this.openDialogForm(this.observationsService.getEmptyGlucoseObservation(this.patientId)));
+  }
+
   nextObservations(lastCursor?: string): void {
     this.getObservations(this.defaultLimit, lastCursor);
   }
 
-  openForm(event: any): void {
+  handleCustomAction(event: any): void {
+    if (event.action !== 'edit') {
+      return;
+    }
+
     const observation = {...event.data};
     delete observation.level;
     delete observation.date;
     delete observation.time;
 
-    switch (event.action) {
-      case 'edit':
-        this.dialogService.open(ObservationFormComponent, {
-          closeOnBackdropClick: false,
-          context: {
-            observation
-          }})
-          .onClose.subscribe(saved => {
-            if (saved) {
-              this.getObservations();
-            }
-        });
-        break;
-    }
+    this.openDialogForm(observation, true);
   }
 
   private getObservations(limit: number = this.defaultLimit, lastCursor?: string): void {
@@ -113,6 +113,20 @@ export class GlucoseLevelsComponent {
           this.setOptions(colors, echarts, data.map(item => item.value), data.map(item => item.date))
         })
       });
+  }
+
+  private openDialogForm(observation: Observation, isUpdate: boolean = false): void {
+    this.dialogService.open(ObservationFormComponent, {
+      closeOnBackdropClick: false,
+      context: {
+        observation,
+        isUpdate
+      }})
+      .onClose.subscribe(saved => {
+      if (saved) {
+        this.getObservations();
+      }
+    });
   }
 
   private getObservationDataForChart = (observation: Observation): { value: number, date: string } => {

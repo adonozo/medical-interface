@@ -12,9 +12,10 @@
     <nb-card>
       <nb-card-header i18n>Blood Glucose records</nb-card-header>
       <ng2-smart-table class="order-table"
+                       #levelsTable
                        [settings]="settings"
                        [source]="source"
-                       (custom)="openForm($event)">
+                       (custom)="handleCustomAction($event)">
       </ng2-smart-table>
       <nb-card-footer>
         <app-pagination-footer [results]="results"

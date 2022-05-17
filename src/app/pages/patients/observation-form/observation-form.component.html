@@ -38,7 +38,7 @@
                  autocomplete="off"
                  [nbDatepicker]="datePicker"
                  [formControl]="dateControl">
-          <nb-date-timepicker #datePicker></nb-date-timepicker>
+          <nb-date-timepicker #datePicker [format]="localeTime"></nb-date-timepicker>
           <ng-container *ngIf="isControlInvalid(dateControl)">
             <span class="text-danger" i18n>The date is required</span>
           </ng-container>
@@ -73,7 +73,7 @@
       </div>
       <div class="col-6 text-right">
         <button type="submit" nbButton status="success" (click)="submitForm()"
-                [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
+                [disabled]="observationForm.invalid || formStatus === formStatusType.loading || formStatus === formStatusType.success">
           <ng-container i18n>Save</ng-container>
         </button>
       </div>

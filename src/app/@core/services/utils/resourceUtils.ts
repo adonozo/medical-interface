@@ -4,8 +4,8 @@ import { InternalPatient, PatientPhoneContact } from "../../models/internalPatie
 import { PaginatedResult } from "../../models/paginatedResult";
 
 export class ResourceUtils {
-  static getPatientReference(patient: Patient): string {
-    return Resource.PATIENT + patient.id;
+  static getPatientReference(patientId: string): string {
+    return Resource.PATIENT + patientId;
   }
 
   static getMedicationReference(medication: Medication): string {

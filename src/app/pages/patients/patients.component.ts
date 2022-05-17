@@ -44,7 +44,8 @@ export class PatientsComponent implements OnInit {
           title: `<div class="badge d-table"><i class="fa-xs far fa-eye"></i> <span class="icon-text text-dark ml-1">${PatientsLocale.viewAction}</span></div>`,
         }
       ]
-    }
+    },
+    hideSubHeader: true
   }
 
   constructor(

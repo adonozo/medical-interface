@@ -17,9 +17,11 @@ import { FormStatus } from "../../../@core/services/data/form-data";
 })
 export class ObservationFormComponent extends FormComponent implements OnInit {
   @Input() observation: Observation;
+  @Input() isUpdate: boolean = false;
   timesOfDay = TimeOfDay;
   observationForm: FormGroup;
   saved: boolean = false;
+  localeTime = 'dd/MM/yyyy HH:mm'
 
   constructor(
     private dialogRef: NbDialogRef<ObservationFormComponent>,
@@ -60,14 +62,22 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
     ResourceUtils.setCodeExtension(this.observation, Extensions.RESOURCE_TIMING, this.timingControl.value);
 
     this.formStatus = FormStatus.loading;
-    this.observationService.updateObservation(this.observation)
-      .subscribe(_ => {
-          this.formStatus = FormStatus.success;
-          this.saved = true;
-        },
-        error => {
-          console.log(error);
-          this.formStatus = FormStatus.error;
-        })
+    const subscribeNext = _ => {
+      this.formStatus = FormStatus.success;
+      this.saved = true;
+    }
+    const subscribeError = error => {
+      console.log(error);
+      this.formStatus = FormStatus.error;
+    }
+
+    if (this.isUpdate) {
+      this.observationService.updateObservation(this.observation)
+        .subscribe(subscribeNext, subscribeError)
+      return;
+    }
+
+    this.observationService.postObservation(this.observation)
+      .subscribe(subscribeNext, subscribeError)
   }
 }
