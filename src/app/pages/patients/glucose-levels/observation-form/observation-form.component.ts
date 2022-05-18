@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NbDialogRef } from "@nebular/theme";
-import { TimeOfDay } from "../medication-request-form/form-data";
-import { FormComponent } from "../../../@core/components/form.component";
+import { TimeOfDay } from "../../medication-request-form/form-data";
+import { FormComponent } from "../../../../@core/components/form.component";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Observation } from "fhir/r4";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
-import { Extensions } from "../../../@core/services/data/constants";
-import { getDateOrDefault } from "../../../@core/services/utils/utils";
-import { ObservationsService } from "../../../@core/services/observations.service";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { ResourceUtils } from "../../../../@core/services/utils/resourceUtils";
+import { Extensions } from "../../../../@core/services/data/constants";
+import { getDateOrDefault } from "../../../../@core/services/utils/utils";
+import { ObservationsService } from "../../../../@core/services/observations.service";
+import { FormStatus } from "../../../../@core/services/data/form-data";
 
 @Component({
   selector: 'app-observation-form',

@@ -7,7 +7,7 @@ import { timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
-import { ObservationFormComponent } from "../observation-form/observation-form.component";
+import { ObservationFormComponent } from "./observation-form/observation-form.component";
 
 @Component({
   selector: 'app-glucose-levels',
