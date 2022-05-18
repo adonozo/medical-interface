@@ -55,7 +55,10 @@ export class GlucoseLevelsComponent implements AfterViewInit {
         }
       ]
     },
-    mode: 'external'
+    mode: 'external',
+    pager: {
+      display: false
+    }
   }
   source: LocalDataSource;
 

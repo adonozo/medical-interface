@@ -22,6 +22,7 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
   observationForm: FormGroup;
   saved: boolean = false;
   localeTime = 'dd/MM/yyyy HH:mm'
+  showDeleteMessage: boolean = false;
 
   constructor(
     private dialogRef: NbDialogRef<ObservationFormComponent>,
@@ -79,5 +80,18 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
 
     this.observationService.postObservation(this.observation)
       .subscribe(subscribeNext, subscribeError)
+  }
+
+  deleteRecord(): void {
+    this.formStatus = FormStatus.loading;
+    this.observationService.deleteObservation(this.observation.id)
+      .subscribe(_ => {
+          this.formStatus = FormStatus.success;
+          this.saved = true;
+        },
+        error => {
+          this.formStatus = FormStatus.error;
+          console.log(error);
+        })
   }
 }

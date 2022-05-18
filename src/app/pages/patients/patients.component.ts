@@ -31,7 +31,7 @@ export class PatientsComponent implements OnInit {
       }
     },
     pager: {
-      perPage: this.defaultLimit
+      display: false
     },
     actions: {
       add: false,

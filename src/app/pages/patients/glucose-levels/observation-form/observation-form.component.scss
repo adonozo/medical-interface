@@ -14,3 +14,15 @@
 .units-label {
   margin-left: -2rem;
 }
+
+.blurred {
+  position: absolute;
+  top: 0;
+  width: calc(100% - 50px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #ffffff74;
+  z-index: 1010;
+  backdrop-filter: blur(3px);
+}

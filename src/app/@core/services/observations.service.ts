@@ -25,6 +25,10 @@ export class ObservationsService {
     return this.restService.put(`observations/${observation.id}`, observation);
   }
 
+  deleteObservation(id: string): Observable<void> {
+    return this.restService.delete(`observations/${id}`);
+  }
+
   getEmptyGlucoseObservation(patientId: string): Observation {
     return {
       resourceType: "Observation",
