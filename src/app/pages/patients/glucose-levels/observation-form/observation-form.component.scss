@@ -1,0 +1,28 @@
+@import '../../../../@theme/style/themes';
+
+@include nb-install-component() {
+  nb-card {
+    width: 90vw;
+    max-width: 600px;
+
+    .input-units {
+      padding-right: 4rem;
+    }
+  }
+}
+
+.units-label {
+  margin-left: -2rem;
+}
+
+.blurred {
+  position: absolute;
+  top: 0;
+  width: calc(100% - 50px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #ffffff94;
+  z-index: 1010;
+  backdrop-filter: blur(3px);
+}

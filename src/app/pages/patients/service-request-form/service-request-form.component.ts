@@ -136,7 +136,7 @@ export class ServiceRequestFormComponent extends FormComponent {
   private makeServiceRequest(timing: Timing): ServiceRequest {
     const request = this.serviceRequestService.getEmptyServiceRequest();
     request.subject = {
-      reference: ResourceUtils.getPatientReference(this.patient),
+      reference: ResourceUtils.getPatientReference(this.patient.id),
       display: this.patient.name[0]?.family
     }
     request.requester = {
