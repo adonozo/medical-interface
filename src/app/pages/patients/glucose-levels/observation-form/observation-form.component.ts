@@ -63,35 +63,30 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
     ResourceUtils.setCodeExtension(this.observation, Extensions.RESOURCE_TIMING, this.timingControl.value);
 
     this.formStatus = FormStatus.loading;
-    const subscribeNext = _ => {
-      this.formStatus = FormStatus.success;
-      this.saved = true;
-    }
-    const subscribeError = error => {
-      console.log(error);
-      this.formStatus = FormStatus.error;
-    }
 
     if (this.isUpdate) {
       this.observationService.updateObservation(this.observation)
-        .subscribe(subscribeNext, subscribeError)
+        .subscribe(this.formSuccess, this.formError)
       return;
     }
 
     this.observationService.postObservation(this.observation)
-      .subscribe(subscribeNext, subscribeError)
+      .subscribe(this.formSuccess, this.formError)
   }
 
   deleteRecord(): void {
     this.formStatus = FormStatus.loading;
     this.observationService.deleteObservation(this.observation.id)
-      .subscribe(_ => {
-          this.formStatus = FormStatus.success;
-          this.saved = true;
-        },
-        error => {
-          this.formStatus = FormStatus.error;
-          console.log(error);
-        })
+      .subscribe(this.formSuccess, this.formError)
+  }
+
+  private formSuccess = () => {
+    this.formStatus = FormStatus.success;
+    this.saved = true;
+  }
+
+  private formError = (error) => {
+    this.formStatus = FormStatus.error;
+    console.log(error);
   }
 }
