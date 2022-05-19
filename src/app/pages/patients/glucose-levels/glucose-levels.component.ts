@@ -1,69 +1,109 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ObservationsService } from "../../../@core/services/observations.service";
-import { NbThemeService } from "@nebular/theme";
-import { LocalDataSource } from "ng2-smart-table";
+import { NbDialogService, NbThemeService } from "@nebular/theme";
+import { LocalDataSource, Ng2SmartTableComponent } from "ng2-smart-table";
 import { timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
+import { ObservationFormComponent } from "./observation-form/observation-form.component";
 
 @Component({
   selector: 'app-glucose-levels',
   templateUrl: './glucose-levels.component.html',
   styleUrls: ['./glucose-levels.component.scss']
 })
-export class GlucoseLevelsComponent {
+export class GlucoseLevelsComponent implements AfterViewInit {
 
   private readonly defaultLimit = 20;
   options: any = {};
   patientId: string;
   results: PaginatedResult<Observation>
+  @ViewChild('levelsTable') levelsTable: Ng2SmartTableComponent;
 
   settings = {
     selectedRowIndex: -1,
     columns: {
       level: {
         title: GlucoseLevelsLocale.columnLevel,
-        type: 'string'
+        filter: false,
+        sort: false
       },
       date: {
         title: GlucoseLevelsLocale.columnDate,
-        type: 'string',
-        sortDirection: 'desc'
+        filter: false,
+        sort: false
       },
       time: {
         title: GlucoseLevelsLocale.columnTime,
-        type: 'string'
+        filter: false,
+        sort: false
       },
     },
-    actions: false
+    add: {
+      addButtonContent: '<i class="nb-plus"></i>',
+    },
+    actions: {
+      delete: false,
+      edit: false,
+      columnTitle: "Action",
+      custom: [
+        {
+          name: 'edit',
+          title: `<div class="badge d-table"><i class="fa-xs far fa-edit"></i> <span class="icon-text text-dark ml-1">Edit</span></div>`,
+        }
+      ]
+    },
+    mode: 'external',
+    pager: {
+      display: false
+    }
   }
   source: LocalDataSource;
 
   constructor(
     private observationsService: ObservationsService,
     private theme: NbThemeService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialogService: NbDialogService
   ) {
     this.route.params.subscribe(params => {
       this.patientId = params["patientId"];
-      this.getObservations(this.defaultLimit)
+      this.getObservations()
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.levelsTable.create.subscribe(_ =>
+      this.openDialogForm(this.observationsService.getEmptyGlucoseObservation(this.patientId)));
   }
 
   nextObservations(lastCursor?: string): void {
     this.getObservations(this.defaultLimit, lastCursor);
   }
 
-  private getObservations(limit: number, lastCursor?: string): void {
+  handleCustomAction(event: any): void {
+    if (event.action !== 'edit') {
+      return;
+    }
+
+    const observation = {...event.data};
+    delete observation.level;
+    delete observation.date;
+    delete observation.time;
+
+    this.openDialogForm(observation, true);
+  }
+
+  private getObservations(limit: number = this.defaultLimit, lastCursor?: string): void {
     this.observationsService.getObservations(this.patientId, limit, lastCursor)
       .subscribe(paginatedObservations => {
         this.results = paginatedObservations;
         this.source = new LocalDataSource(paginatedObservations.results.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
-          const date = new Date(observation.issued).toLocaleString(GlucoseLevelsLocale.localeTime);
+          const date = new Date(observation.effectiveDateTime).toLocaleString(GlucoseLevelsLocale.localeTime);
           data.level = `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
           data.date = date.substring(0, date.length - 3);
           data.time = time === 'EXACT' ? '-' : time;
@@ -76,6 +116,20 @@ export class GlucoseLevelsComponent {
           this.setOptions(colors, echarts, data.map(item => item.value), data.map(item => item.date))
         })
       });
+  }
+
+  private openDialogForm(observation: Observation, isUpdate: boolean = false): void {
+    this.dialogService.open(ObservationFormComponent, {
+      closeOnBackdropClick: false,
+      context: {
+        observation,
+        isUpdate
+      }})
+      .onClose.subscribe(saved => {
+      if (saved) {
+        this.getObservations();
+      }
+    });
   }
 
   private getObservationDataForChart = (observation: Observation): { value: number, date: string } => {

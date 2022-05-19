@@ -1,0 +1,145 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row align-items-center">
+      <div class="col-6" *ngIf="isUpdate; else newRecordTitle">
+        <h4 class="mb-0" i18n>Edit record</h4>
+      </div>
+      <div class="col-6 text-right" *ngIf="isUpdate">
+        <button nbButton type="button"
+                [disabled]="formStatus !== formStatusType.default"
+                [status]="showDeleteMessage ? 'info' : 'danger'"
+                (click)="showDeleteMessage = !showDeleteMessage">
+          <nb-icon class="icon"
+                   [icon]="showDeleteMessage ? 'edit-outline' : 'trash'"
+                   pack="eva"></nb-icon>
+          <ng-container *ngIf="showDeleteMessage; else deleteLabel">
+            <span i18n>Edit</span>
+          </ng-container>
+          <ng-template #deleteLabel>
+            <span i18n>Delete</span>
+          </ng-template>
+        </button>
+      </div>
+      <ng-template #newRecordTitle>
+        <div class="col-12">
+          <h4 class="mb-0" i18n>New record</h4>
+        </div>
+      </ng-template>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="observationForm" (ngSubmit)="submitForm()">
+      <div class="form-group row">
+        <label for="observation-value" class="col-form-label col-sm-3 form-control-label text-sm-right"
+               i18n>Value</label>
+        <div class="col-sm-9">
+          <nb-form-field>
+            <input type="number" nbInput fullWidth id="observation-value" i18n-placeholder="Placeholder"
+                   class="input-units"
+                   placeholder="Value"
+                   autocomplete="off"
+                   [formControl]="valueControl">
+            <span class="units-label" nbSuffix i18n>mmo/l</span>
+          </nb-form-field>
+          <ng-container *ngIf="isControlInvalid(valueControl)">
+            <span class="text-danger" i18n>A value is required</span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="observation-date" class="col-form-label col-sm-3 form-control-label text-sm-right" i18n>Date</label>
+        <div class="col-sm-9">
+          <input id="observation-date" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Date"
+                 autocomplete="off"
+                 [nbDatepicker]="datePicker"
+                 [formControl]="dateControl">
+          <nb-date-timepicker #datePicker
+                              [format]="localeTime"
+                              [singleColumn]="true"
+                              [step]="30">
+          </nb-date-timepicker>
+          <ng-container *ngIf="isControlInvalid(dateControl)">
+            <span class="text-danger" i18n>The date is required</span>
+          </ng-container>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="observation-timing" class="col-form-label col-sm-3 form-control-file text-sm-right"
+               i18n>Timing</label>
+        <div class="col-sm-9">
+          <nb-select fullWidth id="observation-timing" i18n-placeholder="Placeholder"
+                     placeholder="Timing"
+                     [formControl]="timingControl">
+            <nb-option i18n [value]="undefined" disabled>Select a timing</nb-option>
+            <nb-option *ngFor="let time of timesOfDay" [value]="time.value">
+              {{ time.name }}
+            </nb-option>
+          </nb-select>
+          <ng-container *ngIf="isControlInvalid(timingControl)">
+            <span class="text-danger" i18n>A timing is required</span>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+    <div class="blurred" *ngIf="showDeleteMessage">
+      <div class="row w-100">
+        <div class="col-12 text-center align-middle">
+          <h5 i18n>Are you sure to delete this record?</h5>
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-6">
+        <button type="button" nbButton status="basic" (click)="close()"
+                [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
+          <ng-container i18n>Cancel</ng-container>
+        </button>
+      </div>
+
+      <div class="col-6 text-right" *ngIf="!showDeleteMessage; else confirmDeleteButton">
+        <button type="submit" nbButton status="success" (click)="submitForm()"
+                [disabled]="observationForm.invalid || formStatus === formStatusType.loading || formStatus === formStatusType.success">
+          <ng-container i18n>Save</ng-container>
+        </button>
+      </div>
+
+      <ng-template #confirmDeleteButton>
+        <div class="col-6 text-right" (click)="deleteRecord()">
+          <button nbButton status="danger" [disabled]="formStatus !== formStatusType.default">
+            <ng-container i18n>Delete</ng-container>
+          </button>
+        </div>
+      </ng-template>
+
+      <div class="col-12 mt-3 text-center" *ngIf="formStatus === formStatusType.error">
+        <nb-alert accent="danger">
+          <ng-container *ngIf="!showDeleteMessage; else deleteErrorMessage">
+            <span i18n>There was a problem saving the record</span>
+          </ng-container>
+          <ng-template #deleteErrorMessage>
+            <span i18n>There was a problem deleting the record</span>
+          </ng-template>
+        </nb-alert>
+      </div>
+      <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.success">
+        <nb-alert accent="success">
+          <div class="row">
+            <div class="col-7">
+              <ng-container *ngIf="!showDeleteMessage; else deleteSuccessMessage">
+                <span i18n>The record has been saved</span>
+              </ng-container>
+              <ng-template #deleteSuccessMessage>
+                <span i18n>The record has been deleted</span>
+              </ng-template>
+            </div>
+            <div class="col-5 text-right">
+              <button type="button" nbButton status="success" (click)="close()" i18n="Return button">Return</button>
+            </div>
+          </div>
+        </nb-alert>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

@@ -177,7 +177,7 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
       display: this.getMedicationName(medication)
     }
     request.subject = {
-      reference: ResourceUtils.getPatientReference(this.patient),
+      reference: ResourceUtils.getPatientReference(this.patient.id),
       display: this.patient.name[0]?.family
     }
     request.requester = {

@@ -8,7 +8,7 @@ import {
   NbAutocompleteModule,
   NbButtonGroupModule,
   NbButtonModule,
-  NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule,
+  NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule,
   NbInputModule, NbRadioModule,
   NbSelectModule, NbTimepickerModule
 } from "@nebular/theme";
@@ -23,6 +23,7 @@ import { PatientViewComponent } from './patient-view/patient-view.component';
 import { PatientFormComponent } from './patient-form/patient-form.component';
 import { PatientFormService } from "./patient-form/patient-form.service";
 import { ThemeModule } from "../../@theme/theme.module";
+import { ObservationFormComponent } from './glucose-levels/observation-form/observation-form.component';
 
 @NgModule({
   declarations: [
@@ -33,28 +34,30 @@ import { ThemeModule } from "../../@theme/theme.module";
     GlucoseLevelsComponent,
     OrderDetailsComponent,
     PatientViewComponent,
-    PatientFormComponent
+    PatientFormComponent,
+    ObservationFormComponent
   ],
-    imports: [
-        CommonModule,
-        PatientsRoutingModule,
-        Ng2SmartTableModule,
-        NgxEchartsModule,
-        NbCardModule,
-        NbInputModule,
-        NbButtonModule,
-        NbSelectModule,
-        NbAutocompleteModule,
-        ReactiveFormsModule,
-        NbButtonGroupModule,
-        NbCheckboxModule,
-        NbTimepickerModule,
-        NbIconModule,
-        NbRadioModule,
-        NbDatepickerModule,
-        NbAlertModule,
-        ThemeModule
-    ],
+  imports: [
+    CommonModule,
+    PatientsRoutingModule,
+    Ng2SmartTableModule,
+    NgxEchartsModule,
+    NbCardModule,
+    NbInputModule,
+    NbButtonModule,
+    NbSelectModule,
+    NbAutocompleteModule,
+    ReactiveFormsModule,
+    NbButtonGroupModule,
+    NbCheckboxModule,
+    NbTimepickerModule,
+    NbIconModule,
+    NbRadioModule,
+    NbDatepickerModule,
+    NbAlertModule,
+    ThemeModule,
+    NbFormFieldModule
+  ],
   providers: [
     PatientFormService
   ]

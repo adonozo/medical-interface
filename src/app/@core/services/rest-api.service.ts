@@ -33,7 +33,8 @@ export class RestApiService {
         after: lastCursor,
         ...params
       },
-      observe: 'response' })
+      observe: 'response'
+    })
       .pipe(
         map(response => {
           const paginationLast = response.headers.get(Headers.PAGINATION_LAST);
@@ -53,5 +54,9 @@ export class RestApiService {
 
   patch<T1, T2>(resource: string, body: T1): Observable<T2> {
     return this.http.patch<T2>(this.baseUrl + resource, body, this.httpOptions);
+  }
+
+  delete(resource: string): Observable<void> {
+    return this.http.delete<void>(this.baseUrl + resource);
   }
 }
