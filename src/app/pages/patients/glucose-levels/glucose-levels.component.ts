@@ -103,7 +103,7 @@ export class GlucoseLevelsComponent implements AfterViewInit {
         this.source = new LocalDataSource(paginatedObservations.results.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
-          const date = new Date(observation.effectiveDateTime).toLocaleString(GlucoseLevelsLocale.localeTime);
+          const date = new Date(observation.issued).toLocaleString(GlucoseLevelsLocale.localeTime);
           data.level = `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
           data.date = date.substring(0, date.length - 3);
           data.time = time === 'EXACT' ? '-' : time;

@@ -48,7 +48,6 @@ export class ObservationsService {
       subject: {
         reference: ResourceUtils.getPatientReference(patientId),
       },
-      effectiveDateTime: defaultDate.toISOString(),
       issued: new Date().toISOString(),
       performer: [
         {

@@ -33,7 +33,7 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
   }
 
   ngOnInit() {
-    const date = getDateOrDefault(this.observation?.effectiveDateTime);
+    const date = getDateOrDefault(this.observation?.issued);
     this.observationForm = this.formBuilder.group({
       value: this.formBuilder.control(this.observation?.valueQuantity?.value, [Validators.required]),
       date: this.formBuilder.control(date, [Validators.required]),
@@ -59,7 +59,7 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
 
   submitForm(): void {
     this.observation.valueQuantity.value = this.valueControl.value;
-    this.observation.effectiveDateTime = this.dateControl.value.toISOString();
+    this.observation.issued = this.dateControl.value.toISOString();
     ResourceUtils.setCodeExtension(this.observation, Extensions.RESOURCE_TIMING, this.timingControl.value);
 
     this.formStatus = FormStatus.loading;
