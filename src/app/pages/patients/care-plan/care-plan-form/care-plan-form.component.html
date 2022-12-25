@@ -1,0 +1,51 @@
+<nb-card>
+  <nb-card-header>
+    <h2>
+      Care plan
+    </h2>
+  </nb-card-header>
+
+  <nb-card-body>
+    <div class="row mb-5">
+      <div class="col-10">
+        <h6>
+          <i class="icon fa fa-vial mr-2"></i>
+          <ng-container i18n>Blood Glucose Measurement Orders</ng-container>
+        </h6>
+      </div>
+      <div class="col-2">
+        <button nbButton status="info" (click)="navigate('service')">
+          <nb-icon icon="plus"></nb-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-10">
+        <h6>
+          <i class="icon fa fa-prescription-bottle-alt mr-2"></i>
+          <ng-container i18n>Medication Requests</ng-container>
+        </h6>
+      </div>
+      <div class="col-2">
+        <button nbButton status="info" (click)="navigate('medication')">
+          <nb-icon icon="plus"></nb-icon>
+        </button>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-4">
+        <button nbButton (click)="goBack()" i18n="Return button">
+          Return
+        </button>
+      </div>
+      <div class="col-8 text-right">
+        <button nbButton status="success" class="ml-2" i18n="Activate">
+          Activate
+        </button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>
