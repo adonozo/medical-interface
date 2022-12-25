@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { flatMap } from "rxjs/internal/operators";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { InternalPatient } from "../../../@core/models/internalPatient";
+import { CarePlanService } from "../../../@core/services/care-plan.service";
 
 @Component({
   selector: 'app-patient-view',
@@ -17,10 +18,10 @@ export class PatientViewComponent {
 
   constructor(
     private patientsService: PatientsService,
+    private carePlanService: CarePlanService,
     private activatedRoute: ActivatedRoute,
-    private route: ActivatedRoute,
     private router: Router) {
-    this.route.params.pipe(
+    this.activatedRoute.params.pipe(
       flatMap(params => {
         this.patientId = params["patientId"];
         return patientsService.getInternalPatient(params["patientId"]);
@@ -40,5 +41,14 @@ export class PatientViewComponent {
         await this.router.navigate([this.patientId + '/edit'], {relativeTo: this.activatedRoute.parent});
         return
     }
+  }
+
+  createCarePlan(): void {
+    this.carePlanService.createCarePlan(this.patientId)
+      .subscribe(carePlan =>
+        this.router.navigate(
+          [`${this.patientId}/care-plans/${carePlan.id}/edit`],
+          {relativeTo: this.activatedRoute.parent})
+      );
   }
 }

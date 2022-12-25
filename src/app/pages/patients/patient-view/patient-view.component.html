@@ -57,7 +57,7 @@
     </nb-card>
   </div>
 
-  <div class="col-12 col-sm-6 col-md-4">
+  <!--<div class="col-12 col-sm-6 col-lg-4">
     <nb-card>
       <div class="cursor-pointer action" (click)="navigate('medication')">
         <div class="icon-container">
@@ -73,7 +73,7 @@
     </nb-card>
   </div>
 
-  <div class="col-12 col-sm-6 col-md-4 cursor-pointer">
+  <div class="col-12 col-sm-6 col-lg-4">
     <nb-card>
       <div class="cursor-pointer action" (click)="navigate('service')">
         <div class="icon-container">
@@ -87,15 +87,37 @@
         </div>
       </div>
     </nb-card>
-  </div>
+  </div>-->
 
 </div>
 
 <div class="row mt-3">
-  <div class="col-12 mb-3">
-    <app-treatments></app-treatments>
+  <div class="col-12">
+    <app-care-plan></app-care-plan>
   </div>
 
+  <div class="col-12 col-sm-6 col-lg-4">
+    <nb-card>
+      <div class="cursor-pointer action" (click)="createCarePlan()">
+        <div class="icon-container">
+          <div class="icon status-warning">
+            <i class="icon fa fa-file-medical"></i>
+          </div>
+        </div>
+
+        <div class="details">
+          <span class="title h6" i18n>New care plan</span>
+        </div>
+      </div>
+    </nb-card>
+  </div>
+
+  <!--<div class="col-12 mb-3">
+    <app-treatments></app-treatments>
+  </div>-->
+</div>
+
+<div class="row mt-3">
   <div class="col-12">
     <app-glucose-levels></app-glucose-levels>
   </div>
