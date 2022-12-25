@@ -24,6 +24,8 @@ import { PatientFormComponent } from './patient-form/patient-form.component';
 import { PatientFormService } from "./patient-form/patient-form.service";
 import { ThemeModule } from "../../@theme/theme.module";
 import { ObservationFormComponent } from './glucose-levels/observation-form/observation-form.component';
+import { CarePlanComponent } from './care-plan/care-plan.component';
+import { CarePlanFormComponent } from './care-plan/care-plan-form/care-plan-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { ObservationFormComponent } from './glucose-levels/observation-form/obse
     OrderDetailsComponent,
     PatientViewComponent,
     PatientFormComponent,
-    ObservationFormComponent
+    ObservationFormComponent,
+    CarePlanComponent,
+    CarePlanFormComponent
   ],
   imports: [
     CommonModule,

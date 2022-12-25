@@ -8,6 +8,7 @@ import { GlucoseLevelsComponent } from "./glucose-levels/glucose-levels.componen
 import { OrderDetailsComponent } from "./order-details/order-details.component";
 import { PatientViewComponent } from "./patient-view/patient-view.component";
 import { PatientFormComponent } from "./patient-form/patient-form.component";
+import { CarePlanFormComponent } from "./care-plan/care-plan-form/care-plan-form.component";
 
 const routes: Routes = [
   {
@@ -41,6 +42,18 @@ const routes: Routes = [
   {
     path: ':patientId/glucose-levels',
     component: GlucoseLevelsComponent
+  },
+  {
+    path: ':patientId/care-plans/:carePlanId/edit',
+    component: CarePlanFormComponent
+  },
+  {
+    path: ':patientId/care-plans/:carePlanId/new-medication-request',
+    component: MedicationRequestFormComponent
+  },
+  {
+    path: ':patientId/care-plans/:carePlanId/new-service-request',
+    component: ServiceRequestFormComponent
   },
   {
     // order-type: medication-order or service-order
