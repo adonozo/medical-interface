@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormComponent } from "../../../../@core/components/form.component";
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
-import { CarePlan } from "fhir/r4";
+import { MedicationRequest, Resource, ServiceRequest } from "fhir/r4";
 import { CarePlanService } from "../../../../@core/services/care-plan.service";
 import { flatMap } from "rxjs/internal/operators";
 
@@ -15,7 +15,7 @@ export class CarePlanFormComponent extends FormComponent{
 
   carePlanId: string;
   patientId: string;
-  carePlan: CarePlan;
+  resources: Resource[];
 
   constructor(
     private location: Location,
@@ -28,9 +28,9 @@ export class CarePlanFormComponent extends FormComponent{
       flatMap(params => {
         this.carePlanId = params["carePlanId"];
         this.patientId = params["patientId"];
-        return this.carePlanService.getCarePlan(this.carePlanId);
+        return this.carePlanService.getDetailedCarePlan(this.carePlanId);
       })
-    ).subscribe(carePlan => this.carePlan = carePlan);
+    ).subscribe(bundle => this.resources = bundle.entry?.map(entry => entry.resource) ?? []);
   }
 
   submitForm(): void {
@@ -40,18 +40,36 @@ export class CarePlanFormComponent extends FormComponent{
     this.location.back();
   }
 
-  async navigate(page: string): Promise<void> {
+  deleteCarePlan(): void {
+    this.carePlanService.deleteCarePlan(this.carePlanId)
+      .subscribe(_ => this.location.back());
+  }
+
+  async navigate(page: string, id?: string): Promise<void> {
     switch (page) {
-      case 'medication':
+      case 'new-medication':
         await this.router.navigate(
           [`${this.patientId}/care-plans/${this.carePlanId}/new-medication-request`],
           {relativeTo: this.activatedRoute.parent})
         break;
-      case 'service':
+      case 'edit-medication':
+        await this.router.navigate(
+          [`${this.patientId}/care-plans/${this.carePlanId}/medication-request/${id}/edit`],
+          {relativeTo: this.activatedRoute.parent})
+        break;
+      case 'new-service':
         await this.router.navigate(
           [`${this.patientId}/care-plans/${this.carePlanId}/new-service-request`],
           {relativeTo: this.activatedRoute.parent})
         return;
     }
+  }
+
+  get medicationRequests(): MedicationRequest[] {
+    return this.resources.filter(resource => resource.resourceType === "MedicationRequest") as MedicationRequest[];
+  }
+
+  get serviceRequests(): ServiceRequest[] {
+    return this.resources.filter(resource => resource.resourceType === "ServiceRequest") as ServiceRequest[];
   }
 }

@@ -1,11 +1,21 @@
 <nb-card>
   <nb-card-header>
-    <h2>
-      Care plan
-    </h2>
+    <div class="row">
+      <div class="col-6">
+        <h2>
+          Care plan
+        </h2>
+      </div>
+      <div class="col-6 text-right">
+        <button nbButton type="button" [status]="'danger'" (click)="deleteCarePlan()">
+          <nb-icon class="icon" [icon]="'trash'" pack="eva"></nb-icon>
+          <span i18n>Delete</span>
+        </button>
+      </div>
+    </div>
   </nb-card-header>
 
-  <nb-card-body>
+  <nb-card-body *ngIf="resources">
     <div class="row mb-5">
       <div class="col-10">
         <h6>
@@ -14,9 +24,21 @@
         </h6>
       </div>
       <div class="col-2">
-        <button nbButton status="info" (click)="navigate('service')">
+        <button nbButton status="info" (click)="navigate('new-service')">
           <nb-icon icon="plus"></nb-icon>
         </button>
+      </div>
+      <div class="col-12">
+        <div class="row" *ngFor="let serviceRequest of serviceRequests">
+          <div class="col-8">
+            <pre>{{ serviceRequest.id }}</pre>
+          </div>
+          <div class="col-4">
+            <button nbButton status="info" (click)="navigate('edit-service')">
+              <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -28,9 +50,21 @@
         </h6>
       </div>
       <div class="col-2">
-        <button nbButton status="info" (click)="navigate('medication')">
+        <button nbButton status="info" (click)="navigate('new-medication')">
           <nb-icon icon="plus"></nb-icon>
         </button>
+      </div>
+      <div class="col-12">
+        <div class="row" *ngFor="let medicationRequest of medicationRequests">
+          <div class="col-8">
+            <pre>{{ medicationRequest.id }}</pre>
+          </div>
+          <div class="col-4">
+            <button nbButton status="info" (click)="navigate('edit-medication', medicationRequest.id)">
+              <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </nb-card-body>
