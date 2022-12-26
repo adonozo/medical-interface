@@ -1,4 +1,4 @@
-import { Bundle, ContactPoint, DomainResource, Medication, Patient } from "fhir/r4";
+import { Bundle, ContactPoint, DomainResource, Medication, Patient, Reference } from "fhir/r4";
 import { Extensions, Resource } from "../data/constants";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
 import { PaginatedResult } from "../../models/paginatedResult";
@@ -10,6 +10,16 @@ export class ResourceUtils {
 
   static getMedicationReference(medication: Medication): string {
     return Resource.MEDICATION + medication.id;
+  }
+
+  static getIdFromReference(reference: Reference): string {
+    const separator = reference.reference.startsWith('#') ? '#' : '/';
+    const referenceParts = reference.reference.split(separator);
+    if (referenceParts.length > 1) {
+      return referenceParts[1];
+    }
+
+    return '';
   }
 
   static getPatientName(patient: Patient): string {
