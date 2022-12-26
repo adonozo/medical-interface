@@ -7,7 +7,7 @@
           {{ patientName }}
         </h2>
       </nb-card-header>
-      <nb-card-body>
+      <nb-card-body *ngIf="medicationForm">
         <form [formGroup]="medicationForm" (ngSubmit)="submitForm()" class="form-horizontal">
           <div class="form-group row">
             <label for="drug-name" class="col-form-label col-sm-3 form-control-label" i18n>Drug name</label>

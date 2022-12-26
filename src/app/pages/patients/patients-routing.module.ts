@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
 import { PatientsComponent } from "./patients.component";
 import { TreatmentsComponent } from "./treatments/treatments.component";
-import { MedicationRequestFormComponent } from "./medication-request-form/medication-request-form.component";
 import { ServiceRequestFormComponent } from "./service-request-form/service-request-form.component";
 import { GlucoseLevelsComponent } from "./glucose-levels/glucose-levels.component";
 import { OrderDetailsComponent } from "./order-details/order-details.component";
 import { PatientViewComponent } from "./patient-view/patient-view.component";
 import { PatientFormComponent } from "./patient-form/patient-form.component";
 import { CarePlanFormComponent } from "./care-plan/care-plan-form/care-plan-form.component";
+import { MedicationRequestEditFormComponent } from "./medication-request-form/medication-request-edit-form.component";
+import { MedicationRequestNewFormComponent } from "./medication-request-form/medication-request-new-form.component";
 
 const routes: Routes = [
   {
@@ -32,10 +33,6 @@ const routes: Routes = [
     component: TreatmentsComponent
   },
   {
-    path: ':patientId/new-medication-request',
-    component: MedicationRequestFormComponent
-  },
-  {
     path: ':patientId/new-service-request',
     component: ServiceRequestFormComponent
   },
@@ -49,7 +46,11 @@ const routes: Routes = [
   },
   {
     path: ':patientId/care-plans/:carePlanId/new-medication-request',
-    component: MedicationRequestFormComponent
+    component: MedicationRequestNewFormComponent
+  },
+  {
+    path: ':patientId/care-plans/:carePlanId/medication-request/:medicationRequestId/edit',
+    component: MedicationRequestEditFormComponent
   },
   {
     path: ':patientId/care-plans/:carePlanId/new-service-request',

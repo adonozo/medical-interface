@@ -26,7 +26,7 @@ export class MedicationRequestsService {
     return this.apiService.get<MedicationRequest>(this.path + id);
   }
 
-  createMedicationRequest(request: MedicationRequest): Observable<MedicationRequest> {
-    return this.apiService.post(this.path, request);
+  createMedicationRequest(carePlanId: string ,request: MedicationRequest): Observable<MedicationRequest> {
+    return this.apiService.put(`carePlans/${carePlanId}/${this.path}`, request);
   }
 }

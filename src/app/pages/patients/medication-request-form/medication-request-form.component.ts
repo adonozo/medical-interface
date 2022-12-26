@@ -1,4 +1,3 @@
-import { Component, OnInit } from '@angular/core';
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { debounceTime, distinctUntilChanged, flatMap } from "rxjs/internal/operators";
@@ -6,21 +5,17 @@ import { Dosage, Medication, Patient, Quantity } from "fhir/r4";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Location } from "@angular/common";
 import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from "./form-data";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
-import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
+import { DurationFormData } from "../../../@core/services/data/form-data";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 
-@Component({
-  selector: 'app-medication-request',
-  templateUrl: './medication-request-form.component.html',
-  styleUrls: ['./medication-request-form.component.scss']
-})
-export class MedicationRequestFormComponent extends FormComponent implements OnInit {
+export abstract class MedicationRequestFormComponent extends FormComponent {
   private readonly defaultLimit = 20;
+  protected carePlanId: string;
 
   patient: Patient;
   quantities: Quantity[] = [];
@@ -36,49 +31,34 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;
 
-  constructor(
-    private patientService: PatientsService,
-    private medicationService: MedicationsService,
-    private medicationRequestService: MedicationRequestsService,
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private location: Location
+  protected constructor(
+    protected patientService: PatientsService,
+    protected medicationService: MedicationsService,
+    protected medicationRequestService: MedicationRequestsService,
+    protected activatedRoute: ActivatedRoute,
+    protected formBuilder: FormBuilder,
+    protected location: Location
   ) {
     super();
-    this.medicationForm = formBuilder.group({
-      medication: ['', Validators.required],
-      medicationId: ['', Validators.required],
-      doseQuantity: ['', [Validators.required, Validators.min(0)]],
-      doseUnit: ['', Validators.required],
-      dayOfWeek: formBuilder.group({}),
-      when: formBuilder.group({}),
-      timeOfDay: formBuilder.array([formBuilder.control('')]),
-      frequency: [1],
-      instructions: [''],
-      durationQuantity: [],
-      durationUnit: ['d'],
-      periodRange: [],
-      periodStart: []
-    });
-    this.setDayOfWeekControl();
-    this.setTimeOfDayControl();
-    this.route.params.pipe(
-      flatMap(params => patientService.getSinglePatient(params["patientId"]))
+
+    this.activatedRoute.params.pipe(
+      flatMap(params => {
+        this.carePlanId = params['carePlanId'];
+        return patientService.getSinglePatient(params['patientId'])
+      })
     ).subscribe(patient => this.patient = patient);
 
-    medicationService.getMedications(this.defaultLimit, '', '').subscribe(medications => {
+    medicationService.searchMedications(this.defaultLimit, '', '').subscribe(medications => {
       this.filteredMedications = of(medications.results);
       this.filteredMedications = this.medicationControl.valueChanges
         .pipe(
           debounceTime(750),
           distinctUntilChanged(),
-          flatMap(input => medicationService.getMedications(this.defaultLimit, '', input)),
+          flatMap(input => medicationService.searchMedications(this.defaultLimit, '', input)),
           map(paginatedResult => paginatedResult.results)
         );
     });
-  }
 
-  ngOnInit(): void {
     this.quantities = this.medicationService.getMedicationQuantities();
   }
 
@@ -168,45 +148,18 @@ export class MedicationRequestFormComponent extends FormComponent implements OnI
     this.location.back();
   }
 
-  submitForm(): void {
-    const request = this.medicationRequestService.getEmptyMedicationRequest();
-    const medication = this.medicationControl.value;
-    request.contained = [medication];
-    request.medicationReference = {
-      id: ResourceUtils.getMedicationReference(medication),
-      display: this.getMedicationName(medication)
-    }
-    request.subject = {
-      reference: ResourceUtils.getPatientReference(this.patient.id),
-      display: this.patient.name[0]?.family
-    }
-    request.requester = {
-      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
-      display: 'Dr. Steven'
-    }
-    request.note = [{text: this.instructionsControl.value}]
-    request.dosageInstruction = [this.getDoseInstruction()];
-    this.formStatus = FormStatus.loading;
-    this.medicationRequestService.createMedicationRequest(request)
-      .subscribe(_ => this.formStatus = FormStatus.success,
-        error => {
-          console.log(error);
-          this.formStatus = FormStatus.error
-        });
-  }
-
-  private setDayOfWeekControl(): void {
+  protected setDayOfWeekControl(): void {
     this.dayOfWeekArray.forEach(day => this.dayOfWeekGroup
       .addControl(day.value, this.formBuilder.control(day.selected))
     );
   }
 
-  private setTimeOfDayControl(): void {
+  protected setTimeOfDayControl(): void {
     this.timesOfDayArray.forEach(time => this.whenGroup
       .addControl(time.value, this.formBuilder.control(time.selected)))
   }
 
-  private getDoseInstruction(): Dosage {
+  protected getDoseInstruction(): Dosage {
     const selectedFilter = (object: any): any[] =>
       Object.entries(object).filter(([_, isSelected]) => isSelected).map(([key]) => key);
     const dosage: Dosage = {};

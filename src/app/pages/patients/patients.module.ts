@@ -13,7 +13,6 @@ import {
   NbSelectModule, NbTimepickerModule
 } from "@nebular/theme";
 import { TreatmentsComponent } from './treatments/treatments.component';
-import { MedicationRequestFormComponent } from './medication-request-form/medication-request-form.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ServiceRequestFormComponent } from './service-request-form/service-request-form.component';
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
@@ -26,12 +25,15 @@ import { ThemeModule } from "../../@theme/theme.module";
 import { ObservationFormComponent } from './glucose-levels/observation-form/observation-form.component';
 import { CarePlanComponent } from './care-plan/care-plan.component';
 import { CarePlanFormComponent } from './care-plan/care-plan-form/care-plan-form.component';
+import { MedicationRequestEditFormComponent } from "./medication-request-form/medication-request-edit-form.component";
+import { MedicationRequestNewFormComponent } from "./medication-request-form/medication-request-new-form.component";
 
 @NgModule({
   declarations: [
     PatientsComponent,
     TreatmentsComponent,
-    MedicationRequestFormComponent,
+    MedicationRequestEditFormComponent,
+    MedicationRequestNewFormComponent,
     ServiceRequestFormComponent,
     GlucoseLevelsComponent,
     OrderDetailsComponent,
