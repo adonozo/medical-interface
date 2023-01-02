@@ -4,7 +4,7 @@ import { PatientsService } from "../../../@core/services/patients.service";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { ActivatedRoute } from "@angular/router";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { FormStatus } from "../../../@core/services/data/form-data";
@@ -29,7 +29,6 @@ export class MedicationRequestNewFormComponent extends MedicationRequestFormComp
       activatedRoute,
       formBuilder,
       location);
-    this.setMedicationForm();
   }
 
   submitForm(): void {
@@ -57,26 +56,5 @@ export class MedicationRequestNewFormComponent extends MedicationRequestFormComp
           console.log(error);
           this.formStatus = FormStatus.error
         });
-  }
-
-  private setMedicationForm(): void {
-    this.medicationForm = this.formBuilder.group({
-      medication: ['', Validators.required],
-      medicationId: ['', Validators.required],
-      doseQuantity: ['', [Validators.required, Validators.min(0)]],
-      doseUnit: ['', Validators.required],
-      dayOfWeek: this.formBuilder.group({}),
-      when: this.formBuilder.group({}),
-      timeOfDay: this.formBuilder.array([this.formBuilder.control('')]),
-      frequency: [1],
-      instructions: [''],
-      durationQuantity: [],
-      durationUnit: ['d'],
-      periodRange: [],
-      periodStart: []
-    });
-
-    this.setDayOfWeekControl();
-    this.setTimeOfDayControl();
   }
 }

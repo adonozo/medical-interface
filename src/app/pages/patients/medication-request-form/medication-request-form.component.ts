@@ -1,21 +1,23 @@
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { debounceTime, distinctUntilChanged, flatMap } from "rxjs/internal/operators";
-import { Dosage, Medication, Patient, Quantity } from "fhir/r4";
+import { Dosage, DosageDoseAndRate, Medication, Patient, Quantity, Timing } from "fhir/r4";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Location } from "@angular/common";
 import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from "./form-data";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { DurationFormData } from "../../../@core/services/data/form-data";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
+import { getTimeFromDate } from "../../../@core/services/utils/utils";
 
 export abstract class MedicationRequestFormComponent extends FormComponent {
   private readonly defaultLimit = 20;
   protected carePlanId: string;
+  editMode: boolean = false;
 
   patient: Patient;
   quantities: Quantity[] = [];
@@ -41,25 +43,15 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
   ) {
     super();
 
+    this.quantities = this.medicationService.getMedicationQuantities();
+    this.setMedicationForm();
+
     this.activatedRoute.params.pipe(
       flatMap(params => {
         this.carePlanId = params['carePlanId'];
         return patientService.getSinglePatient(params['patientId'])
-      })
-    ).subscribe(patient => this.patient = patient);
-
-    medicationService.searchMedications(this.defaultLimit, '', '').subscribe(medications => {
-      this.filteredMedications = of(medications.results);
-      this.filteredMedications = this.medicationControl.valueChanges
-        .pipe(
-          debounceTime(750),
-          distinctUntilChanged(),
-          flatMap(input => medicationService.searchMedications(this.defaultLimit, '', input)),
-          map(paginatedResult => paginatedResult.results)
-        );
-    });
-
-    this.quantities = this.medicationService.getMedicationQuantities();
+      }))
+      .subscribe(patient => this.patient = patient);
   }
 
   get medicationControl(): FormControl {
@@ -114,8 +106,8 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     return this.medicationForm.get('instructions') as FormControl;
   }
 
-  getMedicationName(medication: any): string {
-    if (typeof medication === 'string' || medication instanceof String) {
+  getMedicationName(medication: string | Medication): string {
+    if (typeof medication === 'string') {
       return medication.toString();
     }
 
@@ -138,8 +130,8 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     return '';
   }
 
-  addTimeForm = (): void =>
-    this.timeOfDayFormArray.push(this.formBuilder.control(''))
+  addTimeForm = (date?: Date): void =>
+    this.timeOfDayFormArray.push(this.formBuilder.control(date ?? ''));
 
   removeTimeForm = (index: number): void =>
     this.timeOfDayFormArray.removeAt(index)
@@ -148,78 +140,113 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     this.location.back();
   }
 
-  protected setDayOfWeekControl(): void {
+  protected getDoseInstruction(): Dosage {
+    return {
+      doseAndRate: this.getDoseAndRate(),
+      timing: this.getDosageTiming()
+    }
+  }
+
+  private setMedicationForm(): void {
+    this.medicationForm = this.formBuilder.group({
+      medication: ['', Validators.required],
+      medicationId: ['', Validators.required],
+      doseQuantity: ['', [Validators.required, Validators.min(0)]],
+      doseUnit: ['', Validators.required],
+      dayOfWeek: this.formBuilder.group({}),
+      when: this.formBuilder.group({}),
+      timeOfDay: this.formBuilder.array([this.formBuilder.control('')]),
+      frequency: [1],
+      instructions: [''],
+      durationQuantity: [],
+      durationUnit: ['d'],
+      periodRange: [],
+      periodStart: []
+    });
+
+    this.setDayOfWeekControl();
+    this.setTimeOfDayControl();
+    this.enableMedicationSearch();
+  }
+
+  private setDayOfWeekControl(): void {
     this.dayOfWeekArray.forEach(day => this.dayOfWeekGroup
       .addControl(day.value, this.formBuilder.control(day.selected))
     );
   }
 
-  protected setTimeOfDayControl(): void {
+  private setTimeOfDayControl(): void {
     this.timesOfDayArray.forEach(time => this.whenGroup
       .addControl(time.value, this.formBuilder.control(time.selected)))
   }
 
-  protected getDoseInstruction(): Dosage {
-    const selectedFilter = (object: any): any[] =>
-      Object.entries(object).filter(([_, isSelected]) => isSelected).map(([key]) => key);
-    const dosage: Dosage = {};
-    dosage.timing = {
+  private enableMedicationSearch(): void {
+    this.medicationService.searchMedications(this.defaultLimit, '', '')
+      .subscribe(medications => {
+        this.filteredMedications = of(medications.results);
+        this.filteredMedications = this.medicationControl?.valueChanges
+          .pipe(
+            debounceTime(750),
+            distinctUntilChanged(),
+            flatMap(input => this.medicationService.searchMedications(this.defaultLimit, '', input)),
+            map(paginatedResult => paginatedResult.results)
+          );
+      });
+  }
+
+  private getDosageTiming(): Timing {
+    const selectedFilter = (daySelected: { day: boolean }): any[] =>
+      Object.entries(daySelected)
+        .filter(([, isSelected]) => isSelected)
+        .map(([day]) => day);
+
+    const timing: Timing = {
       repeat: {
         dayOfWeek: this.dailyFrequencySelected === DailyFrequencyFormData.specificDays ? selectedFilter(this.dayOfWeekGroup.value) : [],
         when: this.frequencySelected === FrequencyFormData.mealTime ? selectedFilter(this.whenGroup.value) : [],
         period: 1,
         periodUnit: 'd',
-        frequency: this.frequencySelected === FrequencyFormData.timesPerDay ? this.frequencyControl.value : 1
+        frequency: this.frequencySelected === FrequencyFormData.timesPerDay ? this.frequencyControl.value : 1,
+        timeOfDay: this.frequencySelected === FrequencyFormData.specificTimes ?
+          this.timeOfDayFormArray.value.map((date: Date) => getTimeFromDate(date)) : []
       }
     }
+
     switch (this.durationSelected) {
       case DurationFormData.period:
-        dosage.timing.repeat.boundsPeriod = {
+        timing.repeat.boundsPeriod = {
           start: this.periodRangeControl.value.start.toISOString(),
           end: this.periodRangeControl.value.end.toISOString(),
         }
         break;
       case DurationFormData.duration:
-        dosage.timing.repeat.boundsDuration = this.getBoundsDuration();
+        timing.repeat.boundsDuration = this.getBoundsDuration();
         break;
       case DurationFormData.untilNext:
-        dosage.timing.repeat.boundsPeriod = {
-          start: this.periodStartControl.value.toISOString(),
-          end: MedicationRequestFormComponent.getSixMonthsFromDate(this.periodStartControl.value).toISOString(),
+        timing.repeat.boundsPeriod = {
+          start: (new Date()).toISOString(),
+          end: this.periodStartControl.value.toISOString(),
         }
         break;
     }
-    dosage.doseAndRate = [
+
+    return timing;
+  }
+
+  private getDoseAndRate(): DosageDoseAndRate[] {
+    return [
       {
         doseQuantity: {
           ...this.doseUnitControl.value,
           value: this.doseQuantityControl.value
         }
       }
-    ];
-
-    return dosage
+    ]
   }
 
   private getBoundsDuration(): { value: number, unit: string } {
-    let value = this.durationQuantityControl.value;
-    let unit = this.durationUnitControl.value;
-    switch (unit) {
-      case 'wk':
-        value *= 7;
-        unit = 'd';
-        break;
-      case 'mo':
-        value *= 30;
-        unit = 'd';
-        break;
-    }
-
+    const value = this.durationQuantityControl.value;
+    const unit = this.durationUnitControl.value;
     return {value, unit};
-  }
-
-  private static getSixMonthsFromDate(date: Date): Date {
-    date.setMonth(date.getMonth() + 6)
-    return date;
   }
 }
