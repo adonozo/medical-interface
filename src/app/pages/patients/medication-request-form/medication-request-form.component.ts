@@ -1,7 +1,7 @@
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { debounceTime, distinctUntilChanged, flatMap } from "rxjs/internal/operators";
-import { Dosage, DosageDoseAndRate, Medication, Patient, Quantity, Timing } from "fhir/r4";
+import { Dosage, DosageDoseAndRate, Medication, MedicationRequest, Patient, Quantity, Timing } from "fhir/r4";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
@@ -9,10 +9,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@ang
 import { Location } from "@angular/common";
 import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from "./form-data";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
-import { DurationFormData } from "../../../@core/services/data/form-data";
+import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
-import { getTimeFromDate } from "../../../@core/services/utils/utils";
 import { Moment } from 'moment'
 
 export abstract class MedicationRequestFormComponent extends FormComponent {
@@ -33,6 +32,8 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
 
   filteredMedications: Observable<Medication[]>;
   medicationForm: FormGroup;
+
+  abstract saveMethod<T>(request: MedicationRequest): Observable<T>;
 
   protected constructor(
     protected patientService: PatientsService,
@@ -141,6 +142,17 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     this.location.back();
   }
 
+  submitForm(): void {
+    const request = this.getRequestFromForm();
+    this.formStatus = FormStatus.loading;
+    this.saveMethod(request)
+      .subscribe(_ => this.formStatus = FormStatus.success,
+        error => {
+          console.log(error);
+          this.formStatus = FormStatus.error
+        });
+  }
+
   protected getDoseInstruction(): Dosage {
     return {
       doseAndRate: this.getDoseAndRate(),
@@ -168,6 +180,27 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     this.setDayOfWeekControl();
     this.setTimeOfDayControl();
     this.enableMedicationSearch();
+  }
+
+  private getRequestFromForm(): MedicationRequest {
+    const request = this.medicationRequestService.getEmptyMedicationRequest();
+    const medication = this.medicationControl.value;
+    request.contained = [medication];
+    request.medicationReference = {
+      reference: ResourceUtils.getMedicationReference(medication),
+      display: this.getMedicationName(medication)
+    }
+    request.subject = {
+      reference: ResourceUtils.getPatientReference(this.patient.id),
+      display: this.patient.name[0]?.family
+    }
+    request.requester = {
+      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
+      display: 'Dr. Steven'
+    }
+    request.note = [{text: this.instructionsControl.value}]
+    request.dosageInstruction = [this.getDoseInstruction()];
+    return request;
   }
 
   private setDayOfWeekControl(): void {
@@ -209,7 +242,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
         periodUnit: 'd',
         frequency: this.frequencySelected === FrequencyFormData.timesPerDay ? this.frequencyControl.value : 1,
         timeOfDay: this.frequencySelected === FrequencyFormData.specificTimes ?
-          this.timeOfDayFormArray.value.map((date: Date) => getTimeFromDate(date)) : []
+          this.timeOfDayFormArray.value.map((date: Moment) => date.format('HH:mm')) : []
       }
     }
 

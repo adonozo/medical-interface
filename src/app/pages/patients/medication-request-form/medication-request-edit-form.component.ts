@@ -6,13 +6,14 @@ import { MedicationRequestsService } from "../../../@core/services/medication-re
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { Medication, MedicationRequest, Quantity } from "fhir/r4";
+import { Medication, MedicationRequest, Quantity, TimingRepeat } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { getDateOrDefault, getDefaultDateFrom } from "../../../@core/services/utils/utils";
 import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
 import { DailyFrequencyFormData, FrequencyFormData } from "./form-data";
 import * as moment from 'moment'
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-medication-request-edit',
@@ -65,31 +66,8 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
         })
   }
 
-  submitForm(): void {
-    const request = this.medicationRequestService.getEmptyMedicationRequest();
-    const medication = this.medicationControl.value;
-    request.contained = [medication];
-    request.medicationReference = {
-      reference: ResourceUtils.getMedicationReference(medication),
-      display: this.getMedicationName(medication)
-    }
-    request.subject = {
-      reference: ResourceUtils.getPatientReference(this.patient.id),
-      display: this.patient.name[0]?.family
-    }
-    request.requester = {
-      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
-      display: 'Dr. Steven'
-    }
-    request.note = [{text: this.instructionsControl.value}]
-    request.dosageInstruction = [this.getDoseInstruction()];
-    this.formStatus = FormStatus.loading;
-    this.medicationRequestService.updateMedicationRequest(this.medicationRequestId, request)
-      .subscribe(_ => this.formStatus = FormStatus.success,
-        error => {
-          console.log(error);
-          this.formStatus = FormStatus.error
-        });
+  saveMethod(request: MedicationRequest): Observable<any> {
+    return this.medicationRequestService.updateMedicationRequest(this.medicationRequestId, request);
   }
 
   private setForm(medication: Medication) {
@@ -98,7 +76,11 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
     this.doseQuantityControl.setValue(this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.value);
     this.doseUnitControl.setValue(this.findRequestQuantity());
     this.instructionsControl.setValue(this.medicationRequest.note[0]?.text);
-    this.setFrequency();
+
+    const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
+    this.setDailyFrequency(repeat);
+    this.setFrequency(repeat);
+    this.setDuration(repeat);
   }
 
   private findRequestQuantity(): Quantity {
@@ -107,15 +89,16 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
       && quantity.code === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.code);
   }
 
-  private setFrequency() {
-    const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
+  private setDailyFrequency(repeat: TimingRepeat): void {
     if (repeat.dayOfWeek && repeat.dayOfWeek.length > 0) {
       this.dailyFrequencySelected = DailyFrequencyFormData.specificDays;
       repeat.dayOfWeek.forEach(day => this.dayOfWeekGroup.get(day).setValue(true));
     } else {
       this.dailyFrequencySelected = DailyFrequencyFormData.everyday;
     }
+  }
 
+  private setFrequency(repeat: TimingRepeat): void {
     if (repeat.when?.length > 0) {
       this.frequencySelected = FrequencyFormData.mealTime;
       repeat.when.forEach(time => this.whenGroup.get(time).setValue(true));
@@ -130,8 +113,9 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
       this.frequencySelected = FrequencyFormData.timesPerDay;
       this.frequencyControl.setValue(repeat.frequency);
     }
+  }
 
-    // todo tidy up 👆
+  private setDuration(repeat: TimingRepeat): void {
     if (repeat.boundsDuration) {
       this.durationSelected = DurationFormData.duration;
       this.durationQuantityControl.setValue(repeat.boundsDuration.value);

@@ -6,8 +6,8 @@ import { MedicationRequestsService } from "../../../@core/services/medication-re
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { Observable } from "rxjs";
+import { MedicationRequest } from "fhir/r4";
 
 @Component({
   selector: 'app-medication-request-new',
@@ -31,30 +31,7 @@ export class MedicationRequestNewFormComponent extends MedicationRequestFormComp
       location);
   }
 
-  submitForm(): void {
-    const request = this.medicationRequestService.getEmptyMedicationRequest();
-    const medication = this.medicationControl.value;
-    request.contained = [medication];
-    request.medicationReference = {
-      reference: ResourceUtils.getMedicationReference(medication),
-      display: this.getMedicationName(medication)
-    }
-    request.subject = {
-      reference: ResourceUtils.getPatientReference(this.patient.id),
-      display: this.patient.name[0]?.family
-    }
-    request.requester = {
-      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
-      display: 'Dr. Steven'
-    }
-    request.note = [{text: this.instructionsControl.value}]
-    request.dosageInstruction = [this.getDoseInstruction()];
-    this.formStatus = FormStatus.loading;
-    this.medicationRequestService.createMedicationRequest(this.carePlanId, request)
-      .subscribe(_ => this.formStatus = FormStatus.success,
-        error => {
-          console.log(error);
-          this.formStatus = FormStatus.error
-        });
+  saveMethod(request: MedicationRequest): Observable<any> {
+    return this.medicationRequestService.createMedicationRequest(this.carePlanId, request);
   }
 }
