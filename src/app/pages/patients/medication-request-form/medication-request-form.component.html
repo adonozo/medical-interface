@@ -2,15 +2,34 @@
   <div class="col-lg-12 col-xl-9">
     <nb-card>
       <nb-card-header *ngIf="patient">
-        <h2>
-          <ng-container i18n>New Medication Order for</ng-container>
-          {{ patientName }}
-        </h2>
+        <div class="row" *ngIf="editMode; else newOrderTitle">
+          <div class="col-10">
+            <h2>
+              Edit Medication Order
+            </h2>
+          </div>
+          <div class="col-2 text-left">
+            <button nbButton status="danger" (click)="deleteMedicationRequest()">
+              <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
+              Delete
+            </button>
+          </div>
+        </div>
+        <ng-template #newOrderTitle>
+          <div class="row">
+            <div class="col-12">
+              <h2>
+                <ng-container i18n>New Medication Order for</ng-container>
+                {{ patientName }}
+              </h2>
+            </div>
+          </div>
+        </ng-template>
       </nb-card-header>
       <nb-card-body *ngIf="medicationForm">
         <form [formGroup]="medicationForm" (ngSubmit)="submitForm()" class="form-horizontal">
           <div class="form-group row">
-            <label for="drug-name" class="col-form-label col-sm-3 form-control-label" i18n>Drug name</label>
+            <label for="drug-name" class="col-form-label col-sm-3 form-control-label" i18n>Drug</label>
             <div class="col-sm-9">
               <input id="drug-name" nbInput fullWidth type="text" i18n-placeholder="Placeholder" placeholder="Drug name"
                      autocomplete="off"
@@ -56,14 +75,14 @@
             </div>
           </div>
 
-          <div class="form-group row">
-            <label for="drug-frequency" class="col-form-label col-sm-3 form-control-label" i18n>Frequency</label>
+          <div class="form-group row mt-2">
+            <label for="when-to-take" class="col-form-label col-sm-3 form-control-label" i18n>When to take</label>
             <div class="col-sm-9">
-              <div class="form-group row">
-                <div class="col-12">
-                  <nb-radio-group [(value)]="dailyFrequencySelected">
-                    <nb-radio [value]="dailyFrequencyType.everyday" i18n>Every day</nb-radio>
-                    <nb-radio [value]="dailyFrequencyType.specificDays" i18n>Specific day(s)</nb-radio>
+              <div class="row">
+                <div class="col-12 mb-3">
+                  <nb-radio-group id="when-to-take" [(value)]="dailyFrequencySelected">
+                    <nb-radio class="d-inline-block" [value]="dailyFrequencyType.everyday" i18n>Every day</nb-radio>
+                    <nb-radio class="d-inline-block" [value]="dailyFrequencyType.specificDays" i18n>Specific day(s)</nb-radio>
                   </nb-radio-group>
                 </div>
                 <div class="col-12" *ngIf="dailyFrequencySelected === dailyFrequencyType.specificDays">
@@ -73,15 +92,23 @@
                     </ng-container>
                   </ng-container>
                 </div>
-                <div class="col-12 mt-3">
-                  <nb-button-group (valueChange)="frequencySelected = $event[0]">
-                    <button type="button" nbButtonToggle pressed [value]="frequencyType.timesPerDay" i18n>Times per day</button>
-                    <button type="button" nbButtonToggle [value]="frequencyType.mealTime" i18n>At a meal time</button>
-                    <button type="button" nbButtonToggle [value]="frequencyType.specificTimes" i18n>At specific times</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="drug-frequency" class="col-form-label col-sm-3 form-control-label" i18n>Frequency</label>
+            <div class="col-sm-9">
+              <div class="form-group row">
+                <div class="col-12 mb-3">
+                  <nb-button-group (valueChange)="frequencySelected = $event[0]" status="info" outline>
+                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.timesPerDay" [value]="frequencyType.timesPerDay" i18n>Times per day</button>
+                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.mealTime" [value]="frequencyType.mealTime" i18n>At a meal time</button>
+                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.specificTimes" [value]="frequencyType.specificTimes" i18n>At specific times</button>
                   </nb-button-group>
                 </div>
                 <ng-container [ngSwitch]="frequencySelected">
-                  <div class="col-12 mt-3" *ngSwitchCase="frequencyType.timesPerDay">
+                  <div class="col-12" *ngSwitchCase="frequencyType.timesPerDay">
                     <nb-select fullWidth id="drug-frequency" i18n-placeholder="Placeholder"
                                placeholder="Select a frequency" [formControl]="frequencyControl">
                       <nb-option [value]="1" i18n>Once a day</nb-option>
@@ -90,14 +117,14 @@
                       <nb-option [value]="4" i18n>Four times a day</nb-option>
                     </nb-select>
                   </div>
-                  <div class="col-12 mt-3" *ngSwitchCase="frequencyType.mealTime">
-                    <div class="row form-group" [formGroup]="whenGroup">
+                  <div class="col-12" *ngSwitchCase="frequencyType.mealTime">
+                    <div class="row" [formGroup]="whenGroup">
                       <div class="col-12 col-sm-4" *ngFor="let time of timesOfDayArray">
                         <nb-checkbox [formControlName]="time.value">{{ time.name }}</nb-checkbox>
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 mt-3" *ngSwitchCase="frequencyType.specificTimes">
+                  <div class="col-12" *ngSwitchCase="frequencyType.specificTimes">
                     <div class="row form-group">
                       <ng-container *ngFor="let control of timeOfDayFormArray.controls; let index = index">
                         <div class="col-9 col-sm-6">
@@ -129,10 +156,10 @@
             <div class="col-sm-9">
               <div class="form-group row">
                 <div class="col-12 mb-3">
-                  <nb-button-group (valueChange)="durationSelected = $event[0]">
-                    <button type="button" nbButtonToggle pressed [value]="durationType.duration" i18n>By amount of time</button>
-                    <button type="button" nbButtonToggle [value]="durationType.period" i18n>By dates</button>
-                    <button type="button" nbButtonToggle [value]="durationType.untilNext" i18n>Until next appointment</button>
+                  <nb-button-group (valueChange)="durationSelected = $event[0]" status="info" outline>
+                    <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.duration" [value]="durationType.duration" i18n>By amount of time</button>
+                    <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.period" [value]="durationType.period" i18n>By dates</button>
+                    <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.untilNext" [value]="durationType.untilNext" i18n>Until date</button>
                   </nb-button-group>
                 </div>
                 <ng-container [ngSwitch]="durationSelected">
@@ -169,7 +196,7 @@
                   <div class="col-12" *ngSwitchCase="durationType.untilNext">
                     <div class="form-group row">
                       <label for="drug-duration-start-date"
-                             class="col-form-label col-sm-3 form-control-file text-right" i18n>Next appointment date</label>
+                             class="col-form-label col-sm-3 form-control-file text-right" i18n>Date</label>
                       <div class="col-sm-9">
                         <input id="drug-duration-start-date" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Select a date"
                                autocomplete="off"
@@ -195,7 +222,7 @@
             </div>
           </div>
           <div class="mt-4 form-group row">
-            <div class="col-6 col-sm-8 text-right">
+            <div class="col-6 col-sm-8 text-left">
               <button type="button" nbButton status="basic" (click)="goBack()"
                       [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
                 <ng-container i18n>Cancel</ng-container>

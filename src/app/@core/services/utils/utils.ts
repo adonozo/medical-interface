@@ -37,3 +37,17 @@ export function getDateOrDefault(stringDate: string): Date {
     return new Date();
   }
 }
+
+export function getTimeFromDate(date: Date): string {
+  const twoDigitNumber = (digit: number): string => digit > 9 ?
+    digit.toString() : '0' + digit;
+
+  return twoDigitNumber(date.getHours()) + ':' + twoDigitNumber(date.getMinutes());
+}
+
+export function getDefaultDateFrom(time: string): Date {
+  const [hour, minutes] = time.split(':');
+  const currentDate = new Date();
+  currentDate.setHours(+hour, +minutes);
+  return currentDate;
+}
