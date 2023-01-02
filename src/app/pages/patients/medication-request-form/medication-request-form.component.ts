@@ -13,6 +13,7 @@ import { DurationFormData } from "../../../@core/services/data/form-data";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { getTimeFromDate } from "../../../@core/services/utils/utils";
+import { Moment } from 'moment'
 
 export abstract class MedicationRequestFormComponent extends FormComponent {
   private readonly defaultLimit = 20;
@@ -130,7 +131,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     return '';
   }
 
-  addTimeForm = (date?: Date): void =>
+  addTimeForm = (date?: Moment): void =>
     this.timeOfDayFormArray.push(this.formBuilder.control(date ?? ''));
 
   removeTimeForm = (index: number): void =>

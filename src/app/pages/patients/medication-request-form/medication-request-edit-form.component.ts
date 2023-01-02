@@ -12,6 +12,7 @@ import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { getDateOrDefault, getDefaultDateFrom } from "../../../@core/services/utils/utils";
 import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
 import { DailyFrequencyFormData, FrequencyFormData } from "./form-data";
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-medication-request-edit',
@@ -123,7 +124,7 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
       this.medicationForm.setControl('timeOfDay', this.formBuilder.array([]));
       repeat.timeOfDay.forEach(time => {
         const date = getDefaultDateFrom(time);
-        this.addTimeForm(date);
+        this.addTimeForm(moment(date));
       });
     } else {
       this.frequencySelected = FrequencyFormData.timesPerDay;
