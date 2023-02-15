@@ -34,7 +34,7 @@
             <pre>{{ serviceRequest.id }}</pre>
           </div>
           <div class="col-4">
-            <button nbButton status="info" (click)="navigate('edit-service')">
+            <button nbButton status="info" (click)="navigate('edit-service', serviceRequest.id)">
               <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
             </button>
           </div>

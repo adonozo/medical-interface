@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ServiceRequest } from "fhir/r4";
 import { forkJoin, Observable } from "rxjs";
 import { RestApiService } from "./rest-api.service";
-import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -34,16 +33,17 @@ export class ServiceRequestsService {
     };
   }
 
-  createServiceRequests(requests: ServiceRequest[]): Observable<string[]> {
-    return forkJoin(requests
-      .map(request => this.restApiService
-      .post<ServiceRequest, ServiceRequest>(this.path, request)))
-      .pipe(
-        map(requests => requests.map(request => request.id))
-      );
+  createServiceRequests(carePlanId: string, requests: ServiceRequest[]): Observable<unknown[]> {
+    // TODO create a container service request and put all requests in the Contained property
+    return forkJoin(requests.map(request =>
+      this.restApiService.put(`carePlans/${carePlanId}/${this.path}`, request)));
   }
 
-  getSingleServiceRequest(id: string): Observable<ServiceRequest> {
+  getServiceRequest(id: string): Observable<ServiceRequest> {
     return this.restApiService.get<ServiceRequest>(this.path + id);
+  }
+
+  deleteServiceRequest(carePlanId: string, serviceRequestId: string): Observable<void> {
+    return this.restApiService.delete(`carePlans/${carePlanId}/${this.path}${serviceRequestId}`);
   }
 }

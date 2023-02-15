@@ -14,7 +14,6 @@ import {
 } from "@nebular/theme";
 import { TreatmentsComponent } from './treatments/treatments.component';
 import { ReactiveFormsModule } from "@angular/forms";
-import { ServiceRequestFormComponent } from './service-request-form/service-request-form.component';
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
 import { NgxEchartsModule } from "ngx-echarts";
 import { OrderDetailsComponent } from './order-details/order-details.component';
@@ -28,6 +27,8 @@ import { CarePlanFormComponent } from './care-plan/care-plan-form/care-plan-form
 import { MedicationRequestEditFormComponent } from "./medication-request-form/medication-request-edit-form.component";
 import { MedicationRequestNewFormComponent } from "./medication-request-form/medication-request-new-form.component";
 import { NbMomentDateModule } from "@nebular/moment";
+import { ServiceRequestNewFormComponent } from "./service-request-form/service-request-new-form.component";
+import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { NbMomentDateModule } from "@nebular/moment";
     TreatmentsComponent,
     MedicationRequestEditFormComponent,
     MedicationRequestNewFormComponent,
-    ServiceRequestFormComponent,
+    ServiceRequestNewFormComponent,
+    ServiceRequestEditFormComponent,
     GlucoseLevelsComponent,
     OrderDetailsComponent,
     PatientViewComponent,

@@ -2,9 +2,29 @@
   <div class="col-12">
     <nb-card>
       <nb-card-header *ngIf="patient">
-        <h2>
-          <ng-container i18n>New self-monitor blood glucose order for</ng-container>
-          {{ patientName }}</h2>
+        <div class="row" *ngIf="editMode; else newOrderTitle">
+          <div class="col-10">
+            <h2>
+              Edit self-monitor blood glucose order
+            </h2>
+          </div>
+          <div class="col-2 text-left">
+            <button nbButton status="danger" (click)="deleteServiceRequest()">
+              <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
+              Delete
+            </button>
+          </div>
+        </div>
+        <ng-template #newOrderTitle>
+          <div class="row">
+            <div class="col-12">
+              <h2>
+                <ng-container i18n>New self-monitor blood glucose order for</ng-container>
+                {{ patientName }}
+              </h2>
+            </div>
+          </div>
+        </ng-template>
       </nb-card-header>
       <nb-card-body>
         <form [formGroup]="serviceForm" (ngSubmit)="submitForm()" class="form-horizontal">

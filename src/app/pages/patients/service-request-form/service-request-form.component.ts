@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { flatMap } from "rxjs/internal/operators";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
@@ -11,42 +10,32 @@ import { Patient, ServiceRequest, Timing } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 
-@Component({
-  selector: 'app-service-request-form',
-  templateUrl: './service-request-form.component.html',
-  styleUrls: ['./service-request-form.component.scss']
-})
-export class ServiceRequestFormComponent extends FormComponent {
-
+export abstract class ServiceRequestFormComponent extends FormComponent {
+  protected carePlanId: string;
   patient: Patient;
   serviceForm: FormGroup;
   durationType = DurationFormData;
   durationSelected: DurationFormData;
   daysOfWeek = DaysOfWeek;
   timesOfDay = TimesOfDay;
+  editMode: boolean = false;
 
-  constructor(
-    private patientService: PatientsService,
-    private serviceRequestService: ServiceRequestsService,
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private location: Location
+  protected constructor(
+    protected patientService: PatientsService,
+    protected serviceRequestService: ServiceRequestsService,
+    protected activatedRoute: ActivatedRoute,
+    protected formBuilder: FormBuilder,
+    protected location: Location
   ) {
     super();
-    this.route.params.pipe(
-      flatMap(params => patientService.getSinglePatient(params["patientId"]))
-    ).subscribe(patient => this.patient = patient);
+    this.activatedRoute.params.pipe(
+      flatMap(params => {
+        this.carePlanId = params['carePlanId'];
+        return patientService.getSinglePatient(params["patientId"])
+      }))
+      .subscribe(patient => this.patient = patient);
 
-    this.serviceForm = formBuilder.group({
-      durationQuantity: [],
-      durationUnit: ['d'],
-      periodRange: [],
-      periodStart: [],
-      timing: formBuilder.group({}),
-      instructions: [''],
-    });
-
-    this.setTimingForm();
+    this.setRequestForm();
   }
 
   get durationQuantityControl(): FormControl {
@@ -86,12 +75,25 @@ export class ServiceRequestFormComponent extends FormComponent {
     const requests = this.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
-    this.serviceRequestService.createServiceRequests(requests)
+    this.serviceRequestService.createServiceRequests(this.carePlanId, requests)
       .subscribe(_ => this.formStatus = FormStatus.success,
         error => {
           console.log(error);
           this.formStatus = FormStatus.error
         });
+  }
+
+  private setRequestForm(): void {
+    this.serviceForm = this.formBuilder.group({
+      durationQuantity: [],
+      durationUnit: ['d'],
+      periodRange: [],
+      periodStart: [],
+      timing: this.formBuilder.group({}),
+      instructions: [''],
+    });
+
+    this.setTimingForm();
   }
 
   private setTimingForm = (): void =>
@@ -133,6 +135,7 @@ export class ServiceRequestFormComponent extends FormComponent {
     return timing;
   }
 
+  // Todo move this to backend?
   private makeServiceRequest(timing: Timing): ServiceRequest {
     const request = this.serviceRequestService.getEmptyServiceRequest();
     request.subject = {

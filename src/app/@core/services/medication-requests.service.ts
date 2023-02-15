@@ -30,7 +30,7 @@ export class MedicationRequestsService {
     return this.apiService.put(`carePlans/${carePlanId}/${this.path}`, request);
   }
 
-  deleteMedicationRequest(carePlanId, medicationRequestId: string): Observable<void> {
+  deleteMedicationRequest(carePlanId: string, medicationRequestId: string): Observable<void> {
     return this.apiService.delete(`carePlans/${carePlanId}/${this.path}${medicationRequestId}`);
   }
 
