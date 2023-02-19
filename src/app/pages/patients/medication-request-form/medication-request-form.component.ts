@@ -100,8 +100,8 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     return this.medicationForm.get('periodRange') as FormControl;
   }
 
-  get periodStartControl(): FormControl {
-    return this.medicationForm.get('periodStart') as FormControl;
+  get periodEndControl(): FormControl {
+    return this.medicationForm.get('periodEnd') as FormControl;
   }
 
   get instructionsControl(): FormControl {
@@ -174,7 +174,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
       durationQuantity: [],
       durationUnit: ['d'],
       periodRange: [],
-      periodStart: []
+      periodEnd: []
     });
 
     this.setDayOfWeekControl();
@@ -259,7 +259,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
       case DurationFormData.untilNext:
         timing.repeat.boundsPeriod = {
           start: (new Date()).toISOString(),
-          end: this.periodStartControl.value.toISOString(),
+          end: this.periodEndControl.value.toISOString(),
         }
         break;
     }

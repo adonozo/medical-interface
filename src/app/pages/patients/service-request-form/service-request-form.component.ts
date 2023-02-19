@@ -53,8 +53,8 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
     return this.serviceForm.get('periodRange') as FormControl;
   }
 
-  get periodStartControl(): FormControl {
-    return this.serviceForm.get('periodStart') as FormControl;
+  get periodEndControl(): FormControl {
+    return this.serviceForm.get('periodEnd') as FormControl;
   }
 
   get timingGroup(): FormGroup {
@@ -97,7 +97,7 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
       durationQuantity: [],
       durationUnit: ['d'],
       periodRange: [],
-      periodStart: [],
+      periodEnd: [],
       timing: this.formBuilder.group({}),
       instructions: [''],
     });
@@ -135,8 +135,8 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
         break;
       case DurationFormData.untilNext:
         timing.repeat.boundsPeriod = {
-          start: this.periodStartControl.value.toISOString(),
-          end: ServiceRequestFormComponent.getSixMonthsFromDate(this.periodStartControl.value).toISOString(),
+          start: (new Date()).toISOString(),
+          end: this.periodEndControl.value.toISOString(),
         }
         break;
     }
@@ -221,10 +221,5 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
     }
 
     return {value, unit};
-  }
-
-  private static getSixMonthsFromDate(date: Date): Date {
-    date.setMonth(date.getMonth() + 6)
-    return date;
   }
 }
