@@ -5,6 +5,8 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
+import { ServiceRequest } from "fhir/r4";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-service-request-form',
@@ -25,5 +27,9 @@ export class ServiceRequestNewFormComponent extends ServiceRequestFormComponent 
       activatedRoute,
       formBuilder,
       location);
+  }
+
+  saveMethod(request: ServiceRequest): Observable<void> {
+    return this.serviceRequestService.createServiceRequests(this.carePlanId, request);
   }
 }

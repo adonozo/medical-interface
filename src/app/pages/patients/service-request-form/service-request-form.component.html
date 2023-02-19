@@ -3,12 +3,12 @@
     <nb-card>
       <nb-card-header *ngIf="patient">
         <div class="row" *ngIf="editMode; else newOrderTitle">
-          <div class="col-10">
+          <div class="col-9">
             <h2>
               Edit self-monitor blood glucose order
             </h2>
           </div>
-          <div class="col-2 text-left">
+          <div class="col-3 text-right">
             <button nbButton status="danger" (click)="deleteServiceRequest()">
               <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
               Delete
@@ -33,10 +33,10 @@
             <div class="col-sm-9">
               <div class="form-group row">
                 <div class="col-12 mb-3">
-                  <nb-button-group (valueChange)="durationSelected = $event[0]">
-                    <button type="button" nbButtonToggle pressed [value]="durationType.duration" i18n>By amount of time</button>
-                    <button type="button" nbButtonToggle [value]="durationType.period" i18n>By dates</button>
-                    <button type="button" nbButtonToggle [value]="durationType.untilNext" i18n>Until next appointment</button>
+                  <nb-button-group (valueChange)="durationSelected = $event[0]" status="info" outline>
+                    <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.duration" [value]="durationType.duration" i18n>By amount of time</button>
+                    <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.period" [value]="durationType.period" i18n>By dates</button>
+                    <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.untilNext" [value]="durationType.untilNext" i18n>Until date</button>
                   </nb-button-group>
                 </div>
                 <ng-container [ngSwitch]="durationSelected">
@@ -76,7 +76,7 @@
                   <div class="col-12" *ngSwitchCase="durationType.untilNext">
                     <div class="form-group row">
                       <label for="drug-duration-start-date"
-                             class="col-form-label col-sm-3 text-right" i18n>Next appointment date</label>
+                             class="col-form-label col-sm-3 text-right" i18n>Date</label>
                       <div class="col-sm-9">
                         <input id="drug-duration-start-date" nbInput fullWidth i18n-placeholder="Placeholder"
                                placeholder="Select a date" autocomplete="off"
@@ -132,7 +132,7 @@
             </div>
           </div>
           <div class="mt-4 form-group row">
-            <div class="col-6 col-sm-8 text-right">
+            <div class="col-6 col-sm-8">
               <button type="button" nbButton status="basic" (click)="goBack()" i18n>Cancel</button>
             </div>
             <div class="col-6 offset-sm-1 col-sm-3 text-right">

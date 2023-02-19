@@ -5,9 +5,11 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { FormStatus } from "../../../@core/services/data/form-data";
-import { ServiceRequest } from "fhir/r4";
+import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
+import { ServiceRequest, TimingRepeat } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
+import { getDateOrDefault } from "../../../@core/services/utils/utils";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-service-request-form',
@@ -42,7 +44,10 @@ export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent
           return this.serviceRequestService.getServiceRequest(this.serviceRequestId);
         })
       )
-      .subscribe(serviceRequest => this.serviceRequest = serviceRequest);
+      .subscribe(serviceRequest => {
+        this.serviceRequest = serviceRequest;
+        this.setForm(serviceRequest);
+      });
   }
 
   deleteServiceRequest(): void {
@@ -53,5 +58,44 @@ export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent
           console.log(error);
           this.formStatus = FormStatus.error;
         });
+  }
+
+  saveMethod(request: ServiceRequest): Observable<void> {
+    request.id = this.serviceRequestId;
+    return this.serviceRequestService.updateServiceRequest(this.serviceRequestId, request);
+  }
+
+  private setForm(serviceRequest: ServiceRequest): void {
+    this.instructionsControl.setValue(serviceRequest.patientInstruction);
+    this.setDuration(serviceRequest.occurrenceTiming.repeat);
+    this.setTimingCheckboxes((serviceRequest.contained ?? []) as ServiceRequest[]);
+  }
+
+  // TODO make a component out of this
+  private setDuration(repeat: TimingRepeat): void {
+    if (repeat.boundsDuration) {
+      this.durationSelected = DurationFormData.duration;
+      this.durationQuantityControl.setValue(repeat.boundsDuration.value);
+      this.durationUnitControl.setValue(repeat.boundsDuration.unit);
+    } else if (repeat.boundsPeriod) {
+      this.durationSelected = DurationFormData.period;
+      const period = {
+        start: getDateOrDefault(repeat.boundsPeriod.start),
+        end : getDateOrDefault(repeat.boundsPeriod.end)
+      };
+      this.periodRangeControl.setValue(period);
+    }
+  }
+
+  private setTimingCheckboxes(serviceRequests: ServiceRequest[]): void {
+    serviceRequests.forEach(request => {
+      request.occurrenceTiming?.repeat?.dayOfWeek?.forEach(day => {
+        const dayGroup = this.timingGroup.get(day);
+        request.occurrenceTiming?.repeat?.when?.forEach(timing => {
+          const timingControl = dayGroup.get(timing);
+          timingControl.setValue(true);
+        });
+      });
+    });
   }
 }

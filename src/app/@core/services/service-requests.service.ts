@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ServiceRequest } from "fhir/r4";
+import { Patient, ServiceRequest } from "fhir/r4";
 import { forkJoin, Observable } from "rxjs";
 import { RestApiService } from "./rest-api.service";
+import { ResourceUtils } from "./utils/resourceUtils";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,21 @@ export class ServiceRequestsService {
   ) {
   }
 
-  getEmptyServiceRequest(): ServiceRequest {
+  getBaseServiceRequest(patient: Patient): ServiceRequest {
+    const request = this.generateEmptyServiceRequest();
+    request.subject = {
+      reference: ResourceUtils.getPatientReference(patient.id),
+      display: patient.name[0]?.family
+    }
+    request.requester = {
+      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
+      display: 'Dr. Steven'
+    }
+
+    return request;
+  }
+
+  generateEmptyServiceRequest(): ServiceRequest {
     return {
       intent: "plan",
       resourceType: "ServiceRequest",
@@ -33,14 +48,16 @@ export class ServiceRequestsService {
     };
   }
 
-  createServiceRequests(carePlanId: string, requests: ServiceRequest[]): Observable<unknown[]> {
-    // TODO create a container service request and put all requests in the Contained property
-    return forkJoin(requests.map(request =>
-      this.restApiService.put(`carePlans/${carePlanId}/${this.path}`, request)));
+  createServiceRequests(carePlanId: string, request: ServiceRequest): Observable<void> {
+    return this.restApiService.put(`carePlans/${carePlanId}/${this.path}`, request);
   }
 
   getServiceRequest(id: string): Observable<ServiceRequest> {
     return this.restApiService.get<ServiceRequest>(this.path + id);
+  }
+
+  updateServiceRequest(id: string, request: ServiceRequest): Observable<void> {
+    return this.restApiService.put(this.path + id, request);
   }
 
   deleteServiceRequest(carePlanId: string, serviceRequestId: string): Observable<void> {

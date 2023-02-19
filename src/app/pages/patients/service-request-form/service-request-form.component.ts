@@ -9,6 +9,7 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { Patient, ServiceRequest, Timing } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
+import { Observable } from "rxjs";
 
 export abstract class ServiceRequestFormComponent extends FormComponent {
   protected carePlanId: string;
@@ -19,6 +20,8 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
   daysOfWeek = DaysOfWeek;
   timesOfDay = TimesOfDay;
   editMode: boolean = false;
+
+  abstract saveMethod(request: ServiceRequest): Observable<void>;
 
   protected constructor(
     protected patientService: PatientsService,
@@ -72,10 +75,16 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
 
   submitForm(): void {
     const baseTiming = this.makeBaseTiming();
-    const requests = this.getTimingsArray(baseTiming)
+    const containedRequests = this.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
-    this.serviceRequestService.createServiceRequests(this.carePlanId, requests)
+
+    const request = this.serviceRequestService.getBaseServiceRequest(this.patient);
+    request.occurrenceTiming = baseTiming;
+    request.patientInstruction = this.instructionsControl.value;
+    request.contained = containedRequests;
+
+    this.saveMethod(request)
       .subscribe(_ => this.formStatus = FormStatus.success,
         error => {
           console.log(error);
@@ -135,19 +144,9 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
     return timing;
   }
 
-  // Todo move this to backend?
   private makeServiceRequest(timing: Timing): ServiceRequest {
-    const request = this.serviceRequestService.getEmptyServiceRequest();
-    request.subject = {
-      reference: ResourceUtils.getPatientReference(this.patient.id),
-      display: this.patient.name[0]?.family
-    }
-    request.requester = {
-      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
-      display: 'Dr. Steven'
-    }
+    const request = this.serviceRequestService.getBaseServiceRequest(this.patient);
     request.occurrenceTiming = timing;
-    request.patientInstruction = this.instructionsControl.value;
     return request;
   }
 
