@@ -45,7 +45,7 @@ export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent
       )
       .subscribe(serviceRequest => {
         this.serviceRequest = serviceRequest;
-        this.setForm(serviceRequest);
+        this.populateForm(serviceRequest);
       });
   }
 
@@ -64,21 +64,9 @@ export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent
     return this.serviceRequestService.updateServiceRequest(this.serviceRequestId, request);
   }
 
-  private setForm(serviceRequest: ServiceRequest): void {
+  private populateForm(serviceRequest: ServiceRequest): void {
     this.instructionsControl.setValue(serviceRequest.patientInstruction);
-    this.durationFormComponent.setFormDuration(serviceRequest.occurrenceTiming.repeat)
-    this.setTimingCheckboxes((serviceRequest.contained ?? []) as ServiceRequest[]);
-  }
-
-  private setTimingCheckboxes(serviceRequests: ServiceRequest[]): void {
-    serviceRequests.forEach(request => {
-      request.occurrenceTiming?.repeat?.dayOfWeek?.forEach(day => {
-        const dayGroup = this.timingGroup.get(day);
-        request.occurrenceTiming?.repeat?.when?.forEach(timing => {
-          const timingControl = dayGroup.get(timing);
-          timingControl.setValue(true);
-        });
-      });
-    });
+    this.durationFormComponent.populateFormDuration(serviceRequest.occurrenceTiming.repeat)
+    this.weekTimingFormComponent.populateWeekTimingForm((serviceRequest.contained ?? []) as ServiceRequest[])
   }
 }

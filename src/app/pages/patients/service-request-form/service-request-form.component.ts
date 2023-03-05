@@ -4,7 +4,6 @@ import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Location } from "@angular/common";
 import { FormStatus } from "../../../@core/services/data/form-data";
-import { DaysOfWeek, TimesOfDay } from "./form-data";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { Patient, ServiceRequest, Timing } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
@@ -12,16 +11,16 @@ import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { Observable } from "rxjs";
 import { Directive, ViewChild } from "@angular/core";
 import { DurationFormComponent } from "../components/duration-form/duration-form.component";
+import { WeekTimingFormComponent } from "../components/week-timing-form/week-timing-form.component";
 
 @Directive()
 export abstract class ServiceRequestFormComponent extends FormComponent {
   protected carePlanId: string;
   patient: Patient;
   serviceForm: FormGroup;
-  daysOfWeek = DaysOfWeek;
-  timesOfDay = TimesOfDay;
   editMode: boolean = false;
   @ViewChild('durationForm') durationFormComponent: DurationFormComponent;
+  @ViewChild('weekTimingForm') weekTimingFormComponent: WeekTimingFormComponent;
 
   abstract saveMethod(request: ServiceRequest): Observable<void>;
 
@@ -40,11 +39,7 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
       }))
       .subscribe(patient => this.patient = patient);
 
-    this.setRequestForm();
-  }
-
-  get timingGroup(): FormGroup {
-    return this.serviceForm.get('timing') as FormGroup;
+    this.configureRequestForm();
   }
 
   get instructionsControl(): FormControl {
@@ -62,7 +57,7 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
   submitForm(): void {
     const baseTiming = this.makeBaseTiming();
     baseTiming.repeat = this.durationFormComponent.setRepeatBounds(baseTiming.repeat);
-    const containedRequests = this.getTimingsArray(baseTiming)
+    const containedRequests = this.weekTimingFormComponent.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
 
@@ -79,24 +74,12 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
         });
   }
 
-  private setRequestForm(): void {
+  private configureRequestForm(): void {
     this.serviceForm = this.formBuilder.group({
       timing: this.formBuilder.group({}),
       instructions: [''],
     });
-
-    this.setTimingForm();
   }
-
-  private setTimingForm = (): void =>
-    this.daysOfWeek.forEach(day => {
-      const dayFormGroup = this.formBuilder.group({});
-      this.timingGroup.addControl(day.value, dayFormGroup);
-      this.addTimesOfDayControls(dayFormGroup)
-    });
-
-  private addTimesOfDayControls = (formGroup: FormGroup): void =>
-    this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
 
   private makeBaseTiming(): Timing {
     return {
@@ -112,61 +95,5 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
     const request = this.serviceRequestService.getBaseServiceRequest(this.patient);
     request.occurrenceTiming = timing;
     return request;
-  }
-
-  private selectedFilter = (object: any): any[] =>
-    Object.entries(object).filter(([_, isSelected]) => isSelected).map(([key]) => key);
-
-  private getTimingsArray(baseTiming: Timing): Timing[] {
-    const timingsArray = [];
-    const daysMap: Map<string, any[]> = new Map();
-    const timesMap: Map<string, any[]> = new Map();
-    let daysCount = 0;
-    let timesCount = 0;
-    this.timesOfDay.forEach(time => timesMap.set(time.value, []));
-    const timingFormValues = this.timingGroup.value;
-    this.daysOfWeek.forEach(day => {
-      const dayValues = timingFormValues[day.value];
-      const dayValuesArray = this.selectedFilter(dayValues);
-      daysCount += dayValuesArray.length > 0 ? 1 : 0;
-      daysMap.set(day.value, dayValuesArray)
-      this.timesOfDay.forEach(time => {
-        if (dayValues[time.value]) {
-          timesMap.get(time.value).push(day.value);
-        }
-      });
-    });
-    timesMap.forEach(value => {
-      if (value.length > 0) {
-        timesCount++;
-      }
-    })
-
-    // Create the lowest value of requests
-    if (daysCount <= timesCount) {
-      daysMap.forEach((value, key) => {
-        if (value.length == 0) {
-          return;
-        }
-
-        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
-        timingCopy.repeat.dayOfWeek = [key as any];
-        timingCopy.repeat.when = value;
-        timingsArray.push(timingCopy);
-      })
-    } else {
-      timesMap.forEach((value, key) => {
-        if (value.length == 0) {
-          return;
-        }
-
-        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
-        timingCopy.repeat.when = [key as any];
-        timingCopy.repeat.dayOfWeek = value;
-        timingsArray.push(timingCopy);
-      })
-    }
-
-    return timingsArray;
   }
 }
