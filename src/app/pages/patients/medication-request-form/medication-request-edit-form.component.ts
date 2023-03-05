@@ -11,7 +11,7 @@ import { flatMap } from "rxjs/internal/operators";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { getDefaultDateFrom } from "../../../@core/services/utils/utils";
 import { FormStatus } from "../../../@core/services/data/form-data";
-import { DailyFrequencyFormData, FrequencyFormData } from "./form-data";
+import { FrequencyFormData } from "./form-data";
 import * as moment from 'moment'
 import { Observable } from "rxjs";
 
@@ -78,7 +78,8 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
     this.instructionsControl.setValue(this.medicationRequest.note[0]?.text);
 
     const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
-    this.setDailyFrequency(repeat);
+    // this.setDailyFrequency(repeat);
+    this.dailyFrequencyForm.populateDailyFrequency(repeat);
     this.setFrequency(repeat);
     this.durationForm.populateFormDuration(repeat);
   }
@@ -87,15 +88,6 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
     return this.quantities.find(
       quantity => quantity.unit === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.unit
       && quantity.code === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.code);
-  }
-
-  private setDailyFrequency(repeat: TimingRepeat): void {
-    if (repeat.dayOfWeek && repeat.dayOfWeek.length > 0) {
-      this.dailyFrequencySelected = DailyFrequencyFormData.specificDays;
-      repeat.dayOfWeek.forEach(day => this.dayOfWeekGroup.get(day).setValue(true));
-    } else {
-      this.dailyFrequencySelected = DailyFrequencyFormData.everyday;
-    }
   }
 
   private setFrequency(repeat: TimingRepeat): void {

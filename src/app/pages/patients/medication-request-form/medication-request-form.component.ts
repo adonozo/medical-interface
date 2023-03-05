@@ -7,7 +7,7 @@ import { Observable, of } from "rxjs";
 import { map } from "rxjs/operators";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Location } from "@angular/common";
-import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from "./form-data";
+import { FrequencyFormData, TimeOfDay } from "./form-data";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
@@ -15,6 +15,8 @@ import { Moment } from 'moment'
 import { Directive, ViewChild } from "@angular/core";
 import { DurationFormComponent } from "../components/duration-form/duration-form.component";
 import { FormStatus } from "../../../@core/services/data/form-data";
+import { DailyFrequencyFormComponent } from "../components/daily-frequency-form/daily-frequency-form.component";
+import { selectedFilter } from "../../../@core/services/utils/utils";
 
 @Directive()
 export abstract class MedicationRequestFormComponent extends FormComponent {
@@ -26,9 +28,6 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
   quantities: Quantity[] = [];
   frequencyType = FrequencyFormData;
   frequencySelected: FrequencyFormData;
-  dailyFrequencyType = DailyFrequencyFormData;
-  dailyFrequencySelected: DailyFrequencyFormData = DailyFrequencyFormData.everyday;
-  dayOfWeekArray = DayOfWeek;
   timesOfDayArray = TimeOfDay;
 
   filteredMedications: Observable<Medication[]>;
@@ -36,6 +35,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
 
   abstract saveMethod<T>(request: MedicationRequest): Observable<T>;
   @ViewChild('durationForm') durationForm: DurationFormComponent;
+  @ViewChild('dailyFrequencyForm') dailyFrequencyForm: DailyFrequencyFormComponent;
 
   protected constructor(
     protected patientService: PatientsService,
@@ -72,10 +72,6 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
 
   get doseUnitControl(): FormControl {
     return this.medicationForm.get('doseUnit') as FormControl;
-  }
-
-  get dayOfWeekGroup(): FormGroup {
-    return this.medicationForm.get('dayOfWeek') as FormGroup;
   }
 
   get whenGroup(): FormGroup {
@@ -156,7 +152,6 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
       periodEnd: []
     });
 
-    this.setDayOfWeekControl();
     this.setTimeOfDayControl();
     this.enableMedicationSearch();
   }
@@ -180,12 +175,6 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     request.note = [{text: this.instructionsControl.value}]
     request.dosageInstruction = [this.getDoseInstruction()];
     return request;
-  }
-
-  private setDayOfWeekControl(): void {
-    this.dayOfWeekArray.forEach(day => this.dayOfWeekGroup
-      .addControl(day.value, this.formBuilder.control(day.selected))
-    );
   }
 
   private setTimeOfDayControl(): void {
@@ -215,14 +204,8 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
   }
 
   private getDosageTiming(): Timing {
-    const selectedFilter = (daySelected: { day: boolean }): any[] =>
-      Object.entries(daySelected)
-        .filter(([, isSelected]) => isSelected)
-        .map(([day]) => day);
-
     const timing: Timing = {
       repeat: {
-        dayOfWeek: this.dailyFrequencySelected === DailyFrequencyFormData.specificDays ? selectedFilter(this.dayOfWeekGroup.value) : [],
         when: this.frequencySelected === FrequencyFormData.mealTime ? selectedFilter(this.whenGroup.value) : [],
         period: 1,
         periodUnit: 'd',
@@ -232,6 +215,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
       }
     }
 
+    timing.repeat.dayOfWeek = this.dailyFrequencyForm.getDayOfWeekFrequency();
     timing.repeat = this.durationForm.setRepeatBounds(timing.repeat);
     return timing;
   }
