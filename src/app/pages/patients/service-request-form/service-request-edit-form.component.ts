@@ -1,5 +1,5 @@
 import { ServiceRequestFormComponent } from "./service-request-form.component";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { ActivatedRoute } from "@angular/router";
@@ -9,7 +9,6 @@ import { FormStatus } from "../../../@core/services/data/form-data";
 import { ServiceRequest } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
 import { Observable } from "rxjs";
-import { DurationFormComponent } from "../components/duration-form/duration-form.component";
 
 @Component({
   selector: 'app-service-request-form',
@@ -17,7 +16,6 @@ import { DurationFormComponent } from "../components/duration-form/duration-form
   styleUrls: ['./service-request-form.component.scss']
 })
 export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent implements OnInit {
-  @ViewChild('durationForm') durationFormComponent: DurationFormComponent;
   private serviceRequestId: string;
   private serviceRequest: ServiceRequest;
 

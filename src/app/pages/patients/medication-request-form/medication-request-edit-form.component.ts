@@ -9,8 +9,8 @@ import { Location } from "@angular/common";
 import { Medication, MedicationRequest, Quantity, TimingRepeat } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
-import { getDateOrDefault, getDefaultDateFrom } from "../../../@core/services/utils/utils";
-import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
+import { getDefaultDateFrom } from "../../../@core/services/utils/utils";
+import { FormStatus } from "../../../@core/services/data/form-data";
 import { DailyFrequencyFormData, FrequencyFormData } from "./form-data";
 import * as moment from 'moment'
 import { Observable } from "rxjs";
@@ -80,7 +80,7 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
     const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
     this.setDailyFrequency(repeat);
     this.setFrequency(repeat);
-    this.setDuration(repeat);
+    this.durationForm.setFormDuration(repeat);
   }
 
   private findRequestQuantity(): Quantity {
@@ -112,21 +112,6 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
     } else {
       this.frequencySelected = FrequencyFormData.timesPerDay;
       this.frequencyControl.setValue(repeat.frequency);
-    }
-  }
-
-  private setDuration(repeat: TimingRepeat): void {
-    if (repeat.boundsDuration) {
-      this.durationSelected = DurationFormData.duration;
-      this.durationQuantityControl.setValue(repeat.boundsDuration.value);
-      this.durationUnitControl.setValue(repeat.boundsDuration.unit);
-    } else if (repeat.boundsPeriod) {
-      this.durationSelected = DurationFormData.period;
-      const period = {
-        start: getDateOrDefault(repeat.boundsPeriod.start),
-        end : getDateOrDefault(repeat.boundsPeriod.end)
-      };
-      this.periodRangeControl.setValue(period);
     }
   }
 }

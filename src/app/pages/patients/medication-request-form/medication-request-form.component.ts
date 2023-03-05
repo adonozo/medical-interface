@@ -9,11 +9,14 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@ang
 import { Location } from "@angular/common";
 import { DailyFrequencyFormData, DayOfWeek, FrequencyFormData, TimeOfDay } from "./form-data";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
-import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { Moment } from 'moment'
+import { Directive, ViewChild } from "@angular/core";
+import { DurationFormComponent } from "../components/duration-form/duration-form.component";
+import { FormStatus } from "../../../@core/services/data/form-data";
 
+@Directive()
 export abstract class MedicationRequestFormComponent extends FormComponent {
   private readonly defaultLimit = 20;
   protected carePlanId: string;
@@ -25,8 +28,6 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
   frequencySelected: FrequencyFormData;
   dailyFrequencyType = DailyFrequencyFormData;
   dailyFrequencySelected: DailyFrequencyFormData = DailyFrequencyFormData.everyday;
-  durationType = DurationFormData;
-  durationSelected: DurationFormData;
   dayOfWeekArray = DayOfWeek;
   timesOfDayArray = TimeOfDay;
 
@@ -34,6 +35,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
   medicationForm: FormGroup;
 
   abstract saveMethod<T>(request: MedicationRequest): Observable<T>;
+  @ViewChild('durationForm') durationForm: DurationFormComponent;
 
   protected constructor(
     protected patientService: PatientsService,
@@ -86,22 +88,6 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
 
   get frequencyControl(): FormControl {
     return this.medicationForm.get('frequency') as FormControl;
-  }
-
-  get durationQuantityControl(): FormControl {
-    return this.medicationForm.get('durationQuantity') as FormControl;
-  }
-
-  get durationUnitControl(): FormControl {
-    return this.medicationForm.get('durationUnit') as FormControl;
-  }
-
-  get periodRangeControl(): FormControl {
-    return this.medicationForm.get('periodRange') as FormControl;
-  }
-
-  get periodEndControl(): FormControl {
-    return this.medicationForm.get('periodEnd') as FormControl;
   }
 
   get instructionsControl(): FormControl {
@@ -246,24 +232,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
       }
     }
 
-    switch (this.durationSelected) {
-      case DurationFormData.period:
-        timing.repeat.boundsPeriod = {
-          start: this.periodRangeControl.value.start.toISOString(),
-          end: this.periodRangeControl.value.end.toISOString(),
-        }
-        break;
-      case DurationFormData.duration:
-        timing.repeat.boundsDuration = this.getBoundsDuration();
-        break;
-      case DurationFormData.untilNext:
-        timing.repeat.boundsPeriod = {
-          start: (new Date()).toISOString(),
-          end: this.periodEndControl.value.toISOString(),
-        }
-        break;
-    }
-
+    timing.repeat = this.durationForm.setRepeatBounds(timing.repeat);
     return timing;
   }
 
@@ -276,11 +245,5 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
         }
       }
     ]
-  }
-
-  private getBoundsDuration(): { value: number, unit: string } {
-    const value = this.durationQuantityControl.value;
-    const unit = this.durationUnitControl.value;
-    return {value, unit};
   }
 }

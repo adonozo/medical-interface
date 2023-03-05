@@ -27,7 +27,7 @@ export class MedicationRequestsService {
   }
 
   createMedicationRequest(carePlanId: string, request: MedicationRequest): Observable<MedicationRequest> {
-    return this.apiService.put(`carePlans/${carePlanId}/${this.path}`, request);
+    return this.apiService.post(`carePlans/${carePlanId}/${this.path}`, request);
   }
 
   deleteMedicationRequest(carePlanId: string, medicationRequestId: string): Observable<void> {
