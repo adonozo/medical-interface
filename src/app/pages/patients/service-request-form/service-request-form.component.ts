@@ -3,23 +3,25 @@ import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Location } from "@angular/common";
-import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/services/data/form-data";
 import { DaysOfWeek, TimesOfDay } from "./form-data";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { Patient, ServiceRequest, Timing } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { Observable } from "rxjs";
+import { Directive, ViewChild } from "@angular/core";
+import { DurationFormComponent } from "../components/duration-form/duration-form.component";
 
+@Directive()
 export abstract class ServiceRequestFormComponent extends FormComponent {
   protected carePlanId: string;
   patient: Patient;
   serviceForm: FormGroup;
-  durationType = DurationFormData;
-  durationSelected: DurationFormData;
   daysOfWeek = DaysOfWeek;
   timesOfDay = TimesOfDay;
   editMode: boolean = false;
+  @ViewChild('durationForm') durationFormComponent: DurationFormComponent;
 
   abstract saveMethod(request: ServiceRequest): Observable<void>;
 
@@ -41,22 +43,6 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
     this.setRequestForm();
   }
 
-  get durationQuantityControl(): FormControl {
-    return this.serviceForm.get('durationQuantity') as FormControl;
-  }
-
-  get durationUnitControl(): FormControl {
-    return this.serviceForm.get('durationUnit') as FormControl;
-  }
-
-  get periodRangeControl(): FormControl {
-    return this.serviceForm.get('periodRange') as FormControl;
-  }
-
-  get periodEndControl(): FormControl {
-    return this.serviceForm.get('periodEnd') as FormControl;
-  }
-
   get timingGroup(): FormGroup {
     return this.serviceForm.get('timing') as FormGroup;
   }
@@ -75,6 +61,7 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
 
   submitForm(): void {
     const baseTiming = this.makeBaseTiming();
+    baseTiming.repeat = this.durationFormComponent.setRepeatBounds(baseTiming.repeat);
     const containedRequests = this.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
@@ -94,10 +81,6 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
 
   private setRequestForm(): void {
     this.serviceForm = this.formBuilder.group({
-      durationQuantity: [],
-      durationUnit: ['d'],
-      periodRange: [],
-      periodEnd: [],
       timing: this.formBuilder.group({}),
       instructions: [''],
     });
@@ -116,32 +99,13 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
     this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
 
   private makeBaseTiming(): Timing {
-    const timing: Timing = {
+    return {
       repeat: {
         period: 1,
         periodUnit: 'd',
         frequency: 1
       }
     };
-    switch (this.durationSelected) {
-      case DurationFormData.period:
-        timing.repeat.boundsPeriod = {
-          start: this.periodRangeControl.value.start.toISOString(),
-          end: this.periodRangeControl.value.end.toISOString(),
-        }
-        break;
-      case DurationFormData.duration:
-        timing.repeat.boundsDuration = this.getBoundsDuration();
-        break;
-      case DurationFormData.untilNext:
-        timing.repeat.boundsPeriod = {
-          start: (new Date()).toISOString(),
-          end: this.periodEndControl.value.toISOString(),
-        }
-        break;
-    }
-
-    return timing;
   }
 
   private makeServiceRequest(timing: Timing): ServiceRequest {
@@ -204,22 +168,5 @@ export abstract class ServiceRequestFormComponent extends FormComponent {
     }
 
     return timingsArray;
-  }
-
-  private getBoundsDuration(): { value: number, unit: string } {
-    let value = this.durationQuantityControl.value;
-    let unit = this.durationUnitControl.value;
-    switch (unit) {
-      case 'wk':
-        value *= 7;
-        unit = 'd';
-        break;
-      case 'mo':
-        value *= 30;
-        unit = 'd';
-        break;
-    }
-
-    return {value, unit};
   }
 }

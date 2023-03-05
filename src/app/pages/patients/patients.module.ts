@@ -29,6 +29,7 @@ import { MedicationRequestNewFormComponent } from "./medication-request-form/med
 import { NbMomentDateModule } from "@nebular/moment";
 import { ServiceRequestNewFormComponent } from "./service-request-form/service-request-new-form.component";
 import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
+import { DurationFormComponent } from './components/duration-form/duration-form.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ServiceRequestEditFormComponent } from "./service-request-form/service-
     PatientFormComponent,
     ObservationFormComponent,
     CarePlanComponent,
-    CarePlanFormComponent
+    CarePlanFormComponent,
+    DurationFormComponent
   ],
   imports: [
     CommonModule,

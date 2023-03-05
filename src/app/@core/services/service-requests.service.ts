@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Patient, ServiceRequest } from "fhir/r4";
-import { forkJoin, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { RestApiService } from "./rest-api.service";
 import { ResourceUtils } from "./utils/resourceUtils";
 
@@ -49,7 +49,7 @@ export class ServiceRequestsService {
   }
 
   createServiceRequests(carePlanId: string, request: ServiceRequest): Observable<void> {
-    return this.restApiService.put(`carePlans/${carePlanId}/${this.path}`, request);
+    return this.restApiService.post(`carePlans/${carePlanId}/${this.path}`, request);
   }
 
   getServiceRequest(id: string): Observable<ServiceRequest> {

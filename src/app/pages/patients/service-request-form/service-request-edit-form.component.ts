@@ -1,15 +1,15 @@
 import { ServiceRequestFormComponent } from "./service-request-form.component";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { DurationFormData, FormStatus } from "../../../@core/services/data/form-data";
-import { ServiceRequest, TimingRepeat } from "fhir/r4";
+import { FormStatus } from "../../../@core/services/data/form-data";
+import { ServiceRequest } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
-import { getDateOrDefault } from "../../../@core/services/utils/utils";
 import { Observable } from "rxjs";
+import { DurationFormComponent } from "../components/duration-form/duration-form.component";
 
 @Component({
   selector: 'app-service-request-form',
@@ -17,6 +17,7 @@ import { Observable } from "rxjs";
   styleUrls: ['./service-request-form.component.scss']
 })
 export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent implements OnInit {
+  @ViewChild('durationForm') durationFormComponent: DurationFormComponent;
   private serviceRequestId: string;
   private serviceRequest: ServiceRequest;
 
@@ -67,24 +68,8 @@ export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent
 
   private setForm(serviceRequest: ServiceRequest): void {
     this.instructionsControl.setValue(serviceRequest.patientInstruction);
-    this.setDuration(serviceRequest.occurrenceTiming.repeat);
+    this.durationFormComponent.setFormDuration(serviceRequest.occurrenceTiming.repeat)
     this.setTimingCheckboxes((serviceRequest.contained ?? []) as ServiceRequest[]);
-  }
-
-  // TODO make a component out of this
-  private setDuration(repeat: TimingRepeat): void {
-    if (repeat.boundsDuration) {
-      this.durationSelected = DurationFormData.duration;
-      this.durationQuantityControl.setValue(repeat.boundsDuration.value);
-      this.durationUnitControl.setValue(repeat.boundsDuration.unit);
-    } else if (repeat.boundsPeriod) {
-      this.durationSelected = DurationFormData.period;
-      const period = {
-        start: getDateOrDefault(repeat.boundsPeriod.start),
-        end : getDateOrDefault(repeat.boundsPeriod.end)
-      };
-      this.periodRangeControl.setValue(period);
-    }
   }
 
   private setTimingCheckboxes(serviceRequests: ServiceRequest[]): void {
