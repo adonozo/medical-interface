@@ -82,7 +82,8 @@
                 <div class="col-12 mb-3">
                   <nb-radio-group id="when-to-take" [(value)]="dailyFrequencySelected">
                     <nb-radio class="d-inline-block" [value]="dailyFrequencyType.everyday" i18n>Every day</nb-radio>
-                    <nb-radio class="d-inline-block" [value]="dailyFrequencyType.specificDays" i18n>Specific day(s)</nb-radio>
+                    <nb-radio class="d-inline-block" [value]="dailyFrequencyType.specificDays" i18n>Specific day(s)
+                    </nb-radio>
                   </nb-radio-group>
                 </div>
                 <div class="col-12" *ngIf="dailyFrequencySelected === dailyFrequencyType.specificDays">
@@ -102,9 +103,15 @@
               <div class="form-group row">
                 <div class="col-12 mb-3">
                   <nb-button-group (valueChange)="frequencySelected = $event[0]" status="info" outline>
-                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.timesPerDay" [value]="frequencyType.timesPerDay" i18n>Times per day</button>
-                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.mealTime" [value]="frequencyType.mealTime" i18n>At a meal time</button>
-                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.specificTimes" [value]="frequencyType.specificTimes" i18n>At specific times</button>
+                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.timesPerDay"
+                            [value]="frequencyType.timesPerDay" i18n>Times per day
+                    </button>
+                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.mealTime"
+                            [value]="frequencyType.mealTime" i18n>At a meal time
+                    </button>
+                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.specificTimes"
+                            [value]="frequencyType.specificTimes" i18n>At specific times
+                    </button>
                   </nb-button-group>
                 </div>
                 <ng-container [ngSwitch]="frequencySelected">
@@ -189,7 +196,8 @@
                     <span i18n>The record has been saved</span>
                   </div>
                   <div class="col-5 text-right">
-                    <button type="button" nbButton status="success" (click)="goBack()" i18n="Return button">Return</button>
+                    <button type="button" nbButton status="success" (click)="goBack()" i18n="Return button">Return
+                    </button>
                   </div>
                 </div>
               </nb-alert>

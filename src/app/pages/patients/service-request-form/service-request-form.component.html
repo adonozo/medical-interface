@@ -80,7 +80,10 @@
           </div>
           <div class="mt-4 form-group row">
             <div class="col-6 col-sm-8">
-              <button type="button" nbButton status="basic" (click)="goBack()" i18n>Cancel</button>
+              <button type="button" nbButton status="basic" (click)="goBack()"
+                      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
+                <ng-container i18n>Cancel</ng-container>
+              </button>
             </div>
             <div class="col-6 offset-sm-1 col-sm-3 text-right">
               <button type="submit" nbButton status="success"
