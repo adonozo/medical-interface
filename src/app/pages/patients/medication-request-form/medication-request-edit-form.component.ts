@@ -53,7 +53,7 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
           this.medicationRequest = request;
           return this.medicationService.getMedication(ResourceUtils.getIdFromReference(request.medicationReference));
         }))
-      .subscribe(medication => this.setForm(medication));
+      .subscribe(medication => this.populateForm(medication));
   }
 
   deleteMedicationRequest(): void {
@@ -70,7 +70,7 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
     return this.medicationRequestService.updateMedicationRequest(this.medicationRequestId, request);
   }
 
-  private setForm(medication: Medication) {
+  private populateForm(medication: Medication) {
     this.medicationControl.setValue(medication);
     this.medicationIdControl.setValue(medication.id);
     this.doseQuantityControl.setValue(this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.value);
@@ -80,7 +80,7 @@ export class MedicationRequestEditFormComponent extends MedicationRequestFormCom
     const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
     this.setDailyFrequency(repeat);
     this.setFrequency(repeat);
-    this.durationForm.setFormDuration(repeat);
+    this.durationForm.populateFormDuration(repeat);
   }
 
   private findRequestQuantity(): Quantity {

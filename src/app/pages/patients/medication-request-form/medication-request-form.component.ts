@@ -48,7 +48,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
     super();
 
     this.quantities = this.medicationService.getMedicationQuantities();
-    this.setMedicationForm();
+    this.configureMedicationForm();
 
     this.activatedRoute.params.pipe(
       flatMap(params => {
@@ -139,14 +139,7 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
         });
   }
 
-  protected getDoseInstruction(): Dosage {
-    return {
-      doseAndRate: this.getDoseAndRate(),
-      timing: this.getDosageTiming()
-    }
-  }
-
-  private setMedicationForm(): void {
+  private configureMedicationForm(): void {
     this.medicationForm = this.formBuilder.group({
       medication: ['', Validators.required],
       medicationId: ['', Validators.required],
@@ -212,6 +205,13 @@ export abstract class MedicationRequestFormComponent extends FormComponent {
             map(paginatedResult => paginatedResult.results)
           );
       });
+  }
+
+  private getDoseInstruction(): Dosage {
+    return {
+      doseAndRate: this.getDoseAndRate(),
+      timing: this.getDosageTiming()
+    }
   }
 
   private getDosageTiming(): Timing {

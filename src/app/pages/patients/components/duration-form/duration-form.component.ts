@@ -43,7 +43,7 @@ export class DurationFormComponent implements OnInit {
     return this.form.get('periodEnd') as FormControl;
   }
 
-  setFormDuration(repeat: TimingRepeat): void {
+  populateFormDuration(repeat: TimingRepeat): void {
     if (repeat.boundsDuration) {
       this.durationSelected = DurationFormData.duration;
       this.durationQuantityControl.setValue(repeat.boundsDuration.value);
