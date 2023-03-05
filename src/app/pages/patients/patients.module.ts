@@ -31,6 +31,7 @@ import { ServiceRequestNewFormComponent } from "./service-request-form/service-r
 import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { WeekTimingFormComponent } from './components/week-timing-form/week-timing-form.component';
+import { DailyFrequencyFormComponent } from './components/daily-frequency-form/daily-frequency-form.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { WeekTimingFormComponent } from './components/week-timing-form/week-timi
     CarePlanComponent,
     CarePlanFormComponent,
     DurationFormComponent,
-    WeekTimingFormComponent
+    WeekTimingFormComponent,
+    DailyFrequencyFormComponent
   ],
   imports: [
     CommonModule,

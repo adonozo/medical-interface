@@ -1,0 +1,21 @@
+<div class="form-group row mt-2">
+  <label for="when-to-take" class="col-form-label col-sm-3 form-control-label" i18n>When to take</label>
+  <div class="col-sm-9">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <nb-radio-group id="when-to-take" [(value)]="dailyFrequencySelected">
+          <nb-radio class="d-inline-block" [value]="dailyFrequencyType.everyday" i18n>Every day</nb-radio>
+          <nb-radio class="d-inline-block" [value]="dailyFrequencyType.specificDays" i18n>Specific day(s)
+          </nb-radio>
+        </nb-radio-group>
+      </div>
+      <div class="col-12" *ngIf="dailyFrequencySelected === dailyFrequencyType.specificDays">
+        <ng-container [formGroup]="dayOfWeekGroup">
+          <ng-container *ngFor="let day of dayOfWeekArray">
+            <nb-checkbox class="form-check-inline" [formControlName]="day.value">{{ day.name }}</nb-checkbox>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

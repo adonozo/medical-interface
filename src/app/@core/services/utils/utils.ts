@@ -44,3 +44,8 @@ export function getDefaultDateFrom(time: string): Date {
   currentDate.setHours(+hour, +minutes);
   return currentDate;
 }
+
+export const selectedFilter = (daySelected: { day: boolean }): any[] =>
+  Object.entries(daySelected)
+    .filter(([, isSelected]) => isSelected)
+    .map(([day]) => day);
