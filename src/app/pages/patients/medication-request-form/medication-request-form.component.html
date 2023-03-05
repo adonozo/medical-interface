@@ -77,66 +77,7 @@
 
           <app-daily-frequency-form #dailyFrequencyForm [form]="medicationForm"></app-daily-frequency-form>
 
-          <div class="form-group row">
-            <label for="drug-frequency" class="col-form-label col-sm-3 form-control-label" i18n>Frequency</label>
-            <div class="col-sm-9">
-              <div class="form-group row">
-                <div class="col-12 mb-3">
-                  <nb-button-group (valueChange)="frequencySelected = $event[0]" status="info" outline>
-                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.timesPerDay"
-                            [value]="frequencyType.timesPerDay" i18n>Times per day
-                    </button>
-                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.mealTime"
-                            [value]="frequencyType.mealTime" i18n>At a meal time
-                    </button>
-                    <button type="button" nbButtonToggle [pressed]="frequencySelected === frequencyType.specificTimes"
-                            [value]="frequencyType.specificTimes" i18n>At specific times
-                    </button>
-                  </nb-button-group>
-                </div>
-                <ng-container [ngSwitch]="frequencySelected">
-                  <div class="col-12" *ngSwitchCase="frequencyType.timesPerDay">
-                    <nb-select fullWidth id="drug-frequency" i18n-placeholder="Placeholder"
-                               placeholder="Select a frequency" [formControl]="frequencyControl">
-                      <nb-option [value]="1" i18n>Once a day</nb-option>
-                      <nb-option [value]="2" i18n>Twice a day</nb-option>
-                      <nb-option [value]="3" i18n>Thrice a day</nb-option>
-                      <nb-option [value]="4" i18n>Four times a day</nb-option>
-                    </nb-select>
-                  </div>
-                  <div class="col-12" *ngSwitchCase="frequencyType.mealTime">
-                    <div class="row" [formGroup]="whenGroup">
-                      <div class="col-12 col-sm-4" *ngFor="let time of timesOfDayArray">
-                        <nb-checkbox [formControlName]="time.value">{{ time.name }}</nb-checkbox>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12" *ngSwitchCase="frequencyType.specificTimes">
-                    <div class="row form-group">
-                      <ng-container *ngFor="let control of timeOfDayFormArray.controls; let index = index">
-                        <div class="col-9 col-sm-6">
-                          <input nbInput fullWidth type="text"
-                                 [formControl]="control"
-                                 [nbTimepicker]="timepicker"/>
-                          <nb-timepicker #timepicker></nb-timepicker>
-                        </div>
-                        <div class="col-3 col-sm-6">
-                          <button class="mr-3" nbButton outline status="danger" (click)="removeTimeForm(index)"
-                                  *ngIf="index !== 0 || timeOfDayFormArray.length > 1">
-                            <nb-icon icon="minus"></nb-icon>
-                          </button>
-                          <button nbButton outline status="info" (click)="addTimeForm()"
-                                  *ngIf="index === timeOfDayFormArray.length - 1">
-                            <nb-icon icon="plus"></nb-icon>
-                          </button>
-                        </div>
-                      </ng-container>
-                    </div>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-          </div>
+          <app-frequency-form #frequencyForm [form]="medicationForm"></app-frequency-form>
 
           <app-duration-form #durationForm [form]="medicationForm"></app-duration-form>
 
