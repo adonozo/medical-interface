@@ -16,53 +16,67 @@
   </nb-card-header>
 
   <nb-card-body *ngIf="resources">
-    <div class="row mb-5">
-      <div class="col-10">
-        <h6>
-          <i class="icon fa fa-vial mr-2"></i>
-          <ng-container i18n>Blood Glucose Measurement Orders</ng-container>
-        </h6>
-      </div>
-      <div class="col-2">
+    <div class="row mb-4">
+      <div class="col-auto mb-4">
         <button nbButton status="info" (click)="navigate('new-service')">
           <nb-icon icon="plus"></nb-icon>
+          <span i18n>Add</span>
         </button>
       </div>
+      <div class="col mb-4">
+        <h4>
+          <ng-container i18n>Blood Glucose Measurement</ng-container>
+        </h4>
+      </div>
+
       <div class="col-12">
-        <div class="row" *ngFor="let serviceRequest of serviceRequests">
-          <div class="col-8">
-            <pre>{{ serviceRequest.id }}</pre>
-          </div>
-          <div class="col-4">
-            <button nbButton status="info" (click)="navigate('edit-service', serviceRequest.id)">
+        <div class="row mb-3" *ngFor="let serviceRequest of serviceRequests">
+          <div class="col-auto">
+            <button nbButton outline status="info" size="small" (click)="navigate('edit-service', serviceRequest.id)">
               <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+              <span i18n>Edit</span>
             </button>
+          </div>
+          <div class="col">
+            <pre>{{ serviceRequest.id }}</pre>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row mb-5">
-      <div class="col-10">
-        <h6>
-          <i class="icon fa fa-prescription-bottle-alt mr-2"></i>
-          <ng-container i18n>Medication Requests</ng-container>
-        </h6>
-      </div>
-      <div class="col-2">
+    <div class="row">
+      <div class="col-auto mb-4">
         <button nbButton status="info" (click)="navigate('new-medication')">
           <nb-icon icon="plus"></nb-icon>
+          <span i18n>Add</span>
         </button>
       </div>
+      <div class="col mb-4">
+        <h4>
+          <ng-container i18n>Medication Requests</ng-container>
+        </h4>
+      </div>
+
       <div class="col-12">
-        <div class="row" *ngFor="let medicationRequest of medicationRequests">
+        <div class="row mb-3" *ngFor="let medicationRequest of medicationRequests">
           <div class="col-8">
-            <pre>{{ medicationRequest.id }}</pre>
-          </div>
-          <div class="col-4">
-            <button nbButton status="info" (click)="navigate('edit-medication', medicationRequest.id)">
-              <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
-            </button>
+            <div class="row">
+              <div class="col-auto">
+                <button nbButton outline status="info" size="small" (click)="navigate('edit-medication', medicationRequest.id)">
+                  <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+                  <span i18n>Edit</span>
+                </button>
+              </div>
+              <div class="col">
+                <b>{{ getMedicationName(medicationRequest) }}</b>
+                <ng-container *ngFor="let dosage of medicationRequest.dosageInstruction">
+                  <br />
+                  <span class="text-hint">
+                    {{ getTimingStringDuration(dosage.timing.repeat) }}
+                  </span>
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,3 +1,6 @@
+import { TimingRepeat } from "fhir/r4";
+import { AppLocale } from "../data/locale";
+
 export const timingToString = (timing: string): string => {
   switch (timing) {
     case 'ACM':
@@ -49,3 +52,28 @@ export const selectedFilter = (daySelected: { day: boolean }): any[] =>
   Object.entries(daySelected)
     .filter(([, isSelected]) => isSelected)
     .map(([day]) => day);
+
+export const durationStringFromCode = (unit: string): string => {
+  switch (unit) {
+    case 'd':
+      return $localize`day(s)`;
+    case 'wk':
+      return $localize`week(s)`;
+    case 'mo':
+      return $localize`month(s)`;
+    default:
+      return unit;
+  }
+}
+
+export function getTimingStringDuration(repeat: TimingRepeat): string {
+  if (repeat.boundsDuration) {
+    return `${repeat.boundsDuration.value} ${this.durationStringFromCode(repeat.boundsDuration.unit)}`;
+  } else if (repeat.boundsPeriod) {
+    const start = this.getDateOrDefault(repeat.boundsPeriod.start).toLocaleDateString(AppLocale.localeTime);
+    const end = this.getDateOrDefault(repeat.boundsPeriod.end).toLocaleDateString(AppLocale.localeTime);
+    return `${start} - ${end}`
+  }
+
+  return '';
+}
