@@ -18,6 +18,39 @@
   <nb-card-body *ngIf="resources">
     <div class="row mb-4">
       <div class="col-auto mb-4">
+        <button nbButton status="info" (click)="navigate('new-medication')">
+          <nb-icon icon="plus"></nb-icon>
+          <span i18n>Add</span>
+        </button>
+      </div>
+      <div class="col mb-4">
+        <h4>
+          <ng-container i18n>Medication Requests</ng-container>
+        </h4>
+      </div>
+
+      <div class="col-12">
+        <div class="row mb-3" *ngFor="let medicationRequest of medicationRequests">
+          <div class="col-auto">
+            <button nbButton outline status="info" size="small"
+                    (click)="navigate('edit-medication', medicationRequest.id)">
+              <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+              <span i18n>Edit</span>
+            </button>
+          </div>
+          <div class="col">
+            <b>{{ getMedicationName(medicationRequest) }}</b>
+            <ng-container *ngFor="let dosage of medicationRequest.dosageInstruction">
+              <br/>
+              <span class="text-hint">{{ getTimingStringDuration(dosage.timing.repeat) }}</span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-auto mb-4">
         <button nbButton status="info" (click)="navigate('new-service')">
           <nb-icon icon="plus"></nb-icon>
           <span i18n>Add</span>
@@ -38,50 +71,15 @@
             </button>
           </div>
           <div class="col">
-            <pre>{{ serviceRequest.id }}</pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-auto mb-4">
-        <button nbButton status="info" (click)="navigate('new-medication')">
-          <nb-icon icon="plus"></nb-icon>
-          <span i18n>Add</span>
-        </button>
-      </div>
-      <div class="col mb-4">
-        <h4>
-          <ng-container i18n>Medication Requests</ng-container>
-        </h4>
-      </div>
-
-      <div class="col-12">
-        <div class="row mb-3" *ngFor="let medicationRequest of medicationRequests">
-          <div class="col-8">
-            <div class="row">
-              <div class="col-auto">
-                <button nbButton outline status="info" size="small" (click)="navigate('edit-medication', medicationRequest.id)">
-                  <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
-                  <span i18n>Edit</span>
-                </button>
-              </div>
-              <div class="col">
-                <b>{{ getMedicationName(medicationRequest) }}</b>
-                <ng-container *ngFor="let dosage of medicationRequest.dosageInstruction">
-                  <br />
-                  <span class="text-hint">
-                    {{ getTimingStringDuration(dosage.timing.repeat) }}
-                  </span>
-                </ng-container>
-              </div>
-            </div>
+            <b>{{ getServiceRequestDays(serviceRequest) }}</b>
+            <br />
+            <span class="text-hint">{{ getTimingStringDuration(serviceRequest.occurrenceTiming.repeat) }}</span>
           </div>
         </div>
       </div>
     </div>
   </nb-card-body>
+
   <nb-card-footer>
     <div class="row">
       <div class="col-4">

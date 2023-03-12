@@ -122,8 +122,12 @@ export class ResourceUtils {
     }
   }
 
-  private static setExtension(resource: DomainResource, url: string, value: string,
-                              type: ('string' | 'code')) {
+  private static setExtension(
+    resource: DomainResource,
+    url: string,
+    value: string,
+    type: ('string' | 'code')
+  ) {
     if (!resource || !url || url.length === 0 || !value || value.length === 0) {
       return;
     }

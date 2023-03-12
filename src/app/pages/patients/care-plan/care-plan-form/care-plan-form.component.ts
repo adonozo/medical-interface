@@ -90,4 +90,7 @@ export class CarePlanFormComponent extends FormComponent{
 
   getTimingStringDuration = (repeat: TimingRepeat): string =>
     utils.getTimingStringDuration(repeat);
+
+  getServiceRequestDays = (serviceRequest: ServiceRequest): string =>
+    utils.getServiceRequestDays(serviceRequest);
 }

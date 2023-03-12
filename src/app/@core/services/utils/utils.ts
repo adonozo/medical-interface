@@ -1,5 +1,53 @@
-import { TimingRepeat } from "fhir/r4";
+import { ServiceRequest, TimingRepeat } from "fhir/r4";
 import { AppLocale } from "../data/locale";
+import { isArray } from "rxjs/internal-compatibility";
+import { DayCode } from "../../models/types";
+
+export function getDateOrDefault(stringDate: string): Date {
+  try {
+    return new Date(stringDate);
+  }
+  catch (Exception) {
+    return new Date();
+  }
+}
+
+export function getDefaultDateFrom(time: string): Date {
+  const [hour, minutes] = time.split(':');
+  const currentDate = new Date();
+  currentDate.setHours(+hour, +minutes);
+  return currentDate;
+}
+
+export const selectedFilter = (daySelected: { day: boolean }): any[] =>
+  Object.entries(daySelected)
+    .filter(([, isSelected]) => isSelected)
+    .map(([day]) => day);
+
+export function getTimingStringDuration(repeat: TimingRepeat): string {
+  if (repeat.boundsDuration) {
+    return `${repeat.boundsDuration.value} ${this.durationStringFromCode(repeat.boundsDuration.unit)}`;
+  } else if (repeat.boundsPeriod) {
+    const start = this.getDateOrDefault(repeat.boundsPeriod.start).toLocaleDateString(AppLocale.localeTime);
+    const end = this.getDateOrDefault(repeat.boundsPeriod.end).toLocaleDateString(AppLocale.localeTime);
+    return `${start} - ${end}`
+  }
+
+  return '';
+}
+
+export function getServiceRequestDays(serviceRequest: ServiceRequest): string {
+  if (!serviceRequest.contained || !isArray(serviceRequest.contained))
+  {
+    return '';
+  }
+
+  return  serviceRequest.contained.map((request: ServiceRequest) => request.occurrenceTiming.repeat.dayOfWeek)
+    .flat()
+    .sort(sortDayCodes)
+    .map(dayStringFromCode)
+    .join(', ');
+}
 
 export const timingToString = (timing: string): string => {
   switch (timing) {
@@ -32,27 +80,6 @@ export const timingToString = (timing: string): string => {
   }
 }
 
-export function getDateOrDefault(stringDate: string): Date {
-  try {
-    return new Date(stringDate);
-  }
-  catch (Exception) {
-    return new Date();
-  }
-}
-
-export function getDefaultDateFrom(time: string): Date {
-  const [hour, minutes] = time.split(':');
-  const currentDate = new Date();
-  currentDate.setHours(+hour, +minutes);
-  return currentDate;
-}
-
-export const selectedFilter = (daySelected: { day: boolean }): any[] =>
-  Object.entries(daySelected)
-    .filter(([, isSelected]) => isSelected)
-    .map(([day]) => day);
-
 export const durationStringFromCode = (unit: string): string => {
   switch (unit) {
     case 'd':
@@ -66,14 +93,43 @@ export const durationStringFromCode = (unit: string): string => {
   }
 }
 
-export function getTimingStringDuration(repeat: TimingRepeat): string {
-  if (repeat.boundsDuration) {
-    return `${repeat.boundsDuration.value} ${this.durationStringFromCode(repeat.boundsDuration.unit)}`;
-  } else if (repeat.boundsPeriod) {
-    const start = this.getDateOrDefault(repeat.boundsPeriod.start).toLocaleDateString(AppLocale.localeTime);
-    const end = this.getDateOrDefault(repeat.boundsPeriod.end).toLocaleDateString(AppLocale.localeTime);
-    return `${start} - ${end}`
+export const dayStringFromCode = (dayCode: DayCode): string => {
+  switch (dayCode) {
+    case "mon":
+      return $localize`Monday`;
+    case "tue":
+      return $localize`Tuesday`;
+    case "wed":
+      return $localize`Wednesday`;
+    case "thu":
+      return $localize`Thursday`;
+    case "fri":
+      return $localize`Friday`;
+    case "sat":
+      return $localize`Saturday`;
+    case "sun":
+      return $localize`Sunday`;
   }
+}
 
-  return '';
+const sortDayCodes = (a: DayCode, b: DayCode): number =>
+  dayValue(a) < dayValue(b) ? -1 : 1
+
+const dayValue = (code: DayCode): number => {
+  switch (code) {
+    case "mon":
+      return 1;
+    case "tue":
+      return 2;
+    case "wed":
+      return 3;
+    case "thu":
+      return 4;
+    case "fri":
+      return 5;
+    case "sat":
+      return 6;
+    case "sun":
+      return 7;
+  }
 }
