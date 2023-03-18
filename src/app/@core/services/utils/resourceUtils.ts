@@ -148,6 +148,7 @@ export class ResourceUtils {
       ...extValue
     }
     const extIndex = resource.extension.findIndex(ext => ext.url === url)
+
     if (!isNaN(extIndex) && extIndex >= 0) {
       resource.extension[extIndex] = extensionEntry;
       return;

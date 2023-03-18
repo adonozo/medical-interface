@@ -1,22 +1,24 @@
 import { Component } from '@angular/core';
-import { FormComponent } from "../../../../@core/components/form.component";
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Medication, MedicationRequest, Resource, ServiceRequest, TimingRepeat } from "fhir/r4";
 import { CarePlanService } from "../../../../@core/services/care-plan.service";
 import { flatMap } from "rxjs/internal/operators";
 import * as utils from "../../../../@core/services/utils/utils";
+import { FormStatus } from "../../../../@core/services/data/form-data";
 
 @Component({
   selector: 'app-care-plan-form',
   templateUrl: './care-plan-form.component.html',
   styleUrls: ['./care-plan-form.component.scss']
 })
-export class CarePlanFormComponent extends FormComponent{
+export class CarePlanFormComponent {
 
   carePlanId: string;
   patientId: string;
   resources: Resource[];
+  formStatus: FormStatus = FormStatus.default;
+  readonly formStatusType = FormStatus;
 
   constructor(
     private location: Location,
@@ -24,7 +26,6 @@ export class CarePlanFormComponent extends FormComponent{
     private activatedRoute: ActivatedRoute,
     private carePlanService: CarePlanService,
   ) {
-    super();
     this.activatedRoute.params.pipe(
       flatMap(params => {
         this.carePlanId = params["carePlanId"];
@@ -34,7 +35,17 @@ export class CarePlanFormComponent extends FormComponent{
     ).subscribe(bundle => this.resources = bundle.entry?.map(entry => entry.resource) ?? []);
   }
 
-  submitForm(): void {
+  // TODO add confirmation dialogs
+  // TODO validate medication/service requests against activated care plan
+  activateCarePlan(): void {
+    this.formStatus = FormStatus.loading;
+    this.carePlanService.activateCarePlan(this.carePlanId)
+      .subscribe(_ => {
+        this.formStatus = FormStatus.success;
+      }, error =>  {
+        console.log(error);
+        this.formStatus = FormStatus.error;
+      })
   }
 
   goBack(): void {
