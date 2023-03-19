@@ -33,6 +33,7 @@ import { DurationFormComponent } from './components/duration-form/duration-form.
 import { WeekTimingFormComponent } from './components/week-timing-form/week-timing-form.component';
 import { DailyFrequencyFormComponent } from './components/daily-frequency-form/daily-frequency-form.component';
 import { FrequencyFormComponent } from './components/frequency-form/frequency-form.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { FrequencyFormComponent } from './components/frequency-form/frequency-fo
     DurationFormComponent,
     WeekTimingFormComponent,
     DailyFrequencyFormComponent,
-    FrequencyFormComponent
+    FrequencyFormComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
