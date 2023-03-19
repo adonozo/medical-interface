@@ -6,6 +6,8 @@ import { CarePlanService } from "../../../../@core/services/care-plan.service";
 import { flatMap } from "rxjs/internal/operators";
 import * as utils from "../../../../@core/services/utils/utils";
 import { FormStatus } from "../../../../@core/services/data/form-data";
+import { NbDialogService } from "@nebular/theme";
+import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-care-plan-form',
@@ -25,6 +27,7 @@ export class CarePlanFormComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private carePlanService: CarePlanService,
+    private dialogService: NbDialogService,
   ) {
     this.activatedRoute.params.pipe(
       flatMap(params => {
@@ -35,26 +38,37 @@ export class CarePlanFormComponent {
     ).subscribe(bundle => this.resources = bundle.entry?.map(entry => entry.resource) ?? []);
   }
 
-  // TODO add confirmation dialogs
   // TODO validate medication/service requests against activated care plan
-  activateCarePlan(): void {
-    this.formStatus = FormStatus.loading;
-    this.carePlanService.activateCarePlan(this.carePlanId)
-      .subscribe(_ => {
-        this.formStatus = FormStatus.success;
-      }, error =>  {
-        console.log(error);
-        this.formStatus = FormStatus.error;
-      })
+  showActivateDialog(): void {
+    this.dialogService.open(ConfirmationDialogComponent, {
+      context: {
+        title: 'Activate care plan',
+        message: 'Do you want to activate the care plan?',
+        confirmationButton: "Yes"
+      }
+    }).onClose.subscribe(result => {
+      if (result) {
+        this.activateCarePlan();
+      }
+    });
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  deleteCarePlan(): void {
-    this.carePlanService.deleteCarePlan(this.carePlanId)
-      .subscribe(_ => this.location.back());
+  showDeleteDialog(): void {
+    this.dialogService.open(ConfirmationDialogComponent, {
+      context: {
+        title: 'Delete care plan',
+        message: 'Do you want to delete this care plan? This action cannot be reverted.',
+        confirmationButton: "Delete"
+      }
+    }).onClose.subscribe(result => {
+      if (result) {
+        this.deleteCarePlan();
+      }
+    });
   }
 
   async navigate(page: string, id?: string): Promise<void> {
@@ -104,4 +118,27 @@ export class CarePlanFormComponent {
 
   getServiceRequestDays = (serviceRequest: ServiceRequest): string =>
     utils.getServiceRequestDays(serviceRequest);
+
+  disableButton = (): boolean => this.formStatus === FormStatus.loading || this.formStatus === FormStatus.success;
+
+  private activateCarePlan() {
+    this.formStatus = FormStatus.loading;
+    this.carePlanService.activateCarePlan(this.carePlanId)
+      .subscribe(_ => {
+        this.formStatus = FormStatus.success;
+      }, error =>  {
+        console.log(error);
+        this.formStatus = FormStatus.error;
+      })
+  }
+
+  private deleteCarePlan() {
+    this.formStatus = FormStatus.loading;
+    this.carePlanService.deleteCarePlan(this.carePlanId)
+      .subscribe(_ => this.location.back(),
+        error => {
+          console.log(error);
+          this.formStatus = FormStatus.error;
+        });
+  }
 }

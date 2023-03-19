@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-6 text-right">
-        <button nbButton type="button" status="danger" (click)="deleteCarePlan()">
+        <button nbButton type="button" status="danger" (click)="showDeleteDialog()" [disabled]="disableButton()">
           <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
           <span i18n>Delete</span>
         </button>
@@ -18,7 +18,7 @@
   <nb-card-body *ngIf="resources">
     <div class="row mb-4">
       <div class="col-auto mb-4">
-        <button nbButton status="info" (click)="navigate('new-medication')">
+        <button nbButton status="info" (click)="navigate('new-medication')" [disabled]="disableButton()">
           <nb-icon icon="plus"></nb-icon>
           <span i18n>Add</span>
         </button>
@@ -32,7 +32,7 @@
       <div class="col-12">
         <div class="row mb-3" *ngFor="let medicationRequest of medicationRequests">
           <div class="col-auto">
-            <button nbButton outline status="info" size="small"
+            <button nbButton outline status="info" size="small" [disabled]="disableButton()"
                     (click)="navigate('edit-medication', medicationRequest.id)">
               <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
               <span i18n>Edit</span>
@@ -51,7 +51,7 @@
 
     <div class="row">
       <div class="col-auto mb-4">
-        <button nbButton status="info" (click)="navigate('new-service')">
+        <button nbButton status="info" (click)="navigate('new-service')" [disabled]="disableButton()">
           <nb-icon icon="plus"></nb-icon>
           <span i18n>Add</span>
         </button>
@@ -65,7 +65,8 @@
       <div class="col-12">
         <div class="row mb-3" *ngFor="let serviceRequest of serviceRequests">
           <div class="col-auto">
-            <button nbButton outline status="info" size="small" (click)="navigate('edit-service', serviceRequest.id)">
+            <button nbButton outline status="info" size="small" (click)="navigate('edit-service', serviceRequest.id)"
+                    [disabled]="disableButton()">
               <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
               <span i18n>Edit</span>
             </button>
@@ -88,8 +89,8 @@
         </button>
       </div>
       <div class="col-8 text-right">
-        <button nbButton (click)="activateCarePlan()" status="success" class="ml-2" i18n="Activate"
-                [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
+        <button nbButton (click)="showActivateDialog()" status="success" class="ml-2" i18n="Activate"
+                [disabled]="disableButton()">
           Activate
         </button>
       </div>
