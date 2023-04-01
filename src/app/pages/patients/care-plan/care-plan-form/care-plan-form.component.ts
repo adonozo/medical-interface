@@ -20,7 +20,6 @@ export class CarePlanFormComponent {
   patientId: string;
   resources: Resource[];
   formStatus: FormStatus = FormStatus.default;
-  readonly formStatusType = FormStatus;
 
   constructor(
     private location: Location,
@@ -38,7 +37,6 @@ export class CarePlanFormComponent {
     ).subscribe(bundle => this.resources = bundle.entry?.map(entry => entry.resource) ?? []);
   }
 
-  // TODO validate medication/service requests against activated care plan
   showActivateDialog(): void {
     this.dialogService.open(ConfirmationDialogComponent, {
       context: {

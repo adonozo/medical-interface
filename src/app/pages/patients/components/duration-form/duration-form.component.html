@@ -3,7 +3,7 @@
   <div class="col-sm-9">
     <div class="form-group row">
       <div class="col-12 mb-3">
-        <nb-button-group (valueChange)="durationSelected = $event[0]" status="info" outline>
+        <nb-button-group (valueChange)="durationSelected = $event[0]" status="info" outline size="small">
           <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.duration" [value]="durationType.duration" i18n>By amount of time</button>
           <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.period" [value]="durationType.period" i18n>By dates</button>
           <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.untilNext" [value]="durationType.untilNext" i18n>Until date</button>
