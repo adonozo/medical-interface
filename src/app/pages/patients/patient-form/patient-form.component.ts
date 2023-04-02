@@ -68,7 +68,7 @@ export class PatientFormComponent extends FormComponent {
     return this.patientForm.get('phoneContacts') as FormArray;
   }
 
-  addPhoneControlGroup = () : void =>
+  addPhoneControlGroup = (): void =>
     this.phonesArrayControl.push(this.patientsFormService.getEmptyPhoneContactForm());
 
   removeFromPhoneArray = (index: number): void =>
@@ -100,13 +100,15 @@ export class PatientFormComponent extends FormComponent {
     const method = this.isEditForm ? this.patientsService.patchPatient(internalPatient)
       : this.patientsService.createPatient(patient);
     method.subscribe(
-        async patient => {
-          await this.router.navigate([patient.id + '/view'], {relativeTo: this.activatedRoute.parent});
-        },
-        error => {
-          this.formStatus = FormStatus.error;
-          console.log(error);
-        }
-      )
+      async patient => {
+        await this.router.navigate(
+          [patient.id ?? internalPatient.id + '/view'],
+          {relativeTo: this.activatedRoute.parent});
+      },
+      error => {
+        this.formStatus = FormStatus.error;
+        console.log(error);
+      }
+    )
   }
 }
