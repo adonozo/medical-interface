@@ -34,7 +34,8 @@ import { WeekTimingFormComponent } from './components/week-timing-form/week-timi
 import { DailyFrequencyFormComponent } from './components/daily-frequency-form/daily-frequency-form.component';
 import { FrequencyFormComponent } from './components/frequency-form/frequency-form.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
-import { CarePlanStatusComponent } from './care-plan/table-components/care-plan-status/care-plan-status.component';
+import { CarePlanStatusComponent } from '../../@core/components/table-components/care-plan-status/care-plan-status.component';
+import { ResourceActionsComponent } from '../../@core/components/table-components/resource-actions/resource-actions.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { CarePlanStatusComponent } from './care-plan/table-components/care-plan-
     DailyFrequencyFormComponent,
     FrequencyFormComponent,
     ConfirmationDialogComponent,
-    CarePlanStatusComponent
+    CarePlanStatusComponent,
+    ResourceActionsComponent
   ],
   imports: [
     CommonModule,

@@ -1,18 +1,25 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
 import { CarePlan } from "fhir/r4";
 import { LocalDataSource } from "ng2-smart-table";
+import { CarePlanStatusComponent } from "../../../@core/components/table-components/care-plan-status/care-plan-status.component";
+import { ResourceActionsComponent } from "../../../@core/components/table-components/resource-actions/resource-actions.component";
+import { TableActions } from "../../../@core/components/table-components/resource-actions/table-actions";
+import { TableActionsService } from "../../../@core/components/table-components/resource-actions/table-actions.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-care-plan',
   templateUrl: './care-plan.component.html',
   styleUrls: ['./care-plan.component.scss']
 })
-export class CarePlanComponent implements AfterViewInit {
+export class CarePlanComponent implements AfterViewInit, OnDestroy {
   private patientId: string;
   private readonly defaultLimit = 20;
+  private viewSubscription: Subscription;
+  private editSubscription: Subscription;
 
   source: LocalDataSource;
   paginatedCarePlans: PaginatedResult<CarePlan>;
@@ -20,10 +27,19 @@ export class CarePlanComponent implements AfterViewInit {
   settings = {
     selectedRowIndex: -1,
     columns: {
+      resourceAction: {
+        title: 'Action',
+        filter: false,
+        sort: false,
+        type: 'custom',
+        renderComponent: ResourceActionsComponent
+      },
       status: {
         title: 'Status',
         filter: false,
-        sort: false
+        sort: false,
+        type: 'custom',
+        renderComponent: CarePlanStatusComponent
       },
       lastModified: {
         title: 'Last modified',
@@ -38,17 +54,6 @@ export class CarePlanComponent implements AfterViewInit {
       add: false,
       edit: false,
       delete: false,
-      columnTitle: 'Actions',
-      custom: [
-        {
-          name: 'details',
-          title: `<div class="badge d-table"><i class="fa-xs far fa-eye"></i> <span class="icon-text text-dark ml-1">Details</span></div>`,
-        },
-        {
-          name: 'edit',
-          title: `<div class="badge d-table mr-3"><i class="fa-xs far fa-edit"></i> <span class="icon-text text-dark ml-1">Edit</span></div>`,
-        }
-      ]
     },
     hideSubHeader: true,
     mode: 'external',
@@ -57,7 +62,10 @@ export class CarePlanComponent implements AfterViewInit {
   constructor(
     private carePlanService: CarePlanService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,) {
+    private router: Router,
+    private tableActionsService: TableActionsService
+  ) {
+    this.subscribeToActions()
   }
 
   ngAfterViewInit(): void {
@@ -67,14 +75,19 @@ export class CarePlanComponent implements AfterViewInit {
     });
   }
 
-  async onCustomEvent(event: any): Promise<void> {
-    switch (event.action) {
-      case 'edit':
-        await this.router.navigate(
-          [`${this.patientId}/care-plans/${event.data.id}/edit`],
-          {relativeTo: this.activatedRoute.parent})
-        break;
-    }
+  ngOnDestroy() {
+    this.editSubscription.unsubscribe();
+    this.viewSubscription.unsubscribe();
+  }
+
+  private subscribeToActions() {
+    this.editSubscription = this.tableActionsService.callEdit
+      .subscribe(resource => this.router.navigate(
+        [`${this.patientId}/care-plans/${resource.id}/edit`],
+        {relativeTo: this.activatedRoute.parent}));
+
+    this.viewSubscription = this.tableActionsService.callView
+      .subscribe(id => console.log(id));
   }
 
   private getCarePlans(): void {
@@ -85,7 +98,8 @@ export class CarePlanComponent implements AfterViewInit {
           return {
             id: carePlan.id,
             status: carePlan.status,
-            lastModified: carePlan.created
+            lastModified: carePlan.created,
+            resourceAction: carePlan.status === "draft" ? TableActions.Edit : TableActions.View
           }
         }));
       });

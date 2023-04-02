@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ViewCell } from "ng2-smart-table";
 
 @Component({
@@ -8,11 +8,14 @@ import { ViewCell } from "ng2-smart-table";
 })
 export class CarePlanStatusComponent implements ViewCell, OnInit {
 
-  rowData: any;
-  value: string;
+  @Input() rowData: any;
+  @Input() value: string;
+
   statusColor: string;
 
-  constructor() { }
+  ngOnInit(): void {
+    this.statusColor = this.getStatusColor();
+  }
 
   getStatusColor():string {
     switch (this.value) {
@@ -23,9 +26,5 @@ export class CarePlanStatusComponent implements ViewCell, OnInit {
       default:
         return 'text-secondary'
     }
-  }
-
-  ngOnInit(): void {
-    this.statusColor = this.getStatusColor();
   }
 }
