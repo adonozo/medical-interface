@@ -1,0 +1,25 @@
+<div class="row mb-3" *ngIf="patient && carePlan">
+  <div class="col-12 mt-2">
+  </div>
+  <div class="col-12 col-sm-2 mt-1">
+    <span i18n><b>Status</b></span>
+  </div>
+  <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-1">
+    <app-care-plan-status [value]="carePlan.status"></app-care-plan-status>
+  </div>
+  <div class="col-12 col-sm-2 mt-1">
+    <span i18n><b>Patient</b></span>
+  </div>
+  <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-1">
+    {{ patientName }}
+  </div>
+  <div class="col-12 col-sm-2 mt-1">
+    <span i18n><b>Created at</b></span>
+  </div>
+  <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-1">
+    {{ carePlan.created | date }}
+  </div>
+  <div class="col-12 mt-3">
+    <hr />
+  </div>
+</div>

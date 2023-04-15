@@ -36,6 +36,7 @@ import { FrequencyFormComponent } from './components/frequency-form/frequency-fo
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { CarePlanStatusComponent } from '../../@core/components/table-components/care-plan-status/care-plan-status.component';
 import { ResourceActionsComponent } from '../../@core/components/table-components/resource-actions/resource-actions.component';
+import { CarePlanDetailsComponent } from './components/care-plan-details/care-plan-details.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { ResourceActionsComponent } from '../../@core/components/table-component
     FrequencyFormComponent,
     ConfirmationDialogComponent,
     CarePlanStatusComponent,
-    ResourceActionsComponent
+    ResourceActionsComponent,
+    CarePlanDetailsComponent
   ],
   imports: [
     CommonModule,
