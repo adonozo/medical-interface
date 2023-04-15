@@ -41,8 +41,8 @@ export class CarePlanComponent implements AfterViewInit, OnDestroy {
         type: 'custom',
         renderComponent: CarePlanStatusComponent
       },
-      lastModified: {
-        title: 'Last modified',
+      created: {
+        title: 'Created at',
         filter: false,
         sort: false
       }
@@ -98,7 +98,7 @@ export class CarePlanComponent implements AfterViewInit, OnDestroy {
           return {
             id: carePlan.id,
             status: carePlan.status,
-            lastModified: carePlan.created,
+            created: carePlan.created,
             resourceAction: carePlan.status === "draft" ? TableActions.Edit : TableActions.View
           }
         }));

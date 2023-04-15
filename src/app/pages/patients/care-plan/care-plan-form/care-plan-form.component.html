@@ -2,7 +2,7 @@
   <nb-card-header>
     <div class="row">
       <div class="col-6">
-        <h2>
+        <h2 i18n>
           Care plan
         </h2>
       </div>
@@ -16,6 +16,8 @@
   </nb-card-header>
 
   <nb-card-body *ngIf="resources">
+    <app-care-plan-details [carePlan]="carePlan" [patient]="patient"></app-care-plan-details>
+
     <div class="row mb-4">
       <div class="col-auto mb-4">
         <button nbButton status="info" (click)="navigate('new-medication')" [disabled]="disableButton()">

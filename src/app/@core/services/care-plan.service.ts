@@ -18,6 +18,10 @@ export class CarePlanService {
     return this.restService.getPaginated(`patients/${patientId}/carePlans`, limit, lastCursor);
   }
 
+  getCarePlan(id: string): Observable<CarePlan> {
+    return this.restService.get(this.path + id);
+  }
+
   getDetailedCarePlan(id: string): Observable<Bundle> {
     return this.restService.get(this.path + id + '/details');
   }

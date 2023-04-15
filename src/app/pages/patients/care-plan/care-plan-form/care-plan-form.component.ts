@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Medication, MedicationRequest, Resource, ServiceRequest, TimingRepeat } from "fhir/r4";
+import { CarePlan, Medication, MedicationRequest, Patient, Resource, ServiceRequest, TimingRepeat } from "fhir/r4";
 import { CarePlanService } from "../../../../@core/services/care-plan.service";
-import { flatMap } from "rxjs/internal/operators";
+import { flatMap, map } from "rxjs/internal/operators";
 import * as utils from "../../../../@core/services/utils/utils";
 import { FormStatus } from "../../../../@core/services/data/form-data";
 import { NbDialogService } from "@nebular/theme";
 import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
+import { PatientsService } from "../../../../@core/services/patients.service";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: 'app-care-plan-form',
@@ -19,6 +21,8 @@ export class CarePlanFormComponent {
   carePlanId: string;
   patientId: string;
   resources: Resource[];
+  patient: Patient;
+  carePlan: CarePlan;
   formStatus: FormStatus = FormStatus.default;
 
   constructor(
@@ -26,15 +30,27 @@ export class CarePlanFormComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private carePlanService: CarePlanService,
+    private patientService: PatientsService,
     private dialogService: NbDialogService,
   ) {
     this.activatedRoute.params.pipe(
-      flatMap(params => {
+      map(params => {
         this.carePlanId = params["carePlanId"];
         this.patientId = params["patientId"];
-        return this.carePlanService.getDetailedCarePlan(this.carePlanId);
+        return {carePlanId: this.carePlanId, patientId: this.patientId}
+      }),
+      flatMap(({patientId, carePlanId}) => {
+        return forkJoin({
+          carePlan: this.carePlanService.getCarePlan(carePlanId),
+          patient: this.patientService.getSinglePatient(patientId),
+          resources: this.carePlanService.getDetailedCarePlan(carePlanId),
+        })
       })
-    ).subscribe(bundle => this.resources = bundle.entry?.map(entry => entry.resource) ?? []);
+    ).subscribe(({carePlan, patient, resources}) => {
+      this.resources = resources.entry?.map(entry => entry.resource) ?? [];
+      this.patient = patient;
+      this.carePlan = carePlan;
+    }, error => console.log(error));
   }
 
   showActivateDialog(): void {
