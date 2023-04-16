@@ -11,6 +11,7 @@ import { MedicationRequestEditFormComponent } from "./medication-request-form/me
 import { MedicationRequestNewFormComponent } from "./medication-request-form/medication-request-new-form.component";
 import { ServiceRequestNewFormComponent } from "./service-request-form/service-request-new-form.component";
 import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
+import { CarePlanViewComponent } from "./care-plan/care-plan-view/care-plan-view.component";
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
   {
     path: ':patientId/care-plans/:carePlanId/edit',
     component: CarePlanFormComponent
+  },
+  {
+    path: ':patientId/care-plans/:carePlanId/view',
+    component: CarePlanViewComponent
   },
   {
     path: ':patientId/care-plans/:carePlanId/new-medication-request',

@@ -37,6 +37,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { CarePlanStatusComponent } from '../../@core/components/table-components/care-plan-status/care-plan-status.component';
 import { ResourceActionsComponent } from '../../@core/components/table-components/resource-actions/resource-actions.component';
 import { CarePlanDetailsComponent } from './components/care-plan-details/care-plan-details.component';
+import { CarePlanViewComponent } from './care-plan/care-plan-view/care-plan-view.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { CarePlanDetailsComponent } from './components/care-plan-details/care-pl
     ConfirmationDialogComponent,
     CarePlanStatusComponent,
     ResourceActionsComponent,
-    CarePlanDetailsComponent
+    CarePlanDetailsComponent,
+    CarePlanViewComponent
   ],
   imports: [
     CommonModule,

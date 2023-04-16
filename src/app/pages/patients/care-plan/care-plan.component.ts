@@ -87,7 +87,9 @@ export class CarePlanComponent implements AfterViewInit, OnDestroy {
         {relativeTo: this.activatedRoute.parent}));
 
     this.viewSubscription = this.tableActionsService.callView
-      .subscribe(id => console.log(id));
+      .subscribe(resource => this.router.navigate(
+        [`${this.patientId}/care-plans/${resource.id}/view`],
+        {relativeTo: this.activatedRoute.parent}));
   }
 
   private getCarePlans(): void {

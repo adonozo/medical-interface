@@ -1,0 +1,23 @@
+<nb-card>
+  <nb-card-header>
+    <div class="row">
+      <div class="col-12">
+        <h2 i18n>
+          Care plan
+        </h2>
+      </div>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <app-care-plan-details [patient]="patient" [carePlan]="carePlan"></app-care-plan-details>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-12">
+        <button nbButton (click)="goBack()" i18n="Return button">
+          Return
+        </button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>
