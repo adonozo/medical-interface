@@ -1,11 +1,12 @@
 import { Directive } from "@angular/core";
-import { CarePlan, Patient, Resource } from "fhir/r4";
+import { CarePlan, Medication, MedicationRequest, Patient, Resource, ServiceRequest, TimingRepeat } from "fhir/r4";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { flatMap, map } from "rxjs/internal/operators";
 import { forkJoin } from "rxjs";
 import { Location } from "@angular/common";
+import * as utils from "../../../@core/services/utils/utils";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent {
@@ -41,6 +42,29 @@ export abstract class AbstractCarePlanViewComponent {
       this.patient = patient;
       this.carePlan = carePlan;
     }, error => console.log(error));
+  }
+
+  get medicationRequests(): MedicationRequest[] {
+    return this.resources.filter(resource => resource.resourceType === "MedicationRequest") as MedicationRequest[];
+  }
+
+  get serviceRequests(): ServiceRequest[] {
+    return this.resources.filter(resource => resource.resourceType === "ServiceRequest") as ServiceRequest[];
+  }
+
+  getTimingStringDuration = (repeat: TimingRepeat): string =>
+    utils.getTimingStringDuration(repeat);
+
+  getServiceRequestDays = (serviceRequest: ServiceRequest): string =>
+    utils.getServiceRequestDays(serviceRequest);
+
+  getMedicationName(medicationRequest: MedicationRequest): string {
+    if (!medicationRequest.contained || medicationRequest.contained.length === 0) {
+      return '';
+    }
+
+    const medication = medicationRequest.contained[0] as Medication;
+    return medication.code.coding[0].display;
   }
 
   goBack(): void {

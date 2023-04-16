@@ -10,6 +10,50 @@
   </nb-card-header>
   <nb-card-body>
     <app-care-plan-details [patient]="patient" [carePlan]="carePlan"></app-care-plan-details>
+
+    <div class="row mb-2">
+      <div class="col-12">
+        <hr />
+      </div>
+    </div>
+
+    <div class="row mb-4" *ngIf="resources">
+      <div class="col mb-1">
+        <h4>
+          <ng-container i18n>Medication Requests</ng-container>
+        </h4>
+      </div>
+
+      <div class="col-12">
+        <div class="row mb-3" *ngFor="let medicationRequest of medicationRequests">
+          <div class="col">
+            <b>{{ getMedicationName(medicationRequest) }}</b>
+            <ng-container *ngFor="let dosage of medicationRequest.dosageInstruction">
+              <br/>
+              <span class="text-hint">{{ getTimingStringDuration(dosage.timing.repeat) }}</span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col mb-1">
+        <h4>
+          <ng-container i18n>Blood Glucose Measurement</ng-container>
+        </h4>
+      </div>
+
+      <div class="col-12" *ngIf="resources">
+        <div class="row mb-3" *ngFor="let serviceRequest of serviceRequests">
+          <div class="col">
+            <b>{{ getServiceRequestDays(serviceRequest) }}</b>
+            <br />
+            <span class="text-hint">{{ getTimingStringDuration(serviceRequest.occurrenceTiming.repeat) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </nb-card-body>
   <nb-card-footer>
     <div class="row">

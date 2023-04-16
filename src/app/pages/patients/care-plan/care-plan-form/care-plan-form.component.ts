@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
-import { CarePlan, Medication, MedicationRequest, Patient, Resource, ServiceRequest, TimingRepeat } from "fhir/r4";
+import { CarePlan, Patient, Resource } from "fhir/r4";
 import { CarePlanService } from "../../../../@core/services/care-plan.service";
-import * as utils from "../../../../@core/services/utils/utils";
 import { FormStatus } from "../../../../@core/services/data/form-data";
 import { NbDialogService } from "@nebular/theme";
 import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
@@ -93,29 +92,6 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
         break;
     }
   }
-
-  get medicationRequests(): MedicationRequest[] {
-    return this.resources.filter(resource => resource.resourceType === "MedicationRequest") as MedicationRequest[];
-  }
-
-  get serviceRequests(): ServiceRequest[] {
-    return this.resources.filter(resource => resource.resourceType === "ServiceRequest") as ServiceRequest[];
-  }
-
-  getMedicationName(medicationRequest: MedicationRequest): string {
-    if (!medicationRequest.contained || medicationRequest.contained.length === 0) {
-      return '';
-    }
-
-    const medication = medicationRequest.contained[0] as Medication;
-    return medication.code.coding[0].display;
-  }
-
-  getTimingStringDuration = (repeat: TimingRepeat): string =>
-    utils.getTimingStringDuration(repeat);
-
-  getServiceRequestDays = (serviceRequest: ServiceRequest): string =>
-    utils.getServiceRequestDays(serviceRequest);
 
   disableButton = (): boolean => this.formStatus === FormStatus.loading || this.formStatus === FormStatus.success;
 
