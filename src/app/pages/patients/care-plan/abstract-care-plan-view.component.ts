@@ -7,6 +7,7 @@ import { flatMap, map } from "rxjs/internal/operators";
 import { forkJoin } from "rxjs";
 import { Location } from "@angular/common";
 import * as utils from "../../../@core/services/utils/utils";
+import { ResourceType } from "../../../@core/services/data/constants";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent {
@@ -45,11 +46,11 @@ export abstract class AbstractCarePlanViewComponent {
   }
 
   get medicationRequests(): MedicationRequest[] {
-    return this.resources.filter(resource => resource.resourceType === "MedicationRequest") as MedicationRequest[];
+    return this.resources.filter(resource => resource.resourceType === ResourceType.MedicationRequest) as MedicationRequest[];
   }
 
   get serviceRequests(): ServiceRequest[] {
-    return this.resources.filter(resource => resource.resourceType === "ServiceRequest") as ServiceRequest[];
+    return this.resources.filter(resource => resource.resourceType === ResourceType.ServiceRequest) as ServiceRequest[];
   }
 
   getTimingStringDuration = (repeat: TimingRepeat): string =>

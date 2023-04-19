@@ -1,6 +1,11 @@
-export const Resource = {
+export const ResourcePath = {
   PATIENT: "Patient/",
   MEDICATION: "Medication/"
+}
+
+export const ResourceType = {
+  MedicationRequest: 'MedicationRequest',
+  ServiceRequest: 'ServiceRequest'
 }
 
 export const Extensions = {
