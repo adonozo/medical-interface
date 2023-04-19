@@ -18,8 +18,15 @@
     </div>
 
     <div class="row mb-4" *ngIf="resources">
-      <div class="col mb-1">
-        <h4>
+      <div class="col-auto pr-0 mb-3 action">
+        <div class="icon-container">
+          <div class="icon status-info">
+            <i class="icon fas fa-pills"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col mb-3 d-flex">
+        <h4 class="align-self-center">
           <ng-container i18n>Medication Requests</ng-container>
         </h4>
       </div>
@@ -38,9 +45,16 @@
     </div>
 
     <div class="row">
-      <div class="col mb-1">
-        <h4>
-          <ng-container i18n>Blood Glucose Measurement</ng-container>
+      <div class="col-auto pr-0 mb-3 action">
+        <div class="icon-container">
+          <div class="icon status-warning">
+            <i class="icon fas fa-vial"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col mb-3 d-flex">
+        <h4 class="align-self-center">
+          <ng-container i18n>Blood Glucose Measurements</ng-container>
         </h4>
       </div>
 
