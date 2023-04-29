@@ -1,5 +1,14 @@
 import { Directive } from "@angular/core";
-import { CarePlan, Medication, MedicationRequest, Patient, Resource, ServiceRequest, TimingRepeat } from "fhir/r4";
+import {
+  CarePlan,
+  Dosage,
+  Medication,
+  MedicationRequest,
+  Patient,
+  Resource,
+  ServiceRequest,
+  TimingRepeat
+} from "fhir/r4";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { PatientsService } from "../../../@core/services/patients.service";
@@ -8,6 +17,13 @@ import { forkJoin } from "rxjs";
 import { Location } from "@angular/common";
 import * as utils from "../../../@core/services/utils/utils";
 import { ResourceType } from "../../../@core/services/data/constants";
+import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
+import {
+  dailyFrequencyString,
+  dayStringFromCode,
+  sortDayCodes,
+  timingToString
+} from "../../../@core/services/utils/utils";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent {
@@ -66,6 +82,40 @@ export abstract class AbstractCarePlanViewComponent {
 
     const medication = medicationRequest.contained[0] as Medication;
     return medication.code.coding[0].display;
+  }
+
+  getDoseText(dosage: Dosage): string {
+    if (!dosage.doseAndRate || dosage.doseAndRate.length === 0) {
+      return '';
+    }
+
+    const dosageQuantity = dosage.doseAndRate[0].doseQuantity;
+    return ResourceUtils.getDosageText(dosageQuantity);
+  }
+
+  getWhenToTakeText(timingRepeat: TimingRepeat): string {
+    if (timingRepeat.dayOfWeek && Array.isArray(timingRepeat.dayOfWeek)) {
+      return timingRepeat.dayOfWeek
+        .sort(sortDayCodes)
+        .map(day => dayStringFromCode(day))
+        .join(' - ');
+    }
+
+    return $localize`Every day`;
+  }
+
+  getFrequencyText(timingRepeat: TimingRepeat): string {
+    if (timingRepeat.when && Array.isArray(timingRepeat.when)) {
+      return timingRepeat.when
+        .map(whenCode => timingToString(whenCode))
+        .join(', ');
+    }
+
+    if (timingRepeat.timeOfDay && Array.isArray(timingRepeat.timeOfDay)) {
+      return timingRepeat.timeOfDay.join(', ');
+    }
+
+    return dailyFrequencyString(timingRepeat.frequency);
   }
 
   goBack(): void {

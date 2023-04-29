@@ -112,8 +112,30 @@ export const dayStringFromCode = (dayCode: DayCode): string => {
   }
 }
 
-const sortDayCodes = (a: DayCode, b: DayCode): number =>
+export const sortDayCodes = (a: DayCode, b: DayCode): number =>
   dayValue(a) < dayValue(b) ? -1 : 1
+
+export const dailyFrequencyString = (frequency: number): string => {
+  let frequencyText;
+  switch (frequency) {
+    case 1:
+      frequencyText = $localize`Once`
+      break;
+    case 2:
+      frequencyText = $localize`Twice`
+      break;
+    case 3:
+      frequencyText = $localize`Three times`
+      break;
+    case 4:
+      frequencyText = $localize`Four times`
+      break;
+    default:
+      frequencyText = frequency.toString() + ' times';
+  }
+
+  return frequencyText + ' a day';
+}
 
 const dayValue = (code: DayCode): number => {
   switch (code) {

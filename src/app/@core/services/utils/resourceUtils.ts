@@ -4,6 +4,7 @@ import {
   DomainResource,
   Medication,
   Patient,
+  Quantity,
   Reference
 } from "fhir/r4";
 import { Extensions, ResourcePath } from "../data/constants";
@@ -97,6 +98,12 @@ export class ResourceUtils {
         rank: index + 1
       };
     })
+  }
+
+  static getDosageText(dosageQuantity: Quantity): string {
+    const unitExtension = dosageQuantity.extension.find(extension => extension.url === Extensions.QUANTITY_UNIT_NAME);
+    const unitName = unitExtension ? unitExtension.valueString : '';
+    return dosageQuantity.value + ' ' + unitName;
   }
 
   static setStringExtension(resource: DomainResource, url: string, value: string): void {
