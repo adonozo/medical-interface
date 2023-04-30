@@ -85,13 +85,10 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
           [`${this.patientId}/care-plans/${this.carePlanId}/new-service-request`],
           {relativeTo: this.activatedRoute.parent})
         return;
-      case 'edit-service':
-        await this.router.navigate(
-          [`${this.patientId}/care-plans/${this.carePlanId}/service-request/${id}/edit`],
-          {relativeTo: this.activatedRoute.parent})
-        break;
     }
   }
+
+  makeEditRoute = (id: string): string => `${this.patientId}/care-plans/${this.carePlanId}/service-request/${id}/edit`;
 
   disableButton = (): boolean => this.formStatus === FormStatus.loading || this.formStatus === FormStatus.success;
 

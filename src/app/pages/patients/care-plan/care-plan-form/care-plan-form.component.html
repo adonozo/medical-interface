@@ -20,7 +20,7 @@
 
     <div class="row">
       <div class="col-12">
-        <hr />
+        <hr/>
       </div>
     </div>
 
@@ -82,20 +82,15 @@
       </div>
 
       <div class="col-12">
-        <div class="row mb-3" *ngFor="let serviceRequest of serviceRequests">
-          <div class="col-auto">
-            <button nbButton outline status="info" size="small" (click)="navigate('edit-service', serviceRequest.id)"
-                    [disabled]="disableButton()">
-              <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
-              <span i18n>Edit</span>
-            </button>
-          </div>
-          <div class="col">
-            <b>{{ serviceRequest.days }}</b>
-            <br />
-            <span class="text-hint">{{ serviceRequest.duration }}</span>
-          </div>
-        </div>
+        <ng-container *ngFor="let serviceRequest of serviceRequests">
+          <app-service-request-view
+            class="d-block mb-3"
+            [serviceRequestView]="serviceRequest"
+            [editButton]="true"
+            [disableEditButton]="disableButton()"
+            [editPageRoute]="makeEditRoute(serviceRequest.id)">
+          </app-service-request-view>
+        </ng-container>
       </div>
     </div>
   </nb-card-body>
