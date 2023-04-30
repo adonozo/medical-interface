@@ -58,26 +58,45 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-auto pr-0 mb-3 action">
-        <div class="icon-container">
-          <div class="icon status-warning">
-            <i class="icon fas fa-vial"></i>
-          </div>
-        </div>
-      </div>
+    <div class="row"  *ngIf="resources">
       <div class="col mb-3 d-flex">
         <h4 class="align-self-center">
           <ng-container i18n>Blood Glucose Measurements</ng-container>
         </h4>
       </div>
 
-      <div class="col-12" *ngIf="resources">
+      <div class="col-12">
         <div class="row mb-3" *ngFor="let serviceRequest of serviceRequests">
-          <div class="col">
-            <b>{{ getServiceRequestDays(serviceRequest) }}</b>
-            <br />
-            <span class="text-hint">{{ getTimingStringDuration(serviceRequest.occurrenceTiming.repeat) }}</span>
+          <div class="col-auto pr-0 mb-3 action">
+            <div class="icon-container">
+              <div class="icon status-warning">
+                <i class="icon fas fa-vial"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-2">
+            <div class="row">
+              <div class="col-auto">
+                <div class="row mb-1" *ngFor="let dayWhen of serviceRequest.dayWhen">
+                  <div class="col">
+                    <b>{{ dayStringFromCode(dayWhen.day) }}:</b>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row mb-1" *ngFor="let dayWhen of serviceRequest.dayWhen">
+                  <span>{{ whenArrayToString(dayWhen.when) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 mt-2">
+                <span>{{ serviceRequest.duration }}</span>
+              </div>
+              <div class="col-12 mt-2">
+                <i><span i18n>Note for patient:</span> {{ serviceRequest.patientInstruction }}</i>
+              </div>
+            </div>
           </div>
         </div>
       </div>

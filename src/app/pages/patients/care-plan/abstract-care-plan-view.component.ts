@@ -24,6 +24,8 @@ import {
   sortDayCodes,
   timingToString
 } from "../../../@core/services/utils/utils";
+import { DayCode } from "../../../@core/models/types";
+import { ServiceRequestView } from "../../../@core/models/service-request-view";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent {
@@ -33,6 +35,7 @@ export abstract class AbstractCarePlanViewComponent {
   resources: Resource[];
   patient: Patient;
   carePlan: CarePlan;
+  serviceRequests: ServiceRequestView[];
 
   protected constructor(
     protected location: Location,
@@ -56,6 +59,7 @@ export abstract class AbstractCarePlanViewComponent {
       })
     ).subscribe(({carePlan, patient, resources}) => {
       this.resources = resources.entry?.map(entry => entry.resource) ?? [];
+      this.serviceRequests = this.serviceRequestViewFromResources(this.resources);
       this.patient = patient;
       this.carePlan = carePlan;
     }, error => console.log(error));
@@ -65,15 +69,10 @@ export abstract class AbstractCarePlanViewComponent {
     return this.resources.filter(resource => resource.resourceType === ResourceType.MedicationRequest) as MedicationRequest[];
   }
 
-  get serviceRequests(): ServiceRequest[] {
-    return this.resources.filter(resource => resource.resourceType === ResourceType.ServiceRequest) as ServiceRequest[];
-  }
-
   getTimingStringDuration = (repeat: TimingRepeat): string =>
     utils.getTimingStringDuration(repeat);
 
-  getServiceRequestDays = (serviceRequest: ServiceRequest): string =>
-    utils.getServiceRequestDays(serviceRequest);
+  dayStringFromCode = (dayCode: DayCode): string => utils.dayStringFromCode(dayCode);
 
   getMedicationName(medicationRequest: MedicationRequest): string {
     if (!medicationRequest.contained || medicationRequest.contained.length === 0) {
@@ -98,7 +97,7 @@ export abstract class AbstractCarePlanViewComponent {
       return timingRepeat.dayOfWeek
         .sort(sortDayCodes)
         .map(day => dayStringFromCode(day))
-        .join(' - ');
+        .join(', ');
     }
 
     return $localize`Every day`;
@@ -106,9 +105,7 @@ export abstract class AbstractCarePlanViewComponent {
 
   getFrequencyText(timingRepeat: TimingRepeat): string {
     if (timingRepeat.when && Array.isArray(timingRepeat.when)) {
-      return timingRepeat.when
-        .map(whenCode => timingToString(whenCode))
-        .join(', ');
+      return this.whenArrayToString(timingRepeat.when);
     }
 
     if (timingRepeat.timeOfDay && Array.isArray(timingRepeat.timeOfDay)) {
@@ -118,7 +115,16 @@ export abstract class AbstractCarePlanViewComponent {
     return dailyFrequencyString(timingRepeat.frequency);
   }
 
+  whenArrayToString = (when: string[]): string => when
+    .map(whenCode => timingToString(whenCode))
+    .join(', ');
+
   goBack(): void {
     this.location.back();
+  }
+
+  private serviceRequestViewFromResources(resources: Resource[]): ServiceRequestView[] {
+    const serviceRequests = resources.filter(resource => resource.resourceType === ResourceType.ServiceRequest) as ServiceRequest[]
+    return serviceRequests.map(ResourceUtils.mapToServiceRequestView);
   }
 }

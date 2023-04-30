@@ -91,9 +91,9 @@
             </button>
           </div>
           <div class="col">
-            <b>{{ getServiceRequestDays(serviceRequest) }}</b>
+            <b>{{ serviceRequest.days }}</b>
             <br />
-            <span class="text-hint">{{ getTimingStringDuration(serviceRequest.occurrenceTiming.repeat) }}</span>
+            <span class="text-hint">{{ serviceRequest.duration }}</span>
           </div>
         </div>
       </div>
