@@ -42,11 +42,30 @@ export function getServiceRequestDays(serviceRequest: ServiceRequest): string {
     return '';
   }
 
-  return  serviceRequest.contained.map((request: ServiceRequest) => request.occurrenceTiming.repeat.dayOfWeek)
+  return serviceRequest.contained
+    .map((request: ServiceRequest) => request.occurrenceTiming.repeat.dayOfWeek)
     .flat()
     .sort(sortDayCodes)
     .map(dayStringFromCode)
     .join(', ');
+}
+
+export function getServiceRequestTimings(serviceRequest: ServiceRequest): { day: DayCode, when: string[] }[] {
+  if (!serviceRequest.contained || !isArray(serviceRequest.contained)) {
+    return [];
+  }
+
+  return serviceRequest.contained
+    .map((request: ServiceRequest) => {
+      const repeat = request.occurrenceTiming.repeat;
+      const dayMap = (day: DayCode) => {
+        return {day, when: repeat.when}
+      };
+
+      return repeat.dayOfWeek.map(dayMap)
+    })
+    .flat()
+    .sort((a, b) => sortDayCodes(a.day, b.day));
 }
 
 export const timingToString = (timing: string): string => {

@@ -30,7 +30,23 @@ export class ServiceRequestsService {
     return request;
   }
 
-  generateEmptyServiceRequest(): ServiceRequest {
+  createServiceRequests(carePlanId: string, request: ServiceRequest): Observable<void> {
+    return this.restApiService.post(`carePlans/${carePlanId}/${this.path}`, request);
+  }
+
+  getServiceRequest(id: string): Observable<ServiceRequest> {
+    return this.restApiService.get<ServiceRequest>(this.path + id);
+  }
+
+  updateServiceRequest(id: string, request: ServiceRequest): Observable<void> {
+    return this.restApiService.put(this.path + id, request);
+  }
+
+  deleteServiceRequest(carePlanId: string, serviceRequestId: string): Observable<void> {
+    return this.restApiService.delete(`carePlans/${carePlanId}/${this.path}${serviceRequestId}`);
+  }
+
+  private generateEmptyServiceRequest(): ServiceRequest {
     return {
       intent: "plan",
       resourceType: "ServiceRequest",
@@ -46,21 +62,5 @@ export class ServiceRequestsService {
       },
       subject: undefined
     };
-  }
-
-  createServiceRequests(carePlanId: string, request: ServiceRequest): Observable<void> {
-    return this.restApiService.post(`carePlans/${carePlanId}/${this.path}`, request);
-  }
-
-  getServiceRequest(id: string): Observable<ServiceRequest> {
-    return this.restApiService.get<ServiceRequest>(this.path + id);
-  }
-
-  updateServiceRequest(id: string, request: ServiceRequest): Observable<void> {
-    return this.restApiService.put(this.path + id, request);
-  }
-
-  deleteServiceRequest(carePlanId: string, serviceRequestId: string): Observable<void> {
-    return this.restApiService.delete(`carePlans/${carePlanId}/${this.path}${serviceRequestId}`);
   }
 }
