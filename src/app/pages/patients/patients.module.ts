@@ -39,6 +39,7 @@ import { ResourceActionsComponent } from '../../@core/components/table-component
 import { CarePlanDetailsComponent } from './components/care-plan-details/care-plan-details.component';
 import { CarePlanViewComponent } from './care-plan/care-plan-view/care-plan-view.component';
 import { ServiceRequestViewComponent } from './components/service-request-view/service-request-view.component';
+import { MedicationRequestViewComponent } from './components/medication-request-view/medication-request-view.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ServiceRequestViewComponent } from './components/service-request-view/s
     ResourceActionsComponent,
     CarePlanDetailsComponent,
     CarePlanViewComponent,
-    ServiceRequestViewComponent
+    ServiceRequestViewComponent,
+    MedicationRequestViewComponent
   ],
   imports: [
     CommonModule,
