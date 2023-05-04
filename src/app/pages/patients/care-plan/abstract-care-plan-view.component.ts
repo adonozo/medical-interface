@@ -26,6 +26,7 @@ import {
 } from "../../../@core/services/utils/utils";
 import { DayCode } from "../../../@core/models/types";
 import { ServiceRequestView } from "../../../@core/models/service-request-view";
+import { MedicationRequestView } from "../../../@core/models/medication-request-view";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent {
@@ -36,6 +37,7 @@ export abstract class AbstractCarePlanViewComponent {
   patient: Patient;
   carePlan: CarePlan;
   serviceRequests: ServiceRequestView[];
+  medicationRequests: MedicationRequestView[];
 
   protected constructor(
     protected location: Location,
@@ -60,13 +62,10 @@ export abstract class AbstractCarePlanViewComponent {
     ).subscribe(({carePlan, patient, resources}) => {
       this.resources = resources.entry?.map(entry => entry.resource) ?? [];
       this.serviceRequests = this.serviceRequestViewFromResources(this.resources);
+      this.medicationRequests = this.medicationRequestViewFromResources(this.resources);
       this.patient = patient;
       this.carePlan = carePlan;
     }, error => console.log(error));
-  }
-
-  get medicationRequests(): MedicationRequest[] {
-    return this.resources.filter(resource => resource.resourceType === ResourceType.MedicationRequest) as MedicationRequest[];
   }
 
   getTimingStringDuration = (repeat: TimingRepeat): string =>
@@ -124,7 +123,14 @@ export abstract class AbstractCarePlanViewComponent {
   }
 
   private serviceRequestViewFromResources(resources: Resource[]): ServiceRequestView[] {
-    const serviceRequests = resources.filter(resource => resource.resourceType === ResourceType.ServiceRequest) as ServiceRequest[]
+    const serviceRequests = resources
+      .filter(resource => resource.resourceType === ResourceType.ServiceRequest) as ServiceRequest[];
     return serviceRequests.map(ResourceUtils.mapToServiceRequestView);
+  }
+
+  private medicationRequestViewFromResources(resources: Resource[]): MedicationRequestView[] {
+    const medicationRequests = resources
+      .filter(resource => resource.resourceType === ResourceType.MedicationRequest) as MedicationRequest[]
+    return medicationRequests.map(ResourceUtils.mapToMedicationRequestView);
   }
 }

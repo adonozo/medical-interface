@@ -5,7 +5,8 @@ export const ResourcePath = {
 
 export const ResourceType = {
   MedicationRequest: 'MedicationRequest',
-  ServiceRequest: 'ServiceRequest'
+  ServiceRequest: 'ServiceRequest',
+  Medication: 'Medication'
 }
 
 export const Extensions = {

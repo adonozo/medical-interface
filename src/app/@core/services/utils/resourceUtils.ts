@@ -1,18 +1,20 @@
 import {
   Bundle,
   ContactPoint,
-  DomainResource,
-  Medication,
+  DomainResource, Dosage,
+  Medication, MedicationRequest,
   Patient,
   Quantity,
   Reference,
-  ServiceRequest
+  ServiceRequest, TimingRepeat
 } from "fhir/r4";
-import { Extensions, ResourcePath } from "../data/constants";
+import { Extensions, ResourcePath, ResourceType } from "../data/constants";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
 import { PaginatedResult } from "../../models/paginatedResult";
 import { ServiceRequestView } from "../../models/service-request-view";
 import * as utils from "./utils";
+import { MedicationRequestView } from "../../models/medication-request-view";
+import { dailyFrequencyString, dayStringFromCode, sortDayCodes, timingToString } from "./utils";
 
 export class ResourceUtils {
   static getPatientReference(patientId: string): string {
@@ -139,6 +141,80 @@ export class ResourceUtils {
     }
   }
 
+  static mapToServiceRequestView(serviceRequest: ServiceRequest): ServiceRequestView {
+    return {
+      id: serviceRequest.id,
+      patientInstruction: serviceRequest.patientInstruction,
+      duration: utils.getTimingStringDuration(serviceRequest.occurrenceTiming.repeat),
+      days: utils.getServiceRequestDays(serviceRequest),
+      dayWhen: utils.getServiceRequestTimings(serviceRequest)
+    };
+  }
+
+  static mapToMedicationRequestView(medicationRequest: MedicationRequest): MedicationRequestView {
+    const medication = ResourceUtils.getMedicationFromRequest(medicationRequest);
+    return {
+      id: medicationRequest.id,
+      medicationName: medication?.code.coding[0].display ?? '',
+      dosage: medicationRequest.dosageInstruction.map(dosageInstruction => {
+        return {
+          dosage: ResourceUtils.getDoseText(dosageInstruction),
+          medicationNote: medicationRequest.note[0].text,
+          duration: utils.getTimingStringDuration(dosageInstruction.timing.repeat),
+          when: ResourceUtils.getWhenToTakeText(dosageInstruction.timing.repeat),
+          frequency: ResourceUtils.getFrequencyText(dosageInstruction.timing.repeat),
+        }
+      })
+    };
+  }
+
+  private static getMedicationFromRequest(medicationRequest: MedicationRequest): Medication {
+    if (!medicationRequest.contained
+      || medicationRequest.contained.length === 0
+      || medicationRequest.contained[0].resourceType !== ResourceType.Medication
+    ) {
+      return undefined;
+    }
+
+    return medicationRequest.contained[0] as Medication;
+  }
+
+  private static getDoseText(dosage: Dosage): string {
+    if (!dosage.doseAndRate || dosage.doseAndRate.length === 0) {
+      return '';
+    }
+
+    const dosageQuantity = dosage.doseAndRate[0].doseQuantity;
+    return ResourceUtils.getDosageText(dosageQuantity);
+  }
+
+  private static getWhenToTakeText(timingRepeat: TimingRepeat): string {
+    if (timingRepeat.dayOfWeek && Array.isArray(timingRepeat.dayOfWeek)) {
+      return timingRepeat.dayOfWeek
+        .sort(sortDayCodes)
+        .map(day => dayStringFromCode(day))
+        .join(', ');
+    }
+
+    return $localize`Every day`;
+  }
+
+  private static getFrequencyText(timingRepeat: TimingRepeat): string {
+    if (timingRepeat.when && Array.isArray(timingRepeat.when)) {
+      return this.whenArrayToString(timingRepeat.when);
+    }
+
+    if (timingRepeat.timeOfDay && Array.isArray(timingRepeat.timeOfDay)) {
+      return timingRepeat.timeOfDay.join(', ');
+    }
+
+    return dailyFrequencyString(timingRepeat.frequency);
+  }
+
+  private static whenArrayToString = (when: string[]): string => when
+    .map(whenCode => timingToString(whenCode))
+    .join(', ');
+
   private static setExtension(
     resource: DomainResource,
     url: string,
@@ -172,15 +248,5 @@ export class ResourceUtils {
     }
 
     resource.extension.push(extensionEntry);
-  }
-
-  static mapToServiceRequestView(serviceRequest: ServiceRequest): ServiceRequestView {
-    return {
-      id: serviceRequest.id,
-      patientInstruction: serviceRequest.patientInstruction,
-      duration: utils.getTimingStringDuration(serviceRequest.occurrenceTiming.repeat),
-      days: utils.getServiceRequestDays(serviceRequest),
-      dayWhen: utils.getServiceRequestTimings(serviceRequest)
-    }
   }
 }
