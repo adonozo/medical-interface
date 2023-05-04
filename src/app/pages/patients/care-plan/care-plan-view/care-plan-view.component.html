@@ -25,37 +25,13 @@
       </div>
 
       <div class="col-12">
-        <div class="row mb-3" *ngFor="let medicationRequest of medicationRequests">
-          <div class="col-auto pr-0 action">
-            <div class="icon-container">
-              <div class="icon status-info">
-                <i class="icon fas fa-pills"></i>
-              </div>
-            </div>
-          </div>
-          <div class="col mb-2">
-            <div class="row">
-              <div class="col-12">
-                <b>{{ getMedicationName(medicationRequest) }}</b>
-              </div>
-              <ng-container *ngFor="let dosage of medicationRequest.dosageInstruction">
-                <div class="col-12">
-                  <span>{{ getDoseText(dosage) }}</span>
-                </div>
-                <div class="col-12">
-                  <span>{{ getWhenToTakeText(dosage.timing.repeat) }}</span> -
-                  <span>{{ getFrequencyText(dosage.timing.repeat) }}</span>
-                </div>
-                <div class="col-12">
-                  <span class="text-hint">{{ getTimingStringDuration(dosage.timing.repeat) }}</span>
-                </div>
-                <div class="col-12 mt-2">
-                  <i><span i18n>Note for patient:</span> {{ medicationRequest.note[0].text }}</i>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-        </div>
+        <ng-container *ngFor="let medicationRequest of medicationRequests">
+          <app-medication-request-view
+            class="d-block mb-3"
+            [medicationRequestView]="medicationRequest"
+            [editButton]="false">
+          </app-medication-request-view>
+        </ng-container>
       </div>
     </div>
 
@@ -71,8 +47,7 @@
           <app-service-request-view
             class="d-block mb-3"
             [serviceRequestView]="serviceRequest"
-            [editButton]="false"
-          >
+            [editButton]="false">
           </app-service-request-view>
         </ng-container>
       </div>

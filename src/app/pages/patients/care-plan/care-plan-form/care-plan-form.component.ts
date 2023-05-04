@@ -68,16 +68,11 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
     });
   }
 
-  async navigate(page: string, id?: string): Promise<void> {
+  async navigate(page: string): Promise<void> {
     switch (page) {
       case 'new-medication':
         await this.router.navigate(
           [`${this.patientId}/care-plans/${this.carePlanId}/new-medication-request`],
-          {relativeTo: this.activatedRoute.parent})
-        break;
-      case 'edit-medication':
-        await this.router.navigate(
-          [`${this.patientId}/care-plans/${this.carePlanId}/medication-request/${id}/edit`],
           {relativeTo: this.activatedRoute.parent})
         break;
       case 'new-service':
@@ -88,7 +83,11 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
     }
   }
 
-  makeEditRoute = (id: string): string => `${this.patientId}/care-plans/${this.carePlanId}/service-request/${id}/edit`;
+  makeServiceRequestEditRoute = (id: string): string =>
+    `${this.patientId}/care-plans/${this.carePlanId}/service-request/${id}/edit`;
+
+  makeMedicationRequestEditRoute = (id: string): string =>
+    `${this.patientId}/care-plans/${this.carePlanId}/medication-request/${id}/edit`;
 
   disableButton = (): boolean => this.formStatus === FormStatus.loading || this.formStatus === FormStatus.success;
 

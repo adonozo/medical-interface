@@ -1,13 +1,10 @@
 import { Directive } from "@angular/core";
 import {
   CarePlan,
-  Dosage,
-  Medication,
   MedicationRequest,
   Patient,
   Resource,
-  ServiceRequest,
-  TimingRepeat
+  ServiceRequest
 } from "fhir/r4";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
@@ -15,16 +12,8 @@ import { PatientsService } from "../../../@core/services/patients.service";
 import { flatMap, map } from "rxjs/internal/operators";
 import { forkJoin } from "rxjs";
 import { Location } from "@angular/common";
-import * as utils from "../../../@core/services/utils/utils";
 import { ResourceType } from "../../../@core/services/data/constants";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
-import {
-  dailyFrequencyString,
-  dayStringFromCode,
-  sortDayCodes,
-  timingToString
-} from "../../../@core/services/utils/utils";
-import { DayCode } from "../../../@core/models/types";
 import { ServiceRequestView } from "../../../@core/models/service-request-view";
 import { MedicationRequestView } from "../../../@core/models/medication-request-view";
 
@@ -67,56 +56,6 @@ export abstract class AbstractCarePlanViewComponent {
       this.carePlan = carePlan;
     }, error => console.log(error));
   }
-
-  getTimingStringDuration = (repeat: TimingRepeat): string =>
-    utils.getTimingStringDuration(repeat);
-
-  dayStringFromCode = (dayCode: DayCode): string => utils.dayStringFromCode(dayCode);
-
-  getMedicationName(medicationRequest: MedicationRequest): string {
-    if (!medicationRequest.contained || medicationRequest.contained.length === 0) {
-      return '';
-    }
-
-    const medication = medicationRequest.contained[0] as Medication;
-    return medication.code.coding[0].display;
-  }
-
-  getDoseText(dosage: Dosage): string {
-    if (!dosage.doseAndRate || dosage.doseAndRate.length === 0) {
-      return '';
-    }
-
-    const dosageQuantity = dosage.doseAndRate[0].doseQuantity;
-    return ResourceUtils.getDosageText(dosageQuantity);
-  }
-
-  getWhenToTakeText(timingRepeat: TimingRepeat): string {
-    if (timingRepeat.dayOfWeek && Array.isArray(timingRepeat.dayOfWeek)) {
-      return timingRepeat.dayOfWeek
-        .sort(sortDayCodes)
-        .map(day => dayStringFromCode(day))
-        .join(', ');
-    }
-
-    return $localize`Every day`;
-  }
-
-  getFrequencyText(timingRepeat: TimingRepeat): string {
-    if (timingRepeat.when && Array.isArray(timingRepeat.when)) {
-      return this.whenArrayToString(timingRepeat.when);
-    }
-
-    if (timingRepeat.timeOfDay && Array.isArray(timingRepeat.timeOfDay)) {
-      return timingRepeat.timeOfDay.join(', ');
-    }
-
-    return dailyFrequencyString(timingRepeat.frequency);
-  }
-
-  whenArrayToString = (when: string[]): string => when
-    .map(whenCode => timingToString(whenCode))
-    .join(', ');
 
   goBack(): void {
     this.location.back();

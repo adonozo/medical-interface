@@ -1,8 +1,62 @@
 <ng-container *ngIf="editButton; else editMedicationRequest">
   <div class="row">
+    <div class="col-auto">
+      <button nbButton outline status="info" size="small" [disabled]="disableEditButton"
+              (click)="navigateToEdit()">
+        <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+        <span i18n>Edit</span>
+      </button>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col-12">
+          <b>{{ medicationRequestView.medicationName }}</b>
+        </div>
+        <ng-container *ngFor="let dosage of medicationRequestView.dosage">
+          <div class="col-12">
+            <span>{{ dosage.dosage }}</span>
+          </div>
+          <div class="col-12">
+            <span class="text-hint">{{ dosage.duration }}</span>
+          </div>
+          <div class="col-12">
+            <i class="text-hint"><span i18n>Note:</span> {{ dosage.medicationNote }}</i>
+          </div>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </ng-container>
 <ng-template #editMedicationRequest>
   <div class="row">
+    <div class="col-auto pr-0 action">
+      <div class="icon-container">
+        <div class="icon status-info">
+          <i class="icon fas fa-pills"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col mb-2">
+      <div class="row">
+        <div class="col-12">
+          <b>{{ medicationRequestView.medicationName }}</b>
+        </div>
+        <ng-container *ngFor="let dosage of medicationRequestView.dosage">
+          <div class="col-12">
+            <span>{{ dosage.dosage }}</span>
+          </div>
+          <div class="col-12">
+            <span>{{ dosage.when }}</span> -
+            <span>{{ dosage.frequency }}</span>
+          </div>
+          <div class="col-12">
+            <span class="text-hint">{{ dosage.duration }}</span>
+          </div>
+          <div class="col-12 mt-2">
+            <i><span i18n>Note for patient:</span> {{ dosage.medicationNote }}</i>
+          </div>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </ng-template>

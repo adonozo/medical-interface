@@ -38,33 +38,15 @@
       </div>
 
       <div class="col-12">
-        <div class="row mb-3" *ngFor="let medicationRequest of medicationRequests">
-          <div class="col-auto">
-            <button nbButton outline status="info" size="small" [disabled]="disableButton()"
-                    (click)="navigate('edit-medication', medicationRequest.id)">
-              <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
-              <span i18n>Edit</span>
-            </button>
-          </div>
-          <div class="col">
-            <div class="row">
-              <div class="col-12">
-                <b>{{ getMedicationName(medicationRequest) }}</b>
-              </div>
-              <ng-container *ngFor="let dosage of medicationRequest.dosageInstruction">
-                <div class="col-12">
-                  <span>{{ getDoseText(dosage) }}</span>
-                </div>
-                <div class="col-12">
-                  <span class="text-hint">{{ getTimingStringDuration(dosage.timing.repeat) }}</span>
-                </div>
-                <div class="col-12">
-                  <i class="text-hint"><span i18n>Note:</span> {{ medicationRequest.note[0].text }}</i>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-        </div>
+        <ng-container *ngFor="let medicationRequest of medicationRequests">
+          <app-medication-request-view
+            class="d-block mb-3"
+            [medicationRequestView]="medicationRequest"
+            [disableEditButton]="disableButton()"
+            [editButton]="true"
+            [editPageRoute]="makeMedicationRequestEditRoute(medicationRequest.id)">
+          </app-medication-request-view>
+        </ng-container>
       </div>
     </div>
 
@@ -88,7 +70,7 @@
             [serviceRequestView]="serviceRequest"
             [editButton]="true"
             [disableEditButton]="disableButton()"
-            [editPageRoute]="makeEditRoute(serviceRequest.id)">
+            [editPageRoute]="makeServiceRequestEditRoute(serviceRequest.id)">
           </app-service-request-view>
         </ng-container>
       </div>
