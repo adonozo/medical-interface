@@ -61,9 +61,9 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
 
-    const request = this.serviceRequestService.getBaseServiceRequest(this.patient);
+    let request = this.serviceRequestService.getBaseServiceRequest(this.patient);
+    request = this.setInstructions(request);
     request.occurrenceTiming = baseTiming;
-    request.patientInstruction = this.instructionsControl.value;
     request.contained = containedRequests;
 
     this.saveMethod(request)
@@ -94,6 +94,14 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   private makeServiceRequest(timing: Timing): ServiceRequest {
     const request = this.serviceRequestService.getBaseServiceRequest(this.patient);
     request.occurrenceTiming = timing;
+    return request;
+  }
+
+  private setInstructions(request: ServiceRequest): ServiceRequest {
+    if (this.instructionsControl.value && this.instructionsControl.value.length > 0){
+      request.patientInstruction = this.instructionsControl.value;
+    }
+
     return request;
   }
 }

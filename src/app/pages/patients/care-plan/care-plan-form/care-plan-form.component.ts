@@ -22,6 +22,7 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
   patient: Patient;
   carePlan: CarePlan;
   formStatus: FormStatus = FormStatus.default;
+  readonly formStatusType = FormStatus;
 
   constructor(
     protected location: Location,

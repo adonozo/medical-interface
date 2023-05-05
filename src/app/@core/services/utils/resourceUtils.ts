@@ -144,7 +144,7 @@ export class ResourceUtils {
   static mapToServiceRequestView(serviceRequest: ServiceRequest): ServiceRequestView {
     return {
       id: serviceRequest.id,
-      patientInstruction: serviceRequest.patientInstruction,
+      patientInstruction: serviceRequest.patientInstruction ?? '',
       duration: utils.getTimingStringDuration(serviceRequest.occurrenceTiming.repeat),
       days: utils.getServiceRequestDays(serviceRequest),
       dayWhen: utils.getServiceRequestTimings(serviceRequest)
@@ -159,7 +159,7 @@ export class ResourceUtils {
       dosage: medicationRequest.dosageInstruction.map(dosageInstruction => {
         return {
           dosage: ResourceUtils.getDoseText(dosageInstruction),
-          medicationNote: medicationRequest.note[0].text,
+          medicationNote: ResourceUtils.getMedicationNote(medicationRequest),
           duration: utils.getTimingStringDuration(dosageInstruction.timing.repeat),
           when: ResourceUtils.getWhenToTakeText(dosageInstruction.timing.repeat),
           frequency: ResourceUtils.getFrequencyText(dosageInstruction.timing.repeat),
@@ -214,6 +214,14 @@ export class ResourceUtils {
   private static whenArrayToString = (when: string[]): string => when
     .map(whenCode => timingToString(whenCode))
     .join(', ');
+
+  private static getMedicationNote(medicationRequest: MedicationRequest): string {
+    if (!medicationRequest.note || medicationRequest.note.length === 0) {
+      return '';
+    }
+
+    return medicationRequest.note[0].text;
+  }
 
   private static setExtension(
     resource: DomainResource,

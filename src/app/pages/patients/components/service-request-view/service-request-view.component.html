@@ -7,9 +7,17 @@
       </button>
     </div>
     <div class="col">
-      <b>{{ serviceRequestView.days }}</b>
-      <br/>
-      <span class="text-hint">{{ serviceRequestView.duration }}</span>
+      <div class="row">
+        <div class="col-12">
+          <b>{{ serviceRequestView.days }}</b>
+        </div>
+        <div class="col-12">
+          <span class="text-hint">{{ serviceRequestView.duration }}</span>
+        </div>
+        <div class="col-12 mt-2" *ngIf="serviceRequestView.patientInstruction.length > 0">
+          <i class="text-hint"><span i18n>Note for patient: </span> {{ serviceRequestView.patientInstruction }}</i>
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>
@@ -41,7 +49,7 @@
         <div class="col-12 mt-2">
           <span>{{ serviceRequestView.duration }}</span>
         </div>
-        <div class="col-12 mt-2">
+        <div class="col-12 mt-2" *ngIf="serviceRequestView.patientInstruction.length > 0">
           <i><span i18n>Note for patient:</span> {{ serviceRequestView.patientInstruction }}</i>
         </div>
       </div>

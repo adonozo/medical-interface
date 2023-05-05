@@ -131,7 +131,9 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
   }
 
   private getRequestFromForm(): MedicationRequest {
-    const request = this.medicationRequestService.getEmptyMedicationRequest();
+    let request = this.medicationRequestService.getEmptyMedicationRequest();
+    request = this.setInstructions(request);
+
     const medication = this.medicationControl.value;
     request.contained = [medication];
     request.medicationReference = {
@@ -146,7 +148,6 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
       reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
       display: 'Dr. Steven'
     }
-    request.note = [{text: this.instructionsControl.value}]
     request.dosageInstruction = [this.getDoseInstruction()];
     return request;
   }
@@ -197,5 +198,13 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
         }
       }
     ]
+  }
+
+  private setInstructions(request: MedicationRequest): MedicationRequest {
+    if (this.instructionsControl.value && this.instructionsControl.value.length > 0) {
+      request.note = [{text: this.instructionsControl.value}]
+    }
+
+    return request;
   }
 }

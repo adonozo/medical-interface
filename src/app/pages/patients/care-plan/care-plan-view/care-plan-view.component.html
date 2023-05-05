@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="row my-4" *ngIf="resources">
+    <div class="row my-4" *ngIf="resources && medicationRequests.length > 0">
       <div class="col mb-3 d-flex">
         <h4 class="align-self-center">
           <ng-container i18n>Medication Requests</ng-container>
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="resources">
+    <div class="row" *ngIf="resources && serviceRequests.length > 0">
       <div class="col mb-3 d-flex">
         <h4 class="align-self-center">
           <ng-container i18n>Blood Glucose Measurements</ng-container>

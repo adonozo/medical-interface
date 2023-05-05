@@ -19,8 +19,8 @@
           <div class="col-12">
             <span class="text-hint">{{ dosage.duration }}</span>
           </div>
-          <div class="col-12">
-            <i class="text-hint"><span i18n>Note:</span> {{ dosage.medicationNote }}</i>
+          <div class="col-12" *ngIf="dosage.medicationNote.length > 0">
+            <i class="text-hint"><span i18n>Note: </span> {{ dosage.medicationNote }}</i>
           </div>
         </ng-container>
       </div>
@@ -52,7 +52,7 @@
           <div class="col-12">
             <span class="text-hint">{{ dosage.duration }}</span>
           </div>
-          <div class="col-12 mt-2">
+          <div class="col-12 mt-2" *ngIf="dosage.medicationNote.length > 0">
             <i><span i18n>Note for patient:</span> {{ dosage.medicationNote }}</i>
           </div>
         </ng-container>
