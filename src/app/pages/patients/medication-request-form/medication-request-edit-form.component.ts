@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { MedicationRequestFormComponent } from "./medication-request-form.component";
+import { AbstractMedicationRequestFormComponent } from "./abstract-medication-request-form.component";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
@@ -17,7 +17,7 @@ import { Observable } from "rxjs";
   templateUrl: './medication-request-form.component.html',
   styleUrls: ['./medication-request-form.component.scss']
 })
-export class MedicationRequestEditFormComponent extends MedicationRequestFormComponent implements OnInit {
+export class MedicationRequestEditFormComponent extends AbstractMedicationRequestFormComponent implements OnInit {
   private medicationRequestId: string;
   private medicationRequest: MedicationRequest;
 

@@ -1,4 +1,4 @@
-import { ServiceRequestFormComponent } from "./service-request-form.component";
+import { AbstractServiceRequestFormComponent } from "./abstract-service-request-form.component";
 import { Component, OnInit } from "@angular/core";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
@@ -15,7 +15,7 @@ import { Observable } from "rxjs";
   templateUrl: './service-request-form.component.html',
   styleUrls: ['./service-request-form.component.scss']
 })
-export class ServiceRequestEditFormComponent extends ServiceRequestFormComponent implements OnInit {
+export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormComponent implements OnInit {
   private serviceRequestId: string;
   private serviceRequest: ServiceRequest;
 

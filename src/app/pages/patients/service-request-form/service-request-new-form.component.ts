@@ -1,4 +1,4 @@
-import { ServiceRequestFormComponent } from "./service-request-form.component";
+import { AbstractServiceRequestFormComponent } from "./abstract-service-request-form.component";
 import { Component } from "@angular/core";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
@@ -13,7 +13,7 @@ import { Observable } from "rxjs";
   templateUrl: './service-request-form.component.html',
   styleUrls: ['./service-request-form.component.scss']
 })
-export class ServiceRequestNewFormComponent extends ServiceRequestFormComponent {
+export class ServiceRequestNewFormComponent extends AbstractServiceRequestFormComponent {
 
   constructor(
     protected patientService: PatientsService,

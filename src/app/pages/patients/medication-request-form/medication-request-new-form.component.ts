@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MedicationRequestFormComponent } from "./medication-request-form.component";
+import { AbstractMedicationRequestFormComponent } from "./abstract-medication-request-form.component";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
@@ -14,7 +14,7 @@ import { MedicationRequest } from "fhir/r4";
   templateUrl: './medication-request-form.component.html',
   styleUrls: ['./medication-request-form.component.scss']
 })
-export class MedicationRequestNewFormComponent extends MedicationRequestFormComponent {
+export class MedicationRequestNewFormComponent extends AbstractMedicationRequestFormComponent {
   constructor(
     protected patientService: PatientsService,
     protected medicationService: MedicationsService,

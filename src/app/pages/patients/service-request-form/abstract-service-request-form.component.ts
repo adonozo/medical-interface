@@ -14,7 +14,7 @@ import { DurationFormComponent } from "../components/duration-form/duration-form
 import { WeekTimingFormComponent } from "../components/week-timing-form/week-timing-form.component";
 
 @Directive()
-export abstract class ServiceRequestFormComponent extends FormComponent {
+export abstract class AbstractServiceRequestFormComponent extends FormComponent {
   protected carePlanId: string;
   patient: Patient;
   serviceForm: FormGroup;

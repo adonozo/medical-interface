@@ -17,7 +17,7 @@ import { DailyFrequencyFormComponent } from "../components/daily-frequency-form/
 import { FrequencyFormComponent } from "../components/frequency-form/frequency-form.component";
 
 @Directive()
-export abstract class MedicationRequestFormComponent extends FormComponent {
+export abstract class AbstractMedicationRequestFormComponent extends FormComponent {
   private readonly defaultLimit = 20;
   protected carePlanId: string;
   editMode: boolean = false;
