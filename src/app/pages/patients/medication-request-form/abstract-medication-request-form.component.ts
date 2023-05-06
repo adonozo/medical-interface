@@ -106,7 +106,8 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
     const request = this.getRequestFromForm();
     this.formStatus = FormStatus.loading;
     this.saveMethod(request)
-      .subscribe(_ => this.formStatus = FormStatus.success,
+      .subscribe(
+        _ => this.formStatus = FormStatus.success,
         error => {
           console.log(error);
           this.formStatus = FormStatus.error
