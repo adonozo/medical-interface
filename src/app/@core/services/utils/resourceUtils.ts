@@ -168,6 +168,14 @@ export class ResourceUtils {
     };
   }
 
+  static getMedicationNote(medicationRequest: MedicationRequest): string {
+    if (!medicationRequest.note || medicationRequest.note.length === 0) {
+      return '';
+    }
+
+    return medicationRequest.note[0].text;
+  }
+
   private static getMedicationFromRequest(medicationRequest: MedicationRequest): Medication {
     if (!medicationRequest.contained
       || medicationRequest.contained.length === 0
@@ -214,14 +222,6 @@ export class ResourceUtils {
   private static whenArrayToString = (when: string[]): string => when
     .map(whenCode => timingToString(whenCode))
     .join(', ');
-
-  private static getMedicationNote(medicationRequest: MedicationRequest): string {
-    if (!medicationRequest.note || medicationRequest.note.length === 0) {
-      return '';
-    }
-
-    return medicationRequest.note[0].text;
-  }
 
   private static setExtension(
     resource: DomainResource,

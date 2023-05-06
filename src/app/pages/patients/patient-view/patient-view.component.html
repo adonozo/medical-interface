@@ -3,7 +3,6 @@
     <nb-card>
       <nb-card-header>
         <h2>
-          <i class="fa fa-notes-medical mr-2"></i>
           <ng-container i18n>Health Records for</ng-container>
           {{patient.firstName}} {{patient.lastName}}
         </h2>
@@ -39,7 +38,7 @@
           </div>
           <div class="col-11 offset-1 col-sm-10 offset-sm-0 mt-3">
             <ng-container *ngFor="let contact of patient.phones">
-              {{contact.value}} - {{contact.use | titlecase}} <br />
+              {{contact.value}} - {{contact.use | titlecase}} <br/>
             </ng-container>
           </div>
         </div>

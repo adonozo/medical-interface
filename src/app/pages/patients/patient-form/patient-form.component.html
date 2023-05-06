@@ -123,24 +123,15 @@
               <span class="text-danger" i18n>Please fill out all fields</span>
             </div>
           </div>
-          <div class="mt-4 form-group row">
-            <div class="col-6 text-left">
-              <button type="button" nbButton status="basic" (click)="goBack()">
-                <ng-container i18n>Cancel</ng-container>
-              </button>
-            </div>
-            <div class="col-6 text-right">
-              <button type="submit" nbButton status="success"
-                      [disabled]="patientForm.invalid || formStatus == formStatusType.loading">
-                <ng-container i18n>Save</ng-container>
-              </button>
-            </div>
-            <div class="col-12 mt-3 text-center" *ngIf="formStatus === formStatusType.error">
-              <nb-alert accent="danger">
-                <span i18n>There was a problem saving the record</span>
-              </nb-alert>
-            </div>
-          </div>
+
+          <app-form-actions
+            class="d-block mt-4"
+            [form]="patientForm"
+            [formStatus]="formStatus"
+            (submit)="submitForm()"
+            (goBack)="goBack()"
+          >
+          </app-form-actions>
         </form>
       </nb-card-body>
     </nb-card>

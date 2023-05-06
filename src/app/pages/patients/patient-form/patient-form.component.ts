@@ -27,21 +27,21 @@ export class PatientFormComponent extends FormComponent {
     private location: Location,
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     super();
-    this.route.params.pipe(
-      flatMap(params => {
-        if (params['patientId']) {
-          this.patientId = params['patientId'];
-          this.isEditForm = true;
-          return patientsFormService.getPatientForm(params['patientId']);
-        }
+    this.route.params
+      .pipe(
+        flatMap(params => {
+          if (params['patientId']) {
+            this.patientId = params['patientId'];
+            this.isEditForm = true;
+            return patientsFormService.getPatientForm(params['patientId']);
+          }
 
-        return patientsFormService.getDefaultForm();
-      })
-    ).subscribe(form => this.patientForm = form);
+          return patientsFormService.getDefaultForm();
+        }))
+      .subscribe(form => this.patientForm = form);
   }
 
   get firstNameControl(): FormControl {
@@ -100,11 +100,7 @@ export class PatientFormComponent extends FormComponent {
     const method = this.isEditForm ? this.patientsService.patchPatient(internalPatient)
       : this.patientsService.createPatient(patient);
     method.subscribe(
-      async patient => {
-        await this.router.navigate(
-          [patient.id ?? internalPatient.id + '/view'],
-          {relativeTo: this.activatedRoute.parent});
-      },
+      _ => this.formStatus = FormStatus.success,
       error => {
         this.formStatus = FormStatus.error;
         console.log(error);

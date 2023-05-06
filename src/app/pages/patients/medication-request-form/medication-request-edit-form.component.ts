@@ -72,7 +72,7 @@ export class MedicationRequestEditFormComponent extends AbstractMedicationReques
     this.medicationIdControl.setValue(medication.id);
     this.doseQuantityControl.setValue(this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.value);
     this.doseUnitControl.setValue(this.findRequestQuantity());
-    this.instructionsControl.setValue(this.medicationRequest.note[0]?.text);
+    this.instructionsControl.setValue(ResourceUtils.getMedicationNote(this.medicationRequest));
 
     const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
     this.dailyFrequencyForm.populateDailyFrequency(repeat);
@@ -81,8 +81,8 @@ export class MedicationRequestEditFormComponent extends AbstractMedicationReques
   }
 
   private findRequestQuantity(): Quantity {
-    return this.quantities.find(
-      quantity => quantity.unit === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.unit
-      && quantity.code === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.code);
+    return this.quantities
+      .find(quantity => quantity.unit === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.unit
+        && quantity.code === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.code);
   }
 }
