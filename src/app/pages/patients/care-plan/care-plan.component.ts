@@ -9,6 +9,7 @@ import { ResourceActionsComponent } from "../../../@core/components/table-compon
 import { TableActions } from "../../../@core/components/table-components/resource-actions/table-actions";
 import { TableActionsService } from "../../../@core/components/table-components/resource-actions/table-actions.service";
 import { Subscription } from "rxjs";
+import { dateToString, getDateFromString } from "../../../@core/services/utils/utils";
 
 @Component({
   selector: 'app-care-plan',
@@ -97,10 +98,11 @@ export class CarePlanComponent implements AfterViewInit, OnDestroy {
       .subscribe(carePlans => {
         this.paginatedCarePlans = carePlans;
         this.source = new LocalDataSource(carePlans.results.map(carePlan => {
+          const createdDate = getDateFromString(carePlan.created);
           return {
             id: carePlan.id,
             status: carePlan.status,
-            created: carePlan.created,
+            created: dateToString(createdDate),
             resourceAction: carePlan.status === "draft" ? TableActions.Edit : TableActions.View
           }
         }));

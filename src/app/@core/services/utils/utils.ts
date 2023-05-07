@@ -6,8 +6,7 @@ import { DayCode } from "../../models/types";
 export function getDateOrDefault(stringDate: string): Date {
   try {
     return new Date(stringDate);
-  }
-  catch (Exception) {
+  } catch (exception) {
     return new Date();
   }
 }
@@ -18,6 +17,20 @@ export function getDefaultDateFrom(time: string): Date {
   currentDate.setHours(+hour, +minutes);
   return currentDate;
 }
+
+export function getDateFromString(stringDate: string): Date | undefined {
+  try {
+    return new Date(stringDate);
+  } catch (exception) {
+    return undefined;
+  }
+}
+
+export const dateToString = (date: Date | undefined): string =>
+  date == undefined ? '' : date.toLocaleString(AppLocale.localeTime, {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
 
 export const selectedFilter = (daySelected: { day: boolean }): any[] =>
   Object.entries(daySelected)

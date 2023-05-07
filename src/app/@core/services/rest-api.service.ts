@@ -30,7 +30,7 @@ export class RestApiService {
     return this.http.get<Bundle>(this.baseUrl + resource, {
       params: {
         limit: limit,
-        after: lastCursor,
+        after: lastCursor ?? '',
         ...params
       },
       observe: 'response'

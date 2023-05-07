@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { ObservationsService } from "../../../@core/services/observations.service";
 import { NbDialogService, NbThemeService } from "@nebular/theme";
 import { LocalDataSource, Ng2SmartTableComponent } from "ng2-smart-table";
-import { timingToString } from "../../../@core/services/utils/utils";
+import { dateToString, getDateFromString, timingToString } from "../../../@core/services/utils/utils";
 import { Observation } from "fhir/r4";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
@@ -103,9 +103,9 @@ export class GlucoseLevelsComponent implements AfterViewInit {
         this.source = new LocalDataSource(paginatedObservations.results.map(observation => {
           const data: any = observation;
           const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
-          const date = new Date(observation.issued).toLocaleString(GlucoseLevelsLocale.localeTime);
+          const date = getDateFromString(observation.issued);
           data.level = `${observation.valueQuantity.value} ${observation.valueQuantity.unit}`;
-          data.date = date.substring(0, date.length - 3);
+          data.date = dateToString(date);
           data.time = time === 'EXACT' ? '-' : time;
           return data;
         }))
