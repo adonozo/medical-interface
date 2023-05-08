@@ -1,8 +1,10 @@
 import { Dosage, Medication, MedicationRequest, Quantity, TimingRepeat } from "fhir/r4";
-import { Extensions, ResourceType } from "../data/constants";
+import { Extensions, ResourcePath, ResourceType } from "../data/constants";
 import { MedicationRequestView } from "../../models/medication-request-view";
 import * as utils from "./utils";
 import { dailyFrequencyString, dayStringFromCode, sortDayCodes } from "./utils";
+
+export const getMedicationReference = (medication: Medication): string => ResourcePath.MEDICATION + medication.id;
 
 export function mapToMedicationRequestView(medicationRequest: MedicationRequest): MedicationRequestView {
   const medication = getMedicationFromRequest(medicationRequest);

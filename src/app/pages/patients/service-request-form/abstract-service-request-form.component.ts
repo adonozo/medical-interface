@@ -7,11 +7,11 @@ import { FormStatus } from "../../../@core/services/data/form-data";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { Patient, ServiceRequest, Timing } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { Observable } from "rxjs";
 import { Directive, ViewChild } from "@angular/core";
 import { DurationFormComponent } from "../components/duration-form/duration-form.component";
 import { WeekTimingFormComponent } from "../components/week-timing-form/week-timing-form.component";
+import * as patientUtils from "../../../@core/services/utils/patient-utils";
 
 @Directive()
 export abstract class AbstractServiceRequestFormComponent extends FormComponent {
@@ -47,7 +47,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   }
 
   get patientName(): string {
-    return ResourceUtils.getPatientName(this.patient);
+    return patientUtils.getPatientName(this.patient);
   }
 
   goBack(): void {

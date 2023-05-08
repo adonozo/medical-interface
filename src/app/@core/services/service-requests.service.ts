@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Patient, ServiceRequest } from "fhir/r4";
 import { Observable } from "rxjs";
 import { RestApiService } from "./rest-api.service";
-import { ResourceUtils } from "./utils/resourceUtils";
+import * as patientUtils from "./utils/patient-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class ServiceRequestsService {
   getBaseServiceRequest(patient: Patient): ServiceRequest {
     const request = this.generateEmptyServiceRequest();
     request.subject = {
-      reference: ResourceUtils.getPatientReference(patient.id),
+      reference: patientUtils.getPatientReference(patient.id),
       display: patient.name[0]?.family
     }
     request.requester = {

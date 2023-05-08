@@ -7,6 +7,7 @@ import { ResourceUtils } from "../../@core/services/utils/resourceUtils";
 import { Extensions } from "../../@core/services/data/constants";
 import { PaginatedResult } from "../../@core/models/paginatedResult";
 import { Patient } from "fhir/r4";
+import * as patientUtils from "../../@core/services/utils/patient-utils";
 
 @Component({
   selector: 'app-patients',
@@ -80,7 +81,7 @@ export class PatientsComponent implements OnInit {
           this.results = paginatedPatients;
           this.source = new LocalDataSource(paginatedPatients.results.map(patient => {
             const data: any = patient;
-            data.name = ResourceUtils.getPatientName(patient);
+            data.name = patientUtils.getPatientName(patient);
             data.email = ResourceUtils.getStringExtension(patient, Extensions.EMAIL)
             return data;
           }))

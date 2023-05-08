@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { Observation } from "fhir/r4";
 import { RestApiService } from "./rest-api.service";
 import { PaginatedResult } from "../models/paginatedResult";
-import { ResourceUtils } from "./utils/resourceUtils";
+import * as patientUtils from "./utils/patient-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +46,7 @@ export class ObservationsService {
         ]
       },
       subject: {
-        reference: ResourceUtils.getPatientReference(patientId),
+        reference: patientUtils.getPatientReference(patientId),
       },
       issued: new Date().toISOString(),
       performer: [

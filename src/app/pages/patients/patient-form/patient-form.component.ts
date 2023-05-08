@@ -8,7 +8,7 @@ import { FormStatus } from "../../../@core/services/data/form-data";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PatientFormService } from "./patient-form.service";
 import { flatMap } from "rxjs/internal/operators";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
+import * as patientUtils from "../../../@core/services/utils/patient-utils";
 
 @Component({
   selector: 'app-patient-form',
@@ -96,7 +96,7 @@ export class PatientFormComponent extends FormComponent {
 
   private savePatient(internalPatient: InternalPatient): void {
     const birthDate = formatDate(internalPatient.birthDate, 'yyyy-MM-dd', 'en_US');
-    const patient = ResourceUtils.toPatient(internalPatient, birthDate);
+    const patient = patientUtils.toPatient(internalPatient, birthDate);
     const method = this.isEditForm ? this.patientsService.patchPatient(internalPatient)
       : this.patientsService.createPatient(patient);
     method.subscribe(

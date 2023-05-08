@@ -9,12 +9,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { Location } from "@angular/common";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { FormComponent } from "../../../@core/components/form.component";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { Directive, ViewChild } from "@angular/core";
 import { DurationFormComponent } from "../components/duration-form/duration-form.component";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { DailyFrequencyFormComponent } from "../components/daily-frequency-form/daily-frequency-form.component";
 import { FrequencyFormComponent } from "../components/frequency-form/frequency-form.component";
+import * as patientUtils from "../../../@core/services/utils/patient-utils";
+import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 
 @Directive()
 export abstract class AbstractMedicationRequestFormComponent extends FormComponent {
@@ -83,7 +84,7 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
   }
 
   get patientName(): string {
-    return ResourceUtils.getPatientName(this.patient);
+    return patientUtils.getPatientName(this.patient);
   }
 
   onDrugSelectionChange = (event): void =>
@@ -138,11 +139,11 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
     const medication = this.medicationControl.value;
     request.contained = [medication];
     request.medicationReference = {
-      reference: ResourceUtils.getMedicationReference(medication),
+      reference: medicationRequestUtils.getMedicationReference(medication),
       display: this.getMedicationName(medication)
     }
     request.subject = {
-      reference: ResourceUtils.getPatientReference(this.patient.id),
+      reference: patientUtils.getPatientReference(this.patient.id),
       display: this.patient.name[0]?.family
     }
     request.requester = {

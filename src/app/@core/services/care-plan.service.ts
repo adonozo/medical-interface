@@ -3,7 +3,7 @@ import { RestApiService } from "./rest-api.service";
 import { Observable } from "rxjs";
 import { PaginatedResult } from "../models/paginatedResult";
 import { Bundle, CarePlan } from "fhir/r4";
-import { ResourceUtils } from "./utils/resourceUtils";
+import * as patientUtils from "./utils/patient-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,7 @@ export class CarePlanService {
       intent: 'plan',
       status: 'draft',
       subject: {
-        reference: ResourceUtils.getPatientReference(patientId),
+        reference: patientUtils.getPatientReference(patientId),
       }
     }
     return this.restService.post(this.path, carePlan);

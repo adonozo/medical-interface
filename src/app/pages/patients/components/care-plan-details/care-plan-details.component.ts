@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CarePlan, Patient } from "fhir/r4";
-import { ResourceUtils } from "../../../../@core/services/utils/resourceUtils";
+import * as patientUtils from "../../../../@core/services/utils/patient-utils";
 
 @Component({
   selector: 'app-care-plan-details',
@@ -13,6 +13,6 @@ export class CarePlanDetailsComponent {
   @Input() carePlan: CarePlan;
 
   get patientName(): string {
-    return ResourceUtils.getPatientName(this.patient);
+    return patientUtils.getPatientName(this.patient);
   }
 }

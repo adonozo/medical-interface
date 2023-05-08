@@ -4,9 +4,8 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Patient } from "fhir/r4";
 import { InternalPatient } from "../models/internalPatient";
-import { ResourceUtils } from "./utils/resourceUtils";
-import { Extensions } from "./data/constants";
 import { PaginatedResult } from "../models/paginatedResult";
+import * as patientUtils from "./utils/patient-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +27,7 @@ export class PatientsService {
   getInternalPatient(id: string): Observable<InternalPatient> {
     return this.restService.get<Patient>(this.path + id)
       .pipe(
-        map(patient => PatientsService.toInternalPatient(patient))
+        map(patientUtils.toInternalPatient)
       );
   }
 
@@ -38,18 +37,5 @@ export class PatientsService {
 
   patchPatient(patient: InternalPatient): Observable<Patient> {
     return this.restService.patch<InternalPatient, Patient>(this.path + patient.id, patient);
-  }
-
-  static toInternalPatient(patient: Patient): InternalPatient {
-    return {
-      id: patient.id,
-      email: ResourceUtils.getStringExtension(patient, Extensions.EMAIL),
-      birthDate: new Date(patient.birthDate),
-      gender: ResourceUtils.getPatientGender(patient),
-      lastName: patient.name[0]?.family,
-      firstName: patient.name[0]?.given?.join(' '),
-      alexaUserId: ResourceUtils.getStringExtension(patient, Extensions.ALEXA_ID),
-      phones: ResourceUtils.getPatientContacts(patient)
-    };
   }
 }
