@@ -4,14 +4,11 @@ import {
   DomainResource,
   Medication,
   Patient,
-  Reference,
-  ServiceRequest
+  Reference
 } from "fhir/r4";
 import { Extensions, ResourcePath } from "../data/constants";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
 import { PaginatedResult } from "../../models/paginatedResult";
-import { ServiceRequestView } from "../../models/service-request-view";
-import * as utils from "./utils";
 
 export class ResourceUtils {
   static getPatientReference(patientId: string): string {
@@ -130,16 +127,6 @@ export class ResourceUtils {
       lastDataCursor: null,
       results: []
     }
-  }
-
-  static mapToServiceRequestView(serviceRequest: ServiceRequest): ServiceRequestView {
-    return {
-      id: serviceRequest.id,
-      patientInstruction: serviceRequest.patientInstruction ?? '',
-      duration: utils.getTimingStringDuration(serviceRequest.occurrenceTiming.repeat),
-      days: utils.getServiceRequestDays(serviceRequest),
-      dayWhen: utils.getServiceRequestTimings(serviceRequest)
-    };
   }
 
   private static setExtension(

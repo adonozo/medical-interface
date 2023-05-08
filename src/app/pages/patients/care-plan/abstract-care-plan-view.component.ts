@@ -13,10 +13,10 @@ import { flatMap, map } from "rxjs/internal/operators";
 import { forkJoin } from "rxjs";
 import { Location } from "@angular/common";
 import { ResourceType } from "../../../@core/services/data/constants";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { ServiceRequestView } from "../../../@core/models/service-request-view";
 import { MedicationRequestView } from "../../../@core/models/medication-request-view";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
+import * as serviceRequestUtils from "../../../@core/services/utils/service-request-utils";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent {
@@ -65,7 +65,7 @@ export abstract class AbstractCarePlanViewComponent {
   private serviceRequestViewFromResources(resources: Resource[]): ServiceRequestView[] {
     const serviceRequests = resources
       .filter(resource => resource.resourceType === ResourceType.ServiceRequest) as ServiceRequest[];
-    return serviceRequests.map(ResourceUtils.mapToServiceRequestView);
+    return serviceRequests.map(serviceRequestUtils.mapToServiceRequestView);
   }
 
   private medicationRequestViewFromResources(resources: Resource[]): MedicationRequestView[] {
