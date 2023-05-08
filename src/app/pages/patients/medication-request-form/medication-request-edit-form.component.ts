@@ -8,10 +8,10 @@ import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
 import { Medication, MedicationRequest, Quantity } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { Observable } from "rxjs";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
+import * as resourceUtils from "../../../@core/services/utils/resource-utils";
 
 @Component({
   selector: 'app-medication-request-edit',
@@ -49,7 +49,7 @@ export class MedicationRequestEditFormComponent extends AbstractMedicationReques
         }),
         flatMap(request => {
           this.medicationRequest = request;
-          return this.medicationService.getMedication(ResourceUtils.getIdFromReference(request.medicationReference));
+          return this.medicationService.getMedication(resourceUtils.getIdFromReference(request.medicationReference));
         }))
       .subscribe(medication => this.populateForm(medication));
   }

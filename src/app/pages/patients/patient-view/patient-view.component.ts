@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { flatMap } from "rxjs/internal/operators";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { InternalPatient } from "../../../@core/models/internalPatient";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 
@@ -14,7 +13,6 @@ import { CarePlanService } from "../../../@core/services/care-plan.service";
 export class PatientViewComponent {
   patient: InternalPatient;
   patientId: string;
-  extensions: ResourceUtils = ResourceUtils;
 
   constructor(
     private patientsService: PatientsService,

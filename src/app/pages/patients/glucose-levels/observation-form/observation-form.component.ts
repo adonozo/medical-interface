@@ -4,11 +4,11 @@ import { TimeOfDay } from "../../medication-request-form/form-data";
 import { FormComponent } from "../../../../@core/components/form.component";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Observation } from "fhir/r4";
-import { ResourceUtils } from "../../../../@core/services/utils/resourceUtils";
 import { Extensions } from "../../../../@core/services/data/constants";
-import { getDateOrDefault } from "../../../../@core/services/utils/utils";
 import { ObservationsService } from "../../../../@core/services/observations.service";
 import { FormStatus } from "../../../../@core/services/data/form-data";
+import * as utils from "../../../../@core/services/utils/utils";
+import * as resourceUtils from "../../../../@core/services/utils/resource-utils";
 
 @Component({
   selector: 'app-observation-form',
@@ -33,11 +33,11 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
   }
 
   ngOnInit() {
-    const date = getDateOrDefault(this.observation?.issued);
+    const date = utils.getDateOrDefault(this.observation?.issued);
     this.observationForm = this.formBuilder.group({
       value: this.formBuilder.control(this.observation?.valueQuantity?.value, [Validators.required]),
       date: this.formBuilder.control(date, [Validators.required]),
-      timing: this.formBuilder.control(ResourceUtils.getCodeExtension(this.observation, Extensions.RESOURCE_TIMING), [Validators.required])
+      timing: this.formBuilder.control(resourceUtils.getCodeExtension(this.observation, Extensions.RESOURCE_TIMING), [Validators.required])
     });
   }
 
@@ -60,7 +60,7 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
   submitForm(): void {
     this.observation.valueQuantity.value = this.valueControl.value;
     this.observation.issued = this.dateControl.value.toISOString();
-    ResourceUtils.setCodeExtension(this.observation, Extensions.RESOURCE_TIMING, this.timingControl.value);
+    resourceUtils.setCodeExtension(this.observation, Extensions.RESOURCE_TIMING, this.timingControl.value);
 
     this.formStatus = FormStatus.loading;
 

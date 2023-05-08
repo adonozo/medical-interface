@@ -3,11 +3,11 @@ import { PatientsService } from "../../@core/services/patients.service";
 import { LocalDataSource } from "ng2-smart-table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PatientsLocale } from "./patients.locale";
-import { ResourceUtils } from "../../@core/services/utils/resourceUtils";
 import { Extensions } from "../../@core/services/data/constants";
 import { PaginatedResult } from "../../@core/models/paginatedResult";
 import { Patient } from "fhir/r4";
 import * as patientUtils from "../../@core/services/utils/patient-utils";
+import * as resourceUtils from "../../@core/services/utils/resource-utils";
 
 @Component({
   selector: 'app-patients',
@@ -82,7 +82,7 @@ export class PatientsComponent implements OnInit {
           this.source = new LocalDataSource(paginatedPatients.results.map(patient => {
             const data: any = patient;
             data.name = patientUtils.getPatientName(patient);
-            data.email = ResourceUtils.getStringExtension(patient, Extensions.EMAIL)
+            data.email = resourceUtils.getStringExtension(patient, Extensions.EMAIL)
             return data;
           }))
         }

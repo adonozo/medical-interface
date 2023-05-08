@@ -1,7 +1,7 @@
 import { ContactPoint, Patient } from "fhir/r4";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
 import { Extensions, ResourcePath } from "../data/constants";
-import { ResourceUtils } from "./resourceUtils";
+import * as resourceUtils from "./resource-utils";
 
 export const getPatientReference = (patientId: string): string  => ResourcePath.PATIENT + patientId;
 
@@ -26,20 +26,20 @@ export function toPatient(internalPatient: InternalPatient, birthDate: string): 
     }]
   };
 
-  ResourceUtils.setStringExtension(patient, Extensions.EMAIL, internalPatient.email);
-  ResourceUtils.setStringExtension(patient, Extensions.ALEXA_ID, internalPatient.alexaUserId);
+  resourceUtils.setStringExtension(patient, Extensions.EMAIL, internalPatient.email);
+  resourceUtils.setStringExtension(patient, Extensions.ALEXA_ID, internalPatient.alexaUserId);
   return patient
 }
 
 export function toInternalPatient(patient: Patient): InternalPatient {
   return {
     id: patient.id,
-    email: ResourceUtils.getStringExtension(patient, Extensions.EMAIL),
+    email: resourceUtils.getStringExtension(patient, Extensions.EMAIL),
     birthDate: new Date(patient.birthDate),
     gender: getPatientGender(patient),
     lastName: patient.name[0]?.family,
     firstName: patient.name[0]?.given?.join(' '),
-    alexaUserId: ResourceUtils.getStringExtension(patient, Extensions.ALEXA_ID),
+    alexaUserId: resourceUtils.getStringExtension(patient, Extensions.ALEXA_ID),
     phones: getPatientContacts(patient)
   };
 }
