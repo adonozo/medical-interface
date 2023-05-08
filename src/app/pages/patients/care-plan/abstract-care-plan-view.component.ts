@@ -17,9 +17,11 @@ import { ServiceRequestView } from "../../../@core/models/service-request-view";
 import { MedicationRequestView } from "../../../@core/models/medication-request-view";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 import * as serviceRequestUtils from "../../../@core/services/utils/service-request-utils";
+import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormComponent } from "../../../@core/components/form.component";
 
 @Directive()
-export abstract class AbstractCarePlanViewComponent {
+export abstract class AbstractCarePlanViewComponent extends FormComponent {
 
   carePlanId: string;
   patientId: string;
@@ -36,6 +38,7 @@ export abstract class AbstractCarePlanViewComponent {
     protected carePlanService: CarePlanService,
     protected patientService: PatientsService,
   ) {
+    super();
     this.activatedRoute.params.pipe(
       map(params => {
         this.carePlanId = params["carePlanId"];
@@ -58,8 +61,13 @@ export abstract class AbstractCarePlanViewComponent {
     }, error => console.log(error));
   }
 
+  disableButton = (): boolean => this.formStatus === FormStatus.loading || this.formStatus === FormStatus.success;
+
   goBack(): void {
     this.location.back();
+  }
+
+  submitForm() {
   }
 
   private serviceRequestViewFromResources(resources: Resource[]): ServiceRequestView[] {

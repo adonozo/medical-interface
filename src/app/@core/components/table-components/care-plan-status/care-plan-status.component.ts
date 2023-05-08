@@ -23,8 +23,10 @@ export class CarePlanStatusComponent implements ViewCell, OnInit {
         return 'text-warning';
       case 'active':
         return 'text-success';
+      case 'revoked':
+        return 'text-danger';
       default:
-        return 'text-secondary'
+        return 'text-secondary';
     }
   }
 }

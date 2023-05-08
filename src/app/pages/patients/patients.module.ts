@@ -33,7 +33,7 @@ import { DurationFormComponent } from './components/duration-form/duration-form.
 import { WeekTimingFormComponent } from './components/week-timing-form/week-timing-form.component';
 import { DailyFrequencyFormComponent } from './components/daily-frequency-form/daily-frequency-form.component';
 import { FrequencyFormComponent } from './components/frequency-form/frequency-form.component';
-import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../@core/components/confirmation-dialog/confirmation-dialog.component';
 import { CarePlanStatusComponent } from '../../@core/components/table-components/care-plan-status/care-plan-status.component';
 import { ResourceActionsComponent } from '../../@core/components/table-components/resource-actions/resource-actions.component';
 import { CarePlanDetailsComponent } from './components/care-plan-details/care-plan-details.component';

@@ -5,7 +5,7 @@ import { CarePlan, Patient, Resource } from "fhir/r4";
 import { CarePlanService } from "../../../../@core/services/care-plan.service";
 import { FormStatus } from "../../../../@core/services/data/form-data";
 import { NbDialogService } from "@nebular/theme";
-import { ConfirmationDialogComponent } from "../../components/confirmation-dialog/confirmation-dialog.component";
+import { ConfirmationDialogComponent } from "../../../../@core/components/confirmation-dialog/confirmation-dialog.component";
 import { PatientsService } from "../../../../@core/services/patients.service";
 import { AbstractCarePlanViewComponent } from "../abstract-care-plan-view.component";
 
@@ -21,8 +21,6 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
   resources: Resource[];
   patient: Patient;
   carePlan: CarePlan;
-  formStatus: FormStatus = FormStatus.default;
-  readonly formStatusType = FormStatus;
 
   constructor(
     protected location: Location,
@@ -44,9 +42,9 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
   showActivateDialog(): void {
     this.dialogService.open(ConfirmationDialogComponent, {
       context: {
-        title: 'Activate care plan',
-        message: 'Do you want to activate the care plan?',
-        confirmationButton: "Yes"
+        title: $localize`Activate care plan`,
+        message: $localize`Do you want to activate the care plan?`,
+        confirmationButton: $localize`Yes`
       }
     }).onClose.subscribe(result => {
       if (result) {
@@ -58,9 +56,9 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
   showDeleteDialog(): void {
     this.dialogService.open(ConfirmationDialogComponent, {
       context: {
-        title: 'Delete care plan',
-        message: 'Do you want to delete this care plan? This action cannot be reverted.',
-        confirmationButton: "Delete"
+        title: $localize`Delete care plan`,
+        message: $localize`Do you want to delete this care plan? This action cannot be reverted.`,
+        confirmationButton: $localize`Delete`
       }
     }).onClose.subscribe(result => {
       if (result) {
@@ -90,9 +88,7 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
   makeMedicationRequestEditRoute = (id: string): string =>
     `${this.patientId}/care-plans/${this.carePlanId}/medication-request/${id}/edit`;
 
-  disableButton = (): boolean => this.formStatus === FormStatus.loading || this.formStatus === FormStatus.success;
-
-  private activateCarePlan() {
+  private activateCarePlan(): void {
     this.formStatus = FormStatus.loading;
     this.carePlanService.activateCarePlan(this.carePlanId)
       .subscribe(_ => {
@@ -103,7 +99,7 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
       })
   }
 
-  private deleteCarePlan() {
+  private deleteCarePlan(): void {
     this.formStatus = FormStatus.loading;
     this.carePlanService.deleteCarePlan(this.carePlanId)
       .subscribe(_ => this.location.back(),

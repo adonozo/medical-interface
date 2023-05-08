@@ -45,4 +45,8 @@ export class CarePlanService {
   activateCarePlan(id: string): Observable<void> {
     return this.restService.put(this.path + id + '/activate', {});
   }
+
+  revokeCarePlan(id: string): Observable<void> {
+    return this.restService.put(this.path + id + '/revoke', {});
+  }
 }
