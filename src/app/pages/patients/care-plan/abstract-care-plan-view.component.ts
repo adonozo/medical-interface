@@ -16,6 +16,7 @@ import { ResourceType } from "../../../@core/services/data/constants";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { ServiceRequestView } from "../../../@core/models/service-request-view";
 import { MedicationRequestView } from "../../../@core/models/medication-request-view";
+import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent {
@@ -70,6 +71,6 @@ export abstract class AbstractCarePlanViewComponent {
   private medicationRequestViewFromResources(resources: Resource[]): MedicationRequestView[] {
     const medicationRequests = resources
       .filter(resource => resource.resourceType === ResourceType.MedicationRequest) as MedicationRequest[]
-    return medicationRequests.map(ResourceUtils.mapToMedicationRequestView);
+    return medicationRequests.map(medicationRequestUtils.mapToMedicationRequestView);
   }
 }

@@ -11,6 +11,7 @@ import { flatMap } from "rxjs/internal/operators";
 import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { Observable } from "rxjs";
+import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 
 @Component({
   selector: 'app-medication-request-edit',
@@ -72,7 +73,7 @@ export class MedicationRequestEditFormComponent extends AbstractMedicationReques
     this.medicationIdControl.setValue(medication.id);
     this.doseQuantityControl.setValue(this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.value);
     this.doseUnitControl.setValue(this.findRequestQuantity());
-    this.instructionsControl.setValue(ResourceUtils.getMedicationNote(this.medicationRequest));
+    this.instructionsControl.setValue(medicationRequestUtils.getMedicationNote(this.medicationRequest));
 
     const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
     this.dailyFrequencyForm.populateDailyFrequency(repeat);
