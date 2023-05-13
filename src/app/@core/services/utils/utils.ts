@@ -1,8 +1,11 @@
-import { ServiceRequest, TimingRepeat } from "fhir/r4";
+import { TimingRepeat } from "fhir/r4";
 import { AppLocale } from "../data/locale";
-import { isArray } from "rxjs/internal-compatibility";
 import { DayCode } from "../../models/types";
 
+/**
+ * Parses a string into a Date object. Returns the current date if the string is not a valid date
+ * @param stringDate in ISO format
+ */
 export function getDateOrDefault(stringDate: string): Date {
   try {
     return new Date(stringDate);
@@ -11,13 +14,10 @@ export function getDateOrDefault(stringDate: string): Date {
   }
 }
 
-export function getDefaultDateFrom(time: string): Date {
-  const [hour, minutes] = time.split(':');
-  const currentDate = new Date();
-  currentDate.setHours(+hour, +minutes);
-  return currentDate;
-}
-
+/**
+ * Parses a string into a Date object. Returns `undefined` if the string is not a valid date
+ * @param stringDate in ISO format
+ */
 export function getDateFromString(stringDate: string): Date | undefined {
   try {
     return new Date(stringDate);
@@ -26,18 +26,44 @@ export function getDateFromString(stringDate: string): Date | undefined {
   }
 }
 
+/**
+ * Parses a string time into a Date object with the current date.
+ * @param time Must be in format HH:mm, e.g., '20:15'
+ */
+export function getDefaultDateFrom(time: string): Date {
+  const [hour, minutes] = time.split(':');
+  const currentDate = new Date();
+  currentDate.setHours(+hour, +minutes);
+  return currentDate;
+}
+
+/**
+ * Converts a Date into a string using the default locale time. The string will contain the date in medium format, and
+ * the time, e.g., 1 Jan, 2023 12:20. Returns an empty string if the date is `undefined`
+ * @param date
+ */
 export const dateToString = (date: Date | undefined): string =>
   date == undefined ? '' : date.toLocaleString(AppLocale.localeTime, {
     dateStyle: "medium",
     timeStyle: "short"
   });
 
-export const selectedFilter = (daySelected: { day: boolean }): any[] =>
+/**
+ * Takes an object of the form `DayCode`: boolean and returns an array with the days with a `true` value. E.g.,
+ * `{ 'mon': false, 'tue': true }` => `['tue']`
+ * @param daySelected an object whose keys are a `DayCode`
+ */
+export const daySelectedFilter = (daySelected: { day: boolean }): DayCode[] =>
   Object.entries(daySelected)
     .filter(([, isSelected]) => isSelected)
-    .map(([day]) => day);
+    .map(([day]) => day as DayCode);
 
-export function getTimingStringDuration(repeat: TimingRepeat): string {
+/**
+ * Gets the duration from a `TimingRepeat` object, which is present in `ServiceRequest` and `MedicationRequest`. The
+ * string will have format of value/unit (e.g., 2 days) or localized date period (e.g., 20/01/2023 - 15/02/2023)
+ * @param repeat must have a `boundsDuration` or `boundsPeriod`
+ */
+export function getStringDuration(repeat: TimingRepeat): string {
   if (repeat.boundsDuration) {
     return `${repeat.boundsDuration.value} ${this.durationStringFromCode(repeat.boundsDuration.unit)}`;
   } else if (repeat.boundsPeriod) {
@@ -49,38 +75,10 @@ export function getTimingStringDuration(repeat: TimingRepeat): string {
   return '';
 }
 
-export function getServiceRequestDays(serviceRequest: ServiceRequest): string {
-  if (!serviceRequest.contained || !isArray(serviceRequest.contained))
-  {
-    return '';
-  }
-
-  return serviceRequest.contained
-    .map((request: ServiceRequest) => request.occurrenceTiming.repeat.dayOfWeek)
-    .flat()
-    .sort(sortDayCodes)
-    .map(dayStringFromCode)
-    .join(', ');
-}
-
-export function getServiceRequestTimings(serviceRequest: ServiceRequest): { day: DayCode, when: string[] }[] {
-  if (!serviceRequest.contained || !isArray(serviceRequest.contained)) {
-    return [];
-  }
-
-  return serviceRequest.contained
-    .map((request: ServiceRequest) => {
-      const repeat = request.occurrenceTiming.repeat;
-      const dayMap = (day: DayCode) => {
-        return {day, when: repeat.when}
-      };
-
-      return repeat.dayOfWeek.map(dayMap)
-    })
-    .flat()
-    .sort((a, b) => sortDayCodes(a.day, b.day));
-}
-
+/**
+ * Gets the localized literal of a timing code, in lowercase. E.g., 'CD' -> 'at lunch'
+ * @param timing a timing code, e.g., 'ACM'
+ */
 export const timingToString = (timing: string): string => {
   switch (timing) {
     case 'ACM':
@@ -112,6 +110,10 @@ export const timingToString = (timing: string): string => {
   }
 }
 
+/**
+ * Gets the localized literal of a time unit code, useful to concatenate. E,g, 'd' -> 'day(s)'
+ * @param unit a time unit code: 'd', 'wk', or 'mo'
+ */
 export const durationStringFromCode = (unit: string): string => {
   switch (unit) {
     case 'd':
@@ -125,6 +127,10 @@ export const durationStringFromCode = (unit: string): string => {
   }
 }
 
+/**
+ * Gets the localized literal of a `DayCode`. E.g., 'mon' -> 'Monday'. Returns an empty string by default.
+ * @param dayCode
+ */
 export const dayStringFromCode = (dayCode: DayCode): string => {
   switch (dayCode) {
     case "mon":
@@ -141,12 +147,23 @@ export const dayStringFromCode = (dayCode: DayCode): string => {
       return $localize`Saturday`;
     case "sun":
       return $localize`Sunday`;
+    default:
+      return '';
   }
 }
 
+/**
+ * A day comparator, to sort `DayCodes` from Monday to Sunday
+ * @param a
+ * @param b
+ */
 export const sortDayCodes = (a: DayCode, b: DayCode): number =>
   dayValue(a) < dayValue(b) ? -1 : 1
 
+/**
+ * Gets a frequency string from a number. E.g., 1 -> 'Once'
+ * @param frequency
+ */
 export const dailyFrequencyString = (frequency: number): string => {
   let frequencyText;
   switch (frequency) {

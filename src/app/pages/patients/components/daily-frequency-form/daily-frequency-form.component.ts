@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DailyFrequencyFormData, DayOfWeek } from "../../medication-request-form/form-data";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { TimingRepeat } from "fhir/r4";
-import { selectedFilter } from "../../../../@core/services/utils/utils";
+import { daySelectedFilter } from "../../../../@core/services/utils/utils";
+import { DayCode } from "../../../../@core/models/types";
 
 @Component({
   selector: 'app-daily-frequency-form',
@@ -29,8 +30,8 @@ export class DailyFrequencyFormComponent implements OnInit {
     return this.form.get('dayOfWeek') as FormGroup;
   }
 
-  getDayOfWeekFrequency(): any[] {
-    return this.dailyFrequencySelected === DailyFrequencyFormData.specificDays ? selectedFilter(this.dayOfWeekGroup.value) : []
+  getDayOfWeekFrequency(): DayCode[] {
+    return this.dailyFrequencySelected === DailyFrequencyFormData.specificDays ? daySelectedFilter(this.dayOfWeekGroup.value) : []
   }
 
   populateDailyFrequency(repeat: TimingRepeat): void {

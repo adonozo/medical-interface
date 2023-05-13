@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FrequencyFormData, TimeOfDay } from "../../medication-request-form/form-data";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Moment } from "moment/moment";
-import { getDefaultDateFrom, selectedFilter } from "../../../../@core/services/utils/utils";
+import { getDefaultDateFrom, daySelectedFilter } from "../../../../@core/services/utils/utils";
 import * as moment from "moment/moment";
 import { TimingRepeat } from "fhir/r4";
+import { DayCode } from "../../../../@core/models/types";
 
 @Component({
   selector: 'app-frequency-form',
@@ -41,8 +42,8 @@ export class FrequencyFormComponent implements OnInit {
     return this.form.get('frequency') as FormControl;
   }
 
-  getTimingWhen = (): string[] =>
-    this.frequencySelected === FrequencyFormData.mealTime ? selectedFilter(this.whenGroup.value) : [];
+  getTimingWhen = (): DayCode[] =>
+    this.frequencySelected === FrequencyFormData.mealTime ? daySelectedFilter(this.whenGroup.value) : [];
 
   getTimingFrequency = (): number =>
     this.frequencySelected === FrequencyFormData.timesPerDay ? this.frequencyControl.value : 1;

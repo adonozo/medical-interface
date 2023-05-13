@@ -2,18 +2,29 @@ import { ContactPoint, Patient } from "fhir/r4";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
 import { Extensions, ResourcePath } from "../data/constants";
 import * as resourceUtils from "./resource-utils";
+import { formatDate } from "@angular/common";
 
 export const getPatientReference = (patientId: string): string  => ResourcePath.PATIENT + patientId;
 
+/**
+ * Extracts the patient's full name using the first item in the `name` array property. Returns an empty string if such
+ * item is not present.
+ * @param patient
+ */
 export function getPatientName(patient: Patient): string {
   if (!patient.name[0]) {
-    return "";
+    return '';
   }
 
   return patient.name[0].given?.join(' ') + ' ' + patient.name[0].family
 }
 
-export function toPatient(internalPatient: InternalPatient, birthDate: string): Patient {
+/**
+ * Maps an `InternalPatient` object into a `Patient`
+ * @param internalPatient
+ */
+export function toPatient(internalPatient: InternalPatient): Patient {
+  const birthDate = formatDate(internalPatient.birthDate, 'yyyy-MM-dd', 'en_US');
   const patient: Patient = {
     resourceType: 'Patient',
     id: internalPatient.id,
@@ -31,6 +42,10 @@ export function toPatient(internalPatient: InternalPatient, birthDate: string): 
   return patient
 }
 
+/**
+ * Maps a `Patient` into an `InternalPatient` object
+ * @param patient
+ */
 export function toInternalPatient(patient: Patient): InternalPatient {
   return {
     id: patient.id,

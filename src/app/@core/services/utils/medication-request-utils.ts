@@ -6,6 +6,10 @@ import { dailyFrequencyString, dayStringFromCode, sortDayCodes } from "./utils";
 
 export const getMedicationReference = (medication: Medication): string => ResourcePath.MEDICATION + medication.id;
 
+/**
+ * Maps a `MedicationRequest` into a `MedicationRequestView`, useful for displaying information.
+ * @param medicationRequest
+ */
 export function mapToMedicationRequestView(medicationRequest: MedicationRequest): MedicationRequestView {
   const medication = getMedicationFromRequest(medicationRequest);
   return {
@@ -16,7 +20,7 @@ export function mapToMedicationRequestView(medicationRequest: MedicationRequest)
       return {
         dosage: getDosageText(quantity),
         medicationNote: getMedicationNote(medicationRequest),
-        duration: utils.getTimingStringDuration(dosageInstruction.timing.repeat),
+        duration: utils.getStringDuration(dosageInstruction.timing.repeat),
         when: getWhenToTakeText(dosageInstruction.timing.repeat),
         frequency: getFrequencyText(dosageInstruction.timing.repeat),
       }
@@ -24,6 +28,11 @@ export function mapToMedicationRequestView(medicationRequest: MedicationRequest)
   };
 }
 
+/**
+ * Gets the patient note from a `MedicationRequest`, which is stored in the `note[0]` property by convention. Returns an
+ * empty string if the property doesn't exist.
+ * @param medicationRequest
+ */
 export function getMedicationNote(medicationRequest: MedicationRequest): string {
   if (!medicationRequest.note || medicationRequest.note.length === 0) {
     return '';
@@ -32,6 +41,11 @@ export function getMedicationNote(medicationRequest: MedicationRequest): string 
   return medicationRequest.note[0].text;
 }
 
+/**
+ * Gets the contained `Medication` from a `MedicationRequest`. There is a single `Medication` per request by convention.
+ * Returns `undefined` if the contained `Medication` is not found.
+ * @param medicationRequest
+ */
 export function getMedicationFromRequest(medicationRequest: MedicationRequest): Medication {
   if (!medicationRequest.contained
     || medicationRequest.contained.length === 0

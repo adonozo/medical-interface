@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { formatDate, Location } from "@angular/common";
+import { Location } from "@angular/common";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { FormComponent } from "../../../@core/components/form.component";
 import { InternalPatient } from "../../../@core/models/internalPatient";
@@ -95,8 +95,7 @@ export class PatientFormComponent extends FormComponent {
   }
 
   private savePatient(internalPatient: InternalPatient): void {
-    const birthDate = formatDate(internalPatient.birthDate, 'yyyy-MM-dd', 'en_US');
-    const patient = patientUtils.toPatient(internalPatient, birthDate);
+    const patient = patientUtils.toPatient(internalPatient);
     const method = this.isEditForm ? this.patientsService.patchPatient(internalPatient)
       : this.patientsService.createPatient(patient);
     method.subscribe(
