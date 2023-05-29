@@ -56,7 +56,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
   submitForm(): void {
     const baseTiming = this.makeBaseTiming();
-    baseTiming.repeat = this.durationFormComponent.setRepeatBounds(baseTiming.repeat);
+    baseTiming.repeat = this.durationFormComponent.getRepeatBounds(baseTiming.repeat);
     const containedRequests = this.weekTimingFormComponent.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;

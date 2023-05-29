@@ -60,7 +60,7 @@ export class DurationFormComponent implements OnInit {
     }
   }
 
-  setRepeatBounds(repeat: TimingRepeat): TimingRepeat {
+  getRepeatBounds(repeat: TimingRepeat): TimingRepeat {
     switch (this.durationSelected) {
       case DurationFormData.period:
         repeat.boundsPeriod = {
