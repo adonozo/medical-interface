@@ -75,7 +75,17 @@
             </div>
           </div>
 
-          <app-daily-frequency-form #dailyFrequencyForm [form]="medicationForm"></app-daily-frequency-form>
+          <div class="form-group row mt-2">
+            <label class="col-form-label col-sm-3 form-control-label" i18n>When to take</label>
+            <div class="col-sm-9">
+              <app-daily-frequency-form [formControl]="dailyFrequencyControl"></app-daily-frequency-form>
+              <div class="row" *ngIf="isControlInvalid(dailyFrequencyControl)">
+                <div class="col-12">
+                  <span class="text-danger" i18n>Please select at least one day or select "Every day"</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <app-frequency-form #frequencyForm [form]="medicationForm"></app-frequency-form>
 

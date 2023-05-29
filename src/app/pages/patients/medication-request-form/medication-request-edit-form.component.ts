@@ -76,7 +76,7 @@ export class MedicationRequestEditFormComponent extends AbstractMedicationReques
     this.instructionsControl.setValue(medicationRequestUtils.getMedicationNote(this.medicationRequest));
 
     const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
-    this.dailyFrequencyForm.populateDailyFrequency(repeat);
+    this.dailyFrequencyControl.setValue(repeat);
     this.frequencyForm.populateFrequencyForm(repeat);
     this.durationForm.populateFormDuration(repeat);
   }

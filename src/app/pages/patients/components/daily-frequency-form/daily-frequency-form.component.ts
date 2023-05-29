@@ -1,45 +1,116 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DailyFrequencyFormData, DayOfWeek } from "../../medication-request-form/form-data";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DailyFrequencyFormData, namedBooleanDays } from "../../medication-request-form/form-data";
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormBuilder,
+  FormGroup,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
+  Validators,
+} from "@angular/forms";
 import { TimingRepeat } from "fhir/r4";
 import { daySelectedFilter } from "../../../../@core/services/utils/utils";
 import { DayCode } from "../../../../@core/models/types";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-daily-frequency-form',
   templateUrl: './daily-frequency-form.component.html',
-  styleUrls: ['./daily-frequency-form.component.scss']
+  styleUrls: ['./daily-frequency-form.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: DailyFrequencyFormComponent
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: DailyFrequencyFormComponent
+    }
+  ]
 })
-export class DailyFrequencyFormComponent implements OnInit {
-  @Input() form: FormGroup;
+export class DailyFrequencyFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+  form: FormGroup;
   dailyFrequencyType = DailyFrequencyFormData;
-  dailyFrequencySelected: DailyFrequencyFormData = DailyFrequencyFormData.everyday;
-  dayOfWeekArray = DayOfWeek;
+  daysInWeek = namedBooleanDays;
 
   constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.form.addControl('dayOfWeek', this.formBuilder.group({}));
-    this.dayOfWeekArray.forEach(day => this.dayOfWeekGroup
-      .addControl(day.value, this.formBuilder.control(day.selected))
+    this.form = this.formBuilder.group({
+      dailyFrequency: [DailyFrequencyFormData.everyday, Validators.required]
+    });
+
+    this.daysInWeek.forEach(day => this.form
+      .addControl(
+        day.value,
+        this.formBuilder.control(day.selected))
     );
   }
 
-  get dayOfWeekGroup(): FormGroup {
-    return this.form.get('dayOfWeek') as FormGroup;
-  }
-
-  getDayOfWeekFrequency(): DayCode[] {
-    return this.dailyFrequencySelected === DailyFrequencyFormData.specificDays ? daySelectedFilter(this.dayOfWeekGroup.value) : []
-  }
-
-  populateDailyFrequency(repeat: TimingRepeat): void {
-    if (repeat.dayOfWeek && repeat.dayOfWeek.length > 0) {
-      this.dailyFrequencySelected = DailyFrequencyFormData.specificDays;
-      repeat.dayOfWeek.forEach(day => this.dayOfWeekGroup.get(day).setValue(true));
-    } else {
-      this.dailyFrequencySelected = DailyFrequencyFormData.everyday;
+  static getSelectedDays(form: FormGroup): DayCode[] {
+    const {dailyFrequency, ...days} = form.value;
+    if (dailyFrequency === DailyFrequencyFormData.specificDays) {
+      return daySelectedFilter(days);
     }
+
+    return [];
+  }
+
+  get dailyFrequencyControl(): AbstractControl {
+    return this.form.get('dailyFrequency');
+  }
+
+  onChangeSubscriptions: Subscription[] = [];
+
+  onTouched = () => {
+  }
+
+  registerOnChange(onChange: any): void {
+    const subscription = this.form.valueChanges.subscribe(onChange);
+    this.onChangeSubscriptions.push(subscription);
+  }
+
+  registerOnTouched(onTouched: any): void {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
+
+  writeValue(repeat: TimingRepeat): void {
+    if (!repeat) {
+      return;
+    }
+
+    if (repeat.dayOfWeek && repeat.dayOfWeek.length > 0) {
+      this.dailyFrequencyControl.setValue(DailyFrequencyFormData.specificDays, {emitEvent: false});
+      repeat.dayOfWeek.forEach(day => this.form.get(day).setValue(true));
+    } else {
+      this.dailyFrequencyControl.setValue(DailyFrequencyFormData.everyday, {emitEvent: false});
+    }
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    if (this.dailyFrequencyControl.value === DailyFrequencyFormData.everyday) {
+      return null
+    }
+
+    const daysSelected = DailyFrequencyFormComponent.getSelectedDays(this.form);
+    return daysSelected.length === 0 ? {required: true} : null;
+  }
+
+  ngOnDestroy(): void {
+    this.onChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

@@ -11,7 +11,7 @@ export enum DailyFrequencyFormData {
   specificDays = 1,
 }
 
-export const DayOfWeek: FormSelect[] = [
+export const namedBooleanDays: NamedBooleanForm[] = [
   {
     name: MedicationRequestFormLocale.monday,
     value: 'mon',
@@ -49,7 +49,7 @@ export const DayOfWeek: FormSelect[] = [
   },
 ]
 
-export const TimeOfDay: FormSelect[] = [
+export const TimeOfDay: NamedBooleanForm[] = [
   {
     name: MedicationRequestFormLocale.beforeBreakfast,
     value: 'ACM',
@@ -97,7 +97,7 @@ export const TimeOfDay: FormSelect[] = [
   },
 ]
 
-export interface FormSelect {
+export interface NamedBooleanForm {
   name: string,
   value: string,
   selected: boolean

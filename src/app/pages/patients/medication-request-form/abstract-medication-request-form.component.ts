@@ -31,7 +31,6 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
 
   abstract saveMethod<T>(request: MedicationRequest): Observable<T>;
   @ViewChild('durationForm') durationForm: DurationFormComponent;
-  @ViewChild('dailyFrequencyForm') dailyFrequencyForm: DailyFrequencyFormComponent;
   @ViewChild('frequencyForm') frequencyForm: FrequencyFormComponent;
 
   protected constructor(
@@ -73,6 +72,10 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
 
   get instructionsControl(): FormControl {
     return this.medicationForm.get('instructions') as FormControl;
+  }
+
+  get dailyFrequencyControl(): FormGroup {
+    return this.medicationForm.get('dailyFrequency') as FormGroup;
   }
 
   getMedicationName(medication: string | Medication): string {
@@ -126,7 +129,8 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
       durationQuantity: [],
       durationUnit: ['d'],
       periodRange: [],
-      periodEnd: []
+      periodEnd: [],
+      dailyFrequency: []
     });
 
     this.enableMedicationSearch();
@@ -186,8 +190,8 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
       }
     }
 
-    timing.repeat.dayOfWeek = this.dailyFrequencyForm.getDayOfWeekFrequency();
-    timing.repeat = this.durationForm.setRepeatBounds(timing.repeat);
+    timing.repeat.dayOfWeek = DailyFrequencyFormComponent.getSelectedDays(this.dailyFrequencyControl);
+    timing.repeat = this.durationForm.getRepeatBounds(timing.repeat);
     return timing;
   }
 
