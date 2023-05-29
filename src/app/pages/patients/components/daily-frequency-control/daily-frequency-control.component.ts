@@ -17,23 +17,23 @@ import { DayCode } from "../../../../@core/models/types";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: 'app-daily-frequency-form',
-  templateUrl: './daily-frequency-form.component.html',
-  styleUrls: ['./daily-frequency-form.component.scss'],
+  selector: 'app-daily-frequency-control',
+  templateUrl: './daily-frequency-control.component.html',
+  styleUrls: ['./daily-frequency-control.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: DailyFrequencyFormComponent
+      useExisting: DailyFrequencyControlComponent
     },
     {
       provide: NG_VALIDATORS,
       multi: true,
-      useExisting: DailyFrequencyFormComponent
+      useExisting: DailyFrequencyControlComponent
     }
   ]
 })
-export class DailyFrequencyFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class DailyFrequencyControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   dailyFrequencyType = DailyFrequencyFormData;
   daysInWeek = namedBooleanDays;
@@ -106,7 +106,7 @@ export class DailyFrequencyFormComponent implements OnInit, OnDestroy, ControlVa
       return null
     }
 
-    const daysSelected = DailyFrequencyFormComponent.getSelectedDays(this.form);
+    const daysSelected = DailyFrequencyControlComponent.getSelectedDays(this.form);
     return daysSelected.length === 0 ? {required: true} : null;
   }
 

@@ -12,7 +12,7 @@ import { FormComponent } from "../../../@core/components/form.component";
 import { Directive, ViewChild } from "@angular/core";
 import { DurationFormComponent } from "../components/duration-form/duration-form.component";
 import { FormStatus } from "../../../@core/services/data/form-data";
-import { DailyFrequencyFormComponent } from "../components/daily-frequency-form/daily-frequency-form.component";
+import { DailyFrequencyControlComponent } from "../components/daily-frequency-control/daily-frequency-control.component";
 import { FrequencyFormComponent } from "../components/frequency-form/frequency-form.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
@@ -190,7 +190,7 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
       }
     }
 
-    timing.repeat.dayOfWeek = DailyFrequencyFormComponent.getSelectedDays(this.dailyFrequencyControl);
+    timing.repeat.dayOfWeek = DailyFrequencyControlComponent.getSelectedDays(this.dailyFrequencyControl);
     timing.repeat = this.durationForm.getRepeatBounds(timing.repeat);
     return timing;
   }

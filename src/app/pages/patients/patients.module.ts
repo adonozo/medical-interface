@@ -31,7 +31,7 @@ import { ServiceRequestNewFormComponent } from "./service-request-form/service-r
 import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
 import { DurationFormComponent } from './components/duration-form/duration-form.component';
 import { WeekTimingFormComponent } from './components/week-timing-form/week-timing-form.component';
-import { DailyFrequencyFormComponent } from './components/daily-frequency-form/daily-frequency-form.component';
+import { DailyFrequencyControlComponent } from './components/daily-frequency-control/daily-frequency-control.component';
 import { FrequencyFormComponent } from './components/frequency-form/frequency-form.component';
 import { ConfirmationDialogComponent } from '../../@core/components/confirmation-dialog/confirmation-dialog.component';
 import { CarePlanStatusComponent } from '../../@core/components/table-components/care-plan-status/care-plan-status.component';
@@ -59,7 +59,7 @@ import { FormActionsComponent } from './components/form-actions/form-actions.com
     CarePlanFormComponent,
     DurationFormComponent,
     WeekTimingFormComponent,
-    DailyFrequencyFormComponent,
+    DailyFrequencyControlComponent,
     FrequencyFormComponent,
     ConfirmationDialogComponent,
     CarePlanStatusComponent,
