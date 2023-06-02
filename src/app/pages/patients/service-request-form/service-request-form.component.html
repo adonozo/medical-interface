@@ -32,7 +32,7 @@
           <div class="form-group row mt-2">
             <label class="col-form-label col-sm-3 form-control-label" i18n>Duration</label>
             <div class="col-sm-9">
-              <app-duration-form [formControl]="durationControl"></app-duration-form>
+              <app-duration-control [formControl]="durationControl"></app-duration-control>
               <div class="row" *ngIf="isControlInvalid(durationControl)">
                 <div class="col-12">
                   <span class="text-danger" i18n>Please select a valid duration</span>

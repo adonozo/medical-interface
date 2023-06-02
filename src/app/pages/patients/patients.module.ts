@@ -29,7 +29,7 @@ import { MedicationRequestNewFormComponent } from "./medication-request-form/med
 import { NbMomentDateModule } from "@nebular/moment";
 import { ServiceRequestNewFormComponent } from "./service-request-form/service-request-new-form.component";
 import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
-import { DurationFormComponent } from './components/duration-form/duration-form.component';
+import { DurationControlComponent } from './components/duration-control/duration-control.component';
 import { WeekTimingFormComponent } from './components/week-timing-form/week-timing-form.component';
 import { DailyFrequencyControlComponent } from './components/daily-frequency-control/daily-frequency-control.component';
 import { FrequencyFormComponent } from './components/frequency-form/frequency-form.component';
@@ -57,7 +57,7 @@ import { FormActionsComponent } from './components/form-actions/form-actions.com
     ObservationFormComponent,
     CarePlanComponent,
     CarePlanFormComponent,
-    DurationFormComponent,
+    DurationControlComponent,
     WeekTimingFormComponent,
     DailyFrequencyControlComponent,
     FrequencyFormComponent,

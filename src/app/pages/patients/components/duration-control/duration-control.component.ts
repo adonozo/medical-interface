@@ -17,23 +17,23 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: 'app-duration-form',
-  templateUrl: './duration-form.component.html',
-  styleUrls: ['./duration-form.component.scss'],
+  selector: 'app-duration-control',
+  templateUrl: './duration-control.component.html',
+  styleUrls: ['./duration-control.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: DurationFormComponent,
+      useExisting: DurationControlComponent,
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: DurationFormComponent,
+      useExisting: DurationControlComponent,
       multi: true,
     }
   ]
 })
-export class DurationFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class DurationControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   durationType = DurationFormData;
   durationSelected: DurationFormData;

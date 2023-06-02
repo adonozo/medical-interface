@@ -9,7 +9,7 @@ import { Patient, ServiceRequest, Timing } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
 import { Observable } from "rxjs";
 import { Directive, ViewChild } from "@angular/core";
-import { DurationFormComponent } from "../components/duration-form/duration-form.component";
+import { DurationControlComponent } from "../components/duration-control/duration-control.component";
 import { WeekTimingFormComponent } from "../components/week-timing-form/week-timing-form.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 
@@ -59,7 +59,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
   submitForm(): void {
     const baseTiming = this.makeBaseTiming();
-    DurationFormComponent.setRepeatBounds(baseTiming.repeat, this.durationControl);
+    DurationControlComponent.setRepeatBounds(baseTiming.repeat, this.durationControl);
     const containedRequests = this.weekTimingFormComponent.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
