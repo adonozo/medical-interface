@@ -1,61 +1,85 @@
-<div class="form-group row">
-  <label for="drug-duration" class="col-form-label col-sm-3 form-control-label" i18n>Duration</label>
-  <div class="col-sm-9">
-    <div class="form-group row">
-      <div class="col-12 mb-3">
-        <nb-button-group (valueChange)="durationSelected = $event[0]" status="info" outline size="small">
-          <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.duration" [value]="durationType.duration" i18n>By amount of time</button>
-          <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.period" [value]="durationType.period" i18n>By dates</button>
-          <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.untilNext" [value]="durationType.untilNext" i18n>Until date</button>
-        </nb-button-group>
-      </div>
-      <ng-container [ngSwitch]="durationSelected">
-        <div class="col-12" *ngSwitchCase="durationType.duration">
-          <div class="form-group row">
-            <div class="col-sm-4">
-              <input type="number" nbInput fullWidth id="drug-duration" i18n-placeholder="Placeholder"
-                     placeholder="Duration"
-                     [formControl]="durationQuantityControl">
-            </div>
-            <label for="drug-duration-unit"
-                   class="col-form-label col-4 col-sm-2 form-control-file text-right" i18n>Units</label>
-            <div class="col-8 col-sm-6">
-              <nb-select fullWidth id="drug-duration-unit" i18n-placeholder="Placeholder"
-                         placeholder="Select a time unit"
-                         [formControl]="durationUnitControl">
-                <nb-option value="d" i18n>Day(s)</nb-option>
-                <nb-option value="wk" i18n>Week(s)</nb-option>
-                <nb-option value="mo" i18n>Month(s)</nb-option>
-              </nb-select>
-            </div>
-          </div>
-        </div>
-        <div class="col-12" *ngSwitchCase="durationType.period">
-          <div class="form-group row">
-            <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-right">
-              <ng-container i18n>Date range</ng-container>
-            </label>
-            <div class="col-sm-9">
-              <input id="drug-duration-range" nbInput fullWidth i18n-placeholder="Placeholder"
-                     placeholder="Select a date range" autocomplete="off"
-                     [nbDatepicker]="rangePicker" [formControl]="periodRangeControl">
-              <nb-rangepicker #rangePicker></nb-rangepicker>
-            </div>
-          </div>
-        </div>
-        <div class="col-12" *ngSwitchCase="durationType.untilNext">
-          <div class="form-group row">
-            <label for="drug-duration-start-date"
-                   class="col-form-label col-sm-3 text-right" i18n>Date</label>
-            <div class="col-sm-9">
-              <input id="drug-duration-start-date" nbInput fullWidth i18n-placeholder="Placeholder"
-                     placeholder="Select a date" autocomplete="off"
-                     [nbDatepicker]="datepicker" [formControl]="periodEndControl">
-              <nb-datepicker #datepicker></nb-datepicker>
-            </div>
-          </div>
-        </div>
-      </ng-container>
+<fieldset class="p-0" [formGroup]="form">
+  <div class="row">
+    <div class="col-12 mb-3">
+      <nb-button-group (valueChange)="updateSelection($event[0])" status="info" outline size="small">
+        <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.duration"
+                [value]="durationType.duration" i18n>By amount of time
+        </button>
+        <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.period"
+                [value]="durationType.period" i18n>By dates
+        </button>
+        <button type="button" nbButtonToggle [pressed]="durationSelected === durationType.untilNext"
+                [value]="durationType.untilNext" i18n>Until date
+        </button>
+      </nb-button-group>
     </div>
+    <ng-container [ngSwitch]="durationSelected">
+      <div class="col-12" *ngSwitchCase="durationType.duration">
+        <div class="form-group row">
+          <div class="col-sm-4">
+            <input
+              id="drug-duration"
+              type="number"
+              nbInput
+              fullWidth
+              i18n-placeholder="Placeholder"
+              placeholder="Duration"
+              [formControl]="durationQuantityControl">
+          </div>
+          <label for="drug-duration-unit" class="col-form-label col-4 col-sm-2 form-control-file text-right" i18n>
+            Units
+          </label>
+          <div class="col-8 col-sm-6">
+            <nb-select
+              id="drug-duration-unit"
+              fullWidth
+              i18n-placeholder="Placeholder"
+              placeholder="Select a time unit"
+              [formControl]="durationUnitControl"
+            >
+              <nb-option value="d" i18n>Day(s)</nb-option>
+              <nb-option value="wk" i18n>Week(s)</nb-option>
+              <nb-option value="mo" i18n>Month(s)</nb-option>
+            </nb-select>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" *ngSwitchCase="durationType.period">
+        <div class="form-group row">
+          <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-right">
+            <ng-container i18n>Date range</ng-container>
+          </label>
+          <div class="col-sm-9">
+            <input
+              id="drug-duration-range"
+              nbInput
+              fullWidth
+              i18n-placeholder="Placeholder"
+              placeholder="Select a date range"
+              autocomplete="off"
+              [nbDatepicker]="rangePicker"
+              [formControl]="periodRangeControl">
+            <nb-rangepicker #rangePicker></nb-rangepicker>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" *ngSwitchCase="durationType.untilNext">
+        <div class="form-group row">
+          <label for="drug-duration-start-date" class="col-form-label col-sm-3 text-right" i18n>Date</label>
+          <div class="col-sm-9">
+            <input
+              id="drug-duration-start-date"
+              nbInput
+              fullWidth
+              i18n-placeholder="Placeholder"
+              placeholder="Select a date"
+              autocomplete="off"
+              [nbDatepicker]="datepicker"
+              [formControl]="periodEndControl">
+            <nb-datepicker #datepicker></nb-datepicker>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
-</div>
+</fieldset>

@@ -1,30 +1,56 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator, Validators
+} from "@angular/forms";
 import { DurationFormData } from "../../../../@core/services/data/form-data";
 import { TimingRepeat } from "fhir/r4";
 import { getDateOrDefault } from "../../../../@core/services/utils/utils";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: 'app-duration-form',
   templateUrl: './duration-form.component.html',
-  styleUrls: ['./duration-form.component.scss']
+  styleUrls: ['./duration-form.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: DurationFormComponent,
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: DurationFormComponent,
+      multi: true,
+    }
+  ]
 })
-export class DurationFormComponent implements OnInit {
-  @Input() form: FormGroup;
+export class DurationFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+  form: FormGroup;
   durationType = DurationFormData;
   durationSelected: DurationFormData;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private formBuilder: FormBuilder
-  ) {
+  private unSubscriber: Subject<void> = new Subject<void>();
+
+  constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.form.addControl('durationQuantity', this.formBuilder.control(''));
-    this.form.addControl('durationUnit', this.formBuilder.control('d'));
-    this.form.addControl('periodRange', this.formBuilder.control(''));
-    this.form.addControl('periodEnd', this.formBuilder.control(''));
+    this.form = this.formBuilder.group({
+      durationQuantity: [''],
+      durationUnit: ['d'],
+      periodRange: [''],
+      periodEnd: [''],
+      durationSelected: [undefined, Validators.required]
+    });
   }
 
   get durationQuantityControl(): FormControl {
@@ -43,7 +69,97 @@ export class DurationFormComponent implements OnInit {
     return this.form.get('periodEnd') as FormControl;
   }
 
-  populateFormDuration(repeat: TimingRepeat): void {
+  get durationSelectedControl(): FormControl {
+    return this.form.get('durationSelected') as FormControl;
+  }
+
+  onTouched = () => {
+  };
+
+  onChange = (_: any) => {
+  }
+
+  updateSelection(duration: DurationFormData): void {
+    this.durationSelected = duration;
+    this.durationSelectedControl.setValue(duration, {emitModelToViewChange: true});
+    this.onTouched();
+    this.onChange(this.form.value);
+  }
+
+  registerOnChange(onChange: any): void {
+    this.onChange = onChange;
+    this.form.valueChanges
+      .pipe(takeUntil(this.unSubscriber))
+      .subscribe(value => this.onChange(value));
+  }
+
+  registerOnTouched(onTouched: any): void {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.form.disable({emitEvent: false});
+    } else {
+      this.form.enable({emitEvent: false});
+    }
+  }
+
+  writeValue(repeat: TimingRepeat): void {
+    if (!repeat) {
+      return;
+    }
+
+    this.setFormValues(repeat);
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    if (this.durationSelectedControl.value == undefined) {
+      return {required: true}
+    }
+
+    switch (this.durationSelected) {
+      case DurationFormData.duration:
+        return this.durationQuantityControl.value > 0 && this.durationUnitControl.value ? null : {required: true};
+      case DurationFormData.period:
+        return this.periodRangeControl.value?.start && this.periodRangeControl.value?.end ? null : {required: true};
+      case DurationFormData.untilNext:
+        return this.periodEndControl.value ? null : {required: true};
+      default:
+        return null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.unSubscriber.next();
+    this.unSubscriber.complete();
+  }
+
+  static setRepeatBounds(repeat: TimingRepeat, durationForm: FormGroup): void {
+    const formValues = durationForm.value;
+    switch (formValues.durationSelected) {
+      case DurationFormData.period:
+        repeat.boundsPeriod = {
+          start: formValues.periodRange.start.toISOString(),
+          end: formValues.periodRange.end.toISOString(),
+        }
+        break;
+      case DurationFormData.duration:
+        repeat.boundsDuration = {
+          value: formValues.durationQuantity,
+          unit: formValues.durationUnit
+        };
+        break;
+      case DurationFormData.untilNext:
+        repeat.boundsPeriod = {
+          start: (new Date()).toISOString(),
+          end: formValues.periodEnd.toISOString(),
+        }
+        break;
+    }
+  }
+
+  private setFormValues(repeat: TimingRepeat): void {
     if (repeat.boundsDuration) {
       this.durationSelected = DurationFormData.duration;
       this.durationQuantityControl.setValue(repeat.boundsDuration.value);
@@ -54,37 +170,9 @@ export class DurationFormComponent implements OnInit {
         start: getDateOrDefault(repeat.boundsPeriod.start),
         end: getDateOrDefault(repeat.boundsPeriod.end)
       };
-
       this.periodRangeControl.setValue(period);
-      this.changeDetector.detectChanges();
-    }
-  }
-
-  getRepeatBounds(repeat: TimingRepeat): TimingRepeat {
-    switch (this.durationSelected) {
-      case DurationFormData.period:
-        repeat.boundsPeriod = {
-          start: this.periodRangeControl.value.start.toISOString(),
-          end: this.periodRangeControl.value.end.toISOString(),
-        }
-        break;
-      case DurationFormData.duration:
-        repeat.boundsDuration = this.getBoundsDuration();
-        break;
-      case DurationFormData.untilNext:
-        repeat.boundsPeriod = {
-          start: (new Date()).toISOString(),
-          end: this.periodEndControl.value.toISOString(),
-        }
-        break;
     }
 
-    return repeat;
-  }
-
-  private getBoundsDuration(): { value: number, unit: string } {
-    const value = this.durationQuantityControl.value;
-    const unit = this.durationUnitControl.value;
-    return {value, unit};
+    this.durationSelectedControl.setValue(this.durationSelected);
   }
 }

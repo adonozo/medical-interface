@@ -53,15 +53,6 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
     );
   }
 
-  static getSelectedDays(form: FormGroup): DayCode[] {
-    const {dailyFrequency, ...days} = form.value;
-    if (dailyFrequency === DailyFrequencyFormData.specificDays) {
-      return daySelectedFilter(days);
-    }
-
-    return [];
-  }
-
   get dailyFrequencyControl(): AbstractControl {
     return this.form.get('dailyFrequency');
   }
@@ -112,5 +103,14 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
 
   ngOnDestroy(): void {
     this.onChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  static getSelectedDays(form: FormGroup): DayCode[] {
+    const {dailyFrequency, ...days} = form.value;
+    if (dailyFrequency === DailyFrequencyFormData.specificDays) {
+      return daySelectedFilter(days);
+    }
+
+    return [];
   }
 }
