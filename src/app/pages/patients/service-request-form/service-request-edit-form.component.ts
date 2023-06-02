@@ -66,7 +66,7 @@ export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormC
 
   private populateForm(serviceRequest: ServiceRequest): void {
     this.instructionsControl.setValue(serviceRequest.patientInstruction);
-    this.durationFormComponent.populateFormDuration(serviceRequest.occurrenceTiming.repeat)
-    this.weekTimingFormComponent.populateWeekTimingForm((serviceRequest.contained ?? []) as ServiceRequest[])
+    this.durationControl.setValue(serviceRequest.occurrenceTiming.repeat);
+    this.weekTimingFormComponent.populateWeekTimingForm((serviceRequest.contained ?? []) as ServiceRequest[]);
   }
 }

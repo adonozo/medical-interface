@@ -29,7 +29,17 @@
       <nb-card-body>
         <form [formGroup]="serviceForm" (ngSubmit)="submitForm()" class="form-horizontal">
 
-          <app-duration-form #durationForm [form]="serviceForm"></app-duration-form>
+          <div class="form-group row mt-2">
+            <label class="col-form-label col-sm-3 form-control-label" i18n>Duration</label>
+            <div class="col-sm-9">
+              <app-duration-form [formControl]="durationControl"></app-duration-form>
+              <div class="row" *ngIf="isControlInvalid(durationControl)">
+                <div class="col-12">
+                  <span class="text-danger" i18n>Please select a valid duration</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <app-week-timing-form #weekTimingForm [form]="serviceForm"></app-week-timing-form>
 

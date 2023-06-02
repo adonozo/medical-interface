@@ -19,7 +19,6 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   patient: Patient;
   serviceForm: FormGroup;
   editMode: boolean = false;
-  @ViewChild('durationForm') durationFormComponent: DurationFormComponent;
   @ViewChild('weekTimingForm') weekTimingFormComponent: WeekTimingFormComponent;
 
   abstract saveMethod(request: ServiceRequest): Observable<void>;
@@ -46,6 +45,10 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
     return this.serviceForm.get('instructions') as FormControl;
   }
 
+  get durationControl(): FormGroup {
+    return this.serviceForm.get('duration') as FormGroup;
+  }
+
   get patientName(): string {
     return patientUtils.getPatientName(this.patient);
   }
@@ -56,7 +59,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
   submitForm(): void {
     const baseTiming = this.makeBaseTiming();
-    baseTiming.repeat = this.durationFormComponent.getRepeatBounds(baseTiming.repeat);
+    DurationFormComponent.setRepeatBounds(baseTiming.repeat, this.durationControl);
     const containedRequests = this.weekTimingFormComponent.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
@@ -78,6 +81,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
     this.serviceForm = this.formBuilder.group({
       timing: this.formBuilder.group({}),
       instructions: [''],
+      duration: []
     });
   }
 
@@ -98,7 +102,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   }
 
   private setInstructions(request: ServiceRequest): ServiceRequest {
-    if (this.instructionsControl.value && this.instructionsControl.value.length > 0){
+    if (this.instructionsControl.value && this.instructionsControl.value.length > 0) {
       request.patientInstruction = this.instructionsControl.value;
     }
 
