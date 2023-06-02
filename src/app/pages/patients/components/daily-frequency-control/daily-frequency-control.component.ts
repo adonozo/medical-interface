@@ -14,7 +14,8 @@ import {
 import { TimingRepeat } from "fhir/r4";
 import { daySelectedFilter } from "../../../../@core/services/utils/utils";
 import { DayCode } from "../../../../@core/models/types";
-import { Subscription } from "rxjs";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: 'app-daily-frequency-control',
@@ -38,6 +39,8 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
   dailyFrequencyType = DailyFrequencyFormData;
   daysInWeek = namedBooleanDays;
 
+  private unSubscriber: Subject<void> = new Subject<void>();
+
   constructor(private formBuilder: FormBuilder) {
   }
 
@@ -57,14 +60,17 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
     return this.form.get('dailyFrequency');
   }
 
-  onChangeSubscriptions: Subscription[] = [];
+  onChange = (_: any) => {
+  }
 
   onTouched = () => {
   }
 
   registerOnChange(onChange: any): void {
-    const subscription = this.form.valueChanges.subscribe(onChange);
-    this.onChangeSubscriptions.push(subscription);
+    this.onChange = onChange;
+    this.form.valueChanges
+      .pipe(takeUntil(this.unSubscriber))
+      .subscribe(value => this.onChange(value));
   }
 
   registerOnTouched(onTouched: any): void {
@@ -102,7 +108,8 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
   }
 
   ngOnDestroy(): void {
-    this.onChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
+    this.unSubscriber.next();
+    this.unSubscriber.complete();
   }
 
   static getSelectedDays(form: FormGroup): DayCode[] {
