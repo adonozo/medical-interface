@@ -19,23 +19,23 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: 'app-frequency-form',
-  templateUrl: './frequency-form.component.html',
-  styleUrls: ['./frequency-form.component.scss'],
+  selector: 'app-frequency-control',
+  templateUrl: './frequency-form-control.component.html',
+  styleUrls: ['./frequency-form-control.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: FrequencyFormComponent,
+      useExisting: FrequencyFormControl,
       multi: true
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: FrequencyFormComponent,
+      useExisting: FrequencyFormControl,
       multi: true
     }
   ]
 })
-export class FrequencyFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   frequencyType = FrequencyFormData;
   frequencySelected: FrequencyFormData;

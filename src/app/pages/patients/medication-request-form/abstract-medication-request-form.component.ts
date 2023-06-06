@@ -13,7 +13,7 @@ import { Directive } from "@angular/core";
 import { DurationControlComponent } from "../components/duration-control/duration-control.component";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { DailyFrequencyControlComponent } from "../components/daily-frequency-control/daily-frequency-control.component";
-import { FrequencyFormComponent } from "../components/frequency-form/frequency-form.component";
+import { FrequencyFormControl } from "../components/frequency-control/frequency-form-control.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 import { emptyTimingRepeat } from "../../../@core/services/utils/resource-utils";
@@ -185,7 +185,7 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
 
   private getDosageTiming(): Timing {
     const timing: Timing = emptyTimingRepeat()
-    FrequencyFormComponent.setRepeatFrequency(timing.repeat, this.frequencyControl);
+    FrequencyFormControl.setRepeatFrequency(timing.repeat, this.frequencyControl);
     DurationControlComponent.setRepeatBounds(timing.repeat, this.durationControl);
     timing.repeat.dayOfWeek = DailyFrequencyControlComponent.getSelectedDays(this.dailyFrequencyControl);
     return timing;
