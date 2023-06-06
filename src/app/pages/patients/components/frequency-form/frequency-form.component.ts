@@ -1,30 +1,60 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FrequencyFormData, TimeOfDay } from "../../medication-request-form/form-data";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup, NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator, Validators
+} from "@angular/forms";
 import { Moment } from "moment/moment";
 import { getDefaultDateFrom, daySelectedFilter } from "../../../../@core/services/utils/utils";
 import * as moment from "moment/moment";
 import { TimingRepeat } from "fhir/r4";
-import { DayCode } from "../../../../@core/models/types";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: 'app-frequency-form',
   templateUrl: './frequency-form.component.html',
-  styleUrls: ['./frequency-form.component.scss']
+  styleUrls: ['./frequency-form.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: FrequencyFormComponent,
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: FrequencyFormComponent,
+      multi: true
+    }
+  ]
 })
-export class FrequencyFormComponent implements OnInit {
-  @Input() form: FormGroup;
+export class FrequencyFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+  form: FormGroup;
   frequencyType = FrequencyFormData;
   frequencySelected: FrequencyFormData;
   timesOfDayArray = TimeOfDay;
+
+  private unSubscriber = new Subject<void>();
 
   constructor(private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.form.addControl('when', this.formBuilder.group({}));
-    this.form.addControl('timeOfDay', this.formBuilder.array([this.formBuilder.control('')]));
-    this.form.addControl('frequency', this.formBuilder.control(1));
+    this.form = this.formBuilder.group({
+      when: this.formBuilder.group({}),
+      timeOfDay: this.formBuilder.array([
+        this.defaultTimeOfDayControl()
+      ], [Validators.required, Validators.min(1)]),
+      frequency: [1, Validators.required],
+      frequencySelected: [undefined, Validators.required]
+    });
 
     this.timesOfDayArray.forEach(time => this.whenGroup
       .addControl(time.value, this.formBuilder.control(time.selected)))
@@ -34,7 +64,7 @@ export class FrequencyFormComponent implements OnInit {
     return this.form.get('when') as FormGroup;
   }
 
-  get timeOfDayFormArray(): FormArray {
+  get timeOfDayArrayForm(): FormArray {
     return this.form.get('timeOfDay') as FormArray;
   }
 
@@ -42,16 +72,84 @@ export class FrequencyFormComponent implements OnInit {
     return this.form.get('frequency') as FormControl;
   }
 
-  getTimingWhen = (): DayCode[] =>
-    this.frequencySelected === FrequencyFormData.mealTime ? daySelectedFilter(this.whenGroup.value) : [];
+  get frequencySelectedControl(): FormControl {
+    return this.form.get('frequencySelected') as FormControl;
+  }
 
-  getTimingFrequency = (): number =>
-    this.frequencySelected === FrequencyFormData.timesPerDay ? this.frequencyControl.value : 1;
+  updateSelection(frequency: FrequencyFormData): void {
+    this.frequencySelected = frequency;
+    this.frequencySelectedControl.setValue(frequency, {emitEvent: false});
+    this.onTouched();
+    this.onChange(this.form.value);
+  }
 
-  getTimeOfDayFrequency = (): string[] => this.frequencySelected === FrequencyFormData.specificTimes ?
-    this.timeOfDayFormArray.value.map((date: Moment) => date.format('HH:mm')) : [];
+  onTouched = () => {
+  }
 
-  populateFrequencyForm(repeat: TimingRepeat): void {
+  onChange = (_: any) => {
+  }
+
+  addTimeForm = (date?: Moment): void =>
+    this.timeOfDayArrayForm.push(this.defaultTimeOfDayControl(date));
+
+  removeTimeForm = (index: number): void =>
+    this.timeOfDayArrayForm.removeAt(index)
+
+  registerOnChange(onChange: any): void {
+    this.onChange = onChange;
+    this.form.valueChanges
+      .pipe(takeUntil(this.unSubscriber))
+      .subscribe(value => this.onChange(value));
+  }
+
+  registerOnTouched(onTouched: any): void {
+    this.onTouched = onTouched;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.form.disable();
+    } else {
+      this.form.enable();
+    }
+  }
+
+  writeValue(repeat: TimingRepeat): void {
+    if (!repeat) {
+      return
+    }
+
+    this.setValues(repeat);
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    if (this.frequencySelectedControl.invalid) {
+      return {required: true}
+    }
+
+    switch (this.frequencySelected) {
+      case FrequencyFormData.timesPerDay:
+        return this.frequencyControl.invalid ? {required: true} : null;
+      case FrequencyFormData.mealTime:
+        return daySelectedFilter(this.whenGroup.value)?.length === 0 ? {required: true} : null;
+      case FrequencyFormData.specificTimes:
+        const timesOfDay = this.timeOfDayArrayForm.value;
+        if (!Array.isArray(timesOfDay) || timesOfDay.length === 0) {
+          return {required: true};
+        }
+
+        return this.timeOfDayArrayForm.invalid ? {required: true} : null;
+      default:
+        return null;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.unSubscriber.next();
+    this.unSubscriber.complete();
+  }
+
+  private setValues(repeat: TimingRepeat): void {
     if (repeat.when?.length > 0) {
       this.frequencySelected = FrequencyFormData.mealTime;
       repeat.when.forEach(time => this.whenGroup.get(time).setValue(true));
@@ -68,9 +166,27 @@ export class FrequencyFormComponent implements OnInit {
     }
   }
 
-  addTimeForm = (date?: Moment): void =>
-    this.timeOfDayFormArray.push(this.formBuilder.control(date ?? ''));
+  private defaultTimeOfDayControl = (time?: Moment): FormControl =>
+    this.formBuilder.control(time ?? '', [Validators.required]);
 
-  removeTimeForm = (index: number): void =>
-    this.timeOfDayFormArray.removeAt(index)
+  static setRepeatFrequency(repeat: TimingRepeat, frequencyControl: FormGroup): void {
+    const {
+      frequencySelected,
+      when,
+      timeOfDay,
+      frequency
+    } = frequencyControl.value;
+
+    switch (frequencySelected) {
+      case FrequencyFormData.timesPerDay:
+        repeat.frequency = frequency;
+        break;
+      case FrequencyFormData.mealTime:
+        repeat.when = daySelectedFilter(when);
+        break;
+      case FrequencyFormData.specificTimes:
+        repeat.timeOfDay = timeOfDay.map((date: Moment) => date.format('HH:mm'));
+        break;
+    }
+  }
 }
