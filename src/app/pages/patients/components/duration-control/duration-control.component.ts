@@ -81,7 +81,7 @@ export class DurationControlComponent implements OnInit, OnDestroy, ControlValue
 
   updateSelection(duration: DurationFormData): void {
     this.durationSelected = duration;
-    this.durationSelectedControl.setValue(duration, {emitModelToViewChange: true});
+    this.durationSelectedControl.setValue(duration, {emitEvent: true});
     this.onTouched();
     this.onChange(this.form.value);
   }

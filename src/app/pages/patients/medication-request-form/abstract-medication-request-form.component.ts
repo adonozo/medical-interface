@@ -9,13 +9,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { Location } from "@angular/common";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { FormComponent } from "../../../@core/components/form.component";
-import { Directive, ViewChild } from "@angular/core";
+import { Directive } from "@angular/core";
 import { DurationControlComponent } from "../components/duration-control/duration-control.component";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { DailyFrequencyControlComponent } from "../components/daily-frequency-control/daily-frequency-control.component";
 import { FrequencyFormComponent } from "../components/frequency-form/frequency-form.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
+import { emptyTimingRepeat } from "../../../@core/services/utils/resource-utils";
 
 @Directive()
 export abstract class AbstractMedicationRequestFormComponent extends FormComponent {
@@ -30,7 +31,6 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
   medicationForm: FormGroup;
 
   abstract saveMethod<T>(request: MedicationRequest): Observable<T>;
-  @ViewChild('frequencyForm') frequencyForm: FrequencyFormComponent;
 
   protected constructor(
     protected patientService: PatientsService,
@@ -81,6 +81,10 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
     return this.medicationForm.get('duration') as FormGroup;
   }
 
+  get frequencyControl(): FormGroup {
+    return this.medicationForm.get('frequency') as FormGroup;
+  }
+
   getMedicationName(medication: string | Medication): string {
     if (typeof medication === 'string') {
       return medication.toString();
@@ -128,8 +132,9 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
       doseQuantity: ['', [Validators.required, Validators.min(0)]],
       doseUnit: ['', Validators.required],
       instructions: [''],
-      dailyFrequency: [],
-      duration: []
+      dailyFrequency: [null, Validators.required],
+      duration: [null, Validators.required],
+      frequency: [null, Validators.required]
     });
 
     this.enableMedicationSearch();
@@ -179,16 +184,8 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
   }
 
   private getDosageTiming(): Timing {
-    const timing: Timing = {
-      repeat: {
-        when: this.frequencyForm.getTimingWhen(),
-        period: 1,
-        periodUnit: 'd',
-        frequency: this.frequencyForm.getTimingFrequency(),
-        timeOfDay: this.frequencyForm.getTimeOfDayFrequency()
-      }
-    }
-
+    const timing: Timing = emptyTimingRepeat()
+    FrequencyFormComponent.setRepeatFrequency(timing.repeat, this.frequencyControl);
     DurationControlComponent.setRepeatBounds(timing.repeat, this.durationControl);
     timing.repeat.dayOfWeek = DailyFrequencyControlComponent.getSelectedDays(this.dailyFrequencyControl);
     return timing;

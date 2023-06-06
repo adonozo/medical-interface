@@ -12,6 +12,7 @@ import { Directive, ViewChild } from "@angular/core";
 import { DurationControlComponent } from "../components/duration-control/duration-control.component";
 import { WeekTimingFormComponent } from "../components/week-timing-form/week-timing-form.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
+import { emptyTimingRepeat } from "../../../@core/services/utils/resource-utils";
 
 @Directive()
 export abstract class AbstractServiceRequestFormComponent extends FormComponent {
@@ -58,7 +59,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   }
 
   submitForm(): void {
-    const baseTiming = this.makeBaseTiming();
+    const baseTiming = emptyTimingRepeat();
     DurationControlComponent.setRepeatBounds(baseTiming.repeat, this.durationControl);
     const containedRequests = this.weekTimingFormComponent.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
@@ -83,16 +84,6 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
       instructions: [''],
       duration: []
     });
-  }
-
-  private makeBaseTiming(): Timing {
-    return {
-      repeat: {
-        period: 1,
-        periodUnit: 'd',
-        frequency: 1
-      }
-    };
   }
 
   private makeServiceRequest(timing: Timing): ServiceRequest {
