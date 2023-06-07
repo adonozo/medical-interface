@@ -46,7 +46,7 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      dailyFrequency: [DailyFrequencyFormData.everyday, Validators.required]
+      dailyFrequency: [null, Validators.required]
     });
 
     this.daysInWeek.forEach(day => this.form
