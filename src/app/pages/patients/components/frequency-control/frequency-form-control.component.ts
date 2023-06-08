@@ -169,24 +169,4 @@ export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAcce
   private defaultTimeOfDayControl = (time?: Moment): FormControl =>
     this.formBuilder.control(time ?? '', [Validators.required]);
 
-  static setRepeatFrequency(repeat: TimingRepeat, frequencyControl: FormGroup): void {
-    const {
-      frequencySelected,
-      when,
-      timeOfDay,
-      frequency
-    } = frequencyControl.value;
-
-    switch (frequencySelected) {
-      case FrequencyFormData.timesPerDay:
-        repeat.frequency = frequency;
-        break;
-      case FrequencyFormData.mealTime:
-        repeat.when = daySelectedFilter(when);
-        break;
-      case FrequencyFormData.specificTimes:
-        repeat.timeOfDay = timeOfDay.map((date: Moment) => date.format('HH:mm'));
-        break;
-    }
-  }
 }

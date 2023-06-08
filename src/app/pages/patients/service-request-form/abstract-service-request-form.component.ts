@@ -5,14 +5,13 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Location } from "@angular/common";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
-import { Patient, ServiceRequest, Timing } from "fhir/r4";
+import { Patient, ServiceRequest, Timing, TimingRepeat } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
 import { Observable } from "rxjs";
 import { Directive, ViewChild } from "@angular/core";
-import { DurationControlComponent } from "../components/duration-control/duration-control.component";
 import { WeekTimingFormComponent } from "../components/week-timing-form/week-timing-form.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
-import { emptyTimingRepeat } from "../../../@core/services/utils/resource-utils";
+import { TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat-builder";
 
 @Directive()
 export abstract class AbstractServiceRequestFormComponent extends FormComponent {
@@ -59,8 +58,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   }
 
   submitForm(): void {
-    const baseTiming = emptyTimingRepeat();
-    DurationControlComponent.setRepeatBounds(baseTiming.repeat, this.durationControl);
+    const baseTiming = this.getBaseTiming();
     const containedRequests = this.weekTimingFormComponent.getTimingsArray(baseTiming)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
@@ -77,6 +75,10 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
           this.formStatus = FormStatus.error
         });
   }
+
+  private getBaseTiming = (): TimingRepeat => TimingRepeatBuilder.create()
+    .addRepeatBounds(this.durationControl.value)
+    .build();
 
   private configureRequestForm(): void {
     this.serviceForm = this.formBuilder.group({

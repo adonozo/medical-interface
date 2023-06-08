@@ -13,7 +13,6 @@ import {
 } from "@angular/forms";
 import { TimingRepeat } from "fhir/r4";
 import { daySelectedFilter } from "../../../../@core/services/utils/utils";
-import { DayCode } from "../../../../@core/models/types";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
@@ -103,21 +102,13 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
       return null
     }
 
-    const daysSelected = DailyFrequencyControlComponent.getSelectedDays(this.form);
+    const {dailyFrequency: _, ...days} = this.form.value;
+    const daysSelected = daySelectedFilter(days);
     return daysSelected.length === 0 ? {required: true} : null;
   }
 
   ngOnDestroy(): void {
     this.unSubscriber.next();
     this.unSubscriber.complete();
-  }
-
-  static getSelectedDays(form: FormGroup): DayCode[] {
-    const {dailyFrequency, ...days} = form.value;
-    if (dailyFrequency === DailyFrequencyFormData.specificDays) {
-      return daySelectedFilter(days);
-    }
-
-    return [];
   }
 }

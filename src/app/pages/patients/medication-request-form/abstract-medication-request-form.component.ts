@@ -10,13 +10,10 @@ import { Location } from "@angular/common";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { FormComponent } from "../../../@core/components/form.component";
 import { Directive } from "@angular/core";
-import { DurationControlComponent } from "../components/duration-control/duration-control.component";
 import { FormStatus } from "../../../@core/services/data/form-data";
-import { DailyFrequencyControlComponent } from "../components/daily-frequency-control/daily-frequency-control.component";
-import { FrequencyFormControl } from "../components/frequency-control/frequency-form-control.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
-import { emptyTimingRepeat } from "../../../@core/services/utils/resource-utils";
+import { TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat-builder";
 
 @Directive()
 export abstract class AbstractMedicationRequestFormComponent extends FormComponent {
@@ -183,13 +180,11 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
     }
   }
 
-  private getDosageTiming(): Timing {
-    const timing: Timing = emptyTimingRepeat()
-    FrequencyFormControl.setRepeatFrequency(timing.repeat, this.frequencyControl);
-    DurationControlComponent.setRepeatBounds(timing.repeat, this.durationControl);
-    timing.repeat.dayOfWeek = DailyFrequencyControlComponent.getSelectedDays(this.dailyFrequencyControl);
-    return timing;
-  }
+  private getDosageTiming = (): Timing => TimingRepeatBuilder.create()
+    .addRepeatFrequency(this.frequencyControl.value)
+    .addDayOfWeeks(this.dailyFrequencyControl.value)
+    .addRepeatBounds(this.durationControl.value)
+    .build()
 
   private getDoseAndRate(): DosageDoseAndRate[] {
     return [

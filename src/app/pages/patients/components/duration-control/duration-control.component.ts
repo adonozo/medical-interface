@@ -135,30 +135,6 @@ export class DurationControlComponent implements OnInit, OnDestroy, ControlValue
     this.unSubscriber.complete();
   }
 
-  static setRepeatBounds(repeat: TimingRepeat, durationForm: FormGroup): void {
-    const formValues = durationForm.value;
-    switch (formValues.durationSelected) {
-      case DurationFormData.period:
-        repeat.boundsPeriod = {
-          start: formValues.periodRange.start.toISOString(),
-          end: formValues.periodRange.end.toISOString(),
-        }
-        break;
-      case DurationFormData.duration:
-        repeat.boundsDuration = {
-          value: formValues.durationQuantity,
-          unit: formValues.durationUnit
-        };
-        break;
-      case DurationFormData.untilNext:
-        repeat.boundsPeriod = {
-          start: (new Date()).toISOString(),
-          end: formValues.periodEnd.toISOString(),
-        }
-        break;
-    }
-  }
-
   private setFormValues(repeat: TimingRepeat): void {
     if (repeat.boundsDuration) {
       this.durationSelected = DurationFormData.duration;

@@ -1,4 +1,4 @@
-import { Bundle, DomainResource, Reference, Timing } from "fhir/r4";
+import { Bundle, DomainResource, Reference } from "fhir/r4";
 import { PaginatedResult } from "../../models/paginatedResult";
 
 /**
@@ -72,18 +72,6 @@ export function getPaginatedResult(bundle: Bundle, remaining: number, lastCursor
     lastDataCursor: lastCursor,
     remainingCount: remaining,
     results: bundle.entry.map(entry => entry.resource)
-  };
-}
-
-export function emptyTimingRepeat(): Timing {
-  return {
-    repeat: {
-      when: [],
-      period: 1,
-      periodUnit: 'd',
-      frequency: 1,
-      timeOfDay: []
-    }
   };
 }
 
