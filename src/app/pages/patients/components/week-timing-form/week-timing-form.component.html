@@ -1,16 +1,15 @@
-<div class="form-group row div-striped">
-  <label class="col-form-label col-sm-12 mb-3" i18n>When to measure</label>
-  <div class="col-md-3 offset-md-3 py-2">
-    <b i18n>Breakfast</b>
-  </div>
-  <div class="col-md-3 py-2">
-    <b i18n>Lunch</b>
-  </div>
-  <div class="col-md-3 py-2">
-    <b i18n>Dinner</b>
-  </div>
+<fieldset class="p-0 form-group" [formGroup]="form">
+  <div class="row div-striped">
+    <div class="col-md-3 offset-md-3 py-2">
+      <b i18n>Breakfast</b>
+    </div>
+    <div class="col-md-3 py-2">
+      <b i18n>Lunch</b>
+    </div>
+    <div class="col-md-3 py-2">
+      <b i18n>Dinner</b>
+    </div>
 
-  <ng-container [formGroup]="timingGroup">
     <ng-container *ngFor="let day of daysOfWeek; let index = index">
       <div class="col-md-3 py-3" [class.contrast]="index % 2 === 1">
         <b>{{ day.name }}</b>
@@ -36,5 +35,5 @@
         </div>
       </ng-container>
     </ng-container>
-  </ng-container>
-</div>
+  </div>
+</fieldset>

@@ -1,14 +1,14 @@
 import { flatMap } from "rxjs/internal/operators";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Location } from "@angular/common";
 import { FormStatus } from "../../../@core/services/data/form-data";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { Patient, ServiceRequest, Timing, TimingRepeat } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
 import { Observable } from "rxjs";
-import { Directive, ViewChild } from "@angular/core";
+import { Directive } from "@angular/core";
 import { WeekTimingFormComponent } from "../components/week-timing-form/week-timing-form.component";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 import { TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat-builder";
@@ -19,7 +19,6 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   patient: Patient;
   serviceForm: FormGroup;
   editMode: boolean = false;
-  @ViewChild('weekTimingForm') weekTimingFormComponent: WeekTimingFormComponent;
 
   abstract saveMethod(request: ServiceRequest): Observable<void>;
 
@@ -49,6 +48,10 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
     return this.serviceForm.get('duration') as FormGroup;
   }
 
+  get weekTimingControl(): FormGroup {
+    return this.serviceForm.get('weekTiming') as FormGroup;
+  }
+
   get patientName(): string {
     return patientUtils.getPatientName(this.patient);
   }
@@ -59,7 +62,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
   submitForm(): void {
     const baseTiming = this.getBaseTiming();
-    const containedRequests = this.weekTimingFormComponent.getTimingsArray(baseTiming)
+    const containedRequests = WeekTimingFormComponent.getTimingsArray(baseTiming, this.weekTimingControl.value)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
 
@@ -82,9 +85,9 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
   private configureRequestForm(): void {
     this.serviceForm = this.formBuilder.group({
-      timing: this.formBuilder.group({}),
       instructions: [''],
-      duration: []
+      duration: [null, Validators.required],
+      weekTiming: [null, Validators.required]
     });
   }
 
