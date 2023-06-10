@@ -10,7 +10,7 @@ import { FormComponent } from "../../../@core/components/form.component";
 import { Observable } from "rxjs";
 import { Directive } from "@angular/core";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
-import { TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat-builder";
+import { getTimingsArray, TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat-builder";
 
 @Directive()
 export abstract class AbstractServiceRequestFormComponent extends FormComponent {
@@ -61,7 +61,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
   submitForm(): void {
     const baseTiming = this.getBaseTiming();
-    const containedRequests = TimingRepeatBuilder.getTimingsArray(baseTiming, this.weekTimingControl.value)
+    const containedRequests = getTimingsArray(baseTiming, this.weekTimingControl.value)
       .map(timing => this.makeServiceRequest(timing));
     this.formStatus = FormStatus.loading;
 
