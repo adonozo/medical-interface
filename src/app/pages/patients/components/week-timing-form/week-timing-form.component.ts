@@ -9,7 +9,7 @@ import {
   Validator
 } from "@angular/forms";
 import { DaysOfWeek, TimesOfDay } from "../../service-request-form/form-data";
-import { ServiceRequest, Timing } from "fhir/r4";
+import { ServiceRequest } from "fhir/r4";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
@@ -43,70 +43,6 @@ export class WeekTimingFormComponent implements OnInit, OnDestroy, ControlValueA
   ngOnInit(): void {
     this.form = this.formBuilder.group({});
     this.configureTimingForm();
-  }
-
-  populateWeekTimingForm(serviceRequests: ServiceRequest[]): void {
-    serviceRequests.forEach(request => {
-      request.occurrenceTiming?.repeat?.dayOfWeek?.forEach(day => {
-        const dayGroup = this.form.get(day);
-        request.occurrenceTiming?.repeat?.when?.forEach(timing => {
-          const timingControl = dayGroup.get(timing);
-          timingControl.setValue(true);
-        });
-      });
-    });
-  }
-
-  static getTimingsArray(baseTiming: Timing, weekTimingValue: any): Timing[] {
-    const timingsArray = [];
-    const daysMap: Map<string, any[]> = new Map();
-    const timesMap: Map<string, any[]> = new Map();
-    let daysCount = 0;
-    let timesCount = 0;
-    TimesOfDay.forEach(time => timesMap.set(time.value, []));
-    DaysOfWeek.forEach(day => {
-      const dayValues = weekTimingValue[day.value];
-      const dayValuesArray = this.selectedFilter(dayValues);
-      daysCount += dayValuesArray.length > 0 ? 1 : 0;
-      daysMap.set(day.value, dayValuesArray)
-      TimesOfDay.forEach(time => {
-        if (dayValues[time.value]) {
-          timesMap.get(time.value).push(day.value);
-        }
-      });
-    });
-    timesMap.forEach(value => {
-      if (value.length > 0) {
-        timesCount++;
-      }
-    })
-
-    // Create the lowest value of requests
-    if (daysCount <= timesCount) {
-      daysMap.forEach((value, key) => {
-        if (value.length == 0) {
-          return;
-        }
-
-        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
-        timingCopy.repeat.dayOfWeek = [key as any];
-        timingCopy.repeat.when = value;
-        timingsArray.push(timingCopy);
-      })
-    } else {
-      timesMap.forEach((value, key) => {
-        if (value.length == 0) {
-          return;
-        }
-
-        const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
-        timingCopy.repeat.when = [key as any];
-        timingCopy.repeat.dayOfWeek = value;
-        timingsArray.push(timingCopy);
-      })
-    }
-
-    return timingsArray;
   }
 
   onTouched = () => {
@@ -181,7 +117,4 @@ export class WeekTimingFormComponent implements OnInit, OnDestroy, ControlValueA
 
   private addTimesOfDayControls = (formGroup: FormGroup): void =>
     this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
-
-  private static selectedFilter = (object: any): any[] =>
-    Object.entries(object).filter(([_, isSelected]) => isSelected).map(([key]) => key);
 }

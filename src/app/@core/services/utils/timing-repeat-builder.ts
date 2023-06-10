@@ -3,6 +3,7 @@ import { DurationFormData } from "../data/form-data";
 import { DailyFrequencyFormData, FrequencyFormData } from "../../../pages/patients/medication-request-form/form-data";
 import { daySelectedFilter } from "./utils";
 import { Moment } from "moment";
+import { DaysOfWeek, TimesOfDay } from "../../../pages/patients/service-request-form/form-data";
 
 export class TimingRepeatBuilder {
   private timingRepeat: Timing = emptyTimingRepeat();
@@ -68,6 +69,66 @@ export class TimingRepeatBuilder {
   build = (): Timing => this.timingRepeat;
 
   static create = (): TimingRepeatBuilder => new TimingRepeatBuilder();
+
+  static getTimingsArray(baseTiming: Timing, weekTimingValue: any): Timing[] {
+    const {daysMap, daysCount, timesMap, timesCount} = this.getTimingMaps(weekTimingValue);
+
+    // Return the lowest value of requests
+    const {map, useValueOnWhen} = daysCount <= timesCount ?
+      {map: daysMap, useValueOnWhen: true}
+      : {map: timesMap, useValueOnWhen: false};
+
+    return this.createTimingsFromMap(map, baseTiming, useValueOnWhen);
+  }
+
+  private static getTimingMaps(weekTimingValue: any): {
+    daysMap: Map<string, any[]>,
+    daysCount: number,
+    timesMap: Map<string, any[]>,
+    timesCount: number
+  } {
+    const daysMap: Map<string, any[]> = new Map();
+    const timesMap: Map<string, any[]> = new Map();
+    let daysCount = 0;
+    let timesCount = 0;
+
+    TimesOfDay.forEach(time => timesMap.set(time.value, []));
+    DaysOfWeek.forEach(day => {
+      const dayValues = weekTimingValue[day.value];
+      const dayValuesArray = daySelectedFilter(dayValues);
+      daysCount += dayValuesArray.length > 0 ? 1 : 0;
+      daysMap.set(day.value, dayValuesArray)
+      TimesOfDay.forEach(time => {
+        if (dayValues[time.value]) {
+          timesMap.get(time.value).push(day.value);
+        }
+      });
+    });
+
+    timesMap.forEach(value => {
+      if (value.length > 0) {
+        timesCount++;
+      }
+    })
+
+    return {daysMap, daysCount, timesMap, timesCount};
+  }
+
+  private static createTimingsFromMap(map: Map<string, any[]>, baseTiming: Timing, useValueOnWhen: boolean): Timing[] {
+    const timingsArray = [];
+    map.forEach((value, key) => {
+      if (value.length == 0) {
+        return;
+      }
+
+      const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
+      timingCopy.repeat.dayOfWeek = useValueOnWhen ? [key as any] : value;
+      timingCopy.repeat.when = useValueOnWhen ? value : [key as any];
+      timingsArray.push(timingCopy);
+    });
+
+    return timingsArray;
+  }
 }
 
 function emptyTimingRepeat(): Timing {
