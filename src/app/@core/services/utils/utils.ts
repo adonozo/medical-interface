@@ -1,6 +1,6 @@
 import { TimingRepeat } from "fhir/r4";
 import { AppLocale } from "../data/locale";
-import { DayCode, TimeCode } from "../../models/types";
+import { DayCode, TimeCodeExtended } from "../../models/types";
 
 /**
  * Parses a string into a Date object. Returns the current date if the string is not a valid date
@@ -79,7 +79,7 @@ export function getStringDuration(repeat: TimingRepeat): string {
  * Gets the localized literal of a timing code, in lowercase. E.g., 'CD' -> 'at lunch'
  * @param timing a timing code, e.g., 'ACM'
  */
-export const timingToString = (timing: TimeCode): string => {
+export const timingToString = (timing: TimeCodeExtended): string => {
   switch (timing) {
     case 'ACM':
       return $localize`before breakfast`;

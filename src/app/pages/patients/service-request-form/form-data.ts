@@ -1,4 +1,5 @@
 import { ServiceRequestFormLocale } from "./service-request-form.locale";
+import { DayCode, NamedKeyBoolean, NamedKeyValues, TimeCode } from "../../../@core/models/types";
 
 export const TimesOfDay: NamedKeyBoolean[] = [
   {
@@ -71,33 +72,6 @@ export const DaysOfWeek: NamedKeyValues[] = [
   }
 ]
 
-export type NamedKeyBoolean = {
-  name: string,
-  key: string,
-  selected: boolean
-}
+export type WeeklyTimingsControl = { [day in DayCode]: TimesControl }
 
-export type NamedKeyValues = {
-  name: string,
-  key: string,
-  values: NamedKeyBoolean[]
-}
-
-export type WeeklyTimingsControl = {
-  mon: TimesControl,
-  tue: TimesControl,
-  wed: TimesControl,
-  thu: TimesControl,
-  fri: TimesControl,
-  sat: TimesControl,
-  sun: TimesControl,
-}
-
-export type TimesControl = {
-  ACM: boolean,
-  PCM: boolean,
-  ACD: boolean,
-  PCD: boolean,
-  ACV: boolean,
-  PCV: boolean
-}
+export type TimesControl = { [time in TimeCode] : boolean }

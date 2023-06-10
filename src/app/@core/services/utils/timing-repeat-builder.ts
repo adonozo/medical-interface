@@ -8,31 +8,37 @@ import {
   TimesControl,
   WeeklyTimingsControl
 } from "../../../pages/patients/service-request-form/form-data";
-import { DayCode, TimeCode } from "../../models/types";
+import { DayCode, TimeCodeExtended } from "../../models/types";
 
 export class TimingRepeatBuilder {
   private timingRepeat: Timing = emptyTimingRepeat();
 
   addRepeatBounds(durationValue: any): TimingRepeatBuilder {
-    const formValues = durationValue;
+    const {
+      durationSelected,
+      periodRange,
+      durationQuantity,
+      durationUnit,
+      periodEnd
+    } = durationValue;
     const repeat = this.timingRepeat.repeat;
-    switch (formValues.durationSelected) {
+    switch (durationSelected) {
       case DurationFormData.period:
         repeat.boundsPeriod = {
-          start: formValues.periodRange.start.toISOString(),
-          end: formValues.periodRange.end.toISOString(),
+          start: periodRange.start.toISOString(),
+          end:periodRange.end.toISOString(),
         }
         break;
       case DurationFormData.duration:
         repeat.boundsDuration = {
-          value: formValues.durationQuantity,
-          unit: formValues.durationUnit
+          value: durationQuantity,
+          unit: durationUnit
         };
         break;
       case DurationFormData.untilNext:
         repeat.boundsPeriod = {
           start: (new Date()).toISOString(),
-          end: formValues.periodEnd.toISOString(),
+          end: periodEnd.toISOString(),
         }
         break;
     }
@@ -106,15 +112,15 @@ function emptyTimingRepeat(): Timing {
  * @param weekTimingValue Values collected from the custom control
  */
 function getTimingMaps(weekTimingValue: WeeklyTimingsControl): {
-  daysMap: Map<DayCode, TimeCode[]>,
-  timesMap: Map<TimeCode, DayCode[]>
+  daysMap: Map<DayCode, TimeCodeExtended[]>,
+  timesMap: Map<TimeCodeExtended, DayCode[]>
 } {
-  const daysMap: Map<DayCode, TimeCode[]> = new Map();
-  const timesMap: Map<TimeCode, DayCode[]> = new Map();
+  const daysMap: Map<DayCode, TimeCodeExtended[]> = new Map();
+  const timesMap: Map<TimeCodeExtended, DayCode[]> = new Map();
 
   DaysOfWeek.forEach(day => {
     const timesInDay: TimesControl = weekTimingValue[day.key];
-    const selectedTimesInDay: TimeCode[] = daySelectedFilter(timesInDay);
+    const selectedTimesInDay: TimeCodeExtended[] = daySelectedFilter(timesInDay);
     if (selectedTimesInDay.length > 0) {
       daysMap.set(day.key as DayCode, selectedTimesInDay);
       selectedTimesInDay.forEach(time => pushValueToMap(time, day.key, timesMap));
@@ -133,7 +139,7 @@ function createTimingsFromMap(map: Map<string, string[]>, baseTiming: Timing, ma
 
     const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
     timingCopy.repeat.dayOfWeek = mapHasDayAsKey ? [key as DayCode] : value as DayCode[];
-    timingCopy.repeat.when = mapHasDayAsKey ? value as TimeCode[] : [key as TimeCode];
+    timingCopy.repeat.when = mapHasDayAsKey ? value as TimeCodeExtended[] : [key as TimeCodeExtended];
     timingsArray.push(timingCopy);
   });
 
