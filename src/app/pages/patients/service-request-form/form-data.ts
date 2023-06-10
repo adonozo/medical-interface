@@ -1,72 +1,103 @@
 import { ServiceRequestFormLocale } from "./service-request-form.locale";
 
-export const TimesOfDay = [
+export const TimesOfDay: NamedKeyBoolean[] = [
   {
     name: ServiceRequestFormLocale.beforeBreakfast,
-    value: 'ACM',
+    key: 'ACM',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.afterBreakfast,
-    value: 'PCM',
+    key: 'PCM',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.beforeLunch,
-    value: 'ACD',
+    key: 'ACD',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.afterLunch,
-    value: 'PCD',
+    key: 'PCD',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.beforeDinner,
-    value: 'ACV',
+    key: 'ACV',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.afterDinner,
-    value: 'PCV',
+    key: 'PCV',
     selected: false
   },
 ]
 
-export const DaysOfWeek = [
+export const DaysOfWeek: NamedKeyValues[] = [
   {
     name: ServiceRequestFormLocale.monday,
-    value: 'mon',
+    key: 'mon',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.tuesday,
-    value: 'tue',
+    key: 'tue',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.wednesday,
-    value: 'wed',
+    key: 'wed',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.thursday,
-    value: 'thu',
+    key: 'thu',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.friday,
-    value: 'fri',
+    key: 'fri',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.saturday,
-    value: 'sat',
+    key: 'sat',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.sunday,
-    value: 'sun',
+    key: 'sun',
     values: TimesOfDay
   }
 ]
+
+export type NamedKeyBoolean = {
+  name: string,
+  key: string,
+  selected: boolean
+}
+
+export type NamedKeyValues = {
+  name: string,
+  key: string,
+  values: NamedKeyBoolean[]
+}
+
+export type WeeklyTimingsControl = {
+  mon: TimesControl,
+  tue: TimesControl,
+  wed: TimesControl,
+  thu: TimesControl,
+  fri: TimesControl,
+  sat: TimesControl,
+  sun: TimesControl,
+}
+
+export type TimesControl = {
+  ACM: boolean,
+  PCM: boolean,
+  ACD: boolean,
+  PCD: boolean,
+  ACV: boolean,
+  PCV: boolean
+}

@@ -1,6 +1,6 @@
 import { TimingRepeat } from "fhir/r4";
 import { AppLocale } from "../data/locale";
-import { DayCode } from "../../models/types";
+import { DayCode, TimeCode } from "../../models/types";
 
 /**
  * Parses a string into a Date object. Returns the current date if the string is not a valid date
@@ -49,14 +49,14 @@ export const dateToString = (date: Date | undefined): string =>
   });
 
 /**
- * Takes an object of the form `DayCode`: boolean and returns an array with the days with a `true` value. E.g.,
+ * Takes an object of the form `key`: boolean and returns an array with the keys that have a `true` value. E.g.,
  * `{ 'mon': false, 'tue': true }` => `['tue']`
  * @param daySelected an object whose keys are a `DayCode`
  */
-export const daySelectedFilter = (daySelected: { day: boolean }): DayCode[] =>
+export const daySelectedFilter = (daySelected: { [key: string]: boolean }): string[] =>
   Object.entries(daySelected)
     .filter(([, isSelected]) => isSelected)
-    .map(([day]) => day as DayCode);
+    .map(([day]) => day);
 
 /**
  * Gets the duration from a `TimingRepeat` object, which is present in `ServiceRequest` and `MedicationRequest`. The
@@ -79,7 +79,7 @@ export function getStringDuration(repeat: TimingRepeat): string {
  * Gets the localized literal of a timing code, in lowercase. E.g., 'CD' -> 'at lunch'
  * @param timing a timing code, e.g., 'ACM'
  */
-export const timingToString = (timing: string): string => {
+export const timingToString = (timing: TimeCode): string => {
   switch (timing) {
     case 'ACM':
       return $localize`before breakfast`;

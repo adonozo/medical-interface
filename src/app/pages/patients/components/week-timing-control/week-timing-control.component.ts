@@ -92,15 +92,15 @@ export class WeekTimingControlComponent implements OnInit, OnDestroy, ControlVal
       return {required: true};
     }
 
-    const timingValues = DaysOfWeek.map(day => {
-      const dayTimings = timings[day.value];
-      return TimesOfDay.map(time => dayTimings[time.value])
-        .filter(value => value);
-    })
-      .flat()
-      .filter(value => value);
+    for (const day of DaysOfWeek) {
+      for (const time of TimesOfDay) {
+        if (timings[day.key][time.key]) {
+          return null;
+        }
+      }
+    }
 
-    return timingValues.length === 0 ? {required: true} : null;
+    return {required: true};
   }
 
   ngOnDestroy(): void {
@@ -111,10 +111,10 @@ export class WeekTimingControlComponent implements OnInit, OnDestroy, ControlVal
   private configureTimingForm = (): void =>
     this.daysOfWeek.forEach(day => {
       const dayFormGroup = this.formBuilder.group({});
-      this.form.addControl(day.value, dayFormGroup);
+      this.form.addControl(day.key, dayFormGroup);
       this.addTimesOfDayControls(dayFormGroup)
     });
 
   private addTimesOfDayControls = (formGroup: FormGroup): void =>
-    this.timesOfDay.forEach(time => formGroup.addControl(time.value, this.formBuilder.control(time.selected)));
+    this.timesOfDay.forEach(time => formGroup.addControl(time.key, this.formBuilder.control(time.selected)));
 }
