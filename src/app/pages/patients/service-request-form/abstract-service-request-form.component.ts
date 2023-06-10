@@ -3,7 +3,7 @@ import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Location } from "@angular/common";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/models/enums";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { Patient, ServiceRequest, Timing, TimingRepeat } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";

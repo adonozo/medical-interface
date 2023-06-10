@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { Observation } from "fhir/r4";
 import { Extensions } from "../../../../@core/services/data/constants";
 import { ObservationsService } from "../../../../@core/services/observations.service";
-import { FormStatus } from "../../../../@core/services/data/form-data";
+import { FormStatus } from "../../../../@core/models/enums";
 import * as utils from "../../../../@core/services/utils/utils";
 import * as resourceUtils from "../../../../@core/services/utils/resource-utils";
 

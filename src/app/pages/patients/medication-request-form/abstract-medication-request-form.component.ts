@@ -10,7 +10,7 @@ import { Location } from "@angular/common";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { FormComponent } from "../../../@core/components/form.component";
 import { Directive } from "@angular/core";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/models/enums";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 import { TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat-builder";

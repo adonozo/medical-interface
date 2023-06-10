@@ -1,19 +1,17 @@
 import { Timing } from "fhir/r4";
-import { DurationFormData } from "../data/form-data";
+import { DurationFormData } from "../../models/enums";
 import { DailyFrequencyFormData, FrequencyFormData } from "../../../pages/patients/medication-request-form/form-data";
 import { daySelectedFilter } from "./utils";
 import { Moment } from "moment";
-import {
-  DaysOfWeek,
-  TimesControl,
-  WeeklyTimingsControl
-} from "../../../pages/patients/service-request-form/form-data";
+import { DaysOfWeek } from "../../../pages/patients/service-request-form/form-data";
 import { DayCode, TimeCodeExtended } from "../../models/types";
+import { TimesControl, WeeklyTimingsControl } from "../../../pages/patients/components/week-timing-control/types";
+import { DurationControl } from "../../../pages/patients/components/duration-control/interfaces";
 
 export class TimingRepeatBuilder {
   private timingRepeat: Timing = emptyTimingRepeat();
 
-  addRepeatBounds(durationValue: any): TimingRepeatBuilder {
+  addRepeatBounds(durationValue: DurationControl): TimingRepeatBuilder {
     const {
       durationSelected,
       periodRange,

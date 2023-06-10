@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { FormComponent } from "../../../@core/components/form.component";
 import { InternalPatient } from "../../../@core/models/internalPatient";
 import { PatientsService } from "../../../@core/services/patients.service";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/models/enums";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PatientFormService } from "./patient-form.service";
 import { flatMap } from "rxjs/internal/operators";

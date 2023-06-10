@@ -5,7 +5,7 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/models/enums";
 import { ServiceRequest } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
 import { Observable } from "rxjs";

@@ -8,7 +8,7 @@ import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
 import { Medication, MedicationRequest, Quantity } from "fhir/r4";
 import { flatMap } from "rxjs/internal/operators";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/models/enums";
 import { Observable } from "rxjs";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 import * as resourceUtils from "../../../@core/services/utils/resource-utils";

@@ -17,7 +17,7 @@ import { ServiceRequestView } from "../../../@core/models/service-request-view";
 import { MedicationRequestView } from "../../../@core/models/medication-request-view";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 import * as serviceRequestUtils from "../../../@core/services/utils/service-request-utils";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/models/enums";
 import { FormComponent } from "../../../@core/components/form.component";
 
 @Directive()

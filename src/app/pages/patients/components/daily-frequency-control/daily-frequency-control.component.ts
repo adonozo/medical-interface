@@ -3,7 +3,7 @@ import { DailyFrequencyFormData, namedBooleanDays } from "../../medication-reque
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormBuilder,
+  FormBuilder, FormControl,
   FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -55,8 +55,8 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
     );
   }
 
-  get dailyFrequencyControl(): AbstractControl {
-    return this.form.get('dailyFrequency');
+  get dailyFrequencyControl(): FormControl {
+    return this.form.get('dailyFrequency') as FormControl;
   }
 
   onChange = (_: any) => {

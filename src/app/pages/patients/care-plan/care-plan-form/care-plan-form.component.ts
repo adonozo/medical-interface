@@ -3,7 +3,7 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CarePlan, Patient, Resource } from "fhir/r4";
 import { CarePlanService } from "../../../../@core/services/care-plan.service";
-import { FormStatus } from "../../../../@core/services/data/form-data";
+import { FormStatus } from "../../../../@core/models/enums";
 import { NbDialogService } from "@nebular/theme";
 import { ConfirmationDialogComponent } from "../../../../@core/components/confirmation-dialog/confirmation-dialog.component";
 import { PatientsService } from "../../../../@core/services/patients.service";

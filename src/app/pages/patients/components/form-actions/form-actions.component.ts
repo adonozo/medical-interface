@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormStatus } from "../../../../@core/services/data/form-data";
+import { FormStatus } from "../../../../@core/models/enums";
 import { FormGroup } from "@angular/forms";
 
 @Component({

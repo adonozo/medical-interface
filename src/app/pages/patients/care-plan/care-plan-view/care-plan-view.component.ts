@@ -8,7 +8,7 @@ import { NbDialogService } from "@nebular/theme";
 import {
   ConfirmationDialogComponent
 } from "../../../../@core/components/confirmation-dialog/confirmation-dialog.component";
-import { FormStatus } from "../../../../@core/services/data/form-data";
+import { FormStatus } from "../../../../@core/models/enums";
 
 @Component({
   selector: 'app-care-plan-view',

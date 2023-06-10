@@ -10,7 +10,7 @@ import {
   ValidationErrors,
   Validator, Validators
 } from "@angular/forms";
-import { DurationFormData } from "../../../../@core/services/data/form-data";
+import { DurationFormData } from "../../../../@core/models/enums";
 import { TimingRepeat } from "fhir/r4";
 import { getDateOrDefault } from "../../../../@core/services/utils/utils";
 import { Subject } from "rxjs";
