@@ -8,6 +8,7 @@ import { DayCode, TimeCodeExtended } from "../../models/types";
 import { TimesControl, WeeklyTimingsControl } from "../../../pages/patients/components/week-timing-control/types";
 import { DurationControl } from "../../../pages/patients/components/duration-control/interfaces";
 import { DailyFrequencyControl } from "../../../pages/patients/components/daily-frequency-control/interfaces";
+import { FrequencyControl } from "../../../pages/patients/components/frequency-control/interfaces";
 
 export class TimingRepeatBuilder {
   private timingRepeat: Timing = emptyTimingRepeat();
@@ -53,7 +54,7 @@ export class TimingRepeatBuilder {
     return this;
   }
 
-  addRepeatFrequency(frequencyValue: any): TimingRepeatBuilder {
+  addRepeatFrequency(frequencyValue: FrequencyControl): TimingRepeatBuilder {
     const {
       frequencySelected,
       when,
