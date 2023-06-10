@@ -44,7 +44,7 @@
           <div class="form-group row div-striped">
             <label class="col-form-label col-sm-12 mb-3" i18n>When to measure</label>
             <div class="col-sm-12">
-              <app-week-timing-form [formControl]="weekTimingControl"></app-week-timing-form>
+              <app-week-timing-control [formControl]="weekTimingControl"></app-week-timing-control>
               <div class="row" *ngIf="isControlInvalid(weekTimingControl)">
                 <div class="col-12">
                   <span class="text-danger" i18n>Please select at least a timing</span>

@@ -30,7 +30,7 @@ import { NbMomentDateModule } from "@nebular/moment";
 import { ServiceRequestNewFormComponent } from "./service-request-form/service-request-new-form.component";
 import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
 import { DurationControlComponent } from './components/duration-control/duration-control.component';
-import { WeekTimingFormComponent } from './components/week-timing-form/week-timing-form.component';
+import { WeekTimingControlComponent } from './components/week-timing-control/week-timing-control.component';
 import { DailyFrequencyControlComponent } from './components/daily-frequency-control/daily-frequency-control.component';
 import { FrequencyFormControl } from './components/frequency-control/frequency-form-control.component';
 import { ConfirmationDialogComponent } from '../../@core/components/confirmation-dialog/confirmation-dialog.component';
@@ -58,7 +58,7 @@ import { FormActionsComponent } from './components/form-actions/form-actions.com
     CarePlanComponent,
     CarePlanFormComponent,
     DurationControlComponent,
-    WeekTimingFormComponent,
+    WeekTimingControlComponent,
     DailyFrequencyControlComponent,
     FrequencyFormControl,
     ConfirmationDialogComponent,

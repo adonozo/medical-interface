@@ -14,23 +14,23 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 @Component({
-  selector: 'app-week-timing-form',
-  templateUrl: './week-timing-form.component.html',
-  styleUrls: ['./week-timing-form.component.scss'],
+  selector: 'app-week-timing-control',
+  templateUrl: './week-timing-control.component.html',
+  styleUrls: ['./week-timing-control.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: WeekTimingFormComponent
+      useExisting: WeekTimingControlComponent
     },
     {
       provide: NG_VALIDATORS,
       multi: true,
-      useExisting: WeekTimingFormComponent
+      useExisting: WeekTimingControlComponent
     }
   ]
 })
-export class WeekTimingFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class WeekTimingControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   daysOfWeek = DaysOfWeek;
   timesOfDay = TimesOfDay;
