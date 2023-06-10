@@ -57,7 +57,7 @@ export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAcce
     });
 
     this.timesOfDayArray.forEach(time => this.whenGroup
-      .addControl(time.value, this.formBuilder.control(time.selected)))
+      .addControl(time.key, this.formBuilder.control(time.selected)))
   }
 
   get whenGroup(): FormGroup {

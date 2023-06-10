@@ -1,4 +1,5 @@
 import { MedicationRequestFormLocale } from "./medication-request-form.locale";
+import { NamedKeyBoolean } from "../../../@core/models/types";
 
 export enum FrequencyFormData {
   timesPerDay = 0,
@@ -11,95 +12,88 @@ export enum DailyFrequencyFormData {
   specificDays = 1,
 }
 
-export const namedBooleanDays: NamedBooleanForm[] = [
+export const namedBooleanDays: NamedKeyBoolean[] = [
   {
     name: MedicationRequestFormLocale.monday,
-    value: 'mon',
+    key: 'mon',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.tuesday,
-    value: 'tue',
+    key: 'tue',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.wednesday,
-    value: 'wed',
+    key: 'wed',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.thursday,
-    value: 'thu',
+    key: 'thu',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.friday,
-    value: 'fri',
+    key: 'fri',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.saturday,
-    value: 'sat',
+    key: 'sat',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.sunday,
-    value: 'sun',
+    key: 'sun',
     selected: false
   },
 ]
 
-export const TimeOfDay: NamedBooleanForm[] = [
+export const TimeOfDay: NamedKeyBoolean[] = [
   {
     name: MedicationRequestFormLocale.beforeBreakfast,
-    value: 'ACM',
+    key: 'ACM',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.atBreakfast,
-    value: 'CM',
+    key: 'CM',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.afterBreakfast,
-    value: 'PCM',
+    key: 'PCM',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.beforeLunch,
-    value: 'ACD',
+    key: 'ACD',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.atLunch,
-    value: 'CD',
+    key: 'CD',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.afterLunch,
-    value: 'PCD',
+    key: 'PCD',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.beforeDinner,
-    value: 'ACV',
+    key: 'ACV',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.atDinner,
-    value: 'CV',
+    key: 'CV',
     selected: false
   },
   {
     name: MedicationRequestFormLocale.afterDinner,
-    value: 'PCV',
+    key: 'PCV',
     selected: false
   },
 ]
-
-export interface NamedBooleanForm {
-  name: string,
-  value: string,
-  selected: boolean
-}
-

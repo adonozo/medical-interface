@@ -8,7 +8,7 @@
     </div>
     <div class="col-12" *ngIf="dailyFrequencyControl.value === dailyFrequencyType.specificDays">
       <ng-container *ngFor="let day of daysInWeek">
-        <nb-checkbox class="form-check-inline" [formControlName]="day.value" (change)="onTouched()">
+        <nb-checkbox class="form-check-inline" [formControlName]="day.key" (change)="onTouched()">
           {{ day.name }}
         </nb-checkbox>
       </ng-container>

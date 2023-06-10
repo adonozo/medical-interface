@@ -26,7 +26,7 @@
       <div class="col-12" *ngSwitchCase="frequencyType.mealTime">
         <div class="row" [formGroup]="whenGroup">
           <div class="col-12 col-sm-4" *ngFor="let time of timesOfDayArray">
-            <nb-checkbox [formControlName]="time.value">{{ time.name }}</nb-checkbox>
+            <nb-checkbox [formControlName]="time.key">{{ time.name }}</nb-checkbox>
           </div>
         </div>
       </div>

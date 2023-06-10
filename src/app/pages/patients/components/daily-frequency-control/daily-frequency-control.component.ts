@@ -50,7 +50,7 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
 
     this.daysInWeek.forEach(day => this.form
       .addControl(
-        day.value,
+        day.key,
         this.formBuilder.control(day.selected))
     );
   }

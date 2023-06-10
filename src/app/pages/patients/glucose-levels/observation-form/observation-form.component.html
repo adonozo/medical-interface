@@ -71,7 +71,7 @@
                      placeholder="Timing"
                      [formControl]="timingControl">
             <nb-option i18n [value]="undefined" disabled>Select a timing</nb-option>
-            <nb-option *ngFor="let time of timesOfDay" [value]="time.value">
+            <nb-option *ngFor="let time of timesOfDay" [value]="time.key">
               {{ time.name }}
             </nb-option>
           </nb-select>
