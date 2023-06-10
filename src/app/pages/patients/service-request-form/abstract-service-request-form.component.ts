@@ -43,12 +43,12 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
     return this.serviceForm.get('instructions') as FormControl;
   }
 
-  get durationControl(): FormGroup {
-    return this.serviceForm.get('duration') as FormGroup;
+  get durationControl(): FormControl {
+    return this.serviceForm.get('duration') as FormControl;
   }
 
-  get weekTimingControl(): FormGroup {
-    return this.serviceForm.get('weekTiming') as FormGroup;
+  get weekTimingControl(): FormControl {
+    return this.serviceForm.get('weekTiming') as FormControl;
   }
 
   get patientName(): string {

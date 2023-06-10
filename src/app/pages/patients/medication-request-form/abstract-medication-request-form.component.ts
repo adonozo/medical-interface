@@ -70,16 +70,16 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
     return this.medicationForm.get('instructions') as FormControl;
   }
 
-  get dailyFrequencyControl(): FormGroup {
-    return this.medicationForm.get('dailyFrequency') as FormGroup;
+  get dailyFrequencyControl(): FormControl {
+    return this.medicationForm.get('dailyFrequency') as FormControl;
   }
 
-  get durationControl(): FormGroup {
-    return this.medicationForm.get('duration') as FormGroup;
+  get durationControl(): FormControl {
+    return this.medicationForm.get('duration') as FormControl;
   }
 
-  get frequencyControl(): FormGroup {
-    return this.medicationForm.get('frequency') as FormGroup;
+  get frequencyControl(): FormControl {
+    return this.medicationForm.get('frequency') as FormControl;
   }
 
   getMedicationName(medication: string | Medication): string {
