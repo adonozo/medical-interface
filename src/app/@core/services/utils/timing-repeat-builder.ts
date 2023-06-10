@@ -7,6 +7,7 @@ import { DaysOfWeek } from "../../../pages/patients/service-request-form/form-da
 import { DayCode, TimeCodeExtended } from "../../models/types";
 import { TimesControl, WeeklyTimingsControl } from "../../../pages/patients/components/week-timing-control/types";
 import { DurationControl } from "../../../pages/patients/components/duration-control/interfaces";
+import { DailyFrequencyControl } from "../../../pages/patients/components/daily-frequency-control/interfaces";
 
 export class TimingRepeatBuilder {
   private timingRepeat: Timing = emptyTimingRepeat();
@@ -44,7 +45,7 @@ export class TimingRepeatBuilder {
     return this;
   }
 
-  addDayOfWeeks(dailyFrequencyValue: any): TimingRepeatBuilder {
+  addDayOfWeeks(dailyFrequencyValue: DailyFrequencyControl): TimingRepeatBuilder {
     const {dailyFrequency, ...days} = dailyFrequencyValue;
     this.timingRepeat.repeat.dayOfWeek = dailyFrequency === DailyFrequencyFormData.specificDays ?
       daySelectedFilter(days) as DayCode[] : [];

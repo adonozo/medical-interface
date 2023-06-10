@@ -1,6 +1,6 @@
 import { TimingRepeat } from "fhir/r4";
 import { AppLocale } from "../data/locale";
-import { DayCode, TimeCodeExtended } from "../../models/types";
+import { DayCode, TimeCode, TimeCodeExtended } from "../../models/types";
 
 /**
  * Parses a string into a Date object. Returns the current date if the string is not a valid date
@@ -51,12 +51,12 @@ export const dateToString = (date: Date | undefined): string =>
 /**
  * Takes an object of the form `key`: boolean and returns an array with the keys that have a `true` value. E.g.,
  * `{ 'mon': false, 'tue': true }` => `['tue']`
- * @param daySelected an object whose keys are a `DayCode`
+ * @param daySelected an object with keys as `DayCode` or `TimeCode`
  */
-export const daySelectedFilter = (daySelected: { [key: string]: boolean }): string[] =>
+export const daySelectedFilter = (daySelected: { [key in DayCode]: boolean } | { [key in TimeCode]: boolean }): string[] =>
   Object.entries(daySelected)
-    .filter(([, isSelected]) => isSelected)
-    .map(([day]) => day);
+    .filter(([_, isSelected]) => isSelected)
+    .map(([day, _]) => day);
 
 /**
  * Gets the duration from a `TimingRepeat` object, which is present in `ServiceRequest` and `MedicationRequest`. The
