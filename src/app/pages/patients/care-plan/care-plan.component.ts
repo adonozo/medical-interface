@@ -8,8 +8,9 @@ import { CarePlanStatusComponent } from "../../../@core/components/table-compone
 import { ResourceActionsComponent } from "../../../@core/components/table-components/resource-actions/resource-actions.component";
 import { TableActions } from "../../../@core/components/table-components/resource-actions/table-actions";
 import { TableActionsService } from "../../../@core/components/table-components/resource-actions/table-actions.service";
-import { Subscription } from "rxjs";
+import { Subject } from "rxjs";
 import { dateToString, getDateFromString } from "../../../@core/services/utils/utils";
+import { takeUntil } from "rxjs/operators";
 
 @Component({
   selector: 'app-care-plan',
@@ -19,8 +20,7 @@ import { dateToString, getDateFromString } from "../../../@core/services/utils/u
 export class CarePlanComponent implements AfterViewInit, OnDestroy {
   private patientId: string;
   private readonly defaultLimit = 20;
-  private viewSubscription: Subscription;
-  private editSubscription: Subscription;
+  private unSubscriber: Subject<void> = new Subject();
 
   source: LocalDataSource;
   paginatedCarePlans: PaginatedResult<CarePlan>;
@@ -77,17 +77,19 @@ export class CarePlanComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.editSubscription.unsubscribe();
-    this.viewSubscription.unsubscribe();
+    this.unSubscriber.next();
+    this.unSubscriber.complete();
   }
 
   private subscribeToActions() {
-    this.editSubscription = this.tableActionsService.callEdit
+    this.tableActionsService.callEdit
+      .pipe(takeUntil(this.unSubscriber))
       .subscribe(resource => this.router.navigate(
         [`${this.patientId}/care-plans/${resource.id}/edit`],
         {relativeTo: this.activatedRoute.parent}));
 
-    this.viewSubscription = this.tableActionsService.callView
+    this.tableActionsService.callView
+      .pipe(takeUntil(this.unSubscriber))
       .subscribe(resource => this.router.navigate(
         [`${this.patientId}/care-plans/${resource.id}/view`],
         {relativeTo: this.activatedRoute.parent}));
