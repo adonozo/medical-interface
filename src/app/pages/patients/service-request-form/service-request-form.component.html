@@ -2,107 +2,55 @@
   <div class="col-12">
     <nb-card>
       <nb-card-header *ngIf="patient">
-        <h2>
-          <ng-container i18n>New self-monitor blood glucose order for</ng-container>
-          {{ patientName }}</h2>
+        <div class="row" *ngIf="editMode; else newOrderTitle">
+          <div class="col-9">
+            <h2>
+              Edit self-monitor blood glucose order
+            </h2>
+          </div>
+          <div class="col-3 text-right">
+            <button nbButton status="danger" (click)="deleteServiceRequest()">
+              <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
+              Delete
+            </button>
+          </div>
+        </div>
+        <ng-template #newOrderTitle>
+          <div class="row">
+            <div class="col-12">
+              <h2>
+                <ng-container i18n>New self-monitor blood glucose order for</ng-container>
+                {{ patientName }}
+              </h2>
+            </div>
+          </div>
+        </ng-template>
       </nb-card-header>
       <nb-card-body>
         <form [formGroup]="serviceForm" (ngSubmit)="submitForm()" class="form-horizontal">
-          <div class="form-group row">
-            <label for="drug-duration" class="col-form-label col-sm-3 form-control-label" i18n>Duration</label>
+
+          <div class="form-group row mt-2">
+            <label class="col-form-label col-sm-3 form-control-label" i18n>Duration</label>
             <div class="col-sm-9">
-              <div class="form-group row">
-                <div class="col-12 mb-3">
-                  <nb-button-group (valueChange)="durationSelected = $event[0]">
-                    <button type="button" nbButtonToggle pressed [value]="durationType.duration" i18n>By amount of time</button>
-                    <button type="button" nbButtonToggle [value]="durationType.period" i18n>By dates</button>
-                    <button type="button" nbButtonToggle [value]="durationType.untilNext" i18n>Until next appointment</button>
-                  </nb-button-group>
+              <app-duration-control [formControl]="durationControl"></app-duration-control>
+              <div class="row" *ngIf="isControlInvalid(durationControl)">
+                <div class="col-12">
+                  <span class="text-danger" i18n>Please select a valid duration</span>
                 </div>
-                <ng-container [ngSwitch]="durationSelected">
-                  <div class="col-12" *ngSwitchCase="durationType.duration">
-                    <div class="form-group row">
-                      <div class="col-sm-4">
-                        <input type="number" nbInput fullWidth id="drug-duration" i18n-placeholder="Placeholder"
-                               placeholder="Duration"
-                               [formControl]="durationQuantityControl">
-                      </div>
-                      <label for="drug-duration-unit"
-                             class="col-form-label col-4 col-sm-2 form-control-file text-right" i18n>Units</label>
-                      <div class="col-8 col-sm-6">
-                        <nb-select fullWidth id="drug-duration-unit" i18n-placeholder="Placeholder"
-                                   placeholder="Select a time unit"
-                                   [formControl]="durationUnitControl">
-                          <nb-option value="d" i18n>Day(s)</nb-option>
-                          <nb-option value="wk" i18n>Week(s)</nb-option>
-                          <nb-option value="mo" i18n>Month(s)</nb-option>
-                        </nb-select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12" *ngSwitchCase="durationType.period">
-                    <div class="form-group row">
-                      <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-right">
-                        <ng-container i18n>Date range</ng-container>
-                      </label>
-                      <div class="col-sm-9">
-                        <input id="drug-duration-range" nbInput fullWidth i18n-placeholder="Placeholder"
-                               placeholder="Select a date range" autocomplete="off"
-                               [nbDatepicker]="rangePicker" [formControl]="periodRangeControl">
-                        <nb-rangepicker #rangePicker></nb-rangepicker>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-12" *ngSwitchCase="durationType.untilNext">
-                    <div class="form-group row">
-                      <label for="drug-duration-start-date"
-                             class="col-form-label col-sm-3 text-right" i18n>Next appointment date</label>
-                      <div class="col-sm-9">
-                        <input id="drug-duration-start-date" nbInput fullWidth i18n-placeholder="Placeholder"
-                               placeholder="Select a date" autocomplete="off"
-                               [nbDatepicker]="datepicker" [formControl]="periodStartControl">
-                        <nb-datepicker #datepicker></nb-datepicker>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
               </div>
             </div>
           </div>
 
           <div class="form-group row div-striped">
             <label class="col-form-label col-sm-12 mb-3" i18n>When to measure</label>
-            <div class="col-md-3 offset-md-3 py-2">
-              <b i18n>Breakfast</b>
-            </div>
-            <div class="col-md-3 py-2">
-              <b i18n>Lunch</b>
-            </div>
-            <div class="col-md-3 py-2">
-              <b i18n>Dinner</b>
-            </div>
-
-            <ng-container [formGroup]="timingGroup">
-              <ng-container *ngFor="let day of daysOfWeek; let index = index">
-                <div class="col-md-3 py-3" [class.contrast]="index % 2 === 1">
-                  <b>{{ day.name }}</b>
+            <div class="col-sm-12">
+              <app-week-timing-control [formControl]="weekTimingControl"></app-week-timing-control>
+              <div class="row" *ngIf="isControlInvalid(weekTimingControl)">
+                <div class="col-12">
+                  <span class="text-danger" i18n>Please select at least a timing</span>
                 </div>
-                <ng-container [formGroupName]="day.value">
-                  <div class="col-md-3" [class.contrast]="index % 2 === 1">
-                    <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[0].value" i18n>Before</nb-checkbox>
-                    <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[1].value" i18n>After</nb-checkbox>
-                  </div>
-                  <div class="col-md-3" [class.contrast]="index % 2 === 1">
-                    <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[2].value" i18n>Before</nb-checkbox>
-                    <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[3].value" i18n>After</nb-checkbox>
-                  </div>
-                  <div class="col-md-3" [class.contrast]="index % 2 === 1">
-                    <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[4].value" i18n>Before</nb-checkbox>
-                    <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[5].value" i18n>After</nb-checkbox>
-                  </div>
-                </ng-container>
-              </ng-container>
-            </ng-container>
+              </div>
+            </div>
           </div>
 
           <div class="form-group row">
@@ -111,34 +59,15 @@
               <textarea nbInput fullWidth id="drug-instructions" [formControl]="instructionsControl"></textarea>
             </div>
           </div>
-          <div class="mt-4 form-group row">
-            <div class="col-6 col-sm-8 text-right">
-              <button type="button" nbButton status="basic" (click)="goBack()" i18n>Cancel</button>
-            </div>
-            <div class="col-6 offset-sm-1 col-sm-3 text-right">
-              <button type="submit" nbButton status="success"
-                      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
-                <ng-container i18n>Save</ng-container>
-              </button>
-            </div>
-            <div class="col-12 mt-3 text-center" *ngIf="formStatus === formStatusType.error">
-              <nb-alert accent="danger">
-                <span i18n>There was a problem saving the record</span>
-              </nb-alert>
-            </div>
-            <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.success">
-              <nb-alert accent="success">
-                <div class="row">
-                  <div class="col-7">
-                    <span i18n>The record has been saved</span>
-                  </div>
-                  <div class="col-5 text-right">
-                    <button type="button" nbButton status="success" (click)="goBack()" i18n="Return button">Return</button>
-                  </div>
-                </div>
-              </nb-alert>
-            </div>
-          </div>
+
+          <app-form-actions
+            class="d-block mt-4"
+            [form]="serviceForm"
+            [formStatus]="formStatus"
+            (submit)="submitForm()"
+            (goBack)="goBack()"
+          >
+          </app-form-actions>
         </form>
       </nb-card-body>
     </nb-card>

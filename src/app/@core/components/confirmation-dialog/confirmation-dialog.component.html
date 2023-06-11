@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>{{ title }}</nb-card-header>
+  <nb-card-body>
+    {{ message }}
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-6">
+        <button type="button" nbButton status="basic" (click)="returnResult(false)">
+          <ng-container i18n>Cancel</ng-container>
+        </button>
+      </div>
+      <div class="col-6 text-right">
+        <button type="button" class="ml-3" nbButton status="success" (click)="returnResult(true)">
+          {{ confirmationButton }}
+        </button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

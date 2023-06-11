@@ -1,72 +1,73 @@
 import { ServiceRequestFormLocale } from "./service-request-form.locale";
+import { NamedKeyBoolean, NamedKeyValues } from "../../../@core/models/types";
 
-export const TimesOfDay = [
+export const TimesOfDay: NamedKeyBoolean[] = [
   {
     name: ServiceRequestFormLocale.beforeBreakfast,
-    value: 'ACM',
+    key: 'ACM',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.afterBreakfast,
-    value: 'PCM',
+    key: 'PCM',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.beforeLunch,
-    value: 'ACD',
+    key: 'ACD',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.afterLunch,
-    value: 'PCD',
+    key: 'PCD',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.beforeDinner,
-    value: 'ACV',
+    key: 'ACV',
     selected: false
   },
   {
     name: ServiceRequestFormLocale.afterDinner,
-    value: 'PCV',
+    key: 'PCV',
     selected: false
   },
 ]
 
-export const DaysOfWeek = [
+export const DaysOfWeek: NamedKeyValues[] = [
   {
     name: ServiceRequestFormLocale.monday,
-    value: 'mon',
+    key: 'mon',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.tuesday,
-    value: 'tue',
+    key: 'tue',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.wednesday,
-    value: 'wed',
+    key: 'wed',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.thursday,
-    value: 'thu',
+    key: 'thu',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.friday,
-    value: 'fri',
+    key: 'fri',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.saturday,
-    value: 'sat',
+    key: 'sat',
     values: TimesOfDay
   },
   {
     name: ServiceRequestFormLocale.sunday,
-    value: 'sun',
+    key: 'sun',
     values: TimesOfDay
   }
 ]

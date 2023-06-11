@@ -1,0 +1,39 @@
+<fieldset class="p-0 form-group" [formGroup]="form">
+  <div class="row div-striped">
+    <div class="col-md-3 offset-md-3 py-2">
+      <b i18n>Breakfast</b>
+    </div>
+    <div class="col-md-3 py-2">
+      <b i18n>Lunch</b>
+    </div>
+    <div class="col-md-3 py-2">
+      <b i18n>Dinner</b>
+    </div>
+
+    <ng-container *ngFor="let day of daysOfWeek; let index = index">
+      <div class="col-md-3 py-3" [class.contrast]="index % 2 === 1">
+        <b>{{ day.name }}</b>
+      </div>
+      <ng-container [formGroupName]="day.key">
+        <div class="col-md-3" [class.contrast]="index % 2 === 1">
+          <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[0].key" i18n>Before
+          </nb-checkbox>
+          <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[1].key" i18n>After
+          </nb-checkbox>
+        </div>
+        <div class="col-md-3" [class.contrast]="index % 2 === 1">
+          <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[2].key" i18n>Before
+          </nb-checkbox>
+          <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[3].key" i18n>After
+          </nb-checkbox>
+        </div>
+        <div class="col-md-3" [class.contrast]="index % 2 === 1">
+          <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[4].key" i18n>Before
+          </nb-checkbox>
+          <nb-checkbox class="form-check-inline" [formControlName]="timesOfDay[5].key" i18n>After
+          </nb-checkbox>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</fieldset>

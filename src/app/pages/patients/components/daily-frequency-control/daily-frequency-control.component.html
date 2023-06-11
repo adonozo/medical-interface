@@ -1,0 +1,17 @@
+<fieldset class="p-0" [formGroup]="form">
+  <div class="row">
+    <div class="col-12 mb-3">
+      <nb-radio-group [formControl]="dailyFrequencyControl" (valueChange)="onTouched()">
+        <nb-radio class="d-inline-block" [value]="dailyFrequencyType.everyday" i18n>Every day</nb-radio>
+        <nb-radio class="d-inline-block" [value]="dailyFrequencyType.specificDays" i18n>Specific day(s)</nb-radio>
+      </nb-radio-group>
+    </div>
+    <div class="col-12" *ngIf="dailyFrequencyControl.value === dailyFrequencyType.specificDays">
+      <ng-container *ngFor="let day of daysInWeek">
+        <nb-checkbox class="form-check-inline" [formControlName]="day.key" (change)="onTouched()">
+          {{ day.name }}
+        </nb-checkbox>
+      </ng-container>
+    </div>
+  </div>
+</fieldset>

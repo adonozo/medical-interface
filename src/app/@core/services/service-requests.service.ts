@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ServiceRequest } from "fhir/r4";
-import { forkJoin, Observable } from "rxjs";
+import { Patient, ServiceRequest } from "fhir/r4";
+import { Observable } from "rxjs";
 import { RestApiService } from "./rest-api.service";
-import { map } from "rxjs/operators";
+import * as patientUtils from "./utils/patient-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,37 @@ export class ServiceRequestsService {
   ) {
   }
 
-  getEmptyServiceRequest(): ServiceRequest {
+  getBaseServiceRequest(patient: Patient): ServiceRequest {
+    const request = this.generateEmptyServiceRequest();
+    request.subject = {
+      reference: patientUtils.getPatientReference(patient.id),
+      display: patient.name[0]?.family
+    }
+    request.requester = {
+      reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
+      display: 'Dr. Steven'
+    }
+
+    return request;
+  }
+
+  createServiceRequests(carePlanId: string, request: ServiceRequest): Observable<void> {
+    return this.restApiService.post(`carePlans/${carePlanId}/${this.path}`, request);
+  }
+
+  getServiceRequest(id: string): Observable<ServiceRequest> {
+    return this.restApiService.get<ServiceRequest>(this.path + id);
+  }
+
+  updateServiceRequest(id: string, request: ServiceRequest): Observable<void> {
+    return this.restApiService.put(this.path + id, request);
+  }
+
+  deleteServiceRequest(carePlanId: string, serviceRequestId: string): Observable<void> {
+    return this.restApiService.delete(`carePlans/${carePlanId}/${this.path}${serviceRequestId}`);
+  }
+
+  private generateEmptyServiceRequest(): ServiceRequest {
     return {
       intent: "plan",
       resourceType: "ServiceRequest",
@@ -32,18 +62,5 @@ export class ServiceRequestsService {
       },
       subject: undefined
     };
-  }
-
-  createServiceRequests(requests: ServiceRequest[]): Observable<string[]> {
-    return forkJoin(requests
-      .map(request => this.restApiService
-      .post<ServiceRequest, ServiceRequest>(this.path, request)))
-      .pipe(
-        map(requests => requests.map(request => request.id))
-      );
-  }
-
-  getSingleServiceRequest(id: string): Observable<ServiceRequest> {
-    return this.restApiService.get<ServiceRequest>(this.path + id);
   }
 }

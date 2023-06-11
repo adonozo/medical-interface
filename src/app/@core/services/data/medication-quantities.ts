@@ -1,4 +1,5 @@
 import { Quantity } from "fhir/r4";
+import { Extensions } from "./constants";
 
 export const MedicationQuantities: Quantity[] = [
   {
@@ -6,7 +7,7 @@ export const MedicationQuantities: Quantity[] = [
     code: "TAB",
     unit: "TAB",
     extension: [{
-      url: 'http://localhost/unitName',
+      url: Extensions.QUANTITY_UNIT_NAME,
       valueString: 'Tablet(s)'
     }]
   },
@@ -15,7 +16,7 @@ export const MedicationQuantities: Quantity[] = [
     code: "U",
     unit: "U",
     extension: [{
-      url: 'http://localhost/unitName',
+      url: Extensions.QUANTITY_UNIT_NAME,
       valueString: 'Unit(s)'
     }]
   },
@@ -24,7 +25,7 @@ export const MedicationQuantities: Quantity[] = [
     code: "mg",
     unit: "mg",
     extension: [{
-      url: 'http://localhost/unitName',
+      url: Extensions.QUANTITY_UNIT_NAME,
       valueString: 'mg'
     }]
   },
@@ -33,7 +34,7 @@ export const MedicationQuantities: Quantity[] = [
     code: "g",
     unit: "g",
     extension: [{
-      url: 'http://localhost/unitName',
+      url: Extensions.QUANTITY_UNIT_NAME,
       valueString: 'g'
     }]
   },
@@ -42,7 +43,7 @@ export const MedicationQuantities: Quantity[] = [
     code: "ml",
     unit: "ml",
     extension: [{
-      url: 'http://localhost/unitName',
+      url: Extensions.QUANTITY_UNIT_NAME,
       valueString: 'ml'
     }]
   },
@@ -51,7 +52,7 @@ export const MedicationQuantities: Quantity[] = [
     code: "IU",
     unit: "IU",
     extension: [{
-      url: 'http://localhost/unitName',
+      url: Extensions.QUANTITY_UNIT_NAME,
       valueString: 'IU'
     }]
   }

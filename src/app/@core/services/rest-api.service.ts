@@ -4,9 +4,9 @@ import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { PaginatedResult } from "../models/paginatedResult";
 import { map } from "rxjs/operators";
-import { ResourceUtils } from "./utils/resourceUtils";
 import { Bundle } from "fhir/r4";
 import { Headers } from "./data/constants";
+import * as resourceUtils from "./utils/resource-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ export class RestApiService {
     return this.http.get<Bundle>(this.baseUrl + resource, {
       params: {
         limit: limit,
-        after: lastCursor,
+        after: lastCursor ?? '',
         ...params
       },
       observe: 'response'
@@ -39,7 +39,7 @@ export class RestApiService {
         map(response => {
           const paginationLast = response.headers.get(Headers.PAGINATION_LAST);
           const remainingCount = +response.headers.get(Headers.REMAINING_COUNT);
-          return ResourceUtils.getPaginatedResult(response.body, remainingCount, paginationLast);
+          return resourceUtils.getPaginatedResult(response.body, remainingCount, paginationLast);
         })
       );
   }

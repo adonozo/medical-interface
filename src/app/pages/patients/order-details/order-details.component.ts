@@ -34,7 +34,7 @@ export class OrderDetailsComponent {
         } else {
           this.type = OrderDetailsLocale.bloodGlucoseOrder;
         }
-        return this.serviceRequestService.getSingleServiceRequest(this.config.id);
+        return this.serviceRequestService.getServiceRequest(this.config.id);
       })
     ).subscribe(resource => {
       if (this.config.type === 'medication-order') {
