@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DailyFrequencyFormData, namedBooleanDays } from "../../medication-request-form/form-data";
+import { namedBooleanDays } from "../../medication-request-form/form-data";
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -15,6 +15,7 @@ import { TimingRepeat } from "fhir/r4";
 import { daySelectedFilter } from "../../../../@core/services/utils/utils";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { SelectedDailyFrequency } from "./interfaces";
 
 @Component({
   selector: 'app-daily-frequency-control',
@@ -35,7 +36,7 @@ import { takeUntil } from "rxjs/operators";
 })
 export class DailyFrequencyControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
-  dailyFrequencyType = DailyFrequencyFormData;
+  dailyFrequencyType = SelectedDailyFrequency;
   daysInWeek = namedBooleanDays;
 
   private unSubscriber: Subject<void> = new Subject<void>();
@@ -90,15 +91,15 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
     }
 
     if (repeat.dayOfWeek && repeat.dayOfWeek.length > 0) {
-      this.dailyFrequencyControl.setValue(DailyFrequencyFormData.specificDays, {emitEvent: false});
+      this.dailyFrequencyControl.setValue(SelectedDailyFrequency.specificDays, {emitEvent: false});
       repeat.dayOfWeek.forEach(day => this.form.get(day).setValue(true));
     } else {
-      this.dailyFrequencyControl.setValue(DailyFrequencyFormData.everyday, {emitEvent: false});
+      this.dailyFrequencyControl.setValue(SelectedDailyFrequency.everyday, {emitEvent: false});
     }
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    if (this.dailyFrequencyControl.value === DailyFrequencyFormData.everyday) {
+    if (this.dailyFrequencyControl.value === SelectedDailyFrequency.everyday) {
       return null
     }
 

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FrequencyFormData, TimeOfDay } from "../../medication-request-form/form-data";
+import { TimeOfDay } from "../../medication-request-form/form-data";
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -17,6 +17,7 @@ import * as moment from "moment/moment";
 import { TimingRepeat } from "fhir/r4";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { SelectedFrequency } from "./interfaces";
 
 @Component({
   selector: 'app-frequency-control',
@@ -37,8 +38,8 @@ import { takeUntil } from "rxjs/operators";
 })
 export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
-  frequencyType = FrequencyFormData;
-  frequencySelected: FrequencyFormData;
+  frequencyType = SelectedFrequency;
+  frequencySelected: SelectedFrequency;
   timesOfDayArray = TimeOfDay;
 
   private unSubscriber = new Subject<void>();
@@ -76,7 +77,7 @@ export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAcce
     return this.form.get('frequencySelected') as FormControl;
   }
 
-  updateSelection(frequency: FrequencyFormData): void {
+  updateSelection(frequency: SelectedFrequency): void {
     this.frequencySelected = frequency;
     this.frequencySelectedControl.setValue(frequency, {emitEvent: false});
     this.onTouched();
@@ -128,11 +129,11 @@ export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAcce
     }
 
     switch (this.frequencySelected) {
-      case FrequencyFormData.timesPerDay:
+      case SelectedFrequency.timesPerDay:
         return this.frequencyControl.invalid ? {required: true} : null;
-      case FrequencyFormData.mealTime:
+      case SelectedFrequency.mealTime:
         return daySelectedFilter(this.whenGroup.value)?.length === 0 ? {required: true} : null;
-      case FrequencyFormData.specificTimes:
+      case SelectedFrequency.specificTimes:
         const timesOfDay = this.timeOfDayArrayForm.value;
         if (!Array.isArray(timesOfDay) || timesOfDay.length === 0) {
           return {required: true};
@@ -151,17 +152,17 @@ export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAcce
 
   private setValues(repeat: TimingRepeat): void {
     if (repeat.when?.length > 0) {
-      this.frequencySelected = FrequencyFormData.mealTime;
+      this.frequencySelected = SelectedFrequency.mealTime;
       repeat.when.forEach(time => this.whenGroup.get(time).setValue(true));
     } else if (repeat.timeOfDay?.length > 0) {
-      this.frequencySelected = FrequencyFormData.specificTimes;
+      this.frequencySelected = SelectedFrequency.specificTimes;
       this.form.setControl('timeOfDay', this.formBuilder.array([]));
       repeat.timeOfDay.forEach(time => {
         const date = getDefaultDateFrom(time);
         this.addTimeForm(moment(date));
       });
     } else {
-      this.frequencySelected = FrequencyFormData.timesPerDay;
+      this.frequencySelected = SelectedFrequency.timesPerDay;
       this.frequencyControl.setValue(repeat.frequency);
     }
   }

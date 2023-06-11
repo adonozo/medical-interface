@@ -1,13 +1,15 @@
 import { Timing } from "fhir/r4";
-import { DailyFrequencyFormData, FrequencyFormData } from "../../../pages/patients/medication-request-form/form-data";
 import { daySelectedFilter } from "./utils";
 import { Moment } from "moment";
 import { DaysOfWeek } from "../../../pages/patients/service-request-form/form-data";
 import { DayCode, TimeCodeExtended } from "../../models/types";
 import { TimesControl, WeeklyTimingsControl } from "../../../pages/patients/components/week-timing-control/types";
 import { DurationControl, SelectedDuration } from "../../../pages/patients/components/duration-control/interfaces";
-import { DailyFrequencyControl } from "../../../pages/patients/components/daily-frequency-control/interfaces";
-import { FrequencyControl } from "../../../pages/patients/components/frequency-control/interfaces";
+import {
+  DailyFrequencyControl,
+  SelectedDailyFrequency
+} from "../../../pages/patients/components/daily-frequency-control/interfaces";
+import { FrequencyControl, SelectedFrequency } from "../../../pages/patients/components/frequency-control/interfaces";
 
 export class TimingRepeatBuilder {
   private timingRepeat: Timing = emptyTimingRepeat();
@@ -49,14 +51,23 @@ export class TimingRepeatBuilder {
     return this;
   }
 
+  /**
+   * Sets the `dayOfWeek` value from the selected days in the Daily Frequency control
+   * @param dailyFrequencyValue The raw value of the Daily Frequency control
+   */
   addDayOfWeeks(dailyFrequencyValue: DailyFrequencyControl): TimingRepeatBuilder {
     const {dailyFrequency, ...days} = dailyFrequencyValue;
-    this.timingRepeat.repeat.dayOfWeek = dailyFrequency === DailyFrequencyFormData.specificDays ?
+    this.timingRepeat.repeat.dayOfWeek = dailyFrequency === SelectedDailyFrequency.specificDays ?
       daySelectedFilter(days) as DayCode[] : [];
 
     return this;
   }
 
+  /**
+   * Sets the repeat frequency based on the `SelectedFrequency`. These frequencies include: `repeat.frequency`,
+   * `repeat.when`, or `repeat.timeOfDay`
+   * @param frequencyValue the raw value of the Frequency Control
+   */
   addRepeatFrequency(frequencyValue: FrequencyControl): TimingRepeatBuilder {
     const {
       frequencySelected,
@@ -66,13 +77,13 @@ export class TimingRepeatBuilder {
     } = frequencyValue;
 
     switch (frequencySelected) {
-      case FrequencyFormData.timesPerDay:
+      case SelectedFrequency.timesPerDay:
         this.timingRepeat.repeat.frequency = frequency;
         break;
-      case FrequencyFormData.mealTime:
+      case SelectedFrequency.mealTime:
         this.timingRepeat.repeat.when = daySelectedFilter(when);
         break;
-      case FrequencyFormData.specificTimes:
+      case SelectedFrequency.specificTimes:
         this.timingRepeat.repeat.timeOfDay = timeOfDay.map((date: Moment) => date.format('HH:mm'));
         break;
     }
@@ -80,6 +91,9 @@ export class TimingRepeatBuilder {
     return this;
   }
 
+  /**
+   * Builds a `Timing` object
+   */
   build = (): Timing => this.timingRepeat;
 
   /**

@@ -1,8 +1,12 @@
-import { DailyFrequencyFormData } from "../../medication-request-form/form-data";
 import { DayCode } from "../../../../@core/models/types";
 
 export interface DailyFrequencyControl extends Days {
-  dailyFrequency: DailyFrequencyFormData
+  dailyFrequency: SelectedDailyFrequency
 }
 
 type Days = { [day in DayCode]: boolean }
+
+export enum SelectedDailyFrequency {
+  everyday = 0,
+  specificDays = 1,
+}

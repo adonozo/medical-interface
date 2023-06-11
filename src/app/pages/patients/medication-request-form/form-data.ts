@@ -1,17 +1,6 @@
 import { MedicationRequestFormLocale } from "./medication-request-form.locale";
 import { NamedKeyBoolean } from "../../../@core/models/types";
 
-export enum FrequencyFormData {
-  timesPerDay = 0,
-  mealTime = 1,
-  specificTimes = 2
-}
-
-export enum DailyFrequencyFormData {
-  everyday = 0,
-  specificDays = 1,
-}
-
 export const namedBooleanDays: NamedKeyBoolean[] = [
   {
     name: MedicationRequestFormLocale.monday,
