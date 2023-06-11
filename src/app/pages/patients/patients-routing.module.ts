@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
 import { PatientsComponent } from "./patients.component";
-import { TreatmentsComponent } from "./treatments/treatments.component";
 import { GlucoseLevelsComponent } from "./glucose-levels/glucose-levels.component";
 import { OrderDetailsComponent } from "./order-details/order-details.component";
 import { PatientViewComponent } from "./patient-view/patient-view.component";
@@ -29,10 +28,6 @@ const routes: Routes = [
   {
     path: ':patientId/edit',
     component: PatientFormComponent
-  },
-  {
-    path: ':patientId/treatments',
-    component: TreatmentsComponent
   },
   {
     path: ':patientId/glucose-levels',

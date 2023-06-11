@@ -8,11 +8,16 @@ import {
   NbAutocompleteModule,
   NbButtonGroupModule,
   NbButtonModule,
-  NbCardModule, NbCheckboxModule, NbDatepickerModule, NbFormFieldModule, NbIconModule,
-  NbInputModule, NbRadioModule,
-  NbSelectModule, NbTimepickerModule
+  NbCardModule,
+  NbCheckboxModule,
+  NbDatepickerModule,
+  NbFormFieldModule,
+  NbIconModule,
+  NbInputModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbTimepickerModule
 } from "@nebular/theme";
-import { TreatmentsComponent } from './treatments/treatments.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
 import { NgxEchartsModule } from "ngx-echarts";
@@ -45,7 +50,6 @@ import { FormActionsComponent } from './components/form-actions/form-actions.com
 @NgModule({
   declarations: [
     PatientsComponent,
-    TreatmentsComponent,
     MedicationRequestEditFormComponent,
     MedicationRequestNewFormComponent,
     ServiceRequestNewFormComponent,
