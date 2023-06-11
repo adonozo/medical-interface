@@ -1,8 +1,8 @@
 import { ServiceRequest } from "fhir/r4";
 import { ServiceRequestView } from "../../models/service-request-view";
 import * as utils from "./utils";
-import { DayCode } from "../../models/types";
-import { dayStringFromCode, sortDayCodes } from "./utils";
+import { DayCode, TimeCode } from "../../models/types";
+import { dayStringFromCode, sortDayCodes, timingToString } from "./utils";
 
 /**
  * Maps a `ServiceRequest` into a `ServiceRequestView`, useful for displaying information.
@@ -24,8 +24,7 @@ export function mapToServiceRequestView(serviceRequest: ServiceRequest): Service
  * @param serviceRequest must have contained `ServiceRequest`, otherwise the function will return an empty string
  */
 function getServiceRequestDays(serviceRequest: ServiceRequest): string {
-  if (!serviceRequest.contained || !Array.isArray(serviceRequest.contained))
-  {
+  if (!serviceRequest.contained || !Array.isArray(serviceRequest.contained)) {
     return '';
   }
 
@@ -38,11 +37,11 @@ function getServiceRequestDays(serviceRequest: ServiceRequest): string {
 }
 
 /**
- * Extracts the days on which a ServiceRequest is active along with their timings in an array. E.g.,
- * `[ { day: 'mon', when: ['ACD', 'AC'] } ]`
+ * Extracts the days on which a ServiceRequest is active along with their timings. E.g.,
+ * `[ { day: 'Monday', when: 'before breakfast, after breakfast' } ]`
  * @param serviceRequest must have contained ServiceRequest, otherwise the function will return an empty array
  */
-function getServiceRequestTimings(serviceRequest: ServiceRequest): { day: DayCode, when: string[] }[] {
+function getServiceRequestTimings(serviceRequest: ServiceRequest): { day: string, when: string }[] {
   if (!serviceRequest.contained || !Array.isArray(serviceRequest.contained)) {
     return [];
   }
@@ -51,11 +50,18 @@ function getServiceRequestTimings(serviceRequest: ServiceRequest): { day: DayCod
     .map((request: ServiceRequest) => {
       const repeat = request.occurrenceTiming.repeat;
       const dayMap = (day: DayCode) => {
-        return {day, when: repeat.when}
+        return {day, when: repeat.when as TimeCode[]}
       };
 
       return repeat.dayOfWeek.map(dayMap)
     })
     .flat()
-    .sort((a, b) => sortDayCodes(a.day, b.day));
+    .sort((a, b) => sortDayCodes(a.day, b.day))
+    .map(({day, when}) => {
+      const dayString = dayStringFromCode(day);
+      const whenString = when
+        .map(whenCode => timingToString(whenCode))
+        .join(', ');
+      return {day: dayString, when: whenString}
+    });
 }

@@ -1,8 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { ServiceRequestView } from "../../../../@core/models/service-request-view";
-import { DayCode } from "../../../../@core/models/types";
-import * as utils from "../../../../@core/services/utils/utils";
-import { timingToString } from "../../../../@core/services/utils/utils";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
@@ -22,12 +19,6 @@ export class ServiceRequestViewComponent {
     protected activatedRoute: ActivatedRoute
   ) {
   }
-
-  dayStringFromCode = (dayCode: DayCode): string => utils.dayStringFromCode(dayCode);
-
-  whenArrayToString = (when: string[]): string => when
-    .map(whenCode => timingToString(whenCode))
-    .join(', ');
 
   navigateToEdit = async () => {
     await this.router.navigate([this.editPageRoute], {relativeTo: this.activatedRoute.parent})

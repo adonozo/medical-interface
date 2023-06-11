@@ -35,13 +35,13 @@
         <div class="col-auto">
           <div class="row mb-1" *ngFor="let dayWhen of serviceRequestView.dayWhen">
             <div class="col">
-              <b>{{ dayStringFromCode(dayWhen.day) }}:</b>
+              <b>{{ dayWhen.day }}:</b>
             </div>
           </div>
         </div>
         <div class="col">
           <div class="row mb-1" *ngFor="let dayWhen of serviceRequestView.dayWhen">
-            <span>{{ whenArrayToString(dayWhen.when) }}</span>
+            <span>{{ dayWhen.when }}</span>
           </div>
         </div>
       </div>
