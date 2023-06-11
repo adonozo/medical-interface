@@ -10,11 +10,11 @@ import {
   ValidationErrors,
   Validator, Validators
 } from "@angular/forms";
-import { DurationFormData } from "../../../../@core/models/enums";
 import { TimingRepeat } from "fhir/r4";
 import { getDateOrDefault } from "../../../../@core/services/utils/utils";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { SelectedDuration } from "./interfaces";
 
 @Component({
   selector: 'app-duration-control',
@@ -35,8 +35,8 @@ import { takeUntil } from "rxjs/operators";
 })
 export class DurationControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
-  durationType = DurationFormData;
-  durationSelected: DurationFormData;
+  durationType = SelectedDuration;
+  durationSelected: SelectedDuration;
 
   private unSubscriber: Subject<void> = new Subject<void>();
 
@@ -79,7 +79,7 @@ export class DurationControlComponent implements OnInit, OnDestroy, ControlValue
   onChange = (_: any) => {
   }
 
-  updateSelection(duration: DurationFormData): void {
+  updateSelection(duration: SelectedDuration): void {
     this.durationSelected = duration;
     this.durationSelectedControl.setValue(duration, {emitEvent: true});
     this.onTouched();
@@ -119,11 +119,11 @@ export class DurationControlComponent implements OnInit, OnDestroy, ControlValue
     }
 
     switch (this.durationSelected) {
-      case DurationFormData.duration:
+      case SelectedDuration.duration:
         return this.durationQuantityControl.value > 0 && this.durationUnitControl.value ? null : {required: true};
-      case DurationFormData.period:
+      case SelectedDuration.period:
         return this.periodRangeControl.value?.start && this.periodRangeControl.value?.end ? null : {required: true};
-      case DurationFormData.untilNext:
+      case SelectedDuration.untilNext:
         return this.periodEndControl.value ? null : {required: true};
       default:
         return null;
@@ -137,11 +137,11 @@ export class DurationControlComponent implements OnInit, OnDestroy, ControlValue
 
   private setFormValues(repeat: TimingRepeat): void {
     if (repeat.boundsDuration) {
-      this.durationSelected = DurationFormData.duration;
+      this.durationSelected = SelectedDuration.duration;
       this.durationQuantityControl.setValue(repeat.boundsDuration.value);
       this.durationUnitControl.setValue(repeat.boundsDuration.unit);
     } else if (repeat.boundsPeriod) {
-      this.durationSelected = DurationFormData.period;
+      this.durationSelected = SelectedDuration.period;
       const period = {
         start: getDateOrDefault(repeat.boundsPeriod.start),
         end: getDateOrDefault(repeat.boundsPeriod.end)

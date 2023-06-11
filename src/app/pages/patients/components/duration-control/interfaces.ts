@@ -1,7 +1,5 @@
-import { DurationFormData } from "../../../../@core/models/enums";
-
 export interface DurationControl {
-  durationSelected: DurationFormData,
+  durationSelected: SelectedDuration,
   periodRange: {
     start: Date,
     end: Date
@@ -9,4 +7,10 @@ export interface DurationControl {
   durationQuantity: number,
   durationUnit: string,
   periodEnd: Date
+}
+
+export enum SelectedDuration {
+  duration = 0,
+  period = 1,
+  untilNext = 2
 }

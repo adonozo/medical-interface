@@ -1,18 +1,21 @@
 import { Timing } from "fhir/r4";
-import { DurationFormData } from "../../models/enums";
 import { DailyFrequencyFormData, FrequencyFormData } from "../../../pages/patients/medication-request-form/form-data";
 import { daySelectedFilter } from "./utils";
 import { Moment } from "moment";
 import { DaysOfWeek } from "../../../pages/patients/service-request-form/form-data";
 import { DayCode, TimeCodeExtended } from "../../models/types";
 import { TimesControl, WeeklyTimingsControl } from "../../../pages/patients/components/week-timing-control/types";
-import { DurationControl } from "../../../pages/patients/components/duration-control/interfaces";
+import { DurationControl, SelectedDuration } from "../../../pages/patients/components/duration-control/interfaces";
 import { DailyFrequencyControl } from "../../../pages/patients/components/daily-frequency-control/interfaces";
 import { FrequencyControl } from "../../../pages/patients/components/frequency-control/interfaces";
 
 export class TimingRepeatBuilder {
   private timingRepeat: Timing = emptyTimingRepeat();
 
+  /**
+   * Sets the timing duration based on a `SelectedDuration` value: `boundsPeriod` or `boundDuration`
+   * @param durationValue The raw value from the Duration Control
+   */
   addRepeatBounds(durationValue: DurationControl): TimingRepeatBuilder {
     const {
       durationSelected,
@@ -23,19 +26,19 @@ export class TimingRepeatBuilder {
     } = durationValue;
     const repeat = this.timingRepeat.repeat;
     switch (durationSelected) {
-      case DurationFormData.period:
+      case SelectedDuration.period:
         repeat.boundsPeriod = {
           start: periodRange.start.toISOString(),
           end:periodRange.end.toISOString(),
         }
         break;
-      case DurationFormData.duration:
+      case SelectedDuration.duration:
         repeat.boundsDuration = {
           value: durationQuantity,
           unit: durationUnit
         };
         break;
-      case DurationFormData.untilNext:
+      case SelectedDuration.untilNext:
         repeat.boundsPeriod = {
           start: (new Date()).toISOString(),
           end: periodEnd.toISOString(),
@@ -79,6 +82,9 @@ export class TimingRepeatBuilder {
 
   build = (): Timing => this.timingRepeat;
 
+  /**
+   * Creates a new instance of the builder with an empty `Timing`
+   */
   static create = (): TimingRepeatBuilder => new TimingRepeatBuilder();
 }
 
