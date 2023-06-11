@@ -1,5 +1,5 @@
 import { AbstractControl, FormControl } from "@angular/forms";
-import { FormStatus } from "../services/data/form-data";
+import { FormStatus } from "../models/enums";
 
 export abstract class FormComponent {
   formStatus: FormStatus = FormStatus.default;

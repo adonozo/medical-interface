@@ -15,7 +15,6 @@ import {
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ReactiveFormsModule } from "@angular/forms";
-import { NbDateFnsDateModule } from "@nebular/date-fns";
 
 @NgModule({
   declarations: [
@@ -31,7 +30,6 @@ import { NbDateFnsDateModule } from "@nebular/date-fns";
     NbMenuModule.forRoot(),
     NbTimepickerModule.forRoot(),
     NbDatepickerModule.forRoot(),
-    NbDateFnsDateModule,
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),

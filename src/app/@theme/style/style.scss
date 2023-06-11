@@ -117,6 +117,41 @@
   }
 }
 
+.list-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+  overflow: visible;
+
+  .icon-container {
+    height: 100%;
+    padding: 0;
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 3rem;
+    font-size: 1.2rem;
+    border-radius: nb-theme(card-border-radius);
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+
+    @each $status in nb-get-statuses() {
+      &.status-#{$status} {
+        $color: nb-theme(button-hero-#{$status}-right-background-color);
+        color: $color;
+        border: solid 1px $color;
+      }
+    }
+  }
+}
+
 .icon-text {
   font-size: 0.9rem;
   font-weight: 500;

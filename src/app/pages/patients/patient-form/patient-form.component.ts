@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { formatDate, Location } from "@angular/common";
+import { Location } from "@angular/common";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { FormComponent } from "../../../@core/components/form.component";
 import { InternalPatient } from "../../../@core/models/internalPatient";
 import { PatientsService } from "../../../@core/services/patients.service";
-import { FormStatus } from "../../../@core/services/data/form-data";
+import { FormStatus } from "../../../@core/models/enums";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PatientFormService } from "./patient-form.service";
 import { flatMap } from "rxjs/internal/operators";
-import { ResourceUtils } from "../../../@core/services/utils/resourceUtils";
+import * as patientUtils from "../../../@core/services/utils/patient-utils";
 
 @Component({
   selector: 'app-patient-form',
@@ -27,21 +27,21 @@ export class PatientFormComponent extends FormComponent {
     private location: Location,
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     super();
-    this.route.params.pipe(
-      flatMap(params => {
-        if (params['patientId']) {
-          this.patientId = params['patientId'];
-          this.isEditForm = true;
-          return patientsFormService.getPatientForm(params['patientId']);
-        }
+    this.route.params
+      .pipe(
+        flatMap(params => {
+          if (params['patientId']) {
+            this.patientId = params['patientId'];
+            this.isEditForm = true;
+            return patientsFormService.getPatientForm(params['patientId']);
+          }
 
-        return patientsFormService.getDefaultForm();
-      })
-    ).subscribe(form => this.patientForm = form);
+          return patientsFormService.getDefaultForm();
+        }))
+      .subscribe(form => this.patientForm = form);
   }
 
   get firstNameControl(): FormControl {
@@ -68,7 +68,7 @@ export class PatientFormComponent extends FormComponent {
     return this.patientForm.get('phoneContacts') as FormArray;
   }
 
-  addPhoneControlGroup = () : void =>
+  addPhoneControlGroup = (): void =>
     this.phonesArrayControl.push(this.patientsFormService.getEmptyPhoneContactForm());
 
   removeFromPhoneArray = (index: number): void =>
@@ -95,18 +95,15 @@ export class PatientFormComponent extends FormComponent {
   }
 
   private savePatient(internalPatient: InternalPatient): void {
-    const birthDate = formatDate(internalPatient.birthDate, 'yyyy-MM-dd', 'en_US');
-    const patient = ResourceUtils.toPatient(internalPatient, birthDate);
+    const patient = patientUtils.toPatient(internalPatient);
     const method = this.isEditForm ? this.patientsService.patchPatient(internalPatient)
       : this.patientsService.createPatient(patient);
     method.subscribe(
-        async patient => {
-          await this.router.navigate([patient.id + '/view'], {relativeTo: this.activatedRoute.parent});
-        },
-        error => {
-          this.formStatus = FormStatus.error;
-          console.log(error);
-        }
-      )
+      _ => this.formStatus = FormStatus.success,
+      error => {
+        this.formStatus = FormStatus.error;
+        console.log(error);
+      }
+    )
   }
 }

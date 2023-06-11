@@ -1,0 +1,58 @@
+<ng-container *ngIf="editButton; else editServiceRequest">
+  <div class="row">
+    <div class="col-auto">
+      <button nbButton outline status="info" size="small" (click)="navigateToEdit()" [disabled]="disableEditButton">
+        <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
+        <span i18n>Edit</span>
+      </button>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col-12">
+          <b>{{ serviceRequestView.days }}</b>
+        </div>
+        <div class="col-12">
+          <span class="text-hint">{{ serviceRequestView.duration }}</span>
+        </div>
+        <div class="col-12 mt-2" *ngIf="serviceRequestView.patientInstruction.length > 0">
+          <i class="text-hint"><span i18n>Note for patient: </span> {{ serviceRequestView.patientInstruction }}</i>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #editServiceRequest>
+  <div class="row">
+    <div class="col-auto pr-0 mb-3 list-icon">
+      <div class="icon-container">
+        <div class="icon status-warning">
+          <i class="icon fas fa-vial"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col mb-2">
+      <div class="row">
+        <div class="col-auto">
+          <div class="row mb-1" *ngFor="let dayWhen of serviceRequestView.dayWhen">
+            <div class="col">
+              <b>{{ dayWhen.day }}:</b>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="row mb-1" *ngFor="let dayWhen of serviceRequestView.dayWhen">
+            <span>{{ dayWhen.when }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mt-2">
+          <span>{{ serviceRequestView.duration }}</span>
+        </div>
+        <div class="col-12 mt-2" *ngIf="serviceRequestView.patientInstruction.length > 0">
+          <i><span i18n>Note for patient:</span> {{ serviceRequestView.patientInstruction }}</i>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

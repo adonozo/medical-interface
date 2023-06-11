@@ -1,0 +1,15 @@
+.action {
+  width: auto;
+  height: auto;
+  pointer-events: none;
+
+  .icon-container {
+    padding: 0;
+  }
+
+  .icon {
+    height: 2rem;
+    width: 3rem;
+    font-size: 1.2rem;
+  }
+}
