@@ -31,7 +31,7 @@ export class ObservationsService {
 
   getEmptyGlucoseObservation(patientId: string): Observation {
     const defaultDate = new Date();
-    defaultDate.setHours(9);
+    defaultDate.setHours(9, 0, 0);
 
     return {
       resourceType: "Observation",
@@ -48,7 +48,7 @@ export class ObservationsService {
       subject: {
         reference: patientUtils.getPatientReference(patientId),
       },
-      effectiveDateTime: defaultDate.toISOString(),
+      issued: defaultDate.toISOString(),
       performer: [
         {
           reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
