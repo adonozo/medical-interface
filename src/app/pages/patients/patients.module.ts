@@ -31,7 +31,6 @@ import { CarePlanComponent } from './care-plan/care-plan.component';
 import { CarePlanFormComponent } from './care-plan/care-plan-form/care-plan-form.component';
 import { MedicationRequestEditFormComponent } from "./medication-request-form/medication-request-edit-form.component";
 import { MedicationRequestNewFormComponent } from "./medication-request-form/medication-request-new-form.component";
-import { NbMomentDateModule } from "@nebular/moment";
 import { ServiceRequestNewFormComponent } from "./service-request-form/service-request-new-form.component";
 import { ServiceRequestEditFormComponent } from "./service-request-form/service-request-edit-form.component";
 import { DurationControlComponent } from './components/duration-control/duration-control.component';
@@ -91,7 +90,6 @@ import { FormActionsComponent } from './components/form-actions/form-actions.com
     NbIconModule,
     NbRadioModule,
     NbDatepickerModule,
-    NbMomentDateModule,
     NbAlertModule,
     ThemeModule,
     NbFormFieldModule
