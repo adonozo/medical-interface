@@ -49,10 +49,15 @@
       <div class="form-group row">
         <label for="observation-date" class="col-form-label col-sm-3 form-control-label text-sm-right" i18n>Date</label>
         <div class="col-sm-9">
-          <input id="observation-date" nbInput fullWidth i18n-placeholder="Placeholder" placeholder="Date"
-                 autocomplete="off"
-                 [nbDatepicker]="datePicker"
-                 [formControl]="dateControl">
+          <input
+            id="observation-date"
+            nbInput
+            fullWidth
+            i18n-placeholder="Placeholder"
+            placeholder="Date"
+            autocomplete="off"
+            [nbDatepicker]="datePicker"
+            [formControl]="dateControl">
           <nb-date-timepicker #datePicker
                               [format]="localeTime"
                               [singleColumn]="true"

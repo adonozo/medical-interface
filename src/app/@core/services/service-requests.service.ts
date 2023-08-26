@@ -9,7 +9,7 @@ import * as patientUtils from "./utils/patient-utils";
 })
 export class ServiceRequestsService {
 
-  private readonly path = 'serviceRequests/';
+  private readonly path = 'service-requests/';
 
   constructor(
     private restApiService: RestApiService
@@ -31,7 +31,7 @@ export class ServiceRequestsService {
   }
 
   createServiceRequests(carePlanId: string, request: ServiceRequest): Observable<void> {
-    return this.restApiService.post(`carePlans/${carePlanId}/${this.path}`, request);
+    return this.restApiService.post(`care-plans/${carePlanId}/${this.path}`, request);
   }
 
   getServiceRequest(id: string): Observable<ServiceRequest> {
@@ -43,7 +43,7 @@ export class ServiceRequestsService {
   }
 
   deleteServiceRequest(carePlanId: string, serviceRequestId: string): Observable<void> {
-    return this.restApiService.delete(`carePlans/${carePlanId}/${this.path}${serviceRequestId}`);
+    return this.restApiService.delete(`care-plans/${carePlanId}/${this.path}${serviceRequestId}`);
   }
 
   private generateEmptyServiceRequest(): ServiceRequest {
