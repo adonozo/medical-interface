@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class MedicationRequestsService {
-  private readonly path = 'medicationRequests/'
+  private readonly path = 'medication-requests/'
 
   constructor(private apiService: RestApiService) {
   }
@@ -27,11 +27,11 @@ export class MedicationRequestsService {
   }
 
   createMedicationRequest(carePlanId: string, request: MedicationRequest): Observable<MedicationRequest> {
-    return this.apiService.post(`carePlans/${carePlanId}/${this.path}`, request);
+    return this.apiService.post(`care-plans/${carePlanId}/${this.path}`, request);
   }
 
   deleteMedicationRequest(carePlanId: string, medicationRequestId: string): Observable<void> {
-    return this.apiService.delete(`carePlans/${carePlanId}/${this.path}${medicationRequestId}`);
+    return this.apiService.delete(`care-plans/${carePlanId}/${this.path}${medicationRequestId}`);
   }
 
   updateMedicationRequest(id: string, request: MedicationRequest): Observable<void> {
