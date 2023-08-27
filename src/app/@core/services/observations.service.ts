@@ -14,7 +14,7 @@ export class ObservationsService {
   }
 
   getObservations(patientId: string, limit: number = 0, lastCursor?: string): Observable<PaginatedResult<Observation>> {
-    return this.restService.getPaginated(`patients/${patientId}/all/observations/`, limit, lastCursor);
+    return this.restService.getPaginated(`patients/${patientId}/observations/`, limit, lastCursor);
   }
 
   postObservation(observation: Observation): Observable<Observation> {
@@ -31,7 +31,7 @@ export class ObservationsService {
 
   getEmptyGlucoseObservation(patientId: string): Observation {
     const defaultDate = new Date();
-    defaultDate.setHours(9);
+    defaultDate.setHours(9, 0, 0);
 
     return {
       resourceType: "Observation",
@@ -48,7 +48,7 @@ export class ObservationsService {
       subject: {
         reference: patientUtils.getPatientReference(patientId),
       },
-      issued: new Date().toISOString(),
+      issued: defaultDate.toISOString(),
       performer: [
         {
           reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',

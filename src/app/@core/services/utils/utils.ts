@@ -1,6 +1,7 @@
 import { TimingRepeat } from "fhir/r4";
 import { AppLocale } from "../data/locale";
 import { DayCode, TimeCode, TimeCodeExtended } from "../../models/types";
+import { parseISO } from "date-fns"
 
 /**
  * Parses a string into a Date object. Returns the current date if the string is not a valid date
@@ -8,7 +9,7 @@ import { DayCode, TimeCode, TimeCodeExtended } from "../../models/types";
  */
 export function getDateOrDefault(stringDate: string): Date {
   try {
-    return new Date(stringDate);
+    return parseISO(stringDate)
   } catch (exception) {
     return new Date();
   }
@@ -20,7 +21,7 @@ export function getDateOrDefault(stringDate: string): Date {
  */
 export function getDateFromString(stringDate: string): Date | undefined {
   try {
-    return new Date(stringDate);
+    return parseISO(stringDate)
   } catch (exception) {
     return undefined;
   }

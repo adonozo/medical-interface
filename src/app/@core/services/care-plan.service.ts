@@ -9,13 +9,13 @@ import * as patientUtils from "./utils/patient-utils";
   providedIn: 'root'
 })
 export class CarePlanService {
-  private readonly path = 'carePlans/'
+  private readonly path = 'care-plans/'
 
   constructor(private restService: RestApiService) {
   }
 
   getCarePlans(patientId: string, limit: number = 0, lastCursor?: string): Observable<PaginatedResult<CarePlan>> {
-    return this.restService.getPaginated(`patients/${patientId}/carePlans`, limit, lastCursor);
+    return this.restService.getPaginated(`patients/${patientId}/care-plans`, limit, lastCursor);
   }
 
   getCarePlan(id: string): Observable<CarePlan> {
