@@ -66,6 +66,40 @@
   }
 }
 
+.data-table {
+  table {
+    thead {
+      .action-column {
+        width: 120px;
+      }
+
+      th {
+        padding-top: 1em;
+        padding-bottom: 1em;
+      }
+    }
+
+    tbody {
+      tr:nth-child(odd) {
+        background-color: #f7f9fc;
+      }
+
+      tr:hover {
+        background-color: #f4f6f9 !important;
+      }
+    }
+
+    th, td {
+      border: 1px solid #edf1f7;
+      padding-left: 1.5em;
+    }
+  }
+
+  .action-icon {
+    font-size: 1.20rem !important;
+  }
+}
+
 .action {
   display: flex;
   flex-direction: row;

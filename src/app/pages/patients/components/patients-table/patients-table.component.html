@@ -1,0 +1,20 @@
+<div class="data-table">
+  <table class="table table-bordered m-0">
+    <thead>
+    <tr>
+      <th class="action-column">Action</th>
+      <th>Name</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let patient of displayPatients" class="cursor-pointer" (click)="viewPatient(patient.id)">
+      <td>
+        <i class="far fa-eye action-icon"></i> <span class="icon-text text-dark ml-1">View</span>
+      </td>
+      <td>{{patient.firstName}} {{patient.lastName}}</td>
+      <td>{{patient.email}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
