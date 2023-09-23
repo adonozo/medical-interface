@@ -1,0 +1,16 @@
+<div class="data-table">
+  <table class="table table-bordered m-0">
+    <thead>
+    <th class="action-column">Action</th>
+    <th>Status</th>
+    <th>Created At</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let carePlan of carePlans" class="cursor-pointer">
+      <td><app-resource-actions [rowData]="carePlan" [value]="carePlanTableAction(carePlan.status)"></app-resource-actions></td>
+      <td><app-care-plan-status [rowData]="carePlan" [value]="carePlan.status"></app-care-plan-status></td>
+      <td>{{ carePlan.created | date }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
