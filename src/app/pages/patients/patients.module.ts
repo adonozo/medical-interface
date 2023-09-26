@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PatientsRoutingModule } from "./patients-routing.module";
 import { PatientsComponent } from "./patients.component";
-import { Ng2SmartTableModule } from "ng2-smart-table";
 import {
   NbAlertModule,
   NbAutocompleteModule,
@@ -82,7 +81,6 @@ import { ObservationsTableComponent } from './glucose-levels/observations-table/
   imports: [
     CommonModule,
     PatientsRoutingModule,
-    Ng2SmartTableModule,
     NgxEchartsModule,
     NbCardModule,
     NbInputModule,
