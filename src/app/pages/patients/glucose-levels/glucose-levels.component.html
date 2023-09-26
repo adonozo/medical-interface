@@ -13,12 +13,7 @@
       <nb-card-header>
         <h4 i18n>Blood Glucose records</h4>
       </nb-card-header>
-      <ng2-smart-table class="order-table"
-                       #levelsTable
-                       [settings]="settings"
-                       [source]="source"
-                       (custom)="handleCustomAction($event)">
-      </ng2-smart-table>
+      <app-observations-table [observations]="results?.results" (onEdited)="nextObservations()"></app-observations-table>
       <nb-card-footer>
         <app-pagination-footer [results]="results"
                                (nextClicked)="nextObservations($event)"
