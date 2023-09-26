@@ -47,6 +47,7 @@ import { MedicationRequestViewComponent } from './components/medication-request-
 import { FormActionsComponent } from './components/form-actions/form-actions.component';
 import { PatientsTableComponent } from './components/patients-table/patients-table.component';
 import { CarePlansTableComponent } from './components/care-plans-table/care-plans-table.component';
+import { ObservationsTableComponent } from './glucose-levels/observations-table/observations-table.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { CarePlansTableComponent } from './components/care-plans-table/care-plan
     MedicationRequestViewComponent,
     FormActionsComponent,
     PatientsTableComponent,
-    CarePlansTableComponent
+    CarePlansTableComponent,
+    ObservationsTableComponent
   ],
   imports: [
     CommonModule,
