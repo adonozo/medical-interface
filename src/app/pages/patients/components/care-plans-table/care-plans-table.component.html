@@ -7,8 +7,12 @@
     </thead>
     <tbody>
     <tr *ngFor="let carePlan of carePlans">
-      <td><app-resource-actions [rowData]="carePlan" [value]="carePlanTableAction(carePlan.status)"></app-resource-actions></td>
-      <td><app-care-plan-status [rowData]="carePlan" [value]="carePlan.status"></app-care-plan-status></td>
+      <td>
+        <app-resource-actions [id]="carePlan.id" [action]="carePlanTableAction(carePlan.status)"></app-resource-actions>
+      </td>
+      <td>
+        <app-care-plan-status [status]="carePlan.status"></app-care-plan-status>
+      </td>
       <td>{{ carePlan.created | date }}</td>
     </tr>
     </tbody>

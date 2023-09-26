@@ -1,19 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CarePlan } from "fhir/r4";
-import { TableActions } from "../../../../@core/components/table-components/resource-actions/table-actions";
+import { TableAction } from "../../../../@core/components/table-components/resource-actions/table-action";
 
 @Component({
   selector: 'app-care-plans-table',
   templateUrl: './care-plans-table.component.html',
   styleUrls: ['./care-plans-table.component.scss']
 })
-export class CarePlansTableComponent implements OnInit {
+export class CarePlansTableComponent {
   @Input() carePlans: CarePlan[];
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
-  carePlanTableAction = (status: string) => status === "draft" ? TableActions.Edit : TableActions.View;
+  carePlanTableAction = (status: string) => status === "draft" ? TableAction.Edit : TableAction.View;
 }

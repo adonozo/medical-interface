@@ -1,15 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ViewCell } from "ng2-smart-table";
 
 @Component({
   selector: 'app-care-plan-status',
   templateUrl: './care-plan-status.component.html',
   styleUrls: ['./care-plan-status.component.scss']
 })
-export class CarePlanStatusComponent implements ViewCell, OnInit {
+export class CarePlanStatusComponent implements OnInit {
 
-  @Input() rowData: any;
-  @Input() value: string;
+  @Input() status: string;
 
   statusColor: string;
 
@@ -18,7 +16,7 @@ export class CarePlanStatusComponent implements ViewCell, OnInit {
   }
 
   getStatusColor():string {
-    switch (this.value) {
+    switch (this.status) {
       case 'draft':
         return 'text-warning';
       case 'active':
