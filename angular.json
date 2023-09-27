@@ -152,7 +152,6 @@
       }
     }
   },
-  "defaultProject": "doctor-interface",
   "schematics": {
     "@schematics/angular:component": {
       "style": "scss"
