@@ -5,12 +5,7 @@
       <ng-container i18n>Patients</ng-container>
     </h2>
   </nb-card-header>
-  <ng2-smart-table class="order-table"
-                   [settings]="settings"
-                   [source]="source"
-                   (userRowSelect)="onRowSelected($event)"
-                   (custom)="onCustomPatients($event)">
-  </ng2-smart-table>
+  <app-patients-table [patients]="results.results" *ngIf="results"></app-patients-table>
   <nb-card-footer>
     <app-pagination-footer
       [results]="results"
