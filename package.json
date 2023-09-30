@@ -1,6 +1,6 @@
 {
-  "name": "doctor-interface",
-  "version": "0.0.1",
+  "name": "medical-interface",
+  "version": "0.2.5",
   "author": "Alvaro Donozo",
   "scripts": {
     "ng": "ng",
@@ -15,7 +15,6 @@
   },
   "private": true,
   "dependencies": {
-    "@akveo/ng2-completer": "^9.0.1",
     "@angular/animations": "^15.2.9",
     "@angular/cdk": "^15.2.9",
     "@angular/common": "^15.2.9",
@@ -25,7 +24,6 @@
     "@angular/platform-browser": "^15.2.9",
     "@angular/platform-browser-dynamic": "^15.2.9",
     "@angular/router": "^15.2.9",
-    "@asymmetrik/ngx-leaflet": "15.0.1",
     "@nebular/auth": "^11.0.1",
     "@nebular/date-fns": "11.0.1",
     "@nebular/eva-icons": "11.0.1",
@@ -41,7 +39,6 @@
     "ionicons": "7.1.2",
     "moment": "^2.29.4",
     "nebular-icons": "1.1.0",
-    "ng2-completer": "^9.0.1",
     "ngx-echarts": "^16.0.0",
     "normalize.css": "^8.0.1",
     "pace-js": "1.2.4",
