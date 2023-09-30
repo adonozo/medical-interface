@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="action">
+<ng-container [ngSwitch]="action" *ngIf="action">
   <div class="cursor-pointer" (click)="moveToView()" *ngSwitchCase="tableAction.View">
     <i class="far fa-eye"></i>
     <span class="ml-1" i18n>View</span>

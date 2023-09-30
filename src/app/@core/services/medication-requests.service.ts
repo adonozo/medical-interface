@@ -18,7 +18,7 @@ export class MedicationRequestsService {
       resourceType: "MedicationRequest",
       status: "active",
       priority: "routine",
-      subject: undefined
+      subject: {}
     }
   }
 

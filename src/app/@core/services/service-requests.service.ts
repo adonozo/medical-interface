@@ -19,8 +19,8 @@ export class ServiceRequestsService {
   getBaseServiceRequest(patient: Patient): ServiceRequest {
     const request = this.generateEmptyServiceRequest();
     request.subject = {
-      reference: patientUtils.getPatientReference(patient.id),
-      display: patient.name[0]?.family
+      reference: patientUtils.getPatientReference(patient.id ?? ''),
+      display: patient.name ? patient.name[0].family : ''
     }
     request.requester = {
       reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
@@ -60,7 +60,7 @@ export class ServiceRequestsService {
           }
         ]
       },
-      subject: undefined
+      subject: {}
     };
   }
 }
