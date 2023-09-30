@@ -1,4 +1,4 @@
-import { Timing } from "fhir/r4";
+import { Timing, TimingRepeat } from "fhir/r4";
 import { daySelectedFilter } from "./utils";
 import { Moment } from "moment";
 import { DaysOfWeek } from "../../../pages/patients/service-request-form/form-data";
@@ -12,7 +12,11 @@ import {
 import { FrequencyControl, SelectedFrequency } from "../../../pages/patients/components/frequency-control/interfaces";
 
 export class TimingRepeatBuilder {
-  private timingRepeat: Timing = emptyTimingRepeat();
+  private readonly repeat : TimingRepeat;
+
+  constructor() {
+    this.repeat = emptyRepeat();
+  }
 
   /**
    * Sets the timing duration based on a `SelectedDuration` value: `boundsPeriod` or `boundDuration`
@@ -26,22 +30,21 @@ export class TimingRepeatBuilder {
       durationUnit,
       periodEnd
     } = durationValue;
-    const repeat = this.timingRepeat.repeat;
     switch (durationSelected) {
       case SelectedDuration.period:
-        repeat.boundsPeriod = {
+        this.repeat.boundsPeriod = {
           start: periodRange.start.toISOString(),
           end:periodRange.end.toISOString(),
         }
         break;
       case SelectedDuration.duration:
-        repeat.boundsDuration = {
+        this.repeat.boundsDuration = {
           value: durationQuantity,
           unit: durationUnit
         };
         break;
       case SelectedDuration.untilNext:
-        repeat.boundsPeriod = {
+        this.repeat.boundsPeriod = {
           start: (new Date()).toISOString(),
           end: periodEnd.toISOString(),
         }
@@ -57,7 +60,7 @@ export class TimingRepeatBuilder {
    */
   addDayOfWeeks(dailyFrequencyValue: DailyFrequencyControl): TimingRepeatBuilder {
     const {dailyFrequency, ...days} = dailyFrequencyValue;
-    this.timingRepeat.repeat.dayOfWeek = dailyFrequency === SelectedDailyFrequency.specificDays ?
+    this.repeat.dayOfWeek = dailyFrequency === SelectedDailyFrequency.specificDays ?
       daySelectedFilter(days) as DayCode[] : [];
 
     return this;
@@ -78,13 +81,13 @@ export class TimingRepeatBuilder {
 
     switch (frequencySelected) {
       case SelectedFrequency.timesPerDay:
-        this.timingRepeat.repeat.frequency = frequency;
+        this.repeat.frequency = frequency;
         break;
       case SelectedFrequency.mealTime:
-        this.timingRepeat.repeat.when = daySelectedFilter(when);
+        this.repeat.when = daySelectedFilter(when);
         break;
       case SelectedFrequency.specificTimes:
-        this.timingRepeat.repeat.timeOfDay = timeOfDay.map((date: Moment) => date.format('HH:mm'));
+        this.repeat.timeOfDay = timeOfDay.map((date: Moment) => date.format('HH:mm'));
         break;
     }
 
@@ -94,7 +97,9 @@ export class TimingRepeatBuilder {
   /**
    * Builds a `Timing` object
    */
-  build = (): Timing => this.timingRepeat;
+  build = (): Timing => {
+    return {repeat: this.repeat}
+  };
 
   /**
    * Creates a new instance of the builder with an empty `Timing`
@@ -113,15 +118,13 @@ export function getTimingsArray(baseTiming: Timing, weekTimingValue: WeeklyTimin
   return createTimingsFromMap(map, baseTiming, mapHasDayAsKey);
 }
 
-function emptyTimingRepeat(): Timing {
+function emptyRepeat(): TimingRepeat {
   return {
-    repeat: {
-      when: [],
-      period: 1,
-      periodUnit: 'd',
-      frequency: 1,
-      timeOfDay: []
-    }
+    when: [],
+    period: 1,
+    periodUnit: 'd',
+    frequency: 1,
+    timeOfDay: []
   };
 }
 
@@ -139,7 +142,7 @@ function getTimingMaps(weekTimingValue: WeeklyTimingsControl): {
   const timesMap: Map<TimeCodeExtended, DayCode[]> = new Map();
 
   DaysOfWeek.forEach(day => {
-    const timesInDay: TimesControl = weekTimingValue[day.key];
+    const timesInDay: TimesControl = weekTimingValue[day.key as DayCode];
     const selectedTimesInDay: TimeCodeExtended[] = daySelectedFilter(timesInDay);
     if (selectedTimesInDay.length > 0) {
       daysMap.set(day.key as DayCode, selectedTimesInDay);
@@ -151,16 +154,16 @@ function getTimingMaps(weekTimingValue: WeeklyTimingsControl): {
 }
 
 function createTimingsFromMap(map: Map<string, string[]>, baseTiming: Timing, mapHasDayAsKey: boolean): Timing[] {
-  const timingsArray = [];
+  const timingsArray: Timing[] = [];
   map.forEach((value, key) => {
     if (value.length == 0) {
       return;
     }
 
-    const timingCopy = JSON.parse(JSON.stringify(baseTiming)) as Timing;
-    timingCopy.repeat.dayOfWeek = mapHasDayAsKey ? [key as DayCode] : value as DayCode[];
-    timingCopy.repeat.when = mapHasDayAsKey ? value as TimeCodeExtended[] : [key as TimeCodeExtended];
-    timingsArray.push(timingCopy);
+    const repeatCopy = JSON.parse(JSON.stringify(baseTiming.repeat)) as TimingRepeat;
+    repeatCopy.dayOfWeek = mapHasDayAsKey ? [key as DayCode] : value as DayCode[];
+    repeatCopy.when = mapHasDayAsKey ? value as TimeCodeExtended[] : [key as TimeCodeExtended];
+    timingsArray.push({repeat: repeatCopy});
   });
 
   return timingsArray;
@@ -171,5 +174,5 @@ function pushValueToMap(key: string, arrayItem: string, map: Map<string, string[
     map.set(key, []);
   }
 
-  map.get(key).push(arrayItem);
+  map.get(key)!.push(arrayItem);
 }

@@ -3,6 +3,7 @@ import { InternalPatient, PatientPhoneContact } from "../../models/internalPatie
 import { Extensions, ResourcePath } from "../data/constants";
 import * as resourceUtils from "./resource-utils";
 import { formatDate } from "@angular/common";
+import { getDateOrDefault } from "./utils";
 
 export const getPatientReference = (patientId: string): string  => ResourcePath.PATIENT + patientId;
 
@@ -12,7 +13,7 @@ export const getPatientReference = (patientId: string): string  => ResourcePath.
  * @param patient
  */
 export function getPatientName(patient: Patient): string {
-  if (!patient.name[0]) {
+  if (!patient.name || !patient.name[0]) {
     return '';
   }
 
@@ -48,12 +49,12 @@ export function toPatient(internalPatient: InternalPatient): Patient {
  */
 export function toInternalPatient(patient: Patient): InternalPatient {
   return {
-    id: patient.id,
+    id: patient.id ?? '',
     email: resourceUtils.getStringExtension(patient, Extensions.EMAIL),
-    birthDate: new Date(patient.birthDate),
+    birthDate: getDateOrDefault(patient.birthDate),
     gender: getPatientGender(patient),
-    lastName: patient.name[0]?.family,
-    firstName: patient.name[0]?.given?.join(' '),
+    lastName: (patient.name && patient.name[0]?.family) ?? '',
+    firstName: (patient.name && patient.name[0]?.given?.join(' ')) ?? '',
     alexaUserId: resourceUtils.getStringExtension(patient, Extensions.ALEXA_ID),
     phones: getPatientContacts(patient)
   };
@@ -75,7 +76,7 @@ function getPatientGender(patient: Patient): ('male' | 'female') {
     return patient.gender;
   }
 
-  return undefined;
+  return 'female';
 }
 
 function getPatientContacts(patient: Patient): PatientPhoneContact[] {
@@ -86,9 +87,9 @@ function getPatientContacts(patient: Patient): PatientPhoneContact[] {
   return patient.telecom.map(contact => {
     return {
       system: contact.system,
-      value: contact.value,
-      use: contact.use,
-      rank: contact.rank
+      value: contact.value ?? '',
+      use: contact.use ?? 'home',
+      rank: contact.rank ?? 0
     }
   })
 }
