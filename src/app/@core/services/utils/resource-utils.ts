@@ -7,13 +7,13 @@ import { PaginatedResult } from "../../models/paginatedResult";
  * @param reference
  */
 export function getIdFromReference(reference: Reference): string {
-  const separator = reference.reference.startsWith('#') ? '#' : '/';
-  const referenceParts = reference.reference.split(separator);
-  if (referenceParts.length > 1) {
-    return referenceParts[1];
+  if (!reference.reference) {
+    return '';
   }
 
-  return '';
+  const separator = reference.reference.startsWith('#') ? '#' : '/';
+  const referenceParts = reference.reference.split(separator);
+  return referenceParts.length > 1 ? referenceParts[1] : '';
 }
 
 /**
@@ -22,8 +22,14 @@ export function getIdFromReference(reference: Reference): string {
  * @param url the URL that the extension uses as a key. Should be already defined as a constant.
  */
 export function getStringExtension(resource: DomainResource, url: string): string {
-  const extIndex = resource?.extension?.findIndex(ext => ext.url === url)
-  return !isNaN(extIndex) && extIndex >= 0 ? resource.extension[extIndex].valueString : '';
+  if (!resource || !resource.extension) {
+    return '';
+  }
+
+  const extIndex = resource.extension.findIndex(ext => ext.url === url)
+  return extIndex >= 0
+    ? resource.extension[extIndex].valueString ?? ''
+    : '';
 }
 
 /**
@@ -32,8 +38,14 @@ export function getStringExtension(resource: DomainResource, url: string): strin
  * @param url the URL that the extension uses as a key. Should be already defined as a constant.
  */
 export function getCodeExtension(resource: DomainResource, url: string): string {
-  const extIndex = resource?.extension?.findIndex(ext => ext.url === url)
-  return !isNaN(extIndex) && extIndex >= 0 ? resource.extension[extIndex].valueCode : '';
+  if (!resource || !resource.extension) {
+    return '';
+  }
+
+  const extIndex = resource.extension.findIndex(ext => ext.url === url)
+  return extIndex >= 0
+    ? resource.extension[extIndex].valueCode ?? ''
+    : '';
 }
 
 /**
@@ -68,7 +80,7 @@ export function getPaginatedResult(bundle: Bundle, remaining: number, lastCursor
   }
 
   return {
-    totalResults: bundle.total,
+    totalResults: bundle.total ?? bundle.entry.length,
     lastDataCursor: lastCursor,
     remainingCount: remaining,
     results: bundle.entry.map(entry => entry.resource)

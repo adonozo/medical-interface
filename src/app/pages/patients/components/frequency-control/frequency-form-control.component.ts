@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { TimeOfDay } from "../../medication-request-form/form-data";
 import {
   AbstractControl,
@@ -36,18 +36,15 @@ import { SelectedFrequency } from "./interfaces";
     }
   ]
 })
-export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class FrequencyFormControl implements OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   frequencyType = SelectedFrequency;
-  frequencySelected: SelectedFrequency;
+  frequencySelected: SelectedFrequency | undefined;
   timesOfDayArray = TimeOfDay;
 
   private unSubscriber = new Subject<void>();
 
   constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit(): void {
     this.form = this.formBuilder.group({
       when: this.formBuilder.group({}),
       timeOfDay: this.formBuilder.array([
@@ -151,10 +148,10 @@ export class FrequencyFormControl implements OnInit, OnDestroy, ControlValueAcce
   }
 
   private setValues(repeat: TimingRepeat): void {
-    if (repeat.when?.length > 0) {
+    if (repeat.when && repeat.when.length > 0) {
       this.frequencySelected = SelectedFrequency.mealTime;
-      repeat.when.forEach(time => this.whenGroup.get(time).setValue(true));
-    } else if (repeat.timeOfDay?.length > 0) {
+      repeat.when.forEach(time => this.whenGroup.get(time)?.setValue(true));
+    } else if (repeat.timeOfDay && repeat.timeOfDay?.length > 0) {
       this.frequencySelected = SelectedFrequency.specificTimes;
       this.form.setControl('timeOfDay', this.formBuilder.array([]));
       repeat.timeOfDay.forEach(time => {
