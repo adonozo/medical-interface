@@ -7,11 +7,10 @@ import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
 import { Medication, MedicationRequest, Quantity } from "fhir/r4";
-import { flatMap } from "rxjs/internal/operators";
-import { FormStatus } from "../../../@core/models/enums";
 import { Observable } from "rxjs";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 import * as resourceUtils from "../../../@core/services/utils/resource-utils";
+import { concatMap } from "rxjs/operators";
 
 @Component({
   selector: 'app-medication-request-edit',
@@ -19,16 +18,15 @@ import * as resourceUtils from "../../../@core/services/utils/resource-utils";
   styleUrls: ['./medication-request-form.component.scss']
 })
 export class MedicationRequestEditFormComponent extends AbstractMedicationRequestFormComponent implements OnInit {
-  private medicationRequestId: string;
-  private medicationRequest: MedicationRequest;
+  private medicationRequest: MedicationRequest | undefined;
 
   constructor(
-    protected patientService: PatientsService,
-    protected medicationService: MedicationsService,
-    protected medicationRequestService: MedicationRequestsService,
-    protected activatedRoute: ActivatedRoute,
-    protected formBuilder: FormBuilder,
-    protected location: Location,
+    protected override patientService: PatientsService,
+    protected override medicationService: MedicationsService,
+    protected override medicationRequestService: MedicationRequestsService,
+    protected override activatedRoute: ActivatedRoute,
+    protected override formBuilder: FormBuilder,
+    protected override location: Location,
   ) {
     super(patientService,
       medicationService,
@@ -41,49 +39,47 @@ export class MedicationRequestEditFormComponent extends AbstractMedicationReques
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params
+    this.activatedRoute.paramMap
       .pipe(
-        flatMap(params => {
-          this.medicationRequestId = params['medicationRequestId']
+        concatMap(params => {
+          this.medicationRequestId = params.get('medicationRequestId') ?? ''
           return this.medicationRequestService.getSingleMedicationRequest(this.medicationRequestId);
         }),
-        flatMap(request => {
+        concatMap(request => {
           this.medicationRequest = request;
           return this.medicationService.getMedication(resourceUtils.getIdFromReference(request.medicationReference));
         }))
       .subscribe(medication => this.populateForm(medication));
   }
 
-  deleteMedicationRequest(): void {
-    this.formStatus = FormStatus.loading;
-    this.medicationRequestService.deleteMedicationRequest(this.carePlanId, this.medicationRequestId)
-      .subscribe(() => this.location.back(),
-        error => {
-          console.log(error);
-          this.formStatus = FormStatus.error;
-        })
-  }
-
   saveMethod(request: MedicationRequest): Observable<any> {
-    return this.medicationRequestService.updateMedicationRequest(this.medicationRequestId, request);
+    return this.medicationRequestService.updateMedicationRequest(this.medicationRequestId ?? '', request);
   }
 
   private populateForm(medication: Medication) {
+    const dosageInstruction = this.medicationRequest?.dosageInstruction && this.medicationRequest.dosageInstruction[0];
+    const quantity = dosageInstruction?.doseAndRate && dosageInstruction?.doseAndRate[0]?.doseQuantity?.value;
+
     this.medicationControl.setValue(medication);
     this.medicationIdControl.setValue(medication.id);
-    this.doseQuantityControl.setValue(this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.value);
+    this.doseQuantityControl.setValue(quantity ?? 0);
     this.doseUnitControl.setValue(this.findRequestQuantity());
     this.instructionsControl.setValue(medicationRequestUtils.getMedicationNote(this.medicationRequest));
 
-    const repeat = this.medicationRequest.dosageInstruction[0].timing.repeat;
+    const repeat = dosageInstruction?.timing?.repeat;
     this.dailyFrequencyControl.setValue(repeat);
     this.durationControl.setValue(repeat);
     this.frequencyControl.setValue(repeat);
   }
 
   private findRequestQuantity(): Quantity {
+    const dosageInstruction = this.medicationRequest?.dosageInstruction && this.medicationRequest.dosageInstruction[0];
+    const doseAndRate = dosageInstruction?.doseAndRate && dosageInstruction.doseAndRate[0];
+
     return this.quantities
-      .find(quantity => quantity.unit === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.unit
-        && quantity.code === this.medicationRequest.dosageInstruction[0]?.doseAndRate[0]?.doseQuantity.code);
+      .find(quantity =>
+        quantity.unit === doseAndRate?.doseQuantity?.unit
+        && quantity.code === doseAndRate?.doseQuantity?.code)
+      ?? {};
   }
 }

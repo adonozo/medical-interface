@@ -12,10 +12,10 @@ import { ObservationFormComponent } from "../observation-form/observation-form.c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ObservationsTableComponent implements OnChanges {
-  @Input() observations: Observation[];
+  @Input() observations: Observation[] = [];
   @Output() onEdited: EventEmitter<void> = new EventEmitter<void>()
 
-  data: ObservationTable[];
+  data: ObservationTable[] = [];
 
   constructor(private dialogService: NbDialogService) { }
 
@@ -24,7 +24,7 @@ export class ObservationsTableComponent implements OnChanges {
       const time = observation.extension ? timingToString(observation.extension[0].valueCode) : 'EXACT';
 
       return {
-        id: observation.id,
+        id: observation.id ?? '',
         level: getDisplayValue(observation),
         date: dateToString(getDateFromString(observation.issued)),
         timing: time === 'EXACT' ? '-' : time

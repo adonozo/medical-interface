@@ -16,12 +16,12 @@ import { MedicationRequest } from "fhir/r4";
 })
 export class MedicationRequestNewFormComponent extends AbstractMedicationRequestFormComponent {
   constructor(
-    protected patientService: PatientsService,
-    protected medicationService: MedicationsService,
-    protected medicationRequestService: MedicationRequestsService,
-    protected activatedRoute: ActivatedRoute,
-    protected formBuilder: FormBuilder,
-    protected location: Location
+    protected override patientService: PatientsService,
+    protected override medicationService: MedicationsService,
+    protected override medicationRequestService: MedicationRequestsService,
+    protected override activatedRoute: ActivatedRoute,
+    protected override formBuilder: FormBuilder,
+    protected override location: Location
   ) {
     super(patientService,
       medicationService,
@@ -32,6 +32,6 @@ export class MedicationRequestNewFormComponent extends AbstractMedicationRequest
   }
 
   saveMethod(request: MedicationRequest): Observable<any> {
-    return this.medicationRequestService.createMedicationRequest(this.carePlanId, request);
+    return this.medicationRequestService.createMedicationRequest(this.carePlanId ?? '', request);
   }
 }

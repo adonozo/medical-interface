@@ -6,7 +6,7 @@ import {
   Resource,
   ServiceRequest
 } from "fhir/r4";
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { forkJoin, map, mergeMap } from "rxjs";
@@ -38,12 +38,12 @@ export abstract class AbstractCarePlanViewComponent extends FormComponent {
   ) {
     super();
     this.activatedRoute.paramMap.pipe(
-      map((params: ParamMap) => {
+      map(params => {
         this.carePlanId = params.get("carePlanId") ?? '';
         this.patientId = params.get("patientId") ?? '';
         return {carePlanId: this.carePlanId, patientId: this.patientId};
       }),
-      mergeMap(({patientId, carePlanId}: { patientId: string, carePlanId: string }) => {
+      mergeMap(({patientId, carePlanId}) => {
         return forkJoin([
           this.carePlanService.getCarePlan(carePlanId),
           this.patientService.getSinglePatient(patientId),

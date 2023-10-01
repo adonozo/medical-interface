@@ -24,9 +24,9 @@ export function getDateOrDefault(stringDate: string | undefined): Date {
  * Parses a string into a Date object. Returns `undefined` if the string is not a valid date
  * @param stringDate in ISO format
  */
-export function getDateFromString(stringDate: string): Date | undefined {
+export function getDateFromString(stringDate: string | undefined): Date | undefined {
   try {
-    return parseISO(stringDate)
+    return stringDate ? parseISO(stringDate) : undefined;
   } catch (exception) {
     return undefined;
   }
@@ -85,7 +85,7 @@ export function getStringDuration(repeat: TimingRepeat | undefined): string {
  * Gets the localized literal of a timing code, in lowercase. E.g., 'CD' -> 'at lunch'
  * @param timing a timing code, e.g., 'ACM'
  */
-export const timingToString = (timing: TimeCodeExtended): string => {
+export const timingToString = (timing: TimeCodeExtended | undefined): string => {
   switch (timing) {
     case 'ACM':
       return $localize`before breakfast`;
@@ -112,7 +112,7 @@ export const timingToString = (timing: TimeCodeExtended): string => {
     case 'PC':
       return $localize`after meal`;
     default:
-      return timing;
+      return timing ?? '';
   }
 }
 

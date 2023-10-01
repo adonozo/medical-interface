@@ -33,8 +33,8 @@ export function mapToMedicationRequestView(medicationRequest: MedicationRequest)
  * empty string if the property doesn't exist.
  * @param medicationRequest
  */
-export function getMedicationNote(medicationRequest: MedicationRequest): string {
-  if (!medicationRequest.note || medicationRequest.note.length === 0) {
+export function getMedicationNote(medicationRequest: MedicationRequest | undefined): string {
+  if (!medicationRequest?.note || !medicationRequest.note[0]) {
     return '';
   }
 

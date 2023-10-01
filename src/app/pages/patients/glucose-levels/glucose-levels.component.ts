@@ -6,6 +6,7 @@ import { Observation } from "fhir/r4";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
 import { ObservationFormComponent } from "./observation-form/observation-form.component";
+import { getDateFromString } from "../../../@core/services/utils/utils";
 
 @Component({
   selector: 'app-glucose-levels',
@@ -16,8 +17,8 @@ export class GlucoseLevelsComponent {
 
   private readonly defaultLimit = 20;
   options: any = {};
-  patientId: string;
-  results: PaginatedResult<Observation>
+  patientId: string | undefined;
+  results: PaginatedResult<Observation> | undefined
 
   constructor(
     private observationsService: ObservationsService,
@@ -36,7 +37,7 @@ export class GlucoseLevelsComponent {
   }
 
   openDialogForm(): void {
-    const emptyObservation = this.observationsService.getEmptyGlucoseObservation(this.patientId);
+    const emptyObservation = this.observationsService.getEmptyGlucoseObservation(this.patientId ?? '');
     this.dialogService.open(ObservationFormComponent, {
       closeOnBackdropClick: false,
       context: {
@@ -51,12 +52,16 @@ export class GlucoseLevelsComponent {
   }
 
   private getObservations(limit: number = this.defaultLimit, lastCursor?: string): void {
+    if (!this.patientId) {
+      return;
+    }
+
     this.observationsService.getObservations(this.patientId, limit, lastCursor)
       .subscribe(paginatedObservations => {
         this.results = paginatedObservations;
         this.theme.getJsTheme().subscribe(config => {
           const colors: any = config.variables;
-          const echarts: any = config.variables.echarts;
+          const echarts: any =  config.variables?.['echarts'];
           const data = paginatedObservations.results.map(observation => this.getObservationDataForChart(observation))
           this.setOptions(colors, echarts, data.map(item => item.value), data.map(item => item.date))
         })
@@ -64,13 +69,14 @@ export class GlucoseLevelsComponent {
   }
 
   private getObservationDataForChart = (observation: Observation): { value: number, date: string } => {
+    const stringDate = getDateFromString(observation.issued);
     return {
-      value: observation.valueQuantity.value,
-      date: new Date(observation.issued).toLocaleDateString(GlucoseLevelsLocale.localeTime)
+      value: observation.valueQuantity!.value ?? 0,
+      date: stringDate?.toLocaleDateString(GlucoseLevelsLocale.localeTime) ?? ''
     }
   };
 
-  private setOptions(colors, echarts, values: number[], dates: string[]): void {
+  private setOptions(colors: any, echarts: any, values: number[], dates: string[]): void {
     this.options = {
       backgroundColor: echarts.bg,
       color: [colors.primary],

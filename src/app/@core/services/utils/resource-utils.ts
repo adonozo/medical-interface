@@ -6,8 +6,8 @@ import { PaginatedResult } from "../../models/paginatedResult";
  * and external references.
  * @param reference
  */
-export function getIdFromReference(reference: Reference): string {
-  if (!reference.reference) {
+export function getIdFromReference(reference: Reference | undefined): string {
+  if (!reference?.reference) {
     return '';
   }
 
@@ -22,7 +22,7 @@ export function getIdFromReference(reference: Reference): string {
  * @param url the URL that the extension uses as a key. Should be already defined as a constant.
  */
 export function getStringExtension(resource: DomainResource, url: string): string {
-  if (!resource || !resource.extension) {
+  if (!resource?.extension) {
     return '';
   }
 
@@ -37,8 +37,8 @@ export function getStringExtension(resource: DomainResource, url: string): strin
  * @param resource
  * @param url the URL that the extension uses as a key. Should be already defined as a constant.
  */
-export function getCodeExtension(resource: DomainResource, url: string): string {
-  if (!resource || !resource.extension) {
+export function getCodeExtension(resource: DomainResource | undefined, url: string): string {
+  if (!resource?.extension) {
     return '';
   }
 
@@ -75,7 +75,7 @@ export function setCodeExtension(resource: DomainResource, url: string, value: s
  * @param lastCursor the ID of a resource to be used as a cursor
  */
 export function getPaginatedResult(bundle: Bundle | null, remaining: number, lastCursor: string | null): PaginatedResult<any> {
-  if (!bundle || !bundle.entry) {
+  if (!bundle?.entry) {
     return getEmptyPaginatedResult();
   }
 
