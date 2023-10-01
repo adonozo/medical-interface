@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Location } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { MedicationRequest, ServiceRequest, TimingRepeat } from "fhir/r4";
-import { flatMap } from "rxjs/internal/operators";
+import { concatMap } from "rxjs";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
-import { timingToString } from "../../../@core/services/utils/utils";
+import { getDateFromString, timingToString } from "../../../@core/services/utils/utils";
 import { OrderDetailsLocale } from "./order-details.locale";
 
 @Component({
@@ -14,10 +14,10 @@ import { OrderDetailsLocale } from "./order-details.locale";
   styleUrls: ['./order-details.component.scss']
 })
 export class OrderDetailsComponent {
-  type: string;
-  config: { type: string, id: string };
-  medicationOrder: MedicationRequest;
-  serviceRequest: ServiceRequest;
+  type: string = '';
+  config: { type: string, id: string } = { type: '', id: '' };
+  medicationOrder: MedicationRequest | undefined;
+  serviceRequest: ServiceRequest | undefined;
 
   constructor(
     private medicationRequestService: MedicationRequestsService,
@@ -26,7 +26,7 @@ export class OrderDetailsComponent {
     private location: Location
   ) {
     this.route.params.pipe(
-      flatMap(params => {
+      concatMap(params => {
         this.config = {type: params['order-type'], id: params['orderId']};
         if (this.config.type === 'medication-order') {
           this.type = OrderDetailsLocale.medicationOrder;
@@ -52,9 +52,9 @@ export class OrderDetailsComponent {
   getTimingText(occurrence: TimingRepeat): string {
     let duration = '';
     if (occurrence.boundsPeriod) {
-      const start = new Date(occurrence.boundsPeriod.start).toLocaleDateString(OrderDetailsLocale.timeLocale);
-      const end = new Date(occurrence.boundsPeriod.end).toLocaleDateString(OrderDetailsLocale.timeLocale);
-      duration = `${start} - ${end}`;
+      const start = getDateFromString(occurrence.boundsPeriod.start)?.toLocaleDateString(OrderDetailsLocale.timeLocale);
+      const end = getDateFromString(occurrence.boundsPeriod.end)?.toLocaleDateString(OrderDetailsLocale.timeLocale);
+      duration = `${start ?? ''} - ${end ?? ''}`;
     } else if (occurrence.boundsDuration) {
       duration = `${occurrence.boundsDuration.value} ${occurrence.boundsDuration.unit}`;
     }

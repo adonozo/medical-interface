@@ -64,9 +64,9 @@
 
   <div class="col-12 col-sm-6 col-lg-4">
     <nb-card>
-      <div class="cursor-pointer action" (click)="createCarePlan()">
+      <div class="cursor-pointer action" (click)="patientId && createCarePlan()">
         <div class="icon-container">
-          <div class="icon status-warning">
+          <div class="icon status-warning" [className]="patientId ? 'status-warning' : 'status-primary'">
             <i class="icon fa fa-hand-holding-medical"></i>
           </div>
         </div>

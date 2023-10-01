@@ -46,7 +46,7 @@ export class ServiceRequestsService {
     return this.restApiService.delete(`care-plans/${carePlanId}/${this.path}${serviceRequestId}`);
   }
 
-  private generateEmptyServiceRequest(): ServiceRequest {
+  generateEmptyServiceRequest(): ServiceRequest {
     return {
       intent: "plan",
       resourceType: "ServiceRequest",

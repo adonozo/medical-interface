@@ -1,4 +1,3 @@
-import { flatMap } from "rxjs/internal/operators";
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
@@ -7,16 +6,16 @@ import { FormStatus } from "../../../@core/models/enums";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
 import { Patient, ServiceRequest, Timing, TimingRepeat } from "fhir/r4";
 import { FormComponent } from "../../../@core/components/form.component";
-import { Observable } from "rxjs";
+import { concatMap, Observable } from "rxjs";
 import { Directive } from "@angular/core";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 import { getTimingsArray, TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat-builder";
 
 @Directive()
 export abstract class AbstractServiceRequestFormComponent extends FormComponent {
-  protected carePlanId: string;
-  patient: Patient;
-  serviceForm: FormGroup;
+  protected carePlanId: string | undefined;
+  patient: Patient | undefined;
+  serviceForm: FormGroup | undefined;
   editMode: boolean = false;
 
   abstract saveMethod(request: ServiceRequest): Observable<void>;
@@ -29,10 +28,10 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
     protected location: Location
   ) {
     super();
-    this.activatedRoute.params.pipe(
-      flatMap(params => {
-        this.carePlanId = params['carePlanId'];
-        return patientService.getSinglePatient(params["patientId"])
+    this.activatedRoute.paramMap.pipe(
+      concatMap(params => {
+        this.carePlanId = params.get('carePlanId') ?? undefined;
+        return patientService.getSinglePatient(params.get('patientId') ?? '')
       }))
       .subscribe(patient => this.patient = patient);
 
@@ -40,15 +39,15 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   }
 
   get instructionsControl(): FormControl {
-    return this.serviceForm.get('instructions') as FormControl;
+    return this.serviceForm?.get('instructions') as FormControl;
   }
 
   get durationControl(): FormControl {
-    return this.serviceForm.get('duration') as FormControl;
+    return this.serviceForm?.get('duration') as FormControl;
   }
 
   get weekTimingControl(): FormControl {
-    return this.serviceForm.get('weekTiming') as FormControl;
+    return this.serviceForm?.get('weekTiming') as FormControl;
   }
 
   get patientName(): string {
@@ -60,6 +59,11 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   }
 
   submitForm(): void {
+    if (!this.patient) {
+      this.formStatus = FormStatus.error;
+      return;
+    }
+
     const baseTiming = this.getBaseTiming();
     const containedRequests = getTimingsArray(baseTiming, this.weekTimingControl.value)
       .map(timing => this.makeServiceRequest(timing));
@@ -74,7 +78,7 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
       .subscribe(_ => this.formStatus = FormStatus.success,
         error => {
           console.log(error);
-          this.formStatus = FormStatus.error
+          this.formStatus = FormStatus.error;
         });
   }
 
@@ -91,7 +95,9 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
   }
 
   private makeServiceRequest(timing: Timing): ServiceRequest {
-    const request = this.serviceRequestService.getBaseServiceRequest(this.patient);
+    const request = this.patient
+      ? this.serviceRequestService.getBaseServiceRequest(this.patient)
+      : this.serviceRequestService.generateEmptyServiceRequest();
     request.occurrenceTiming = timing;
     return request;
   }

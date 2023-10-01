@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { PatientsService } from "../../../@core/services/patients.service";
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { PatientPhoneContact } from "../../../@core/models/internalPatient";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, Observable, of } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ export class PatientFormService {
               private formBuilder: FormBuilder) {
   }
 
-  getPatientForm(patientId): Observable<FormGroup> {
+  getPatientForm(patientId: string): Observable<FormGroup> {
     return this.patientsService.getInternalPatient(patientId)
       .pipe(
         map(patient => {
@@ -54,14 +53,14 @@ export class PatientFormService {
   static getPhoneContactValues(formControl: AbstractControl, index: number): PatientPhoneContact {
     return {
       system: 'phone',
-      value: formControl.get('value').value,
-      use: formControl.get('use').value,
+      value: formControl.get('value')?.value,
+      use: formControl.get('use')?.value,
       rank: index
     }
   }
 
   private getPhoneContactsForm(phoneContacts: PatientPhoneContact[]): FormArray {
-    const form = this.formBuilder.array([]);
+    const form: FormArray = this.formBuilder.array([]);
     if (!phoneContacts || phoneContacts.length === 0) {
       form.push(this.getEmptyPhoneContactForm());
       return form;
@@ -73,6 +72,7 @@ export class PatientFormService {
         use: [contact.use, [Validators.required, Validators.pattern('(home|work|temp|old|mobile)')]]
       }));
     });
+
     return form;
   }
 }

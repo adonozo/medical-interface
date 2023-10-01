@@ -7,7 +7,7 @@ import { PatientsService } from "../../../@core/services/patients.service";
 import { FormStatus } from "../../../@core/models/enums";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PatientFormService } from "./patient-form.service";
-import { flatMap } from "rxjs/internal/operators";
+import { concatMap } from "rxjs";
 import * as patientUtils from "../../../@core/services/utils/patient-utils";
 
 @Component({
@@ -17,8 +17,8 @@ import * as patientUtils from "../../../@core/services/utils/patient-utils";
 })
 export class PatientFormComponent extends FormComponent {
 
-  patientForm: FormGroup;
-  isEditForm: boolean;
+  patientForm: FormGroup | undefined;
+  isEditForm: boolean = false;
   private patientId: string = '';
 
   constructor(
@@ -32,7 +32,7 @@ export class PatientFormComponent extends FormComponent {
     super();
     this.route.params
       .pipe(
-        flatMap(params => {
+        concatMap(params => {
           if (params['patientId']) {
             this.patientId = params['patientId'];
             this.isEditForm = true;
@@ -45,27 +45,27 @@ export class PatientFormComponent extends FormComponent {
   }
 
   get firstNameControl(): FormControl {
-    return this.patientForm.get('firstName') as FormControl;
+    return this.patientForm?.get('firstName') as FormControl;
   }
 
   get lastNameControl(): FormControl {
-    return this.patientForm.get('lastName') as FormControl;
+    return this.patientForm?.get('lastName') as FormControl;
   }
 
   get emailControl(): FormControl {
-    return this.patientForm.get('email') as FormControl;
+    return this.patientForm?.get('email') as FormControl;
   }
 
   get genderControl(): FormControl {
-    return this.patientForm.get('gender') as FormControl;
+    return this.patientForm?.get('gender') as FormControl;
   }
 
   get birthDateControl(): FormControl {
-    return this.patientForm.get('birthDate') as FormControl;
+    return this.patientForm?.get('birthDate') as FormControl;
   }
 
   get phonesArrayControl(): FormArray {
-    return this.patientForm.get('phoneContacts') as FormArray;
+    return this.patientForm?.get('phoneContacts') as FormArray;
   }
 
   addPhoneControlGroup = (): void =>

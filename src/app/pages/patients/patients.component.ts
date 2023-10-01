@@ -10,7 +10,7 @@ import { Patient } from "fhir/r4";
 })
 export class PatientsComponent implements OnInit {
   private readonly defaultLimit = 20;
-  results: PaginatedResult<Patient>
+  results: PaginatedResult<Patient> | undefined;
 
   constructor(
     private patientService: PatientsService) {

@@ -39,7 +39,7 @@
     "ionicons": "7.1.2",
     "moment": "^2.29.4",
     "nebular-icons": "1.1.0",
-    "ngx-echarts": "^16.0.0",
+    "ngx-echarts": "^15.0.3",
     "normalize.css": "^8.0.1",
     "pace-js": "1.2.4",
     "roboto-fontface": "0.10.0",

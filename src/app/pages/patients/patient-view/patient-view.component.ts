@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { flatMap } from "rxjs/internal/operators";
+import { concatMap } from "rxjs";
 import { InternalPatient } from "../../../@core/models/internalPatient";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 
@@ -11,8 +11,8 @@ import { CarePlanService } from "../../../@core/services/care-plan.service";
   styleUrls: ['./patient-view.component.scss']
 })
 export class PatientViewComponent {
-  patient: InternalPatient;
-  patientId: string;
+  patient: InternalPatient | undefined;
+  patientId: string | undefined;
 
   constructor(
     private patientsService: PatientsService,
@@ -20,7 +20,7 @@ export class PatientViewComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router) {
     this.activatedRoute.params.pipe(
-      flatMap(params => {
+      concatMap(params => {
         this.patientId = params["patientId"];
         return patientsService.getInternalPatient(params["patientId"]);
       })
@@ -42,6 +42,10 @@ export class PatientViewComponent {
   }
 
   createCarePlan(): void {
+    if (!this.patientId) {
+      return;
+    }
+
     this.carePlanService.createCarePlan(this.patientId)
       .subscribe(carePlan =>
         this.router.navigate(

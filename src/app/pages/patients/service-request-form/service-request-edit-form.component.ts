@@ -7,8 +7,7 @@ import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
 import { FormStatus } from "../../../@core/models/enums";
 import { ServiceRequest } from "fhir/r4";
-import { flatMap } from "rxjs/internal/operators";
-import { Observable } from "rxjs";
+import { concatMap, Observable } from "rxjs";
 
 @Component({
   selector: 'app-service-request-form',
@@ -16,15 +15,15 @@ import { Observable } from "rxjs";
   styleUrls: ['./service-request-form.component.scss']
 })
 export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormComponent implements OnInit {
-  private serviceRequestId: string;
-  private serviceRequest: ServiceRequest;
+  private serviceRequestId: string | undefined;
+  private serviceRequest: ServiceRequest | undefined;
 
   constructor(
-    protected patientService: PatientsService,
-    protected serviceRequestService: ServiceRequestsService,
-    protected activatedRoute: ActivatedRoute,
-    protected formBuilder: FormBuilder,
-    protected location: Location
+    protected override patientService: PatientsService,
+    protected override serviceRequestService: ServiceRequestsService,
+    protected override activatedRoute: ActivatedRoute,
+    protected override formBuilder: FormBuilder,
+    protected override location: Location
   ) {
     super(patientService,
       serviceRequestService,
@@ -36,10 +35,10 @@ export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormC
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params
+    this.activatedRoute.paramMap
       .pipe(
-        flatMap(params => {
-          this.serviceRequestId = params['serviceRequestId'];
+        concatMap(params => {
+          this.serviceRequestId = params.get('serviceRequestId') ?? '';
           return this.serviceRequestService.getServiceRequest(this.serviceRequestId);
         })
       )
@@ -50,6 +49,11 @@ export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormC
   }
 
   deleteServiceRequest(): void {
+    if (!this.carePlanId || !this.serviceRequestId) {
+      this.formStatus = FormStatus.error;
+      return;
+    }
+
     this.formStatus = FormStatus.loading;
     this.serviceRequestService.deleteServiceRequest(this.carePlanId, this.serviceRequestId)
       .subscribe(() => this.location.back(),
@@ -61,12 +65,12 @@ export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormC
 
   saveMethod(request: ServiceRequest): Observable<void> {
     request.id = this.serviceRequestId;
-    return this.serviceRequestService.updateServiceRequest(this.serviceRequestId, request);
+    return this.serviceRequestService.updateServiceRequest(this.serviceRequestId ?? '', request);
   }
 
   private populateForm(serviceRequest: ServiceRequest): void {
     this.instructionsControl.setValue(serviceRequest.patientInstruction);
-    this.durationControl.setValue(serviceRequest.occurrenceTiming.repeat);
+    this.durationControl.setValue(serviceRequest.occurrenceTiming?.repeat);
     this.weekTimingControl.setValue(serviceRequest.contained ?? []);
   }
 }
