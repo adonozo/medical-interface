@@ -57,7 +57,7 @@
               i18n-placeholder="Placeholder"
               placeholder="Select a date range"
               autocomplete="off"
-              [nbDatepicker]="rangePicker"
+              [nbDatepicker]="$any(rangePicker)"
               [formControl]="periodRangeControl">
             <nb-rangepicker #rangePicker></nb-rangepicker>
           </div>

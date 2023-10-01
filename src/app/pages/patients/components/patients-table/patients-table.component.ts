@@ -11,8 +11,8 @@ import { ActivatedRoute, Router } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PatientsTableComponent implements OnInit {
-  @Input() patients : Patient[]
-  displayPatients: InternalPatient[]
+  @Input() patients : Patient[] = []
+  displayPatients: InternalPatient[] = []
 
   constructor(
     private router: Router,

@@ -74,8 +74,8 @@ export function setCodeExtension(resource: DomainResource, url: string, value: s
  * @param remaining how many results are remaining
  * @param lastCursor the ID of a resource to be used as a cursor
  */
-export function getPaginatedResult(bundle: Bundle, remaining: number, lastCursor: string): PaginatedResult<any> {
-  if (!bundle.entry) {
+export function getPaginatedResult(bundle: Bundle | null, remaining: number, lastCursor: string | null): PaginatedResult<any> {
+  if (!bundle || !bundle.entry) {
     return getEmptyPaginatedResult();
   }
 

@@ -9,8 +9,8 @@ import { FormGroup } from "@angular/forms";
 })
 export class FormActionsComponent {
   readonly formStatusType = FormStatus;
-  @Input() formStatus: FormStatus;
-  @Input() form: FormGroup;
+  @Input() formStatus: FormStatus = FormStatus.default;
+  @Input() form: FormGroup | undefined;
   @Output() goBack: EventEmitter<void> = new EventEmitter<void>();
   @Output() submit: EventEmitter<void> = new EventEmitter<void>();
 

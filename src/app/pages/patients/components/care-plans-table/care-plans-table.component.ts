@@ -8,7 +8,7 @@ import { TableAction } from "../../../../@core/components/table-components/resou
   styleUrls: ['./care-plans-table.component.scss']
 })
 export class CarePlansTableComponent {
-  @Input() carePlans: CarePlan[];
+  @Input() carePlans: CarePlan[] = [];
 
   constructor() { }
 

@@ -16,18 +16,18 @@ import { AbstractCarePlanViewComponent } from "../abstract-care-plan-view.compon
 })
 export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
 
-  carePlanId: string;
-  patientId: string;
-  resources: Resource[];
-  patient: Patient;
-  carePlan: CarePlan;
+  override carePlanId: string | undefined;
+  override patientId: string | undefined;
+  override resources: Resource[] = [];
+  override patient: Patient | undefined;
+  override carePlan: CarePlan | undefined;
 
   constructor(
-    protected location: Location,
-    protected router: Router,
-    protected activatedRoute: ActivatedRoute,
-    protected carePlanService: CarePlanService,
-    protected patientService: PatientsService,
+    protected override location: Location,
+    protected override router: Router,
+    protected override activatedRoute: ActivatedRoute,
+    protected override carePlanService: CarePlanService,
+    protected override patientService: PatientsService,
     private dialogService: NbDialogService,
   ) {
     super(
@@ -89,6 +89,11 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
     `${this.patientId}/care-plans/${this.carePlanId}/medication-request/${id}/edit`;
 
   private activateCarePlan(): void {
+    if (!this.carePlanId) {
+      this.formStatus = FormStatus.error;
+      return;
+    }
+
     this.formStatus = FormStatus.loading;
     this.carePlanService.activateCarePlan(this.carePlanId)
       .subscribe(_ => {
@@ -100,6 +105,11 @@ export class CarePlanFormComponent extends AbstractCarePlanViewComponent {
   }
 
   private deleteCarePlan(): void {
+    if (!this.carePlanId) {
+      this.formStatus = FormStatus.error;
+      return;
+    }
+
     this.formStatus = FormStatus.loading;
     this.carePlanService.deleteCarePlan(this.carePlanId)
       .subscribe(_ => this.location.back(),

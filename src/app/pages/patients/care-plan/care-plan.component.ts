@@ -13,11 +13,11 @@ import { takeUntil } from "rxjs/operators";
   styleUrls: ['./care-plan.component.scss']
 })
 export class CarePlanComponent implements AfterViewInit, OnDestroy {
-  private patientId: string;
+  private patientId: string = '';
   private readonly defaultLimit = 20;
   private unSubscriber: Subject<void> = new Subject();
 
-  paginatedCarePlans: PaginatedResult<CarePlan>;
+  paginatedCarePlans: PaginatedResult<CarePlan> | undefined;
 
   constructor(
     private carePlanService: CarePlanService,

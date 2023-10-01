@@ -7,18 +7,18 @@ import { PaginatedResult } from "../../../@core/models/paginatedResult";
   styleUrls: ['./pagination-footer.component.scss']
 })
 export class PaginationFooterComponent {
-  @Input() results: PaginatedResult<any>;
+  @Input() results: PaginatedResult<any> | undefined;
   @Output() nextClicked = new EventEmitter<string>();
   @Output() backClicked = new EventEmitter<string>();
   @Output() firstClicked = new EventEmitter<void>();
 
-  cursorHistory: string[] = [undefined];
+  cursorHistory: string[] = [];
   currentIndex = 0;
 
   nextResults(): void {
     this.currentIndex++;
-    this.cursorHistory[this.currentIndex] = this.results.lastDataCursor;
-    this.nextClicked.next(this.results.lastDataCursor)
+    this.cursorHistory[this.currentIndex] = this.results?.lastDataCursor ?? '';
+    this.nextClicked.next(this.results?.lastDataCursor ?? '')
   }
 
   previousResults(): void {

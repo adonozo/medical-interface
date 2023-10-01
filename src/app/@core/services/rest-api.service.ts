@@ -38,8 +38,8 @@ export class RestApiService {
       .pipe(
         map(response => {
           const paginationLast = response.headers.get(Headers.PAGINATION_LAST);
-          const remainingCount = +response.headers.get(Headers.REMAINING_COUNT);
-          return resourceUtils.getPaginatedResult(response.body, remainingCount, paginationLast);
+          const remainingCount = response.headers.get(Headers.REMAINING_COUNT) ?? 0;
+          return resourceUtils.getPaginatedResult(response.body, +remainingCount, paginationLast);
         })
       );
   }

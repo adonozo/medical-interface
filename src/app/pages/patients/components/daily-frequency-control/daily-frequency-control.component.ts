@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { namedBooleanDays } from "../../medication-request-form/form-data";
 import {
   AbstractControl,
@@ -34,7 +34,7 @@ import { SelectedDailyFrequency } from "./interfaces";
     }
   ]
 })
-export class DailyFrequencyControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class DailyFrequencyControlComponent implements OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   dailyFrequencyType = SelectedDailyFrequency;
   daysInWeek = namedBooleanDays;
@@ -42,9 +42,6 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
   private unSubscriber: Subject<void> = new Subject<void>();
 
   constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit(): void {
     this.form = this.formBuilder.group({
       dailyFrequency: [null, Validators.required]
     });
@@ -92,7 +89,7 @@ export class DailyFrequencyControlComponent implements OnInit, OnDestroy, Contro
 
     if (repeat.dayOfWeek && repeat.dayOfWeek.length > 0) {
       this.dailyFrequencyControl.setValue(SelectedDailyFrequency.specificDays, {emitEvent: false});
-      repeat.dayOfWeek.forEach(day => this.form.get(day).setValue(true));
+      repeat.dayOfWeek.forEach(day => this.form.get(day)?.setValue(true));
     } else {
       this.dailyFrequencyControl.setValue(SelectedDailyFrequency.everyday, {emitEvent: false});
     }

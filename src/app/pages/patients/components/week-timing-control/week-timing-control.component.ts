@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -30,7 +30,7 @@ import { takeUntil } from "rxjs/operators";
     }
   ]
 })
-export class WeekTimingControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class WeekTimingControlComponent implements OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   daysOfWeek = DaysOfWeek;
   timesOfDay = TimesOfDay;
@@ -38,9 +38,6 @@ export class WeekTimingControlComponent implements OnInit, OnDestroy, ControlVal
   private unSubscriber: Subject<void> = new Subject<void>();
 
   constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit(): void {
     this.form = this.formBuilder.group({});
     this.configureTimingForm();
   }
@@ -59,9 +56,13 @@ export class WeekTimingControlComponent implements OnInit, OnDestroy, ControlVal
     serviceRequests.forEach(request => {
       request.occurrenceTiming?.repeat?.dayOfWeek?.forEach(day => {
         const dayGroup = this.form.get(day);
-        request.occurrenceTiming?.repeat?.when?.forEach(timing => {
+        if (!dayGroup || !request.occurrenceTiming?.repeat?.when){
+          return;
+        }
+
+        request.occurrenceTiming.repeat.when.forEach(timing => {
           const timingControl = dayGroup.get(timing);
-          timingControl.setValue(true);
+          timingControl?.setValue(true);
         });
       });
     });

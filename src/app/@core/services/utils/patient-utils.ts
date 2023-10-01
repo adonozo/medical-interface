@@ -12,8 +12,8 @@ export const getPatientReference = (patientId: string): string  => ResourcePath.
  * item is not present.
  * @param patient
  */
-export function getPatientName(patient: Patient): string {
-  if (!patient.name || !patient.name[0]) {
+export function getPatientName(patient: Patient | undefined): string {
+  if (!patient || !patient.name || !patient.name[0]) {
     return '';
   }
 

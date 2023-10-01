@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -33,17 +33,14 @@ import { SelectedDuration } from "./interfaces";
     }
   ]
 })
-export class DurationControlComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
+export class DurationControlComponent implements OnDestroy, ControlValueAccessor, Validator {
   form: FormGroup;
   durationType = SelectedDuration;
-  durationSelected: SelectedDuration;
+  durationSelected: SelectedDuration | undefined;
 
   private unSubscriber: Subject<void> = new Subject<void>();
 
   constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit(): void {
     this.form = this.formBuilder.group({
       durationQuantity: [''],
       durationUnit: ['d'],

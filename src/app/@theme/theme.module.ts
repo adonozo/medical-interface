@@ -43,15 +43,11 @@ const COMPONENTS = [
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders<ThemeModule> {
+    const themeProviders = NbThemeModule.forRoot({name: 'default'}, [DEFAULT_THEME]).providers ?? [];
     return {
       ngModule: ThemeModule,
       providers: [
-        ...NbThemeModule.forRoot(
-          {
-            name: 'default',
-          },
-          [DEFAULT_THEME],
-        ).providers,
+        ...themeProviders,
       ]
     }
   }

@@ -9,8 +9,8 @@ import * as patientUtils from "../../../../@core/services/utils/patient-utils";
 })
 export class CarePlanDetailsComponent {
 
-  @Input() patient: Patient;
-  @Input() carePlan: CarePlan;
+  @Input() patient: Patient | undefined;
+  @Input() carePlan: CarePlan | undefined;
 
   get patientName(): string {
     return patientUtils.getPatientName(this.patient);
