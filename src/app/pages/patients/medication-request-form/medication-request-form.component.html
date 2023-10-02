@@ -2,13 +2,13 @@
   <div class="col-12 col-xxxl-9">
     <nb-card>
       <nb-card-header *ngIf="patient">
-        <div class="row" *ngIf="editMode; else newOrderTitle">
-          <div class="col-9">
+        <div class="d-flex align-items-center" *ngIf="editMode; else newOrderTitle">
+          <div class="flex-grow-1">
             <h2>
               Edit Medication Order
             </h2>
           </div>
-          <div class="col-3 text-right">
+          <div class="flex-shrink-1">
             <button nbButton status="danger" (click)="deleteMedicationRequest()">
               <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
               Delete
@@ -57,7 +57,7 @@
                 <span class="text-danger" i18n>Dose is required</span>
               </ng-container>
             </div>
-            <label for="drug-dose-unit" class="col-form-label col-sm-2 form-control-label text-right" i18n>Units</label>
+            <label for="drug-dose-unit" class="col-form-label col-sm-2 form-control-label text-end" i18n>Units</label>
             <div class="col-sm-4">
               <nb-select fullWidth id="drug-dose-unit" i18n-placeholder="Placeholder" placeholder="Select a unit"
                          [status]="getControlStatus(doseUnitControl)"

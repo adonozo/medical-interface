@@ -102,9 +102,11 @@
                   </button>
                 </div>
                 <div class="col-12">
-                  <nb-radio-group name="use-{{ index }}"
-                                  [formControl]="$any(control.get('value'))"
-                                  [status]="getControlStatus($any(control.get('value')))">
+                  <nb-radio-group
+                    name="use-{{ index }}"
+                    [formControl]="$any(control.get('use'))"
+                    [status]="getControlStatus($any(control.get('use')))"
+                  >
                     <nb-radio value="home" class="d-inline" i18n>Home</nb-radio>
                     <nb-radio value="work" class="d-inline" i18n>Work</nb-radio>
                     <nb-radio value="temp" class="d-inline" i18n>Temporal</nb-radio>

@@ -26,7 +26,7 @@
               placeholder="Duration"
               [formControl]="durationQuantityControl">
           </div>
-          <label for="drug-duration-unit" class="col-form-label col-4 col-sm-2 form-control-file text-right" i18n>
+          <label for="drug-duration-unit" class="col-form-label col-4 col-sm-2 form-control-file text-end" i18n>
             Units
           </label>
           <div class="col-8 col-sm-6">
@@ -46,7 +46,7 @@
       </div>
       <div class="col-12" *ngSwitchCase="durationType.period">
         <div class="form-group row">
-          <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-right">
+          <label for="drug-duration-range" class="col-form-label col-sm-3 form-control-file text-end">
             <ng-container i18n>Date range</ng-container>
           </label>
           <div class="col-sm-9">
@@ -65,7 +65,7 @@
       </div>
       <div class="col-12" *ngSwitchCase="durationType.untilNext">
         <div class="form-group row">
-          <label for="drug-duration-start-date" class="col-form-label col-sm-3 text-right" i18n>Date</label>
+          <label for="drug-duration-start-date" class="col-form-label col-sm-3 text-end" i18n>Date</label>
           <div class="col-sm-9">
             <input
               id="drug-duration-start-date"

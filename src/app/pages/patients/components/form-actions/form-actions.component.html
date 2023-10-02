@@ -1,20 +1,27 @@
 <div class="row form-group">
-  <div class="col-6 col-sm-8">
-    <button type="button" nbButton status="basic" (click)="goBack.emit()"
-            [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success">
-      <ng-container i18n>Cancel</ng-container>
-    </button>
-  </div>
-  <div class="col-6 offset-sm-1 col-sm-3 text-right">
-    <button
-      nbButton
-      status="success"
-      type="submit"
-      (click)="submit.emit()"
-      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success || !form || form.invalid"
-    >
-      <ng-container i18n>Save</ng-container>
-    </button>
+  <div class="d-flex">
+    <div class="flex-grow-1">
+      <button
+        nbButton
+        type="button"
+        status="basic"
+        (click)="goBack.emit()"
+        [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success"
+      >
+        <ng-container i18n>Cancel</ng-container>
+      </button>
+    </div>
+    <div class="flex-shrink-1">
+      <button
+        nbButton
+        status="success"
+        type="submit"
+        (click)="submit.emit()"
+        [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success || !form || form.invalid"
+      >
+        <ng-container i18n>Save</ng-container>
+      </button>
+    </div>
   </div>
   <div class="col-12 mt-3 text-center" *ngIf="formStatus === formStatusType.error">
     <nb-alert accent="danger">
@@ -23,12 +30,13 @@
   </div>
   <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.success">
     <nb-alert accent="success">
-      <div class="row">
-        <div class="col-7">
+      <div class="d-flex align-items-center">
+        <div class="flex-grow-1">
           <span i18n>The record has been saved</span>
         </div>
-        <div class="col-5 text-right">
-          <button type="button" nbButton status="success" (click)="goBack.emit()" i18n="Return button">Return
+        <div class="flex-shrink-1">
+          <button type="button" nbButton status="success" (click)="goBack.emit()" i18n="Return button">
+            Return
           </button>
         </div>
       </div>

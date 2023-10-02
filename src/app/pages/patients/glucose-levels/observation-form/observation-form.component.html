@@ -1,24 +1,26 @@
 <nb-card>
   <nb-card-header>
     <div class="row align-items-center">
-      <div class="col-6" *ngIf="isUpdate; else newRecordTitle">
-        <h4 class="mb-0" i18n>Edit record</h4>
-      </div>
-      <div class="col-6 text-right" *ngIf="isUpdate">
-        <button nbButton type="button"
-                [disabled]="formStatus !== formStatusType.default"
-                [status]="showDeleteMessage ? 'info' : 'danger'"
-                (click)="showDeleteMessage = !showDeleteMessage">
-          <nb-icon class="icon"
-                   [icon]="showDeleteMessage ? 'edit-outline' : 'trash'"
-                   pack="eva"></nb-icon>
-          <ng-container *ngIf="showDeleteMessage; else deleteLabel">
-            <span i18n>Edit</span>
-          </ng-container>
-          <ng-template #deleteLabel>
-            <span i18n>Delete</span>
-          </ng-template>
-        </button>
+      <div class="d-flex align-items-center" *ngIf="isUpdate; else newRecordTitle">
+        <div class="flex-grow-1">
+          <h4 class="mb-0" i18n>Edit record</h4>
+        </div>
+        <div class="flex-shrink-1">
+          <button nbButton type="button"
+                  [disabled]="formStatus !== formStatusType.default"
+                  [status]="showDeleteMessage ? 'info' : 'danger'"
+                  (click)="showDeleteMessage = !showDeleteMessage">
+            <nb-icon class="icon"
+                     [icon]="showDeleteMessage ? 'edit-outline' : 'trash'"
+                     pack="eva"></nb-icon>
+            <ng-container *ngIf="showDeleteMessage; else deleteLabel">
+              <span i18n>Edit</span>
+            </ng-container>
+            <ng-template #deleteLabel>
+              <span i18n>Delete</span>
+            </ng-template>
+          </button>
+        </div>
       </div>
       <ng-template #newRecordTitle>
         <div class="col-12">
@@ -103,7 +105,7 @@
         </button>
       </div>
 
-      <div class="col-6 text-right" *ngIf="!showDeleteMessage; else confirmDeleteButton">
+      <div class="col-6 text-end" *ngIf="!showDeleteMessage; else confirmDeleteButton">
         <button
           type="submit"
           nbButton status="success"
@@ -115,7 +117,7 @@
       </div>
 
       <ng-template #confirmDeleteButton>
-        <div class="col-6 text-right" (click)="deleteRecord()">
+        <div class="col-6 text-end" (click)="deleteRecord()">
           <button nbButton status="danger" [disabled]="formStatus !== formStatusType.default">
             <ng-container i18n>Delete</ng-container>
           </button>
@@ -134,8 +136,8 @@
       </div>
       <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.success">
         <nb-alert accent="success">
-          <div class="row">
-            <div class="col-7">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
               <ng-container *ngIf="!showDeleteMessage; else deleteSuccessMessage">
                 <span i18n>The record has been saved</span>
               </ng-container>
@@ -143,7 +145,7 @@
                 <span i18n>The record has been deleted</span>
               </ng-template>
             </div>
-            <div class="col-5 text-right">
+            <div class="flex-shrink-1">
               <button type="button" nbButton status="success" (click)="close()" i18n="Return button">Return</button>
             </div>
           </div>

@@ -2,13 +2,13 @@
   <div class="col-12">
     <nb-card>
       <nb-card-header *ngIf="patient">
-        <div class="row" *ngIf="editMode; else newOrderTitle">
-          <div class="col-9">
+        <div class="d-flex align-items-center" *ngIf="editMode; else newOrderTitle">
+          <div class="flex-grow-1">
             <h2>
               Edit self-monitor blood glucose order
             </h2>
           </div>
-          <div class="col-3 text-right">
+          <div class="flex-shrink-1">
             <button nbButton status="danger" (click)="deleteServiceRequest()">
               <nb-icon class="icon" icon="trash" pack="eva"></nb-icon>
               Delete
