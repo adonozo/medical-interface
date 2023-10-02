@@ -27,7 +27,7 @@
       </ng-template>
     </div>
   </nb-card-header>
-  <nb-card-body>
+  <nb-card-body *ngIf="observationForm">
     <form [formGroup]="observationForm" (ngSubmit)="submitForm()">
       <div class="form-group row">
         <label for="observation-value" class="col-form-label col-sm-3 form-control-label text-sm-right"
@@ -104,8 +104,12 @@
       </div>
 
       <div class="col-6 text-right" *ngIf="!showDeleteMessage; else confirmDeleteButton">
-        <button type="submit" nbButton status="success" (click)="submitForm()"
-                [disabled]="observationForm.invalid || formStatus === formStatusType.loading || formStatus === formStatusType.success">
+        <button
+          type="submit"
+          nbButton status="success"
+          (click)="submitForm()"
+          [disabled]="!observationForm || observationForm.invalid || formStatus === formStatusType.loading || formStatus === formStatusType.success"
+        >
           <ng-container i18n>Save</ng-container>
         </button>
       </div>

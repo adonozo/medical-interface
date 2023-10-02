@@ -138,6 +138,10 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
         })
   }
 
+  getQuantityText(quantity: Quantity): string {
+    return (quantity.extension && quantity.extension[0] && quantity.extension[0].valueString) ?? '';
+  }
+
   private buildForm(): FormGroup {
     return this.formBuilder.group({
       medication: ['', Validators.required],

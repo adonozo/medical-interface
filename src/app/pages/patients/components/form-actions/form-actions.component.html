@@ -11,7 +11,7 @@
       status="success"
       type="submit"
       (click)="submit.emit()"
-      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success || form.invalid"
+      [disabled]="formStatus === formStatusType.loading || formStatus === formStatusType.success || !form || form.invalid"
     >
       <ng-container i18n>Save</ng-container>
     </button>

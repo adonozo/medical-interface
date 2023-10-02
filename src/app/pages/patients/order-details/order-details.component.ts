@@ -49,7 +49,11 @@ export class OrderDetailsComponent {
     this.location.back();
   }
 
-  getTimingText(occurrence: TimingRepeat): string {
+  getTimingText(occurrence: TimingRepeat | undefined): string {
+    if (!occurrence) {
+      return '';
+    }
+
     let duration = '';
     if (occurrence.boundsPeriod) {
       const start = getDateFromString(occurrence.boundsPeriod.start)?.toLocaleDateString(OrderDetailsLocale.timeLocale);
@@ -70,5 +74,13 @@ export class OrderDetailsComponent {
             ${OrderDetailsLocale.daysOfWeek}: ${days}
             ${OrderDetailsLocale.timeOfDay}: ${timesOfDay}
             ${OrderDetailsLocale.when}: ${when}`;
+  }
+
+  getServiceDisplay(serviceRequest: ServiceRequest): string {
+    if (!serviceRequest.code?.coding || !serviceRequest.code.coding[0]) {
+      return '';
+    }
+
+    return serviceRequest.code.coding[0].display ?? '';
   }
 }

@@ -26,7 +26,7 @@
           </div>
         </ng-template>
       </nb-card-header>
-      <nb-card-body>
+      <nb-card-body *ngIf="serviceForm">
         <form [formGroup]="serviceForm" (ngSubmit)="submitForm()" class="form-horizontal">
 
           <div class="form-group row mt-2">

@@ -55,10 +55,10 @@
                      [status]="getControlStatus(emailControl)"
                      [formControl]="emailControl"/>
               <ng-container *ngIf="isControlInvalid(emailControl)">
-                <div *ngIf="emailControl.errors?.required">
+                <div *ngIf="emailControl.errors?.['required']">
                   <span class="text-danger d-inline-block" i18n>Email is required</span>
                 </div>
-                <div *ngIf="emailControl.errors?.email">
+                <div *ngIf="emailControl.errors?.['email']">
                   <span class="text-danger d-inline-block" i18n>Email is invalid</span>
                 </div>
               </ng-container>
@@ -85,8 +85,8 @@
                 <div class="col-8">
                   <input nbInput fullWidth type="text" i18n-placeholder="Placeholder" placeholder="Number"
                          autocomplete="off"
-                         [status]="getControlStatus(control.get('value'))"
-                         [formControl]="control.get('value')"/>
+                         [status]="getControlStatus($any(control.get('value')))"
+                         [formControl]="$any(control.get('value'))"/>
                   <ng-container *ngIf="isControlInvalid(control.get('value'))">
                     <span class="text-danger" i18n>Phone number is required</span>
                   </ng-container>
@@ -103,8 +103,8 @@
                 </div>
                 <div class="col-12">
                   <nb-radio-group name="use-{{ index }}"
-                                  [formControl]="control.get('use')"
-                                  [status]="getControlStatus(control.get('use'))">
+                                  [formControl]="$any(control.get('value'))"
+                                  [status]="getControlStatus($any(control.get('value')))">
                     <nb-radio value="home" class="d-inline" i18n>Home</nb-radio>
                     <nb-radio value="work" class="d-inline" i18n>Work</nb-radio>
                     <nb-radio value="temp" class="d-inline" i18n>Temporal</nb-radio>

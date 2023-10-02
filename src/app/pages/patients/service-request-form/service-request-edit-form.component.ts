@@ -5,7 +5,6 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { FormStatus } from "../../../@core/models/enums";
 import { ServiceRequest } from "fhir/r4";
 import { concatMap, Observable } from "rxjs";
 
@@ -15,7 +14,6 @@ import { concatMap, Observable } from "rxjs";
   styleUrls: ['./service-request-form.component.scss']
 })
 export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormComponent implements OnInit {
-  private serviceRequestId: string | undefined;
   private serviceRequest: ServiceRequest | undefined;
 
   constructor(
@@ -46,21 +44,6 @@ export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormC
         this.serviceRequest = serviceRequest;
         this.populateForm(serviceRequest);
       });
-  }
-
-  deleteServiceRequest(): void {
-    if (!this.carePlanId || !this.serviceRequestId) {
-      this.formStatus = FormStatus.error;
-      return;
-    }
-
-    this.formStatus = FormStatus.loading;
-    this.serviceRequestService.deleteServiceRequest(this.carePlanId, this.serviceRequestId)
-      .subscribe(() => this.location.back(),
-        error => {
-          console.log(error);
-          this.formStatus = FormStatus.error;
-        });
   }
 
   saveMethod(request: ServiceRequest): Observable<void> {

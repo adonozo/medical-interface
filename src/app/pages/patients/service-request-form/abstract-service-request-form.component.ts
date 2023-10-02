@@ -14,6 +14,7 @@ import { getTimingsArray, TimingRepeatBuilder } from "../../../@core/services/ut
 @Directive()
 export abstract class AbstractServiceRequestFormComponent extends FormComponent {
   protected carePlanId: string | undefined;
+  protected serviceRequestId: string | undefined;
   patient: Patient | undefined;
   serviceForm: FormGroup | undefined;
   editMode: boolean = false;
@@ -76,6 +77,21 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
     this.saveMethod(request)
       .subscribe(_ => this.formStatus = FormStatus.success,
+        error => {
+          console.log(error);
+          this.formStatus = FormStatus.error;
+        });
+  }
+
+  deleteServiceRequest(): void {
+    if (!this.carePlanId || !this.serviceRequestId) {
+      this.formStatus = FormStatus.error;
+      return;
+    }
+
+    this.formStatus = FormStatus.loading;
+    this.serviceRequestService.deleteServiceRequest(this.carePlanId, this.serviceRequestId)
+      .subscribe(() => this.location.back(),
         error => {
           console.log(error);
           this.formStatus = FormStatus.error;

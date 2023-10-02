@@ -24,7 +24,7 @@
             <b i18n>Requester:</b>
           </div>
           <div class="col-9 mt-2">
-            {{medicationOrder.requester.display}}
+            {{medicationOrder.requester?.display}}
           </div>
           <div class="col-3 mt-2">
             <b i18n>Status:</b>
@@ -36,14 +36,14 @@
             <b i18n>Medication:</b>
           </div>
           <div class="col-9 mt-2">
-            {{medicationOrder.medicationReference.display}}
+            {{medicationOrder.medicationReference?.display}}
           </div>
           <div class="col-3 mt-2">
             <b i18n>Dosage:</b>
           </div>
           <div class="col-9 mt-2">
-            <div *ngFor="let timing of medicationOrder.dosageInstruction">
-              {{getTimingText(timing.timing.repeat)}}
+            <div *ngFor="let timing of (medicationOrder.dosageInstruction ?? [])">
+              {{getTimingText(timing.timing?.repeat)}}
             </div>
           </div>
         </div>
@@ -70,13 +70,13 @@
             <b i18n>Instruction:</b>
           </div>
           <div class="col-9 mt-2">
-            {{serviceRequest.code.coding[0].display}} - {{serviceRequest.patientInstruction}}
+            {{getServiceDisplay(serviceRequest)}} - {{serviceRequest.patientInstruction}}
           </div>
           <div class="col-3 mt-2">
             <b i18n>Occurrence:</b>
           </div>
           <div class="col-9 mt-2">
-            {{getTimingText(serviceRequest.occurrenceTiming.repeat)}}
+            {{getTimingText(serviceRequest.occurrenceTiming?.repeat)}}
           </div>
         </div>
       </nb-card-body>
