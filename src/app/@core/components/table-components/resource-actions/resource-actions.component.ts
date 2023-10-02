@@ -9,7 +9,7 @@ import { TableAction } from "./table-action";
 })
 export class ResourceActionsComponent {
   @Input() id: string = '';
-  @Input() action: TableAction | undefined;
+  @Input() action: TableAction = TableAction.View;
   tableAction = TableAction;
 
   constructor(private actionsService: TableActionsService) { }

@@ -66,7 +66,7 @@
     <nb-card>
       <div class="cursor-pointer action" (click)="patientId && createCarePlan()">
         <div class="icon-container">
-          <div class="icon status-warning" [className]="patientId ? 'status-warning' : 'status-primary'">
+          <div class="icon" [ngClass]="patientId ? 'status-warning' : 'status-primary'">
             <i class="icon fa fa-hand-holding-medical"></i>
           </div>
         </div>
