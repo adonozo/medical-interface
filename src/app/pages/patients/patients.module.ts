@@ -81,7 +81,7 @@ import { ObservationsTableComponent } from './glucose-levels/observations-table/
   imports: [
     CommonModule,
     PatientsRoutingModule,
-    NgxEchartsModule,
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     NbCardModule,
     NbInputModule,
     NbButtonModule,
