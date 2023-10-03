@@ -20,7 +20,6 @@ import {
 import { ReactiveFormsModule } from "@angular/forms";
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
 import { NgxEchartsModule } from "ngx-echarts";
-import { OrderDetailsComponent } from './order-details/order-details.component';
 import { PatientViewComponent } from './patient-view/patient-view.component';
 import { PatientFormComponent } from './patient-form/patient-form.component';
 import { PatientFormService } from "./patient-form/patient-form.service";
@@ -56,7 +55,6 @@ import { ObservationsTableComponent } from './glucose-levels/observations-table/
     ServiceRequestNewFormComponent,
     ServiceRequestEditFormComponent,
     GlucoseLevelsComponent,
-    OrderDetailsComponent,
     PatientViewComponent,
     PatientFormComponent,
     ObservationFormComponent,
