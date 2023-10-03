@@ -1,4 +1,4 @@
-import { Timing, TimingRepeat } from "fhir/r4";
+import { Timing, TimingRepeat } from "fhir/r5";
 import { daySelectedFilter } from "./utils";
 import { Moment } from "moment";
 import { DaysOfWeek } from "../../../pages/patients/service-request-form/form-data";

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { Observation } from "fhir/r4";
+import { Observation } from "fhir/r5";
 import { dateToString, getDateFromString, timingToString } from "../../../../@core/services/utils/utils";
 import { getDisplayValue } from "../../../../@core/services/utils/observation-utils";
 import { NbDialogService } from "@nebular/theme";

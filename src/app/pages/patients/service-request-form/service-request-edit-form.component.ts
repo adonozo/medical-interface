@@ -5,7 +5,7 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { ServiceRequest } from "fhir/r4";
+import { ServiceRequest } from "fhir/r5";
 import { concatMap, Observable } from "rxjs";
 
 @Component({
@@ -52,7 +52,7 @@ export class ServiceRequestEditFormComponent extends AbstractServiceRequestFormC
   }
 
   private populateForm(serviceRequest: ServiceRequest): void {
-    this.instructionsControl.setValue(serviceRequest.patientInstruction);
+    this.instructionsControl.setValue(serviceRequest.patientInstruction?.[0].instructionMarkdown);
     this.durationControl.setValue(serviceRequest.occurrenceTiming?.repeat);
     this.weekTimingControl.setValue(serviceRequest.contained ?? []);
   }

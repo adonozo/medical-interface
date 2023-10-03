@@ -1,4 +1,4 @@
-import { Bundle, DomainResource, Reference } from "fhir/r4";
+import { Bundle, DomainResource, Reference } from "fhir/r5";
 import { PaginatedResult } from "../../models/paginatedResult";
 
 /**

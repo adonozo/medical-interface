@@ -1,6 +1,6 @@
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { Dosage, DosageDoseAndRate, Medication, MedicationRequest, Patient, Quantity, Timing } from "fhir/r4";
+import { Dosage, DosageDoseAndRate, Medication, MedicationRequest, Patient, Quantity, Timing } from "fhir/r5";
 import { MedicationsService } from "../../../@core/services/medications.service";
 import { debounceTime, distinctUntilChanged, Observable, of } from "rxjs";
 import { map, concatMap } from "rxjs/operators";
@@ -161,9 +161,10 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
 
     const medication = this.medicationControl.value;
     request.contained = [medication];
-    request.medicationReference = {
-      reference: medicationRequestUtils.getMedicationReference(medication),
-      display: this.getMedicationName(medication)
+    request.medication = {
+      reference: {
+        reference: medicationRequestUtils.getMedicationReference(medication)
+      }
     }
     request.subject = {
       reference: patientUtils.getPatientReference(this.patient?.id ?? ''),

@@ -1,4 +1,4 @@
-import { ServiceRequest } from "fhir/r4";
+import { ServiceRequest } from "fhir/r5";
 import { ServiceRequestView } from "../../models/service-request-view";
 import * as utils from "./utils";
 import { DayCode, TimeCode } from "../../models/types";
@@ -11,7 +11,7 @@ import { dayStringFromCode, sortDayCodes, timingToString } from "./utils";
 export function mapToServiceRequestView(serviceRequest: ServiceRequest): ServiceRequestView {
   return {
     id: serviceRequest.id ?? '',
-    patientInstruction: serviceRequest.patientInstruction ?? '',
+    patientInstruction: serviceRequest.patientInstruction?.[0]?.instructionMarkdown ?? '',
     duration: utils.getStringDuration(serviceRequest.occurrenceTiming?.repeat),
     days: getServiceRequestDays(serviceRequest),
     dayWhen: getServiceRequestTimings(serviceRequest)

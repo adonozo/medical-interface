@@ -1,4 +1,4 @@
-import { ContactPoint, Patient } from "fhir/r4";
+import { ContactPoint, Patient } from "fhir/r5";
 import { InternalPatient, PatientPhoneContact } from "../../models/internalPatient";
 import { Extensions, ResourcePath } from "../data/constants";
 import * as resourceUtils from "./resource-utils";

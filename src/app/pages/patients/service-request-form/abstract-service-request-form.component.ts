@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 import { Location } from "@angular/common";
 import { FormStatus } from "../../../@core/models/enums";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
-import { Patient, ServiceRequest, Timing, TimingRepeat } from "fhir/r4";
+import { Patient, ServiceRequest, Timing, TimingRepeat } from "fhir/r5";
 import { FormComponent } from "../../../@core/components/form.component";
 import { concatMap, Observable } from "rxjs";
 import { Directive } from "@angular/core";
@@ -120,7 +120,9 @@ export abstract class AbstractServiceRequestFormComponent extends FormComponent 
 
   private setInstructions(request: ServiceRequest): ServiceRequest {
     if (this.instructionsControl.value && this.instructionsControl.value.length > 0) {
-      request.patientInstruction = this.instructionsControl.value;
+      request.patientInstruction = [{
+        instructionMarkdown: this.instructionsControl.value
+      }];
     }
 
     return request;

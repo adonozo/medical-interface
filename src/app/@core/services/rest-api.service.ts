@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { PaginatedResult } from "../models/paginatedResult";
 import { map } from "rxjs/operators";
-import { Bundle } from "fhir/r4";
+import { Bundle } from "fhir/r5";
 import { Headers } from "./data/constants";
 import * as resourceUtils from "./utils/resource-utils";
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
-import { MedicationRequest, ServiceRequest, TimingRepeat } from "fhir/r4";
+import { MedicationRequest, ServiceRequest, TimingRepeat } from "fhir/r5";
 import { concatMap } from "rxjs";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
 import { ServiceRequestsService } from "../../../@core/services/service-requests.service";
@@ -12,7 +12,7 @@ import { OrderDetailsLocale } from "./order-details.locale";
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.scss']
-})
+}) // todo delete
 export class OrderDetailsComponent {
   type: string = '';
   config: { type: string, id: string } = { type: '', id: '' };
@@ -77,10 +77,10 @@ export class OrderDetailsComponent {
   }
 
   getServiceDisplay(serviceRequest: ServiceRequest): string {
-    if (!serviceRequest.code?.coding || !serviceRequest.code.coding[0]) {
+    if (!serviceRequest.code?.concept?.coding?.[0]) {
       return '';
     }
 
-    return serviceRequest.code.coding[0].display ?? '';
+    return serviceRequest.code.concept.coding[0].display ?? '';
   }
 }

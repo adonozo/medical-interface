@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ObservationsService } from "../../../@core/services/observations.service";
 import { NbDialogService, NbThemeService } from "@nebular/theme";
-import { Observation } from "fhir/r4";
+import { Observation } from "fhir/r5";
 import { GlucoseLevelsLocale } from "./glucose-levels.locale";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
 import { ObservationFormComponent } from "./observation-form/observation-form.component";

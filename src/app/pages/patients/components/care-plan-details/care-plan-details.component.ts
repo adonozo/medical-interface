@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CarePlan, Patient } from "fhir/r4";
+import { CarePlan, Patient } from "fhir/r5";
 import * as patientUtils from "../../../../@core/services/utils/patient-utils";
 
 @Component({

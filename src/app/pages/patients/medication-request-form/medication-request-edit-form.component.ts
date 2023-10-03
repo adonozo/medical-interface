@@ -6,7 +6,7 @@ import { MedicationRequestsService } from "../../../@core/services/medication-re
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { Medication, MedicationRequest, Quantity } from "fhir/r4";
+import { Medication, MedicationRequest, Quantity } from "fhir/r5";
 import { Observable } from "rxjs";
 import * as medicationRequestUtils from "../../../@core/services/utils/medication-request-utils";
 import * as resourceUtils from "../../../@core/services/utils/resource-utils";
@@ -47,7 +47,7 @@ export class MedicationRequestEditFormComponent extends AbstractMedicationReques
         }),
         concatMap(request => {
           this.medicationRequest = request;
-          return this.medicationService.getMedication(resourceUtils.getIdFromReference(request.medicationReference));
+          return this.medicationService.getMedication(resourceUtils.getIdFromReference(request.medication.reference));
         }))
       .subscribe(medication => this.populateForm(medication));
   }

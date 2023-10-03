@@ -1,4 +1,4 @@
-import { TimingRepeat } from "fhir/r4";
+import { TimingRepeat } from "fhir/r5";
 import { AppLocale } from "../data/locale";
 import { DayCode, TimeCode, TimeCodeExtended } from "../../models/types";
 import { parseISO } from "date-fns"

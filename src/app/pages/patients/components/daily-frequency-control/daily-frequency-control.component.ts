@@ -11,7 +11,7 @@ import {
   Validator,
   Validators,
 } from "@angular/forms";
-import { TimingRepeat } from "fhir/r4";
+import { TimingRepeat } from "fhir/r5";
 import { daySelectedFilter } from "../../../../@core/services/utils/utils";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";

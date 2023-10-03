@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Patient, ServiceRequest } from "fhir/r4";
+import { Patient, ServiceRequest } from "fhir/r5";
 import { Observable } from "rxjs";
 import { RestApiService } from "./rest-api.service";
 import * as patientUtils from "./utils/patient-utils";
@@ -52,13 +52,15 @@ export class ServiceRequestsService {
       resourceType: "ServiceRequest",
       status: "active",
       code: {
-        coding: [
-          {
-            system: "http://snomed.info/sct",
-            code: "36048009",
-            display: "Glucose measurement"
-          }
-        ]
+        concept: {
+          coding: [
+            {
+              system: "http://snomed.info/sct",
+              code: "36048009",
+              display: "Glucose measurement"
+            }
+          ]
+        }
       },
       subject: {}
     };

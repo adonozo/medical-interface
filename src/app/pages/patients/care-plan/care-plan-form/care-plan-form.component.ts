@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
-import { CarePlan, Patient, Resource } from "fhir/r4";
+import { CarePlan, Patient, Resource } from "fhir/r5";
 import { CarePlanService } from "../../../../@core/services/care-plan.service";
 import { FormStatus } from "../../../../@core/models/enums";
 import { NbDialogService } from "@nebular/theme";

@@ -3,7 +3,7 @@ import { NbDialogRef } from "@nebular/theme";
 import { TimeOfDay } from "../../medication-request-form/form-data";
 import { FormComponent } from "../../../../@core/components/form.component";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Observation } from "fhir/r4";
+import { Observation } from "fhir/r5";
 import { Extensions } from "../../../../@core/services/data/constants";
 import { ObservationsService } from "../../../../@core/services/observations.service";
 import { FormStatus } from "../../../../@core/models/enums";
@@ -63,8 +63,9 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
       return;
     }
 
-    this.observation.valueQuantity = {value: this.valueControl.value};
+    this.observation.valueQuantity = {...this.observation.valueQuantity, value: this.valueControl.value};
     this.observation.issued = this.dateControl.value.toISOString();
+    this.observation.effectiveDateTime = new Date().toISOString();
     resourceUtils.setCodeExtension(this.observation, Extensions.RESOURCE_TIMING, this.timingControl.value);
 
     this.formStatus = FormStatus.loading;

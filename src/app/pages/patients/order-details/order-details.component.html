@@ -36,7 +36,7 @@
             <b i18n>Medication:</b>
           </div>
           <div class="col-9 mt-2">
-            {{medicationOrder.medicationReference?.display}}
+            {{medicationOrder.medication.reference?.display ?? ''}}
           </div>
           <div class="col-3 mt-2">
             <b i18n>Dosage:</b>

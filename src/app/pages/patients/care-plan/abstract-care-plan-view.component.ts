@@ -5,7 +5,7 @@ import {
   Patient,
   Resource,
   ServiceRequest
-} from "fhir/r4";
+} from "fhir/r5";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { PatientsService } from "../../../@core/services/patients.service";

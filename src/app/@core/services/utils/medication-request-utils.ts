@@ -1,4 +1,4 @@
-import { Dosage, Medication, MedicationRequest, Quantity, TimingRepeat } from "fhir/r4";
+import { Dosage, Medication, MedicationRequest, Quantity, TimingRepeat } from "fhir/r5";
 import { Extensions, ResourcePath, ResourceType } from "../data/constants";
 import { MedicationRequestView } from "../../models/medication-request-view";
 import * as utils from "./utils";
@@ -47,8 +47,7 @@ export function getMedicationNote(medicationRequest: MedicationRequest | undefin
  * @param medicationRequest
  */
 export function getMedicationFromRequest(medicationRequest: MedicationRequest): Medication | undefined {
-  if (!medicationRequest.contained
-    || medicationRequest.contained.length === 0
+  if (!medicationRequest.contained?.[0]
     || medicationRequest.contained[0].resourceType !== ResourceType.Medication
   ) {
     return undefined;
@@ -58,7 +57,7 @@ export function getMedicationFromRequest(medicationRequest: MedicationRequest): 
 }
 
 function getDoseQuantity(dosage: Dosage): Quantity | undefined {
-  if (!dosage.doseAndRate || dosage.doseAndRate.length === 0) {
+  if (!dosage.doseAndRate?.[0]) {
     return undefined;
   }
 
@@ -107,7 +106,7 @@ function getFrequencyText(timingRepeat: TimingRepeat | undefined): string {
 }
 
 function getMedicationName(medication: Medication | undefined) : string {
-  if (!medication || !medication.code || !medication.code.coding || medication.code.coding.length > 0) {
+  if (!medication?.code?.coding?.[0]) {
     return '';
   }
 

@@ -7,7 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
 import { Observable } from "rxjs";
-import { MedicationRequest } from "fhir/r4";
+import { MedicationRequest } from "fhir/r5";
 
 @Component({
   selector: 'app-medication-request-new',

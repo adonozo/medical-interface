@@ -9,7 +9,7 @@ import {
   Validator
 } from "@angular/forms";
 import { DaysOfWeek, TimesOfDay } from "../../service-request-form/form-data";
-import { ServiceRequest } from "fhir/r4";
+import { ServiceRequest } from "fhir/r5";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 

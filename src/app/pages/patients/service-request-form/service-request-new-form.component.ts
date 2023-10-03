@@ -5,7 +5,7 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { ServiceRequest } from "fhir/r4";
+import { ServiceRequest } from "fhir/r5";
 import { Observable } from "rxjs";
 
 @Component({

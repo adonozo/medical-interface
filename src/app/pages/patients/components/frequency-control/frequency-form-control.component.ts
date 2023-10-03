@@ -14,7 +14,7 @@ import {
 import { Moment } from "moment/moment";
 import { getDefaultDateFrom, daySelectedFilter } from "../../../../@core/services/utils/utils";
 import * as moment from "moment/moment";
-import { TimingRepeat } from "fhir/r4";
+import { TimingRepeat } from "fhir/r5";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { SelectedFrequency } from "./interfaces";

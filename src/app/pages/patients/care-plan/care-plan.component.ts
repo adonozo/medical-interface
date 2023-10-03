@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
-import { CarePlan } from "fhir/r4";
+import { CarePlan } from "fhir/r5";
 import { TableActionsService } from "../../../@core/components/table-components/resource-actions/table-actions.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
