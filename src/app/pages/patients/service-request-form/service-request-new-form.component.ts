@@ -5,7 +5,7 @@ import { ServiceRequestsService } from "../../../@core/services/service-requests
 import { ActivatedRoute } from "@angular/router";
 import { FormBuilder } from "@angular/forms";
 import { Location } from "@angular/common";
-import { ServiceRequest } from "fhir/r4";
+import { ServiceRequest } from "fhir/r5";
 import { Observable } from "rxjs";
 
 @Component({
@@ -16,11 +16,11 @@ import { Observable } from "rxjs";
 export class ServiceRequestNewFormComponent extends AbstractServiceRequestFormComponent {
 
   constructor(
-    protected patientService: PatientsService,
-    protected serviceRequestService: ServiceRequestsService,
-    protected activatedRoute: ActivatedRoute,
-    protected formBuilder: FormBuilder,
-    protected location: Location
+    protected override patientService: PatientsService,
+    protected override serviceRequestService: ServiceRequestsService,
+    protected override activatedRoute: ActivatedRoute,
+    protected override formBuilder: FormBuilder,
+    protected override location: Location
   ) {
     super(patientService,
       serviceRequestService,
@@ -30,6 +30,6 @@ export class ServiceRequestNewFormComponent extends AbstractServiceRequestFormCo
   }
 
   saveMethod(request: ServiceRequest): Observable<void> {
-    return this.serviceRequestService.createServiceRequests(this.carePlanId, request);
+    return this.serviceRequestService.createServiceRequests(this.carePlanId ?? '', request);
   }
 }

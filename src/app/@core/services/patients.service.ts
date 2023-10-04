@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RestApiService } from "./rest-api.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { Patient } from "fhir/r4";
+import { Patient } from "fhir/r5";
 import { InternalPatient } from "../models/internalPatient";
 import { PaginatedResult } from "../models/paginatedResult";
 import * as patientUtils from "./utils/patient-utils";

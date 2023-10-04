@@ -1,33 +1,20 @@
-# A voice assistant for type 2 diabetes mellitus treatments
+# Voice assistant for type 2 diabetes mellitus treatments
 
 ---
 
-## Doctor's Web Interface
+## Medical Interface
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.5.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) v15.2.9. It uses models from [FHIR R5](http://hl7.org/fhir/).
 
-The projects is based in [Akveo's ngx-admin](https://github.com/akveo/ngx-admin), which at the same time uses [Nebular](https://github.com/akveo/nebular) components; both under a MIT license. Parts of the folder structure and theme elements were taken from ngx-admin.
+The project is based on [Akveo's ngx-admin](https://github.com/akveo/ngx-admin), which at the same time uses [Nebular](https://github.com/akveo/nebular) components. The folder structure and theme elements were taken from ngx-admin.
 
-Additionally, the project uses a number of open-source libraries defined in the `package.json` file.  
-
-A build of the project is located in the `build` folder
-
+Additionally, the project uses a number of open-source libraries defined in the `package.json` file.
 
 ### Requirements
 
-Node.js with NPM must be installed in the system. The project was developed using Node.js v14.17.3 and NPM 6.14.13. More information about system requirements can be found in [Angular CLI](https://github.com/angular/angular-cli).
+Node.js v18.x and NPM 9.x. More information about system requirements can be found in [Angular CLI](https://github.com/angular/angular-cli).
 
 The REST API service must be running and have a valid HTTP address. Add the REST API URL as an env variable in `environment.ts` and `environment.prod.ts`.
-
-```
-./src/app/@core/services/rest-api-service.ts
-```
-
-_Optional:_ To run the provided build, you may install `angular-http-server` (requires NPM)
-
-```bash
-npm install angular-http-server -g
-```
 
 ### Development server
 

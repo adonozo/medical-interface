@@ -1,4 +1,4 @@
-import { Bundle, DomainResource, Reference } from "fhir/r4";
+import { Bundle, DomainResource, Reference } from "fhir/r5";
 import { PaginatedResult } from "../../models/paginatedResult";
 
 /**
@@ -6,14 +6,14 @@ import { PaginatedResult } from "../../models/paginatedResult";
  * and external references.
  * @param reference
  */
-export function getIdFromReference(reference: Reference): string {
-  const separator = reference.reference.startsWith('#') ? '#' : '/';
-  const referenceParts = reference.reference.split(separator);
-  if (referenceParts.length > 1) {
-    return referenceParts[1];
+export function getIdFromReference(reference: Reference | undefined): string {
+  if (!reference?.reference) {
+    return '';
   }
 
-  return '';
+  const separator = reference.reference.startsWith('#') ? '#' : '/';
+  const referenceParts = reference.reference.split(separator);
+  return referenceParts.length > 1 ? referenceParts[1] : '';
 }
 
 /**
@@ -22,8 +22,14 @@ export function getIdFromReference(reference: Reference): string {
  * @param url the URL that the extension uses as a key. Should be already defined as a constant.
  */
 export function getStringExtension(resource: DomainResource, url: string): string {
-  const extIndex = resource?.extension?.findIndex(ext => ext.url === url)
-  return !isNaN(extIndex) && extIndex >= 0 ? resource.extension[extIndex].valueString : '';
+  if (!resource?.extension) {
+    return '';
+  }
+
+  const extIndex = resource.extension.findIndex(ext => ext.url === url)
+  return extIndex >= 0
+    ? resource.extension[extIndex].valueString ?? ''
+    : '';
 }
 
 /**
@@ -31,9 +37,15 @@ export function getStringExtension(resource: DomainResource, url: string): strin
  * @param resource
  * @param url the URL that the extension uses as a key. Should be already defined as a constant.
  */
-export function getCodeExtension(resource: DomainResource, url: string): string {
-  const extIndex = resource?.extension?.findIndex(ext => ext.url === url)
-  return !isNaN(extIndex) && extIndex >= 0 ? resource.extension[extIndex].valueCode : '';
+export function getCodeExtension(resource: DomainResource | undefined, url: string): string {
+  if (!resource?.extension) {
+    return '';
+  }
+
+  const extIndex = resource.extension.findIndex(ext => ext.url === url)
+  return extIndex >= 0
+    ? resource.extension[extIndex].valueCode ?? ''
+    : '';
 }
 
 /**
@@ -62,13 +74,13 @@ export function setCodeExtension(resource: DomainResource, url: string, value: s
  * @param remaining how many results are remaining
  * @param lastCursor the ID of a resource to be used as a cursor
  */
-export function getPaginatedResult(bundle: Bundle, remaining: number, lastCursor: string): PaginatedResult<any> {
-  if (!bundle.entry) {
+export function getPaginatedResult(bundle: Bundle | null, remaining: number, lastCursor: string | null): PaginatedResult<any> {
+  if (!bundle?.entry) {
     return getEmptyPaginatedResult();
   }
 
   return {
-    totalResults: bundle.total,
+    totalResults: bundle.total ?? bundle.entry.length,
     lastDataCursor: lastCursor,
     remainingCount: remaining,
     results: bundle.entry.map(entry => entry.resource)

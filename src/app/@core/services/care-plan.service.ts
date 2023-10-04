@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RestApiService } from "./rest-api.service";
 import { Observable } from "rxjs";
 import { PaginatedResult } from "../models/paginatedResult";
-import { Bundle, CarePlan } from "fhir/r4";
+import { Bundle, CarePlan } from "fhir/r5";
 import * as patientUtils from "./utils/patient-utils";
 
 @Injectable({
@@ -46,7 +46,7 @@ export class CarePlanService {
     return this.restService.put(this.path + id + '/activate', {});
   }
 
-  revokeCarePlan(id: string): Observable<void> {
+  revokeCarePlan(id?: string): Observable<void> {
     return this.restService.put(this.path + id + '/revoke', {});
   }
 }

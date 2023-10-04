@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsService } from "../../@core/services/patients.service";
 import { PaginatedResult } from "../../@core/models/paginatedResult";
-import { Patient } from "fhir/r4";
+import { Patient } from "fhir/r5";
 
 @Component({
   selector: 'app-patients',
@@ -10,7 +10,7 @@ import { Patient } from "fhir/r4";
 })
 export class PatientsComponent implements OnInit {
   private readonly defaultLimit = 20;
-  results: PaginatedResult<Patient>
+  results: PaginatedResult<Patient> | undefined;
 
   constructor(
     private patientService: PatientsService) {

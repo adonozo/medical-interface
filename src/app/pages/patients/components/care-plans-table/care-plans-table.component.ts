@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CarePlan } from "fhir/r4";
+import { CarePlan } from "fhir/r5";
 import { TableAction } from "../../../../@core/components/table-components/resource-actions/table-action";
 
 @Component({
@@ -8,7 +8,7 @@ import { TableAction } from "../../../../@core/components/table-components/resou
   styleUrls: ['./care-plans-table.component.scss']
 })
 export class CarePlansTableComponent {
-  @Input() carePlans: CarePlan[];
+  @Input() carePlans: CarePlan[] = [];
 
   constructor() { }
 

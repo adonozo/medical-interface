@@ -1,4 +1,4 @@
-import { TimingRepeat } from "fhir/r4";
+import { TimingRepeat } from "fhir/r5";
 import { AppLocale } from "../data/locale";
 import { DayCode, TimeCode, TimeCodeExtended } from "../../models/types";
 import { parseISO } from "date-fns"
@@ -7,7 +7,12 @@ import { parseISO } from "date-fns"
  * Parses a string into a Date object. Returns the current date if the string is not a valid date
  * @param stringDate in ISO format
  */
-export function getDateOrDefault(stringDate: string): Date {
+export function getDateOrDefault(stringDate: string | undefined): Date {
+  if (!stringDate)
+  {
+    return new Date();
+  }
+
   try {
     return parseISO(stringDate)
   } catch (exception) {
@@ -19,9 +24,9 @@ export function getDateOrDefault(stringDate: string): Date {
  * Parses a string into a Date object. Returns `undefined` if the string is not a valid date
  * @param stringDate in ISO format
  */
-export function getDateFromString(stringDate: string): Date | undefined {
+export function getDateFromString(stringDate: string | undefined): Date | undefined {
   try {
-    return parseISO(stringDate)
+    return stringDate ? parseISO(stringDate) : undefined;
   } catch (exception) {
     return undefined;
   }
@@ -64,12 +69,12 @@ export const daySelectedFilter = (daySelected: { [key in DayCode]: boolean } | {
  * string will have format of value/unit (e.g., 2 days) or localized date period (e.g., 20/01/2023 - 15/02/2023)
  * @param repeat must have a `boundsDuration` or `boundsPeriod`
  */
-export function getStringDuration(repeat: TimingRepeat): string {
-  if (repeat.boundsDuration) {
-    return `${repeat.boundsDuration.value} ${this.durationStringFromCode(repeat.boundsDuration.unit)}`;
-  } else if (repeat.boundsPeriod) {
-    const start = this.getDateOrDefault(repeat.boundsPeriod.start).toLocaleDateString(AppLocale.localeTime);
-    const end = this.getDateOrDefault(repeat.boundsPeriod.end).toLocaleDateString(AppLocale.localeTime);
+export function getStringDuration(repeat: TimingRepeat | undefined): string {
+  if (repeat?.boundsDuration) {
+    return `${repeat.boundsDuration.value} ${durationStringFromCode(repeat.boundsDuration.unit)}`;
+  } else if (repeat?.boundsPeriod) {
+    const start = getDateOrDefault(repeat.boundsPeriod.start).toLocaleDateString(AppLocale.localeTime);
+    const end = getDateOrDefault(repeat.boundsPeriod.end).toLocaleDateString(AppLocale.localeTime);
     return `${start} - ${end}`
   }
 
@@ -80,7 +85,7 @@ export function getStringDuration(repeat: TimingRepeat): string {
  * Gets the localized literal of a timing code, in lowercase. E.g., 'CD' -> 'at lunch'
  * @param timing a timing code, e.g., 'ACM'
  */
-export const timingToString = (timing: TimeCodeExtended): string => {
+export const timingToString = (timing: TimeCodeExtended | undefined): string => {
   switch (timing) {
     case 'ACM':
       return $localize`before breakfast`;
@@ -107,7 +112,7 @@ export const timingToString = (timing: TimeCodeExtended): string => {
     case 'PC':
       return $localize`after meal`;
     default:
-      return timing;
+      return timing ?? '';
   }
 }
 
@@ -115,7 +120,7 @@ export const timingToString = (timing: TimeCodeExtended): string => {
  * Gets the localized literal of a time unit code, useful to concatenate. E,g, 'd' -> 'day(s)'
  * @param unit a time unit code: 'd', 'wk', or 'mo'
  */
-export const durationStringFromCode = (unit: string): string => {
+export const durationStringFromCode = (unit: string | undefined): string => {
   switch (unit) {
     case 'd':
       return $localize`day(s)`;
@@ -124,7 +129,7 @@ export const durationStringFromCode = (unit: string): string => {
     case 'mo':
       return $localize`month(s)`;
     default:
-      return unit;
+      return unit ?? '';
   }
 }
 

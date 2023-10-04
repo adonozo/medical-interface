@@ -45,7 +45,7 @@
       </nb-card-body>
       <nb-card-footer>
         <div class="row">
-          <div class="col-12 text-right">
+          <div class="col-12 text-end">
             <button type="button" nbButton status="success" (click)="navigate('edit')">
               <nb-icon class="icon" icon="edit" pack="eva"></nb-icon>
               <span i18n>Edit</span>
@@ -64,9 +64,9 @@
 
   <div class="col-12 col-sm-6 col-lg-4">
     <nb-card>
-      <div class="cursor-pointer action" (click)="createCarePlan()">
+      <div class="cursor-pointer action" (click)="patientId && createCarePlan()">
         <div class="icon-container">
-          <div class="icon status-warning">
+          <div class="icon" [ngClass]="patientId ? 'status-warning' : 'status-primary'">
             <i class="icon fa fa-hand-holding-medical"></i>
           </div>
         </div>

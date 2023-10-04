@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CarePlan, Patient } from "fhir/r4";
+import { CarePlan, Patient } from "fhir/r5";
 import * as patientUtils from "../../../../@core/services/utils/patient-utils";
 
 @Component({
@@ -9,8 +9,8 @@ import * as patientUtils from "../../../../@core/services/utils/patient-utils";
 })
 export class CarePlanDetailsComponent {
 
-  @Input() patient: Patient;
-  @Input() carePlan: CarePlan;
+  @Input() patient: Patient | undefined;
+  @Input() carePlan: CarePlan | undefined;
 
   get patientName(): string {
     return patientUtils.getPatientName(this.patient);

@@ -1,4 +1,4 @@
-import { Dosage, Medication, MedicationRequest, Quantity, TimingRepeat } from "fhir/r4";
+import { Dosage, Medication, MedicationRequest, Quantity, TimingRepeat } from "fhir/r5";
 import { Extensions, ResourcePath, ResourceType } from "../data/constants";
 import { MedicationRequestView } from "../../models/medication-request-view";
 import * as utils from "./utils";
@@ -13,18 +13,18 @@ export const getMedicationReference = (medication: Medication): string => Resour
 export function mapToMedicationRequestView(medicationRequest: MedicationRequest): MedicationRequestView {
   const medication = getMedicationFromRequest(medicationRequest);
   return {
-    id: medicationRequest.id,
-    medicationName: medication?.code.coding[0].display ?? '',
-    dosage: medicationRequest.dosageInstruction.map(dosageInstruction => {
+    id: medicationRequest.id ?? '',
+    medicationName: getMedicationName(medication),
+    dosage: medicationRequest.dosageInstruction?.map(dosageInstruction => {
       const quantity = getDoseQuantity(dosageInstruction);
       return {
         dosage: getDosageText(quantity),
         medicationNote: getMedicationNote(medicationRequest),
-        duration: utils.getStringDuration(dosageInstruction.timing.repeat),
-        when: getWhenToTakeText(dosageInstruction.timing.repeat),
-        frequency: getFrequencyText(dosageInstruction.timing.repeat),
+        duration: utils.getStringDuration(dosageInstruction.timing?.repeat),
+        when: getWhenToTakeText(dosageInstruction.timing?.repeat),
+        frequency: getFrequencyText(dosageInstruction.timing?.repeat),
       }
-    })
+    }) ?? []
   };
 }
 
@@ -33,8 +33,8 @@ export function mapToMedicationRequestView(medicationRequest: MedicationRequest)
  * empty string if the property doesn't exist.
  * @param medicationRequest
  */
-export function getMedicationNote(medicationRequest: MedicationRequest): string {
-  if (!medicationRequest.note || medicationRequest.note.length === 0) {
+export function getMedicationNote(medicationRequest: MedicationRequest | undefined): string {
+  if (!medicationRequest?.note || !medicationRequest.note[0]) {
     return '';
   }
 
@@ -46,9 +46,8 @@ export function getMedicationNote(medicationRequest: MedicationRequest): string 
  * Returns `undefined` if the contained `Medication` is not found.
  * @param medicationRequest
  */
-export function getMedicationFromRequest(medicationRequest: MedicationRequest): Medication {
-  if (!medicationRequest.contained
-    || medicationRequest.contained.length === 0
+export function getMedicationFromRequest(medicationRequest: MedicationRequest): Medication | undefined {
+  if (!medicationRequest.contained?.[0]
     || medicationRequest.contained[0].resourceType !== ResourceType.Medication
   ) {
     return undefined;
@@ -58,7 +57,7 @@ export function getMedicationFromRequest(medicationRequest: MedicationRequest): 
 }
 
 function getDoseQuantity(dosage: Dosage): Quantity | undefined {
-  if (!dosage.doseAndRate || dosage.doseAndRate.length === 0) {
+  if (!dosage.doseAndRate?.[0]) {
     return undefined;
   }
 
@@ -66,7 +65,7 @@ function getDoseQuantity(dosage: Dosage): Quantity | undefined {
 }
 
 function getDosageText(dosageQuantity: Quantity | undefined): string {
-  if (!dosageQuantity) {
+  if (!dosageQuantity || !dosageQuantity.extension) {
     return '';
   }
 
@@ -75,7 +74,11 @@ function getDosageText(dosageQuantity: Quantity | undefined): string {
   return dosageQuantity.value + ' ' + unitName;
 }
 
-function getWhenToTakeText(timingRepeat: TimingRepeat): string {
+function getWhenToTakeText(timingRepeat: TimingRepeat | undefined): string {
+  if (!timingRepeat) {
+    return '';
+  }
+
   if (timingRepeat.dayOfWeek && Array.isArray(timingRepeat.dayOfWeek)) {
     return timingRepeat.dayOfWeek
       .sort(sortDayCodes)
@@ -86,7 +89,11 @@ function getWhenToTakeText(timingRepeat: TimingRepeat): string {
   return $localize`Every day`;
 }
 
-function getFrequencyText(timingRepeat: TimingRepeat): string {
+function getFrequencyText(timingRepeat: TimingRepeat | undefined): string {
+  if (!timingRepeat) {
+    return '';
+  }
+
   if (timingRepeat.when && Array.isArray(timingRepeat.when)) {
     return whenArrayToString(timingRepeat.when);
   }
@@ -95,7 +102,15 @@ function getFrequencyText(timingRepeat: TimingRepeat): string {
     return timingRepeat.timeOfDay.join(', ');
   }
 
-  return dailyFrequencyString(timingRepeat.frequency);
+  return timingRepeat.frequency ? dailyFrequencyString(timingRepeat.frequency) : '';
+}
+
+function getMedicationName(medication: Medication | undefined) : string {
+  if (!medication?.code?.coding?.[0]) {
+    return '';
+  }
+
+  return medication.code.coding[0].display ?? '';
 }
 
 const whenArrayToString = (when: string[]): string => when

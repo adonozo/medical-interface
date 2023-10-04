@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Patient } from "fhir/r4";
+import { Patient } from "fhir/r5";
 import { InternalPatient } from "../../../../@core/models/internalPatient";
 import { toInternalPatient } from "../../../../@core/services/utils/patient-utils";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -11,8 +11,8 @@ import { ActivatedRoute, Router } from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PatientsTableComponent implements OnInit {
-  @Input() patients : Patient[]
-  displayPatients: InternalPatient[]
+  @Input() patients : Patient[] = []
+  displayPatients: InternalPatient[] = []
 
   constructor(
     private router: Router,

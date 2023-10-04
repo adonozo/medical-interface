@@ -1,4 +1,4 @@
-import { ServiceRequest } from "fhir/r4";
+import { ServiceRequest } from "fhir/r5";
 import { ServiceRequestView } from "../../models/service-request-view";
 import * as utils from "./utils";
 import { DayCode, TimeCode } from "../../models/types";
@@ -10,9 +10,9 @@ import { dayStringFromCode, sortDayCodes, timingToString } from "./utils";
  */
 export function mapToServiceRequestView(serviceRequest: ServiceRequest): ServiceRequestView {
   return {
-    id: serviceRequest.id,
-    patientInstruction: serviceRequest.patientInstruction ?? '',
-    duration: utils.getStringDuration(serviceRequest.occurrenceTiming.repeat),
+    id: serviceRequest.id ?? '',
+    patientInstruction: serviceRequest.patientInstruction?.[0]?.instructionMarkdown ?? '',
+    duration: utils.getStringDuration(serviceRequest.occurrenceTiming?.repeat),
     days: getServiceRequestDays(serviceRequest),
     dayWhen: getServiceRequestTimings(serviceRequest)
   };
@@ -29,7 +29,9 @@ function getServiceRequestDays(serviceRequest: ServiceRequest): string {
   }
 
   return serviceRequest.contained
-    .map((request: ServiceRequest) => request.occurrenceTiming.repeat.dayOfWeek)
+    .filter(contained => contained.resourceType == "ServiceRequest")
+    .map(contained => contained as ServiceRequest)
+    .map(request => request.occurrenceTiming?.repeat?.dayOfWeek ?? [])
     .flat()
     .sort(sortDayCodes)
     .map(dayStringFromCode)
@@ -47,13 +49,14 @@ function getServiceRequestTimings(serviceRequest: ServiceRequest): { day: string
   }
 
   return serviceRequest.contained
+    .filter(contained => contained.resourceType == "ServiceRequest")
+    .map(contained => contained as ServiceRequest)
     .map((request: ServiceRequest) => {
-      const repeat = request.occurrenceTiming.repeat;
+      const repeat = request.occurrenceTiming?.repeat;
       const dayMap = (day: DayCode) => {
-        return {day, when: repeat.when as TimeCode[]}
+        return {day, when: repeat?.when as TimeCode[]}
       };
-
-      return repeat.dayOfWeek.map(dayMap)
+      return (repeat?.dayOfWeek ?? []).map(dayMap)
     })
     .flat()
     .sort((a, b) => sortDayCodes(a.day, b.day))

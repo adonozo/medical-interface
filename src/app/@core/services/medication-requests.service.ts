@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MedicationRequest } from "fhir/r4";
+import { MedicationRequest } from "fhir/r5";
 import { RestApiService } from "./rest-api.service";
 import { Observable } from "rxjs";
 
@@ -18,7 +18,8 @@ export class MedicationRequestsService {
       resourceType: "MedicationRequest",
       status: "active",
       priority: "routine",
-      subject: undefined
+      subject: {},
+      medication: {}
     }
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Patient, ServiceRequest } from "fhir/r4";
+import { Patient, ServiceRequest } from "fhir/r5";
 import { Observable } from "rxjs";
 import { RestApiService } from "./rest-api.service";
 import * as patientUtils from "./utils/patient-utils";
@@ -19,8 +19,8 @@ export class ServiceRequestsService {
   getBaseServiceRequest(patient: Patient): ServiceRequest {
     const request = this.generateEmptyServiceRequest();
     request.subject = {
-      reference: patientUtils.getPatientReference(patient.id),
-      display: patient.name[0]?.family
+      reference: patientUtils.getPatientReference(patient.id ?? ''),
+      display: patient.name ? patient.name[0].family : ''
     }
     request.requester = {
       reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
@@ -46,21 +46,23 @@ export class ServiceRequestsService {
     return this.restApiService.delete(`care-plans/${carePlanId}/${this.path}${serviceRequestId}`);
   }
 
-  private generateEmptyServiceRequest(): ServiceRequest {
+  generateEmptyServiceRequest(): ServiceRequest {
     return {
       intent: "plan",
       resourceType: "ServiceRequest",
       status: "active",
       code: {
-        coding: [
-          {
-            system: "http://snomed.info/sct",
-            code: "36048009",
-            display: "Glucose measurement"
-          }
-        ]
+        concept: {
+          coding: [
+            {
+              system: "http://snomed.info/sct",
+              code: "36048009",
+              display: "Glucose measurement"
+            }
+          ]
+        }
       },
-      subject: undefined
+      subject: {}
     };
   }
 }

@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { PaginatedResult } from "../models/paginatedResult";
 import { map } from "rxjs/operators";
-import { Bundle } from "fhir/r4";
+import { Bundle } from "fhir/r5";
 import { Headers } from "./data/constants";
 import * as resourceUtils from "./utils/resource-utils";
 
@@ -38,8 +38,8 @@ export class RestApiService {
       .pipe(
         map(response => {
           const paginationLast = response.headers.get(Headers.PAGINATION_LAST);
-          const remainingCount = +response.headers.get(Headers.REMAINING_COUNT);
-          return resourceUtils.getPaginatedResult(response.body, remainingCount, paginationLast);
+          const remainingCount = response.headers.get(Headers.REMAINING_COUNT) ?? 0;
+          return resourceUtils.getPaginatedResult(response.body, +remainingCount, paginationLast);
         })
       );
   }

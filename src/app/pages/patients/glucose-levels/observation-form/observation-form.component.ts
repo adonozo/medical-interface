@@ -3,7 +3,7 @@ import { NbDialogRef } from "@nebular/theme";
 import { TimeOfDay } from "../../medication-request-form/form-data";
 import { FormComponent } from "../../../../@core/components/form.component";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Observation } from "fhir/r4";
+import { Observation } from "fhir/r5";
 import { Extensions } from "../../../../@core/services/data/constants";
 import { ObservationsService } from "../../../../@core/services/observations.service";
 import { FormStatus } from "../../../../@core/models/enums";
@@ -16,10 +16,10 @@ import * as resourceUtils from "../../../../@core/services/utils/resource-utils"
   styleUrls: ['./observation-form.component.scss']
 })
 export class ObservationFormComponent extends FormComponent implements OnInit {
-  @Input() observation: Observation;
+  @Input() observation: Observation | undefined;
   @Input() isUpdate: boolean = false;
   timesOfDay = TimeOfDay;
-  observationForm: FormGroup;
+  observationForm: FormGroup | undefined;
   saved: boolean = false;
   localeTime = 'dd/MM/yyyy HH:mm'
   showDeleteMessage: boolean = false;
@@ -46,20 +46,26 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
   }
 
   get valueControl(): FormControl {
-    return this.observationForm.get('value') as FormControl;
+    return this.observationForm?.get('value') as FormControl;
   }
 
   get dateControl(): FormControl {
-    return this.observationForm.get('date') as FormControl;
+    return this.observationForm?.get('date') as FormControl;
   }
 
   get timingControl(): FormControl {
-    return this.observationForm.get('timing') as FormControl;
+    return this.observationForm?.get('timing') as FormControl;
   }
 
   submitForm(): void {
-    this.observation.valueQuantity.value = this.valueControl.value;
+    if (!this.observation) {
+      this.formError('Observation not defined');
+      return;
+    }
+
+    this.observation.valueQuantity = {...this.observation.valueQuantity, value: this.valueControl.value};
     this.observation.issued = this.dateControl.value.toISOString();
+    this.observation.effectiveDateTime = new Date().toISOString();
     resourceUtils.setCodeExtension(this.observation, Extensions.RESOURCE_TIMING, this.timingControl.value);
 
     this.formStatus = FormStatus.loading;
@@ -75,6 +81,11 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
   }
 
   deleteRecord(): void {
+    if (!this.observation?.id) {
+      this.formError('Observation ID not defined');
+      return;
+    }
+
     this.formStatus = FormStatus.loading;
     this.observationService.deleteObservation(this.observation.id)
       .subscribe(this.formSuccess, this.formError)
@@ -85,7 +96,7 @@ export class ObservationFormComponent extends FormComponent implements OnInit {
     this.saved = true;
   }
 
-  private formError = (error) => {
+  private formError = (error: any) => {
     this.formStatus = FormStatus.error;
     console.log(error);
   }

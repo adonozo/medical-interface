@@ -7,9 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CarePlanStatusComponent implements OnInit {
 
-  @Input() status: string;
+  @Input() status: string = '';
 
-  statusColor: string;
+  statusColor: string = 'text-secondary';
 
   ngOnInit(): void {
     this.statusColor = this.getStatusColor();

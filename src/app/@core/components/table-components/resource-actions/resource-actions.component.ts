@@ -8,8 +8,8 @@ import { TableAction } from "./table-action";
   styleUrls: ['./resource-actions.component.scss']
 })
 export class ResourceActionsComponent {
-  @Input() id: string;
-  @Input() action: TableAction;
+  @Input() id: string = '';
+  @Input() action: TableAction = TableAction.View;
   tableAction = TableAction;
 
   constructor(private actionsService: TableActionsService) { }

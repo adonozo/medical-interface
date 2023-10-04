@@ -1,6 +1,6 @@
 export interface PaginatedResult<T> {
   totalResults: number;
   remainingCount: number;
-  lastDataCursor: string;
+  lastDataCursor: string | null;
   results: Array<T>;
 }

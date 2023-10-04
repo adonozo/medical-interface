@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PaginatedResult } from "../../../@core/models/paginatedResult";
-import { CarePlan } from "fhir/r4";
+import { CarePlan } from "fhir/r5";
 import { TableActionsService } from "../../../@core/components/table-components/resource-actions/table-actions.service";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -13,11 +13,11 @@ import { takeUntil } from "rxjs/operators";
   styleUrls: ['./care-plan.component.scss']
 })
 export class CarePlanComponent implements AfterViewInit, OnDestroy {
-  private patientId: string;
+  private patientId: string = '';
   private readonly defaultLimit = 20;
   private unSubscriber: Subject<void> = new Subject();
 
-  paginatedCarePlans: PaginatedResult<CarePlan>;
+  paginatedCarePlans: PaginatedResult<CarePlan> | undefined;
 
   constructor(
     private carePlanService: CarePlanService,
