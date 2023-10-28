@@ -1,7 +1,9 @@
 <nb-card>
   <nb-card-header>{{ title }}</nb-card-header>
   <nb-card-body>
-    {{ message }}
+    <div class="my-3">
+      {{ message }}
+    </div>
   </nb-card-body>
   <nb-card-footer>
     <div class="row">
@@ -10,8 +12,8 @@
           <ng-container i18n>Cancel</ng-container>
         </button>
       </div>
-      <div class="col-6 text-right">
-        <button type="button" class="ml-3" nbButton status="success" (click)="returnResult(true)">
+      <div class="col-6 text-end">
+        <button type="button" nbButton status="success" (click)="returnResult(true)">
           {{ confirmationButton }}
         </button>
       </div>

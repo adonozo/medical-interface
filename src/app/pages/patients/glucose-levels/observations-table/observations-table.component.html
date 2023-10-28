@@ -1,0 +1,20 @@
+<div class="data-table" *ngIf="data">
+  <table class="table table-bordered m-0">
+    <thead>
+    <th class="action-column-narrow">Action</th>
+    <th>Level</th>
+    <th>Date</th>
+    <th>Timing</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let observation of data">
+      <td class="cursor-pointer" (click)="openEditDialog(observation.id)">
+        <i class="far fa-edit"></i> <span class="icon-text text-dark mx-1">Edit</span>
+      </td>
+      <td>{{observation.level}}</td>
+      <td>{{observation.date}}</td>
+      <td>{{observation.timing}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

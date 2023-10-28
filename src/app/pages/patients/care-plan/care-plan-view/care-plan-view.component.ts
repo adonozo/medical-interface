@@ -18,11 +18,11 @@ import { FormStatus } from "../../../../@core/models/enums";
 export class CarePlanViewComponent extends AbstractCarePlanViewComponent {
 
   constructor(
-    protected location: Location,
-    protected router: Router,
-    protected activatedRoute: ActivatedRoute,
-    protected carePlanService: CarePlanService,
-    protected patientService: PatientsService,
+    protected override location: Location,
+    protected override router: Router,
+    protected override activatedRoute: ActivatedRoute,
+    protected override carePlanService: CarePlanService,
+    protected override patientService: PatientsService,
     private dialogService: NbDialogService,
   ) {
     super(

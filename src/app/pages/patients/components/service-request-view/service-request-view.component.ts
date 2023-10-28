@@ -9,10 +9,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class ServiceRequestViewComponent {
 
-  @Input() serviceRequestView: ServiceRequestView;
-  @Input() editButton: Boolean;
-  @Input() disableEditButton: Boolean;
-  @Input() editPageRoute: string;
+  @Input() serviceRequestView: ServiceRequestView | undefined;
+  @Input() editButton: boolean | undefined;
+  @Input() disableEditButton: boolean | undefined;
+  @Input() editPageRoute: string = '';
 
   constructor(
     protected router: Router,

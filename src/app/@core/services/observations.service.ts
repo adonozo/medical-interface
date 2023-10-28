@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
-import { Observation } from "fhir/r4";
+import { Observation } from "fhir/r5";
 import { RestApiService } from "./rest-api.service";
 import { PaginatedResult } from "../models/paginatedResult";
 import * as patientUtils from "./utils/patient-utils";

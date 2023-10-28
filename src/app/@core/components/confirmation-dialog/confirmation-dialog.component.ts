@@ -7,9 +7,9 @@ import { NbDialogRef } from "@nebular/theme";
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent implements OnInit {
-  @Input() title: string;
-  @Input() message: string;
-  @Input() confirmationButton: string;
+  @Input() title: string = '';
+  @Input() message: string = '';
+  @Input() confirmationButton: string = '';
 
   constructor(private dialogRef: NbDialogRef<ConfirmationDialogComponent>) { }
 

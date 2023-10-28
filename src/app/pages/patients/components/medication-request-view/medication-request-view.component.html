@@ -10,9 +10,9 @@
     <div class="col">
       <div class="row">
         <div class="col-12">
-          <b>{{ medicationRequestView.medicationName }}</b>
+          <b>{{ medicationRequestView?.medicationName }}</b>
         </div>
-        <ng-container *ngFor="let dosage of medicationRequestView.dosage">
+        <ng-container *ngFor="let dosage of (medicationRequestView?.dosage ?? [])">
           <div class="col-12">
             <span>{{ dosage.dosage }}</span>
           </div>
@@ -39,9 +39,9 @@
     <div class="col mb-2">
       <div class="row">
         <div class="col-12">
-          <b>{{ medicationRequestView.medicationName }}</b>
+          <b>{{ medicationRequestView?.medicationName }}</b>
         </div>
-        <ng-container *ngFor="let dosage of medicationRequestView.dosage">
+        <ng-container *ngFor="let dosage of (medicationRequestView?.dosage ?? [])">
           <div class="col-12">
             <span>{{ dosage.dosage }}</span>
           </div>

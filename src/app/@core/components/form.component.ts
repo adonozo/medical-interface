@@ -8,7 +8,8 @@ export abstract class FormComponent {
   getControlStatus = (control: FormControl): ('danger' | 'basic') =>
     this.isControlInvalid(control) ? 'danger' : 'basic';
 
-  isControlInvalid = (control: AbstractControl): boolean => control.invalid && (control.touched || control.dirty);
+  isControlInvalid = (control: AbstractControl | null): boolean =>
+    control != null && control.invalid && (control.touched || control.dirty);
 
   abstract submitForm(): void;
 }

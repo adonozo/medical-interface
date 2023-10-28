@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PatientsRoutingModule } from "./patients-routing.module";
 import { PatientsComponent } from "./patients.component";
-import { Ng2SmartTableModule } from "ng2-smart-table";
 import {
   NbAlertModule,
   NbAutocompleteModule,
@@ -21,7 +20,6 @@ import {
 import { ReactiveFormsModule } from "@angular/forms";
 import { GlucoseLevelsComponent } from './glucose-levels/glucose-levels.component';
 import { NgxEchartsModule } from "ngx-echarts";
-import { OrderDetailsComponent } from './order-details/order-details.component';
 import { PatientViewComponent } from './patient-view/patient-view.component';
 import { PatientFormComponent } from './patient-form/patient-form.component';
 import { PatientFormService } from "./patient-form/patient-form.service";
@@ -45,6 +43,9 @@ import { CarePlanViewComponent } from './care-plan/care-plan-view/care-plan-view
 import { ServiceRequestViewComponent } from './components/service-request-view/service-request-view.component';
 import { MedicationRequestViewComponent } from './components/medication-request-view/medication-request-view.component';
 import { FormActionsComponent } from './components/form-actions/form-actions.component';
+import { PatientsTableComponent } from './components/patients-table/patients-table.component';
+import { CarePlansTableComponent } from './components/care-plans-table/care-plans-table.component';
+import { ObservationsTableComponent } from './glucose-levels/observations-table/observations-table.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,6 @@ import { FormActionsComponent } from './components/form-actions/form-actions.com
     ServiceRequestNewFormComponent,
     ServiceRequestEditFormComponent,
     GlucoseLevelsComponent,
-    OrderDetailsComponent,
     PatientViewComponent,
     PatientFormComponent,
     ObservationFormComponent,
@@ -71,13 +71,15 @@ import { FormActionsComponent } from './components/form-actions/form-actions.com
     CarePlanViewComponent,
     ServiceRequestViewComponent,
     MedicationRequestViewComponent,
-    FormActionsComponent
+    FormActionsComponent,
+    PatientsTableComponent,
+    CarePlansTableComponent,
+    ObservationsTableComponent
   ],
   imports: [
     CommonModule,
     PatientsRoutingModule,
-    Ng2SmartTableModule,
-    NgxEchartsModule,
+    NgxEchartsModule.forRoot({echarts: () => import('echarts')}),
     NbCardModule,
     NbInputModule,
     NbButtonModule,

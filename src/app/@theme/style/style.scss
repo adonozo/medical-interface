@@ -4,13 +4,8 @@
 @import 'themes';
 
 // framework component themes (styles tied to theme variables)
-@import '~@nebular/theme/styles/globals';
-@import '~@nebular/auth/styles/globals';
-
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/grid';
+@import '@nebular/theme/styles/globals';
+@import '@nebular/auth/styles/globals';
 
 // loading progress bar theme
 @import './pace.theme';
@@ -32,37 +27,50 @@
   @include nb-overrides();
 };
 
-.order-table {
+.data-table {
+  table {
+    td {
+      background-color: unset;
+    }
 
-  thead th.ng2-smart-actions.ng-star-inserted {
-    width: 1em;
-  }
+    thead {
+      .action-column {
+        width: 120px;
+      }
+      .action-column-narrow {
+        width: 90px;
+      }
 
-  td.ng2-smart-actions {
-    float: left !important;
-
-    ng2-st-tbody-custom {
-      float: left;
-      width: auto;
-      display: flex;
-      margin-top: 0.5em;
-
-      a.ng2-smart-action.ng2-smart-action-custom-custom {
-        margin-left: 0.5em;
+      th {
+        padding-top: 1em;
+        padding-bottom: 1em;
       }
     }
-  }
 
-  table {
     tbody {
-      tr:hover {
-        background-color: #f4f6f9!important;
+      tr:nth-child(odd) {
+        background-color: #f7f9fc;
       }
+
+      tr:hover {
+        background-color: #f4f6f9 !important;
+      }
+    }
+
+    th, td {
+      border: 1px solid #edf1f7;
+      padding-left: 1.5em;
     }
   }
 
   .action-icon {
-    font-size: 1.60rem!important;
+    font-size: 1.20rem !important;
+  }
+}
+
+form {
+  .form-group {
+    margin-bottom: 1rem;
   }
 }
 

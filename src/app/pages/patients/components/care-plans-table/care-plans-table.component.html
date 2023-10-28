@@ -1,0 +1,20 @@
+<div class="data-table">
+  <table class="table table-bordered m-0">
+    <thead>
+    <th class="action-column">Action</th>
+    <th>Status</th>
+    <th>Created At</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let carePlan of carePlans">
+      <td>
+        <app-resource-actions [id]="carePlan.id!" [action]="carePlanTableAction(carePlan.status)"></app-resource-actions>
+      </td>
+      <td>
+        <app-care-plan-status [status]="carePlan.status"></app-care-plan-status>
+      </td>
+      <td>{{ carePlan.created | date }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

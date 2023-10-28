@@ -11,19 +11,25 @@
   <div class="col-lg-6">
     <nb-card>
       <nb-card-header>
-        <h4 i18n>Blood Glucose records</h4>
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+            <h4 i18n>Blood Glucose records</h4>
+          </div>
+          <div class="flex-shrink-1">
+            <button nbButton status="primary" (click)="openDialogForm()">
+              <nb-icon class="icon" icon="plus" pack="eva"></nb-icon>
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
       </nb-card-header>
-      <ng2-smart-table class="order-table"
-                       #levelsTable
-                       [settings]="settings"
-                       [source]="source"
-                       (custom)="handleCustomAction($event)">
-      </ng2-smart-table>
+      <app-observations-table [observations]="results?.results ?? []" (onEdited)="nextObservations()"></app-observations-table>
       <nb-card-footer>
-        <app-pagination-footer [results]="results"
-                               (nextClicked)="nextObservations($event)"
-                               (backClicked)="nextObservations($event)"
-                               (firstClicked)="nextObservations()">
+        <app-pagination-footer
+          [results]="results"
+          (nextClicked)="nextObservations($event)"
+          (backClicked)="nextObservations($event)"
+          (firstClicked)="nextObservations()">
         </app-pagination-footer>
       </nb-card-footer>
     </nb-card>

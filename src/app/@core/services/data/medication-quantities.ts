@@ -1,4 +1,4 @@
-import { Quantity } from "fhir/r4";
+import { Quantity } from "fhir/r5";
 import { Extensions } from "./constants";
 
 export const MedicationQuantities: Quantity[] = [

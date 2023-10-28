@@ -1,10 +1,9 @@
 import { PatientsService } from "../../../@core/services/patients.service";
 import { ActivatedRoute } from "@angular/router";
-import { debounceTime, distinctUntilChanged, flatMap } from "rxjs/internal/operators";
-import { Dosage, DosageDoseAndRate, Medication, MedicationRequest, Patient, Quantity, Timing } from "fhir/r4";
+import { Dosage, DosageDoseAndRate, Medication, MedicationRequest, Patient, Quantity, Timing } from "fhir/r5";
 import { MedicationsService } from "../../../@core/services/medications.service";
-import { Observable, of } from "rxjs";
-import { map } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged, Observable, of } from "rxjs";
+import { map, concatMap } from "rxjs/operators";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Location } from "@angular/common";
 import { MedicationRequestsService } from "../../../@core/services/medication-requests.service";
@@ -18,13 +17,14 @@ import { TimingRepeatBuilder } from "../../../@core/services/utils/timing-repeat
 @Directive()
 export abstract class AbstractMedicationRequestFormComponent extends FormComponent {
   private readonly defaultLimit = 20;
-  protected carePlanId: string;
+  protected carePlanId: string | undefined;
+  protected medicationRequestId: string | undefined;
   editMode: boolean = false;
 
-  patient: Patient;
+  patient: Patient | undefined;
   quantities: Quantity[] = [];
 
-  filteredMedications: Observable<Medication[]>;
+  filteredMedications: Observable<Medication[]> = of([]);
   medicationForm: FormGroup;
 
   abstract saveMethod<T>(request: MedicationRequest): Observable<T>;
@@ -40,12 +40,13 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
     super();
 
     this.quantities = this.medicationService.getMedicationQuantities();
-    this.configureMedicationForm();
+    this.medicationForm = this.buildForm();
+    this.enableMedicationSearch();
 
-    this.activatedRoute.params.pipe(
-      flatMap(params => {
-        this.carePlanId = params['carePlanId'];
-        return patientService.getSinglePatient(params['patientId'])
+    this.activatedRoute.paramMap.pipe(
+      concatMap(params => {
+        this.carePlanId = params.get('carePlanId') ?? '';
+        return patientService.getSinglePatient(params.get('patientId') ?? '');
       }))
       .subscribe(patient => this.patient = patient);
   }
@@ -84,17 +85,17 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
 
   getMedicationName(medication: string | Medication): string {
     if (typeof medication === 'string') {
-      return medication.toString();
+      return medication;
     }
 
-    return medication.code.coding[0].display;
+    return (medication.code?.coding && medication.code.coding[0].display) ?? '';
   }
 
   get patientName(): string {
     return patientUtils.getPatientName(this.patient);
   }
 
-  onDrugSelectionChange = (event): void =>
+  onDrugSelectionChange = (event: {id: string}): void =>
     this.medicationIdControl.setValue(event.id);
 
   getUnitName(): string {
@@ -122,8 +123,27 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
         });
   }
 
-  private configureMedicationForm(): void {
-    this.medicationForm = this.formBuilder.group({
+  deleteMedicationRequest(): void {
+    if (!this.carePlanId || !this.medicationRequestId) {
+      this.formStatus = FormStatus.error;
+      return;
+    }
+
+    this.formStatus = FormStatus.loading;
+    this.medicationRequestService.deleteMedicationRequest(this.carePlanId, this.medicationRequestId)
+      .subscribe(() => this.location.back(),
+        error => {
+          console.log(error);
+          this.formStatus = FormStatus.error;
+        })
+  }
+
+  getQuantityText(quantity: Quantity): string {
+    return (quantity.extension && quantity.extension[0] && quantity.extension[0].valueString) ?? '';
+  }
+
+  private buildForm(): FormGroup {
+    return this.formBuilder.group({
       medication: ['', Validators.required],
       medicationId: ['', Validators.required],
       doseQuantity: ['', [Validators.required, Validators.min(0)]],
@@ -133,8 +153,6 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
       duration: [null, Validators.required],
       frequency: [null, Validators.required]
     });
-
-    this.enableMedicationSearch();
   }
 
   private getRequestFromForm(): MedicationRequest {
@@ -143,13 +161,14 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
 
     const medication = this.medicationControl.value;
     request.contained = [medication];
-    request.medicationReference = {
-      reference: medicationRequestUtils.getMedicationReference(medication),
-      display: this.getMedicationName(medication)
+    request.medication = {
+      reference: {
+        reference: medicationRequestUtils.getMedicationReference(medication)
+      }
     }
     request.subject = {
-      reference: patientUtils.getPatientReference(this.patient.id),
-      display: this.patient.name[0]?.family
+      reference: patientUtils.getPatientReference(this.patient?.id ?? ''),
+      display: (this.patient?.name && this.patient.name[0]?.family) ?? ''
     }
     request.requester = {
       reference: 'Practitioner/60fb0a79c055e8c0d3f853d0',
@@ -167,7 +186,7 @@ export abstract class AbstractMedicationRequestFormComponent extends FormCompone
           .pipe(
             debounceTime(750),
             distinctUntilChanged(),
-            flatMap(input => this.medicationService.searchMedications(this.defaultLimit, '', input)),
+            concatMap(input => this.medicationService.searchMedications(this.defaultLimit, '', input)),
             map(paginatedResult => paginatedResult.results)
           );
       });

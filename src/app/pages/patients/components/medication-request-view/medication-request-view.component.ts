@@ -9,10 +9,10 @@ import { MedicationRequestView } from "../../../../@core/models/medication-reque
 })
 export class MedicationRequestViewComponent {
 
-  @Input() editButton: Boolean;
-  @Input() disableEditButton: Boolean;
-  @Input() editPageRoute: string;
-  @Input() medicationRequestView: MedicationRequestView;
+  @Input() editButton: boolean | undefined;
+  @Input() disableEditButton: boolean | undefined;
+  @Input() editPageRoute: string = '';
+  @Input() medicationRequestView: MedicationRequestView | undefined;
 
   constructor(
     protected router: Router,

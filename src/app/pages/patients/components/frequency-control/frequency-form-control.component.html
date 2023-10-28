@@ -34,7 +34,7 @@
         <div class="row form-group">
           <ng-container *ngFor="let control of timeOfDayArrayForm.controls; let index = index">
             <div class="col-9 col-sm-6">
-              <input nbInput fullWidth type="text" [formControl]="control" [nbTimepicker]="timepicker"/>
+              <input nbInput fullWidth type="text" [formControl]="$any(control)" [nbTimepicker]="timepicker"/>
               <nb-timepicker #timepicker></nb-timepicker>
             </div>
             <div class="col-3 col-sm-6">

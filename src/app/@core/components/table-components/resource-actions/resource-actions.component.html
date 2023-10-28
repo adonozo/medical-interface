@@ -1,11 +1,11 @@
-<ng-container [ngSwitch]="value">
-  <div class="cursor-pointer" (click)="moveToView()" *ngSwitchCase="tableActions.View">
+<ng-container [ngSwitch]="action">
+  <div class="cursor-pointer" (click)="moveToView()" *ngSwitchCase="tableAction.View">
     <i class="far fa-eye"></i>
-    <span class="ml-1" i18n>View</span>
+    <span class="mx-1" i18n>View</span>
   </div>
 
-  <div class="cursor-pointer" (click)="moveToEdit()"  *ngSwitchCase="tableActions.Edit">
+  <div class="cursor-pointer" (click)="moveToEdit()"  *ngSwitchCase="tableAction.Edit">
     <i class="far fa-edit"></i>
-    <span class="ml-1" i18n>Edit</span>
+    <span class="mx-1" i18n>Edit</span>
   </div>
 </ng-container>

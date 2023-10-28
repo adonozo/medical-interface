@@ -5,12 +5,11 @@ import {
   Patient,
   Resource,
   ServiceRequest
-} from "fhir/r4";
+} from "fhir/r5";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CarePlanService } from "../../../@core/services/care-plan.service";
 import { PatientsService } from "../../../@core/services/patients.service";
-import { flatMap, map } from "rxjs/internal/operators";
-import { forkJoin } from "rxjs";
+import { forkJoin, map, mergeMap } from "rxjs";
 import { Location } from "@angular/common";
 import { ResourceType } from "../../../@core/services/data/constants";
 import { ServiceRequestView } from "../../../@core/models/service-request-view";
@@ -22,14 +21,13 @@ import { FormComponent } from "../../../@core/components/form.component";
 
 @Directive()
 export abstract class AbstractCarePlanViewComponent extends FormComponent {
-
-  carePlanId: string;
-  patientId: string;
-  resources: Resource[];
-  patient: Patient;
-  carePlan: CarePlan;
-  serviceRequests: ServiceRequestView[];
-  medicationRequests: MedicationRequestView[];
+  carePlanId: string | undefined;
+  patientId: string | undefined;
+  resources: Resource[] = [];
+  patient: Patient | undefined;
+  carePlan: CarePlan | undefined;
+  serviceRequests: ServiceRequestView[] = [];
+  medicationRequests: MedicationRequestView[] = [];
 
   protected constructor(
     protected location: Location,
@@ -39,21 +37,21 @@ export abstract class AbstractCarePlanViewComponent extends FormComponent {
     protected patientService: PatientsService,
   ) {
     super();
-    this.activatedRoute.params.pipe(
+    this.activatedRoute.paramMap.pipe(
       map(params => {
-        this.carePlanId = params["carePlanId"];
-        this.patientId = params["patientId"];
-        return {carePlanId: this.carePlanId, patientId: this.patientId}
+        this.carePlanId = params.get("carePlanId") ?? '';
+        this.patientId = params.get("patientId") ?? '';
+        return {carePlanId: this.carePlanId, patientId: this.patientId};
       }),
-      flatMap(({patientId, carePlanId}) => {
-        return forkJoin({
-          carePlan: this.carePlanService.getCarePlan(carePlanId),
-          patient: this.patientService.getSinglePatient(patientId),
-          resources: this.carePlanService.getDetailedCarePlan(carePlanId),
-        })
+      mergeMap(({patientId, carePlanId}) => {
+        return forkJoin([
+          this.carePlanService.getCarePlan(carePlanId),
+          this.patientService.getSinglePatient(patientId),
+          this.carePlanService.getDetailedCarePlan(carePlanId)
+        ])
       })
-    ).subscribe(({carePlan, patient, resources}) => {
-      this.resources = resources.entry?.map(entry => entry.resource) ?? [];
+    ).subscribe(([carePlan, patient, resources]) => {
+      this.resources = resources.entry?.map(entry => entry.resource as Resource) ?? [];
       this.serviceRequests = this.serviceRequestViewFromResources(this.resources);
       this.medicationRequests = this.medicationRequestViewFromResources(this.resources);
       this.patient = patient;

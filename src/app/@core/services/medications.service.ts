@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestApiService } from "./rest-api.service";
-import { Medication, Quantity } from "fhir/r4";
+import { Medication, Quantity } from "fhir/r5";
 import { Observable } from "rxjs";
 import { MedicationQuantities } from "./data/medication-quantities";
 import { PaginatedResult } from "../models/paginatedResult";
