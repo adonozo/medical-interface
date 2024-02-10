@@ -473,7 +473,7 @@
       </trans-unit>
       <trans-unit id="790494491175624233" datatype="html">
         <source>Medication Requests</source>
-        <target>Medicación</target>
+        <target>Medicaciones</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/care-plan/care-plan-form/care-plan-form.component.html</context>
           <context context-type="linenumber">36</context>
@@ -615,7 +615,7 @@
       </trans-unit>
       <trans-unit id="6253778572451361046" datatype="html">
         <source>Blood Glucose Measurements</source>
-        <target>Niveles de glucosa en sangre</target>
+        <target>Mediciones de glucosa en sangre</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/care-plan/care-plan-view/care-plan-view.component.html</context>
           <context context-type="linenumber">54</context>
@@ -675,6 +675,30 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/components/care-plan-details/care-plan-details.component.html</context>
           <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9216117865911519658" datatype="html">
+        <source>Action</source>
+        <target>Acción</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/components/care-plans-table/care-plans-table.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5611592591303869712" datatype="html">
+        <source>Status</source>
+        <target>Estado</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/components/care-plans-table/care-plans-table.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7293347258713947796" datatype="html">
+        <source>Created At</source>
+        <target>Creado el</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/components/care-plans-table/care-plans-table.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2958798179566089453" datatype="html">
