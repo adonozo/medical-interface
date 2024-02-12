@@ -4,6 +4,7 @@
     <body>
       <trans-unit id="2159130950882492111" datatype="html">
         <source>Cancel</source>
+        <target>Cancelar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/@core/components/confirmation-dialog/confirmation-dialog.component.html</context>
           <context context-type="linenumber">12</context>
@@ -1080,6 +1081,14 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="Blood glucose add button" datatype="html">
+        <source>Add</source>
+        <target>Nuevo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3733215288982610673" datatype="html">
         <source>Level</source>
         <target>Nivel</target>
@@ -1537,6 +1546,7 @@
       </trans-unit>
       <trans-unit id="2728569437560894692" datatype="html">
         <source>Edit patient</source>
+        <target>Editar paciente</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/patient-form/patient-form.component.html</context>
           <context context-type="linenumber">6</context>
@@ -1617,18 +1627,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/patient-form/patient-form.component.html</context>
           <context context-type="linenumber">46</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="4768749765465246664" datatype="html">
-        <source>Email</source>
-        <target>Correo</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/pages/patients/patient-form/patient-form.component.html</context>
-          <context context-type="linenumber">51</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/pages/patients/patient-form/patient-form.component.html</context>
-          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8552587679160911578" datatype="html">
