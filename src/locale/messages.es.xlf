@@ -1047,6 +1047,7 @@
       </trans-unit>
       <trans-unit id="3733215288982610673" datatype="html">
         <source>Level</source>
+        <target>Nivel</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
           <context context-type="linenumber">2</context>
@@ -1119,6 +1120,7 @@
       </trans-unit>
       <trans-unit id="6739852163635083260" datatype="html">
         <source>Timing</source>
+        <target>Momento</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/observation-form/observation-form.component.html</context>
           <context context-type="linenumber">75</context>
