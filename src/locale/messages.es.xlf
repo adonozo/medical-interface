@@ -4,7 +4,6 @@
     <body>
       <trans-unit id="2159130950882492111" datatype="html">
         <source>Cancel</source>
-        <target>Cancelar</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/@core/components/confirmation-dialog/confirmation-dialog.component.html</context>
           <context context-type="linenumber">12</context>
@@ -31,6 +30,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/@core/components/table-components/resource-actions/resource-actions.component.html</context>
           <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/components/patients-table/patients-table.component.html</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7585826646011739428" datatype="html">
@@ -481,6 +484,10 @@
           <context context-type="sourcefile">src/app/pages/patients/care-plan/care-plan-form/care-plan-form.component.html</context>
           <context context-type="linenumber">57</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="790494491175624233" datatype="html">
         <source>Medication Requests</source>
@@ -694,6 +701,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/components/care-plans-table/care-plans-table.component.html</context>
           <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/components/patients-table/patients-table.component.html</context>
+          <context context-type="linenumber">5</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/observations-table/observations-table.component.html</context>
@@ -961,6 +972,30 @@
           <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8953033926734869941" datatype="html">
+        <source>Name</source>
+        <target>Nombre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/components/patients-table/patients-table.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4768749765465246664" datatype="html">
+        <source>Email</source>
+        <target>Correo electrónico</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/components/patients-table/patients-table.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patient-form/patient-form.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/patients/patient-form/patient-form.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1299724305782520957" datatype="html">
         <source>Note for patient: </source>
         <target>Nota para el paciente: </target>
@@ -1059,6 +1094,7 @@
       </trans-unit>
       <trans-unit id="8497528947328199741" datatype="html">
         <source>Time</source>
+        <target>Tiempo</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
           <context context-type="linenumber">4</context>
@@ -1067,6 +1103,7 @@
       </trans-unit>
       <trans-unit id="8703165523174344876" datatype="html">
         <source>Blood Glucose mmol/l</source>
+        <target>Glucosa en sangre mmol/l</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/glucose-levels.locale.ts</context>
           <context context-type="linenumber">6</context>
@@ -1074,6 +1111,7 @@
       </trans-unit>
       <trans-unit id="1170547251372997887" datatype="html">
         <source>Edit record</source>
+        <target>Editar registro</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/observation-form/observation-form.component.html</context>
           <context context-type="linenumber">6</context>
@@ -1081,6 +1119,7 @@
       </trans-unit>
       <trans-unit id="4121901150144132457" datatype="html">
         <source>New record</source>
+        <target>Nuevo registro</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/observation-form/observation-form.component.html</context>
           <context context-type="linenumber">27</context>
@@ -1088,6 +1127,7 @@
       </trans-unit>
       <trans-unit id="6555318547274416232" datatype="html">
         <source>Value</source>
+        <target>Valor</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/observation-form/observation-form.component.html</context>
           <context context-type="linenumber">36</context>
@@ -1113,6 +1153,7 @@
       </trans-unit>
       <trans-unit id="3212141249643764086" datatype="html">
         <source>The date is required</source>
+        <target>La fecha es requerida</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/patients/glucose-levels/observation-form/observation-form.component.html</context>
           <context context-type="linenumber">69</context>
