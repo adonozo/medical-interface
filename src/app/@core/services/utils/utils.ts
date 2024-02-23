@@ -189,7 +189,7 @@ export const dailyFrequencyString = (frequency: number): string => {
       frequencyText = frequency.toString() + ' times';
   }
 
-  return frequencyText + ' a day';
+  return frequencyText + $localize` a day`;
 }
 
 const dayValue = (code: DayCode): number => {

@@ -24,12 +24,12 @@
     </div>
   </div>
   <div class="col-12 mt-3 text-center" *ngIf="formStatus === formStatusType.error">
-    <nb-alert accent="danger">
+    <nb-alert accent="danger" class="m-0">
       <span i18n>There was a problem saving the record</span>
     </nb-alert>
   </div>
   <div class="col-12 mt-3" *ngIf="formStatus === formStatusType.success">
-    <nb-alert accent="success">
+    <nb-alert accent="success" class="m-0">
       <div class="d-flex align-items-center">
         <div class="flex-grow-1">
           <span i18n>The record has been saved</span>
