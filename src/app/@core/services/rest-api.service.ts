@@ -16,6 +16,7 @@ export class RestApiService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
+      'Accept-Language': $localize.locale ?? 'en'
     })
   };
 
@@ -23,7 +24,7 @@ export class RestApiService {
   }
 
   get<T>(resource: string, options?: {}): Observable<T> {
-    return this.http.get<T>(this.baseUrl + resource, options);
+    return this.http.get<T>(this.baseUrl + resource, {...options, ...this.httpOptions});
   }
 
   getPaginated(resource: string, limit: number = 0, lastCursor?: string, params?: {}): Observable<PaginatedResult<any>> {
@@ -33,7 +34,8 @@ export class RestApiService {
         after: lastCursor ?? '',
         ...params
       },
-      observe: 'response'
+      observe: 'response',
+      headers: this.httpOptions.headers
     })
       .pipe(
         map(response => {
@@ -57,6 +59,6 @@ export class RestApiService {
   }
 
   delete(resource: string): Observable<void> {
-    return this.http.delete<void>(this.baseUrl + resource);
+    return this.http.delete<void>(this.baseUrl + resource, this.httpOptions);
   }
 }

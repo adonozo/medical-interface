@@ -62,7 +62,9 @@ export class GlucoseLevelsComponent {
         this.theme.getJsTheme().subscribe(config => {
           const colors: any = config.variables;
           const echarts: any =  config.variables?.['echarts'];
-          const data = paginatedObservations.results.map(observation => this.getObservationDataForChart(observation))
+          const data = paginatedObservations.results
+            .sort((a, b) => (a.issued ?? 0) > (b.issued ?? 0) ? 1 : -1)
+            .map(observation => this.getObservationDataForChart(observation))
           this.setOptions(colors, echarts, data.map(item => item.value), data.map(item => item.date))
         })
       });

@@ -2,15 +2,15 @@
   <table class="table table-bordered m-0">
     <thead>
     <tr>
-      <th class="action-column">Action</th>
-      <th>Name</th>
-      <th>Email</th>
+      <th class="action-column" i18n>Action</th>
+      <th i18n>Name</th>
+      <th i18n>Email</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let patient of displayPatients" class="cursor-pointer" (click)="viewPatient(patient.id)">
       <td>
-        <i class="far fa-eye action-icon"></i><span class="icon-text text-dark mx-2">View</span>
+        <i class="far fa-eye action-icon"></i><span class="icon-text text-dark mx-2" i18n>View</span>
       </td>
       <td>{{patient.firstName}} {{patient.lastName}}</td>
       <td>{{patient.email}}</td>
